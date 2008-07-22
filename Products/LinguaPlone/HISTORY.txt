@@ -1,481 +1,504 @@
-LinguaPlone 2.2 - UNRELEASED
+Changelog
+=========
 
-  - LanguageIndependent fields are now shown in view mode for the translations,
-    so they no longer are editable from the translations, which is how it's
-    documented to behave. [regebro]
+2.2 - UNRELEASED
+----------------
 
-  - Made the upgrade step also work on Plone 3 (GenericSetup 1.3).
-    [maurits]
+- LanguageIndependent fields are now shown in view mode for the translations,
+  so they no longer are editable from the translations, which is how it's
+  documented to behave. [regebro]
 
-  - Registered GenericSetup upgrade step to get rid of an old
-    linguaplone_various import step.  I registered it for upgrading
-    from 2.0 to 2.1 as that was when this import step was removed.  It
-    is always available in portal_setup/manage_upgrades in the ZMI.
-    [maurits]
+- Made the upgrade step also work on Plone 3 (GenericSetup 1.3).
+  [maurits]
 
-  - When going to the canonical translation, also switch to that
-    language.  [maurits]
+- Registered GenericSetup upgrade step to get rid of an old
+  linguaplone_various import step.  I registered it for upgrading
+  from 2.0 to 2.1 as that was when this import step was removed.  It
+  is always available in portal_setup/manage_upgrades in the ZMI.
+  [maurits]
 
-  - On the manage_translations page do not show the form for linking to
-    other content or deleting/unlinking existing translations when the
-    current context is not the canonical language.  Instead add a url to
-    that canonical language.  [maurits]
+- When going to the canonical translation, also switch to that
+  language.  [maurits]
 
-  - When adding a translation, do not throw an error when the language
-    does not exist, but display that as info and go to that existing
-    translation.  I saw the 'add translation' option still for an
-    already translated language, due to some caching.  [maurits]
+- On the manage_translations page do not show the form for linking to
+  other content or deleting/unlinking existing translations when the
+  current context is not the canonical language.  Instead add a url to
+  that canonical language.  [maurits]
 
-  - Ignore back reference when it is None.  [maurits]
+- When adding a translation, do not throw an error when the language
+  does not exist, but display that as info and go to that existing
+  translation.  I saw the 'add translation' option still for an
+  already translated language, due to some caching.  [maurits]
 
-  - Made sure that an existing FieldIndex Language gets correctly
-    replaced by our wanted LanguageIndex, instead of leaving an unusable
-    index with an empty indexable attribute.  [maurits]
+- Ignore back reference when it is None.  [maurits]
 
-  - Check if plone.browserlayer is installed before starting a possibly
-    long reindex that would then be aborted.  [maurits]
+- Made sure that an existing FieldIndex Language gets correctly
+  replaced by our wanted LanguageIndex, instead of leaving an unusable
+  index with an empty indexable attribute.  [maurits]
 
-  - Make tests run on Plone 3.0.6 with plone.browserlayer 1.0rc3 and
-    original GenericSetup (1.3) next to simply Plone 3.1.  [maurits]
+- Check if plone.browserlayer is installed before starting a possibly
+  long reindex that would then be aborted.  [maurits]
 
+- Make tests run on Plone 3.0.6 with plone.browserlayer 1.0rc3 and
+  original GenericSetup (1.3) next to simply Plone 3.1.  [maurits]
 
-LinguaPlone 2.1.1 - May 1, 2008
 
-  - Removed the dependency on the no longer existing plone.browserlayer
-    GS profile. This closes http://dev.plone.org/plone/ticket/8083.
-    [hannosch]
+2.1.1 - May 1, 2008
+-------------------
 
-  - Add a workaround Plone bug #8028 (http://dev.plone.org/plone/ticket/8028)
-    which causes site errors in contexts without a portal_type, such as
-    the portlet add form.
-    [wichert]
+- Removed the dependency on the no longer existing plone.browserlayer
+  GS profile. This closes http://dev.plone.org/plone/ticket/8083.
+  [hannosch]
 
+- Add a workaround Plone bug #8028 (http://dev.plone.org/plone/ticket/8028)
+  which causes site errors in contexts without a portal_type, such as
+  the portlet add form.
+  [wichert]
 
-LinguaPlone 2.1 - April 11, 2008
 
-  - Use our language selector viewlet for all content types instead of just
-    translatable types. This makes things consistent for all types.
-    [wichert]
+2.1 - April 11, 2008
+--------------------
 
-  - Be more tolerant in unindexing non-existent content.
-    [hannosch]
+- Use our language selector viewlet for all content types instead of just
+  translatable types. This makes things consistent for all types.
+  [wichert]
 
-  - Allow languages to be unselected in the language control panel.
-    [wichert]
+- Be more tolerant in unindexing non-existent content.
+  [hannosch]
 
-  - Do not use LanguageDropdownChoiceWidget for the default language field
-    in the control panel: LanguageDropdownChoiceWidget uses
-    IUserPreferredLanguages, which does not use the proper vocabularies to
-    find the language names.
-    [wichert]
+- Allow languages to be unselected in the language control panel.
+  [wichert]
 
+- Do not use LanguageDropdownChoiceWidget for the default language field
+  in the control panel: LanguageDropdownChoiceWidget uses
+  IUserPreferredLanguages, which does not use the proper vocabularies to
+  find the language names.
+  [wichert]
 
-LinguaPlone 2.1beta1 - April 7, 2008
 
-  - Register the LanguageIndex with the selection widget, so you can query
-    for languages in Collections.
-    [hannosch]
+2.1beta1 - April 7, 2008
+------------------------
 
-  - Enable the Plone language portlet and change its rendering link
-    correctly to translations if they exist and to the site root
-    otherwise.
-    [wichert]
+- Register the LanguageIndex with the selection widget, so you can query
+  for languages in Collections.
+  [hannosch]
 
-  - Dont depend on Quickinstaller at setup time and in browsermenu.
-    [jensens]
-    
-  - Minor GenericSetup cleanup
-    [jensens]
+- Enable the Plone language portlet and change its rendering link
+  correctly to translations if they exist and to the site root
+  otherwise.
+  [wichert]
 
-  - Make LinguaPlone play nice with archetypes.schemaextender and
-    similar approaches.
-    [jensens]
+- Dont depend on Quickinstaller at setup time and in browsermenu.
+  [jensens]
+  
+- Minor GenericSetup cleanup
+  [jensens]
 
-  - Declare plone.browserlayer as a dependency in our GenericSetup profile.
-    This will automatically install it in Plone 3.1.
-    [wichert]
+- Make LinguaPlone play nice with archetypes.schemaextender and
+  similar approaches.
+  [jensens]
 
-  - Better unlink handling. This fixes 
-    http://plone.org/products/linguaplone/issues/127
-    [wichert]
+- Declare plone.browserlayer as a dependency in our GenericSetup profile.
+  This will automatically install it in Plone 3.1.
+  [wichert]
 
+- Better unlink handling. This fixes 
+  http://plone.org/products/linguaplone/issues/127
+  [wichert]
 
-LinguaPlone 2.1alpha1 - December 13, 2007
 
-  - Refuse to install LinguaPlone of plone.browserlayer is not already
-    installed.
-    [wichert]
+2.1alpha1 - December 13, 2007
+-----------------------------
 
-  - Register the PloneLanguageTool GenericSetup export/import steps in
-    LinguaPlone as well.  Standard Plone 3 installs never applied the
-    PloneLanguageTool GenericSetup context, so without this
-    portal_languages.xml would be ignored.
-    [wichert]
+- Refuse to install LinguaPlone of plone.browserlayer is not already
+  installed.
+  [wichert]
 
-  - Replace the standard Plone language control panel with our own version
-    which allows enabling of multiple languages.
-    [wichert]
+- Register the PloneLanguageTool GenericSetup export/import steps in
+  LinguaPlone as well.  Standard Plone 3 installs never applied the
+  PloneLanguageTool GenericSetup context, so without this
+  portal_languages.xml would be ignored.
+  [wichert]
 
-  - Manage translations form now uses a kupu drawer when the kupu
-    reference browser is enabled. [Duncan]
+- Replace the standard Plone language control panel with our own version
+  which allows enabling of multiple languages.
+  [wichert]
 
-  - Actions from the manage translations screen now stay on that
-    screen so multiple translations may be linked. Existing
-    translations display their path. [Duncan]
+- Manage translations form now uses a kupu drawer when the kupu
+  reference browser is enabled. [Duncan]
 
+- Actions from the manage translations screen now stay on that
+  screen so multiple translations may be linked. Existing
+  translations display their path. [Duncan]
 
-LinguaPlone 2.0 - October 11, 2007
 
-  - When creating new content in a translated parent use the language of
-    the parent as the default language.
-    [wichert]
+2.0 - October 11, 2007
+----------------------
 
-  - Try to unlock objects before moving them into a newly translated folder.
-    [wichert]
+- When creating new content in a translated parent use the language of
+  the parent as the default language.
+  [wichert]
 
-  - Add a test in the GS various import step if the Language catalog index
-    in portal_catalog has indexed any objects. If not we just (re)created
-    the index and we need to reindex it. This fixes content disappearing
-    after installing LinguaPlone.
-    [wichert]
+- Try to unlock objects before moving them into a newly translated folder.
+  [wichert]
 
-  - Remove the code to mark LinguaPlone as installed in the quickinstaller
-    from the GS profile: we can install LinguaPlone through the quickinstaller
-    itself so this is not needed.
-    [wichert]
+- Add a test in the GS various import step if the Language catalog index
+  in portal_catalog has indexed any objects. If not we just (re)created
+  the index and we need to reindex it. This fixes content disappearing
+  after installing LinguaPlone.
+  [wichert]
 
+- Remove the code to mark LinguaPlone as installed in the quickinstaller
+  from the GS profile: we can install LinguaPlone through the quickinstaller
+  itself so this is not needed.
+  [wichert]
 
-LinguaPlone 2.0beta2 - September 24, 2007
 
-  - Fix a syntax error in the translate_item template.
-    [wichert]
+2.0beta2 - September 24, 2007
+-----------------------------
 
-  - Restructure the LinguaPlone product layout so it can be distributed
-    as an egg.
-    [wichert]
+- Fix a syntax error in the translate_item template.
+  [wichert]
 
+- Restructure the LinguaPlone product layout so it can be distributed
+  as an egg.
+  [wichert]
 
-LinguaPlone 2.0beta1 - September 21, 2007
 
-  - Allow translating the default view for an untranslated container
-    again: we have correct code that adds a translation of the container
-    as well now.
-    [wichert]
+2.0beta1 - September 21, 2007
+-----------------------------
 
-  - Correct creationg of translations for objects which are the default
-    view of a non-translatable parent.
-    [wichert]
+- Allow translating the default view for an untranslated container
+  again: we have correct code that adds a translation of the container
+  as well now.
+  [wichert]
 
-  - Correct handling of the translate into-menu for content with an
-    untranslatable parent.
-    [wichert]
+- Correct creationg of translations for objects which are the default
+  view of a non-translatable parent.
+  [wichert]
 
+- Correct handling of the translate into-menu for content with an
+  untranslatable parent.
+  [wichert]
 
-LinguaPlone 2.0alpha2 - September 19, 2007
 
-  - Only show the content menu if LinguaPlone is installed in the quick
-    installer.
-    [wichert]
+2.0alpha2 - September 19, 2007
+------------------------------
 
-  - Update functional tests to login as a member so the test can use unpublished
-    content.
-    [mj]
+- Only show the content menu if LinguaPlone is installed in the quick
+  installer.
+  [wichert]
 
-  - Disable the menu option to translate the default view for a folder to a
-    language for which the folder has no translation.
-    [wichert]
+- Update functional tests to login as a member so the test can use unpublished
+  content.
+  [mj]
 
+- Disable the menu option to translate the default view for a folder to a
+  language for which the folder has no translation.
+  [wichert]
 
-LinguaPlone 2.0alpha1 - September 10, 2007
 
-  - Use a GenericSetup profile to install LinguaPlone.
-    [wichert]
+2.0alpha1 - September 10, 2007
+------------------------------
 
-  - Move createTranslations to a @@translate browser view.
-    [wichert]
+- Use a GenericSetup profile to install LinguaPlone.
+  [wichert]
 
-  - Port to Plone 3.0.1.
-    [wichert]
+- Move createTranslations to a @@translate browser view.
+  [wichert]
 
+- Port to Plone 3.0.1.
+  [wichert]
 
-LinguaPlone 1.1 - UNRELEASED
 
-  - Only allow linking to other objects of the same portal type.
-    [wichert]
+1.1 - UNRELEASED
+----------------
 
-  - Add a sanity to prevent addTranslationReference from adding translations
-    for languages which already have a translation.
-    [wichert]
+- Only allow linking to other objects of the same portal type.
+  [wichert]
 
-  - Policy change for language selector. We try to avoid disabled flags by
-    looking for a translated parent.
-    [fschulze]
+- Add a sanity to prevent addTranslationReference from adding translations
+  for languages which already have a translation.
+  [wichert]
 
-  - Added UI to link translations together.
-    [vlado, fschulze]
+- Policy change for language selector. We try to avoid disabled flags by
+  looking for a translated parent.
+  [fschulze]
 
-  - Changed to use _createObjectByType on addTranslation, bypassing possible
-    conflicts with adding restrictions.
-    [deo]
+- Added UI to link translations together.
+  [vlado, fschulze]
 
-LinguaPlone 1.0.1 - September 24, 2007
+- Changed to use _createObjectByType on addTranslation, bypassing possible
+  conflicts with adding restrictions.
+  [deo]
 
-  - Fix spitLanguage to return (None, None) when fed a non-string object.
-    This fixes LP issue #101.
-    [mj]
+1.0.1 - September 24, 2007
+--------------------------
 
-  - Fix LanguageIndex to deal better with objects where Language is either
-    missing or not a callable. Fixes LP issue #99.
-    [mj]
+- Fix spitLanguage to return (None, None) when fed a non-string object.
+  This fixes LP issue #101.
+  [mj]
 
-  - Fix LanguageIndex to run on python 2.3.
-    [wichert]
+- Fix LanguageIndex to deal better with objects where Language is either
+  missing or not a callable. Fixes LP issue #99.
+  [mj]
 
-  - Fix language selector to not go the the login screen if one of the 
-    translations is not accessible (i.e. in "private" state)
-    [fschulze, godchap]
+- Fix LanguageIndex to run on python 2.3.
+  [wichert]
 
-LinguaPlone 1.0 - Released June 19, 2007
+- Fix language selector to not go the the login screen if one of the 
+  translations is not accessible (i.e. in "private" state)
+  [fschulze, godchap]
 
-  - If we are resetting the language due to a schema update do not delete the
-    translation references. This fixes
-    http://plone.org/products/linguaplone/issues/7
-    [wichert]
+1.0 - June 19, 2007
+-------------------
 
-  - Removed Plone 2.0 compatibility.
-    [fschulze]
+- If we are resetting the language due to a schema update do not delete the
+  translation references. This fixes
+  http://plone.org/products/linguaplone/issues/7
+  [wichert]
 
-  - Add a utility method to link content objects as translations. This
-    is useful, for example, in a GenericSetup import step to link content
-    created in a GenericSetup content step.
-    [wichert]
+- Removed Plone 2.0 compatibility.
+  [fschulze]
 
-  - Show the 'Switch language to' text in the language selector in the
-    target language instead of the current language.
-    [wichert]
+- Add a utility method to link content objects as translations. This
+  is useful, for example, in a GenericSetup import step to link content
+  created in a GenericSetup content step.
+  [wichert]
 
-  - Fixed so rename after creation only happend on TTW creation. Not on
-    first edit of a through script created object.
-    [sashav]
+- Show the 'Switch language to' text in the language selector in the
+  target language instead of the current language.
+  [wichert]
 
-  - Fixed an issue if theres no getTranslations available. This happens if
-    an non-lp-enabled at-based object exists direct in portal-object.
-    [jensens]
+- Fixed so rename after creation only happend on TTW creation. Not on
+  first edit of a through script created object.
+  [sashav]
 
-  - Fixed some code that spit out DeprecationWarnings.
-    [hannosch]
+- Fixed an issue if theres no getTranslations available. This happens if
+  an non-lp-enabled at-based object exists direct in portal-object.
+  [jensens]
 
-  - Instead of customizing switchLanguage we now have portlet_languages
-    inside LinguaPlone and use the much nicer languageSelectorData.
-    [jladage]
+- Fixed some code that spit out DeprecationWarnings.
+  [hannosch]
 
-  - LanguageIndex is now a specialised index that will return alternative
-    translations within the main language when searching.
-    [mj]
+- Instead of customizing switchLanguage we now have portlet_languages
+  inside LinguaPlone and use the much nicer languageSelectorData.
+  [jladage]
 
+- LanguageIndex is now a specialised index that will return alternative
+  translations within the main language when searching.
+  [mj]
 
-LinguaPlone 0.9.0 - Released June 16, 2006
 
-  - Now works with Plone 2.5 out-of-the-box, and Plone 2.1.3 if using the
-    included PloneLanguageTool.
+0.9.0 - June 16, 2006
+---------------------
 
-  - Fixed unicode error on translated languages in Plone 2.1.3. It can
-    contains non-ascii characters, so the default strings need to be
-    declared as unicode.
-    [encolpe]
+- Now works with Plone 2.5 out-of-the-box, and Plone 2.1.3 if using the
+  included PloneLanguageTool.
 
-  - Fixed actions to fallback gracefully for the action attribute 'name'
-    and 'title'.
-    [jladage] [encolpe]
+- Fixed unicode error on translated languages in Plone 2.1.3. It can
+  contains non-ascii characters, so the default strings need to be
+  declared as unicode.
+  [encolpe]
 
-  - Added the switchLanguage.py script and added support for translatable
-    content.
-    [jladage]
+- Fixed actions to fallback gracefully for the action attribute 'name'
+  and 'title'.
+  [jladage] [encolpe]
 
-  - Fixed to lookup the language flag name directly from the language tool.
-    Now, PloneLanguageTool 1.3 (or greater) is officially required.
-    [deo]
+- Added the switchLanguage.py script and added support for translatable
+  content.
+  [jladage]
 
-  - Made tests compatible with Plone 2.5.
-    [hannosch]
+- Fixed to lookup the language flag name directly from the language tool.
+  Now, PloneLanguageTool 1.3 (or greater) is officially required.
+  [deo]
 
-  - Some very minor i18n fixes.
-    [hannosch]
+- Made tests compatible with Plone 2.5.
+  [hannosch]
 
-  - Added a migration script to update language independent fields content.
-    It *must* be manually run when upgrading from versions older than 0.9.
-    [deo]
+- Some very minor i18n fixes.
+  [hannosch]
 
-  - Removed the custom accessor/editAccessor generation. We're only using
-    custom mutators and translation mutators for now. This result in a ~30%
-    performance improvement over the previous versions.
-    [deo]
+- Added a migration script to update language independent fields content.
+  It *must* be manually run when upgrading from versions older than 0.9.
+  [deo]
 
-  - Made sure to copy independent language fields data to all translations
-    as we removed the custom accessor. This also fixed the problem when
-    you try to get values direct from fields, as now the data is in the
-    translations too, not only in the canonical object.
-    [deo]
+- Removed the custom accessor/editAccessor generation. We're only using
+  custom mutators and translation mutators for now. This result in a ~30%
+  performance improvement over the previous versions.
+  [deo]
 
-  - Forwared fix for http://dev.plone.org/plone/ticket/4939.
-    [deo]
+- Made sure to copy independent language fields data to all translations
+  as we removed the custom accessor. This also fixed the problem when
+  you try to get values direct from fields, as now the data is in the
+  translations too, not only in the canonical object.
+  [deo]
 
-  - Fixed a problem when switching between translations of images/files,
-    where the content was shown, instead of the view screen.
-    [deo]
+- Forwared fix for http://dev.plone.org/plone/ticket/4939.
+  [deo]
 
-  - Fixed to highlight the 'Edit' tab from a translation when you click it.
-    [deo]
+- Fixed a problem when switching between translations of images/files,
+  where the content was shown, instead of the view screen.
+  [deo]
 
-  - Final cut on Plone 2.0 compatibility. Backported tests, handled
-    migrations and patched tool with the PythonScripts content.
-    [deo] [sidnei]
+- Fixed to highlight the 'Edit' tab from a translation when you click it.
+  [deo]
 
-  - Added labels to language-independent fields.
-    [deo] [limi]
+- Final cut on Plone 2.0 compatibility. Backported tests, handled
+  migrations and patched tool with the PythonScripts content.
+  [deo] [sidnei]
 
-  - Made the initial default language follow the PloneLanguageTool config
-    policy.
-    [deo]
+- Added labels to language-independent fields.
+  [deo] [limi]
 
+- Made the initial default language follow the PloneLanguageTool config
+  policy.
+  [deo]
 
-LinguaPlone 0.9-beta - Released October 27, 2005
 
-  - Removed content border from Translation Unavailable template.
-    [limi]
+0.9-beta - October 27, 2005
+---------------------------
 
-  - Made the test fields that are not editable render in view mode, not as
-    non-editable text boxes. The reasons for this are that people tend to
-    think that "if it is a text box, it's editable", and are then confused
-    when it's not (read-only widgets confuse the heck out of users), and the
-    other reason is because it messes up multiple selection lists.
-    [limi]
+- Removed content border from Translation Unavailable template.
+  [limi]
 
-  - Made language-independent items not editable in a translation.
-    [limi] [deo]
+- Made the test fields that are not editable render in view mode, not as
+  non-editable text boxes. The reasons for this are that people tend to
+  think that "if it is a text box, it's editable", and are then confused
+  when it's not (read-only widgets confuse the heck out of users), and the
+  other reason is because it messes up multiple selection lists.
+  [limi]
 
-  - Added first cut on Plone 2.0 compatibility.
-    [deo]
+- Made language-independent items not editable in a translation.
+  [limi] [deo]
 
-  - Fixed i18n domain everywhere... :-)
-    [deo]
+- Added first cut on Plone 2.0 compatibility.
+  [deo]
 
+- Fixed i18n domain everywhere... :-)
+  [deo]
 
-LinguaPlone 0.8.5 - Released September 6, 2005
 
-  - Made content be created in neutral language, now that this concept
-    works as expected.
-    [deo]
+0.8.5 - September 6, 2005
+-------------------------
 
-  - Made addTranslation raise an AlreadyTranslated exception when trying
-    to duplicate a translation.
-    [deo]
+- Made content be created in neutral language, now that this concept
+  works as expected.
+  [deo]
 
-  - Added form to create translation when the language don't exist and
-    if the user has the appropriate permissions.
-    [deo]
+- Made addTranslation raise an AlreadyTranslated exception when trying
+  to duplicate a translation.
+  [deo]
 
-  - Title on the flag switcher should say: "Switch language to $LANGUAGE
-    (content translation not available)" - the last part if the content
-    is not translated, to complement the ghosting (which is purely visual,
-    and bad for accessibility).
-    [deo]
+- Added form to create translation when the language don't exist and
+  if the user has the appropriate permissions.
+  [deo]
 
-  - Split screen should change sides ("From" language to the left, "To"
-    language to the right).
-    [deo]
+- Title on the flag switcher should say: "Switch language to $LANGUAGE
+  (content translation not available)" - the last part if the content
+  is not translated, to complement the ghosting (which is purely visual,
+  and bad for accessibility).
+  [deo]
 
-  - Split screen should not show short name if turned off (like the
-    default is in 2.1).
-    [deo]
+- Split screen should change sides ("From" language to the left, "To"
+  language to the right).
+  [deo]
 
-  - Flags aren't on a separate line anymore (they used to be below the
-    document actions).
-    [limi]
+- Split screen should not show short name if turned off (like the
+  default is in 2.1).
+  [deo]
 
-  - Field titles are translated, field help is not.
-    [deo]
+- Flags aren't on a separate line anymore (they used to be below the
+  document actions).
+  [limi]
 
-  - Flags should probably be removed from the field titles, since the
-    pulldown might make these misleading.
-    [deo]
+- Field titles are translated, field help is not.
+  [deo]
 
-  - Split-screen pulldown needs language selectors when translating.
-    [deo]
+- Flags should probably be removed from the field titles, since the
+  pulldown might make these misleading.
+  [deo]
 
-  - Use the translate_item template when editing translatable content,
-    except the canonical one.
-    [deo]
+- Split-screen pulldown needs language selectors when translating.
+  [deo]
 
-  - PloneLanguageTool has problems without LinguaPlone installed.
-    [deo]
+- Use the translate_item template when editing translatable content,
+  except the canonical one.
+  [deo]
 
-  - Added norwegian translation.
-    [limi]
+- PloneLanguageTool has problems without LinguaPlone installed.
+  [deo]
 
-  - Improved i18n markup. Updated brazilian portuguese translation.
-    [deo]
+- Added norwegian translation.
+  [limi]
 
+- Improved i18n markup. Updated brazilian portuguese translation.
+  [deo]
 
-LinguaPlone 0.8 - Released August 15, 2005
 
-  - Plone __browser_default__ review.
-    [deo]
+0.8 - August 15, 2005
+---------------------
 
-  - Adjust LP catalog patch for Plone 2.1.
-    [stefan]
+- Plone __browser_default__ review.
+  [deo]
 
-  - Allowed changing language of content, moving content to appropriate
-    place, and raising a exception when forbidden.
-    [deo]
+- Adjust LP catalog patch for Plone 2.1.
+  [stefan]
 
-  - Design the policy for the New language negotiator.
-    [limi]
+- Allowed changing language of content, moving content to appropriate
+  place, and raising a exception when forbidden.
+  [deo]
 
-  - Grayed out flags.
-    [deo, limi]
+- Design the policy for the New language negotiator.
+  [limi]
 
-  - Handle switching to non-existing language (a.k.a. not_available_lang).
-    [deo]
+- Grayed out flags.
+  [deo, limi]
 
-  - Handle translation of default pages.
-    [deo]
+- Handle switching to non-existing language (a.k.a. not_available_lang).
+  [deo]
 
-  - Added hasTranslation() method for grayed-out flags.
-    [deo]
+- Handle translation of default pages.
+  [deo]
 
-  - ID policy for translating containing folder and moving translated content.
-    [limi]
+- Added hasTranslation() method for grayed-out flags.
+  [deo]
 
-  - Language switching: the URL on flags should be the actual URL, not
-    switchLanguage?set_language=no.
-    [deo]
+- ID policy for translating containing folder and moving translated content.
+  [limi]
 
-  - Fixed languageswitcher in Firefox.
-    [deo]
+- Language switching: the URL on flags should be the actual URL, not
+  switchLanguage?set_language=no.
+  [deo]
 
-  - LinguaPlone should not append language code to ID, it should use
-    the same Plone 2.1 policy.
-    [deo]
+- Fixed languageswitcher in Firefox.
+  [deo]
 
-  - Implemented the new language negotiator, where content and interface
-    languages are always in sync.
-    [deo]
+- LinguaPlone should not append language code to ID, it should use
+  the same Plone 2.1 policy.
+  [deo]
 
-  - Test that Images in ATCT are keeping the image LangIndependent.
-    [limi]
+- Implemented the new language negotiator, where content and interface
+  languages are always in sync.
+  [deo]
 
-  - Update dropdown menus markup.
-    [deo]
+- Test that Images in ATCT are keeping the image LangIndependent.
+  [limi]
 
+- Update dropdown menus markup.
+  [deo]
 
-LinguaPlone 0.7 - Released September 24, 2004
 
-  - Released at Plone Conference 2004.
-    [limi] [testal] [geir]
+0.7 - September 24, 2004
+------------------------
 
+- Released at Plone Conference 2004.
+  [limi] [testal] [geir]
 
-LinguaPlone Technology Preview - Released June 29, 2004
 
-  - First publicly available version.
-    [limi] [testal] [geir]
+Technology Preview - June 29, 2004
+----------------------------------
+
+- First publicly available version.
+  [limi] [testal] [geir]
+
