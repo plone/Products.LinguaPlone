@@ -1,6 +1,6 @@
-# Plone Solutions AS <info@plonesolutions.com>
-# Martijn Pieters <mj@plonesolutions.com>
-# http://www.plonesolutions.com
+# Jarn AS <info@jarn.com>
+# Martijn Pieters <mj@jarn.com>
+# http://www.jarn.com
 
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

@@ -1,5 +1,5 @@
-# Copyright (C) 2004 Helge Tesdal <info@plonesolutions.com>
-# Plone Solutions AS http://www.plonesolutions.com
+# Copyright (C) 2004 Helge Tesdal <info@jarn.com>
+# Jarn AS http://www.jarn.com
 
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
