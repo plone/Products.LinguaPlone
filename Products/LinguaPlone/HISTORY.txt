@@ -4,6 +4,10 @@ Changelog
 2.2 - UNRELEASED
 ----------------
 
+
+2.2 - July 22, 2008
+-------------------
+
 - LanguageIndependent fields are now shown in view mode for the translations,
   so they no longer are editable from the translations, which is how it's
   documented to behave. [regebro]
