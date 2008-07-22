@@ -1,0 +1,75 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="plone">
+<body>
+<div metal:define-macro="portlet"
+     tal:define="data context/languageSelectorData;
+                 flags context/portal_languages/showFlags"
+     tal:condition="python:len(data) &gt; 1">
+
+    <dl class="portlet" id="portlet-language">
+
+        <dt class="portletHeader" i18n:translate="label_language">
+            Language
+        </dt>
+
+        <dd class="portletItem odd"
+            tal:condition="python:len(data) &gt; 8">
+
+                <select onchange=""
+                        tal:attributes="onchange string:window.location=this.options[this.selectedIndex].value">
+                    <option tal:repeat="lang data"
+                            tal:content="lang/Title"
+                            tal:attributes="selected lang/current;
+                                            value lang/change_url">Language</option>
+                </select>
+
+        </dd>
+
+        <tal:languages tal:repeat="lang data">
+        <dd class="portletItem even"
+            tal:condition="python:len(data) &lt; 9"
+            tal:define="oddrow repeat/lang/odd;
+                        current lang/current"
+            tal:attributes="class python:test(oddrow, 'portletItem even', 'portletItem odd')">
+
+                <a href=""
+                   tal:attributes="href lang/change_url;
+                                   title lang/alt">
+
+                    <img width="14" height="11" alt=""
+                         tal:define="available lang/available;
+                                     curr python:test(current, 'currentItem ', '');
+                                     avail python:test(available, '', 'visualGhosted');
+                                     class string:${curr}${avail}"
+                         tal:condition="flags"
+                         tal:attributes="src string:${portal_url}/${lang/flag};
+                                         alt lang/Title;
+                                         class class"
+                    />
+ 
+                    <strong tal:omit-tag="not: current">
+                        <span tal:replace="lang/Title">
+                            Language
+                        </span>
+                    </strong>
+                </a>
+
+                
+        </dd>
+        </tal:languages>
+
+        <dd class="portletFooter"
+            tal:condition="python: member.has_role('Manager')">
+
+            <a href=""
+               i18n:translate="label_language_settings_link"
+               tal:attributes="href string:${portal_url}/portal_languages/prefs_languages">
+                Language settings&#8230;
+            </a>
+        </dd>
+    </dl>
+
+</div>
+</body>
+</html>

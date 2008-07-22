@@ -1,0 +1,46 @@
+==================================
+createTranslation Functional Tests
+==================================
+
+Environment
+-----------
+
+First, we are going to setup an environment:
+
+  Use standard username and password from PloneTestCase
+  >>> from Products.PloneTestCase.PloneTestCase import default_user
+  >>> from Products.PloneTestCase.PloneTestCase import default_password
+
+  Add french as additional available language:
+  >>> language_tool = self.portal.portal_languages
+  >>> language_tool.addSupportedLanguage('fr')
+  >>> language_tool.getSupportedLanguages()
+  ['en', 'fr']
+
+  Create an english content object:
+  >>> _ = self.folder.invokeFactory('SimpleType', 'doc')
+  >>> english = self.folder.doc
+  >>> english.setLanguage('en')
+  >>> en_path = '/'.join(english.getPhysicalPath())
+
+
+createTranslation Script
+------------------------
+
+Them, make sure that the createTranslation redirect us to the new
+content, as expected.
+
+  Define a createTranslation shortcut:
+  >>> fr_create = '/@@translate?newlanguage=fr'
+
+  Invokes the script:
+  >>> print http(r"""
+  ... GET /%s HTTP/1.1
+  ... Authorization: Basic %s:%s
+  ... """ % (en_path + fr_create, default_user, default_password))
+  HTTP/1.1 302 Moved Temporarily
+  ...
+  Location: .../Members/test_user_1_/doc-fr/base_edit...
+  Set-Cookie: I18N_LANGUAGE="fr"; Path=/
+  <BLANKLINE>
+  .../Members/test_user_1_/doc-fr/base_edit...
