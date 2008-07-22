@@ -158,8 +158,7 @@ Don't forget to select what languages should be available in
 Credits
 =======
 
-LinguaPlone was donated to the Plone Foundation by Plone Solutions,
-March 2006.
+LinguaPlone was donated to the Plone Foundation by Jarn AS in March 2006.
 
 Design and development --
   Jarn_ (Alexander Limi, Dorneles Tremea, Geir Baekholt, Helge Tesdal, Stefan H. Holek, Wichert Akkerman)
@@ -237,19 +236,20 @@ fallback, there will be only one element in the list.
 Enable multilingual support in your content types
 -------------------------------------------------
 
-At the top, **instead** of ``from Products.Archetypes.public import *``, you
+At the top, **instead** of ``from Products.Archetypes.atapi import *``, you
 add::
 
   try:
-      from Products.LinguaPlone.public import *
+      from Products.LinguaPlone.atapi import *
   except ImportError:
       # No multilingual support
       from Products.Archetypes.public import *
 
 For the fields that are language independent, you add
-'languageIndependent=1' in the schema definition.
+'languageIndependent=True' in the schema definition.
 
 License
 =======
 
   GNU General Public License, version 2.1
+
