@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plone">
+
+  <include package=".browser"/>
+  <include package=".exportimport"/>
+
+  <cmf:registerDirectory name="LinguaPlone"/>
+
+  <genericsetup:registerProfile
+      name="LinguaPlone"
+      title="LinguaPlone"
+      directory="profiles/default"
+      description="Multi-lingual support for Plone"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>

@@ -1,0 +1,10 @@
+[default]
+title = Translate content
+
+[validators]
+validators = validate_translate
+
+[actions]
+action.success = redirect_to_action:string:view
+action.failure = traverse_to:string:translate_item
+action.next_schemata = redirect_to_action:string:edit
