@@ -4,6 +4,9 @@ Changelog
 2.2 - UNRELEASED
 ----------------
 
+- Include the FAQ in the package description.
+  [wichert]
+
 - Refactor addTranslation: introduce adapters to determine where
   a translation should be crated and to create the translation. 
   [wichert]
