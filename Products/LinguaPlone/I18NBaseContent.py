@@ -21,8 +21,8 @@ Baseclass for multilingual content.
 
 from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
-from Products.Archetypes.public import *
-from I18NBaseObject import I18NBaseObject
+from Products.Archetypes.atapi import BaseContent
+from Products.LinguaPlone.I18NBaseObject import I18NBaseObject
 
 class I18NBaseContent(I18NBaseObject, BaseContent):
     """Overrides BaseContent for *i18n* content."""

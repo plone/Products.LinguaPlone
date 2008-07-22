@@ -22,8 +22,8 @@ Baseclass for multilingual folderish content.
 from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
 from Products.CMFCore.utils import getToolByName
-from Products.Archetypes.public import *
-from I18NBaseObject import I18NBaseObject
+from Products.Archetypes.atapi import BaseFolder
+from Products.LinguaPlone.I18NBaseObject import I18NBaseObject
 
 class I18NBaseFolder(I18NBaseObject, BaseFolder):
     """ Base class for translatable objects """

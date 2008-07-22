@@ -19,7 +19,6 @@ __author__ = """Jens Klein <jens@bluedynamics.com>"""
 __docformat__ = 'plaintext' 
 
 from zope.interface import implements
-from zope.interface import Interface
 from zope.interface import Attribute
 from zope.component.interfaces import IObjectEvent
 

@@ -52,8 +52,7 @@ def GlobalRequestPatch():
         return
 
     from thread import get_ident
-    from Acquisition import aq_parent
-    from ZPublisher import Publish, mapply
+    from ZPublisher import Publish
     from zLOG import LOG, PROBLEM
     import Globals
 
@@ -146,7 +145,6 @@ def PortalTypeAsResourceType():
     if AlreadyApplied('PortalTypeAsResourceType'):
         return
 
-    from Products.kupu.plone.librarytool import KupuError
     import Products.kupu.plone.plonedrawers
 
     PREFIX = 'linguaplone-'
