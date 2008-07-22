@@ -4,6 +4,10 @@ Changelog
 2.2 - UNRELEASED
 ----------------
 
+- Refactor addTranslation: introduce adapters to determine where
+  a translation should be crated and to create the translation. 
+  [wichert]
+
 
 2.2 - July 22, 2008
 -------------------

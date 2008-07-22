@@ -8,6 +8,9 @@
   <include package=".browser"/>
   <include package=".exportimport"/>
 
+  <adapter factory=".utils.LocateTranslation" />
+  <adapter factory=".utils.TranslationFactory" />
+
   <cmf:registerDirectory name="LinguaPlone"/>
 
   <genericsetup:registerProfile

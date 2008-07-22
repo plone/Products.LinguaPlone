@@ -136,3 +136,34 @@ class ITranslatable(Interface):
         """
         Returns the language of this translation - same as DC
         """
+
+
+class ILocateTranslation(Interface):
+    context = Attribute("context",
+                        "The object that is being translated")
+
+    def findLocationForTranslation(language):
+        """Find and return a location for a new translation.
+
+        This may either return an existing location, or create a new folder and
+        return that.
+        """
+
+
+class ITranslationFactory(Interface):
+    context = Attribute("context",
+                        "The object that is being translated")
+
+    def createTranslation(container, language, *args, **kwargs):
+        """Create and return a translation.
+
+        The extra arguments are passed to the object creation logic
+        and can be used to initialize fields.
+
+        Create a translation of the context for the given language in
+        the specicified folder. The new object is returned.
+
+        This method has to setup the translation reference on the
+        new object.
+        """
+

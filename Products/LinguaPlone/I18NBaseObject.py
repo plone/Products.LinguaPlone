@@ -28,27 +28,25 @@ from Acquisition import aq_inner
 from Acquisition import aq_parent
 from OFS.ObjectManager import BeforeDeleteException
 
+from zope.interface import implements
+from zope.event import notify
+
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.DynamicType import DynamicType
 
-from Products.Archetypes.public import *
+from Products.Archetypes.atapi import BaseObject
 from Products.Archetypes.utils import shasattr
 from Products.Archetypes.config import LANGUAGE_DEFAULT
 
 from Products.LinguaPlone import events
 from Products.LinguaPlone import config
 from Products.LinguaPlone import permissions
-
-from zope.interface import implements
-from zope.event import notify
+from Products.LinguaPlone.interfaces import ILocateTranslation
+from Products.LinguaPlone.interfaces import ITranslationFactory
 from Products.LinguaPlone.interfaces import ITranslatable
-
 from Products.CMFDynamicViewFTI.interface import ISelectableBrowserDefault
 
-from plone.locking.interfaces import ILockable
 
-from Products.CMFPlone.utils import _createObjectByType
-from Products.CMFPlone.utils import isDefaultPage
 try:
     from Products.CMFPlone.interfaces.Translatable \
             import ITranslatable as Z2ITranslatable
@@ -117,62 +115,24 @@ class I18NBaseObject(Implicit):
     security.declareProtected(permissions.AddPortalContent, 'addTranslation')
     def addTranslation(self, language, *args, **kwargs):
         """Adds a translation."""
-        canonical = self.getCanonical()
-        parent = aq_parent(aq_inner(self))
-        if ITranslatable.providedBy(parent):
-            parent = parent.getTranslation(language) or parent
         if self.hasTranslation(language):
             translation = self.getTranslation(language)
             raise AlreadyTranslated, translation.absolute_url()
-        beforeevent = events.ObjectWillBeTranslatedEvent(self, language)
-        notify(beforeevent)         
-        id = canonical.getId()
-        while not parent.checkIdAvailable(id):
-            id = '%s-%s' % (id, language)
+
+        locator = ILocateTranslation(self)
+        parent = locator.findLocationForTranslation(language)
+
+        notify(events.ObjectWillBeTranslatedEvent(self, language))
+
+        canonical = self.getCanonical()
         kwargs[config.KWARGS_TRANSLATION_KEY] = canonical
-        if kwargs.get('language', None) != language:
-            kwargs['language'] = language
-        o = _createObjectByType(self.portal_type, parent, id, *args, **kwargs)
-        # If there is a custom factory method that doesn't add the
-        # translation relationship, make sure it is done now.
-        if o.getCanonical() != canonical:
-            o.addTranslationReference(canonical)
+
+        factory = ITranslationFactory(self)
+        translation = factory.createTranslation(parent, language, *args, **kwargs)
         self.invalidateTranslationCache()        
-        # Copy over the language independent fields
-        schema = canonical.Schema()
-        independent_fields = schema.filterFields(languageIndependent=True)
-        for field in independent_fields:
-            accessor = field.getEditAccessor(canonical)
-            if not accessor:
-                accessor = field.getAccessor(canonical)
-            data = accessor()
-            mutatorname = getattr(field, 'translation_mutator', None)
-            if mutatorname is None:
-                # seems we have some field from archetypes.schemaextender
-                # or something else not using ClassGen
-                # fall back to default mutator
-                o.getField(field.getName()).set(self, data)
-            else:
-                # holy ClassGen crap - we have a generated method!
-                translation_mutator = getattr(o, mutatorname)
-                translation_mutator(data)
-        # If this is a folder, move translated subobjects aswell.
-        if self.isPrincipiaFolderish:
-            moveids = []
-            for obj in self.objectValues():
-                if ITranslatable.providedBy(obj) and \
-                           obj.getLanguage() == language:
-                    lockable = ILockable(obj, None)
-                    if lockable is not None and lockable.can_safely_unlock():
-                        lockable.unlock()
-                    moveids.append(obj.getId())
-            if moveids:
-                o.manage_pasteObjects(self.manage_cutObjects(moveids))
-        o.reindexObject()
-        if isDefaultPage(canonical, self.REQUEST):
-            o._lp_default_page = True
-        afterevent = events.ObjectTranslatedEvent(self, o, language)
-        notify(afterevent)             
+        translation.reindexObject()
+        notify(events.ObjectTranslatedEvent(self, translation, language))
+
 
     security.declareProtected(permissions.AddPortalContent,
                               'addTranslationReference')

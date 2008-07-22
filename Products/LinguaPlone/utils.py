@@ -19,7 +19,16 @@
 Utilities.
 """
 
+from Acquisition import aq_inner
+from Acquisition import aq_parent
+
+from zope.interface import implements
+from zope.component import adapts
 from types import FunctionType as function
+
+from plone.locking.interfaces import ILockable
+from plone.app.layout.navigation.defaultpage import isDefaultPage
+from Products.CMFPlone.utils import _createObjectByType
 
 # Method generation for ITranslatable content with language independent fields
 from Products.Archetypes.ClassGen import GeneratorError, _modes
@@ -28,6 +37,9 @@ from Products.Archetypes.ClassGen import ClassGenerator as ATClassGenerator
 from Products.Archetypes.ArchetypeTool import registerType as registerATType
 
 from Products.LinguaPlone.config import KWARGS_TRANSLATION_KEY, RELATIONSHIP
+from Products.LinguaPlone.interfaces import ITranslatable
+from Products.LinguaPlone.interfaces import ILocateTranslation
+from Products.LinguaPlone.interfaces import ITranslationFactory
 
 AT_GENERATE_METHOD = []
 _modes.update({
@@ -349,4 +361,104 @@ def linkTranslations(context, todo):
         for translation in translations:
             translation.addTranslationReference(canonical)
             canonical.setCanonical()
+
+
+class LocateTranslation(object):
+    """Default ILocateTranslation adapter.
+
+    If the parent for an object is translatable and has a translation
+    to the desired language that translation will be used as the new
+    location. In all other cases the new translation will be put in
+    the same location as the current object.
+    """
+    implements(ILocateTranslation)
+    adapts(ITranslatable)
+
+    def __init__(self, context):
+        self.context=context
+
+
+    def findLocationForTranslation(self, language):
+        parent = aq_parent(aq_inner(self.context))
+        trans_parent = ITranslatable(parent, None)
+        if trans_parent is None:
+            return parent
+
+        return trans_parent.getTranslation(language) or parent
+
+
+class TranslationFactory(object):
+    """Default translation factory.
+    """
+
+    implements(ITranslationFactory)
+    adapts(ITranslatable)
+
+    def __init__(self, context):
+        self.context=context
+
+
+    def generateId(self, container, canonical_id, language):
+        new_id = canonical_id
+        suffix = "-" + language
+        while not container.checkIdAvailable(new_id):
+            new_id += suffix
+
+        return new_id
+
+
+    def copyLanguageIndependentFields(self, canonical, translation):
+        schema = canonical.Schema()
+        independent_fields = schema.filterFields(languageIndependent=True)
+
+        for field in independent_fields:
+            accessor = field.getEditAccessor(canonical)
+            if not accessor:
+                accessor = field.getAccessor(canonical)
+            data = accessor()
+            mutatorname = getattr(field, 'translation_mutator', None)
+            if mutatorname is None:
+                # seems we have some field from archetypes.schemaextender
+                # or something else not using ClassGen
+                # fall back to default mutator
+                translation.getField(field.getName()).set(self, data)
+            else:
+                # holy ClassGen crap - we have a generated method!
+                translation_mutator = getattr(translation, mutatorname)
+                translation_mutator(data)
+
+
+    def createTranslation(self, container, language, *args, **kwargs):
+        context = aq_inner(self.context)
+        canonical = context.getCanonical()
+        new_id = self.generateId(container, canonical.getId(), language)
+        kwargs["language"] = language
+        translation = _createObjectByType(context.portal_type, container,
+                                          new_id, *args, **kwargs)
+
+        # If there is a custom factory method that doesn't add the
+        # translation relationship, make sure it is done now.
+        if translation.getCanonical() != canonical:
+            translation.addTranslationReference(canonical)
+
+        self.copyLanguageIndependentFields(canonical, translation)
+
+        if isDefaultPage(aq_parent(aq_inner(canonical)), canonical):
+            translation._lp_default_page=True
+
+        # If this is a folder, move translated subobjects aswell.
+        if context.isPrincipiaFolderish:
+            moveids = []
+            for obj in context.objectValues():
+                translator = ITranslatable(obj, None)
+                if translator is not None and translator.getLanguage() == language:
+                    lockable = ILockable(obj, None)
+                    if lockable is not None and lockable.can_safely_unlock():
+                        lockable.unlock()
+                    moveids.append(obj.getId())
+            if moveids:
+                translation.manage_pasteObjects(context.manage_cutObjects(moveids))
+
+        return translation
+
 
