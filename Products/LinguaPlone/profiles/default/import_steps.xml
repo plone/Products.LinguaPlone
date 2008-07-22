@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<import-steps>
+  <import-step id="linguaplone_various"
+               version="20070906-01"
+               handler="Products.LinguaPlone.setuphandlers.importVarious"
+               title="LinguaPlone manual setup steps">
+    LinguaPlone non-GenericSetup profile managed setup steps.
+    <dependency step="content"/>
+    <dependency step="toolset"/>
+  </import-step>
+  <import-step id="languagetool" version="20070615-01"
+            handler="Products.PloneLanguageTool.exportimport.importLanguageTool"
+            title="Plone Language Tool">
+   <dependency step="toolset"/>
+   Import language settings.
+  </import-step>
+</import-steps>
+

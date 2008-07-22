@@ -1,0 +1,11 @@
+[default]
+title = Edit
+
+[validators]
+validators = validate_translate
+
+[actions]
+action.success = traverse_to:string:translate_edit
+action.success..cancel = traverse_to:string:go_back
+action.failure = traverse_to_action:string:edit
+
