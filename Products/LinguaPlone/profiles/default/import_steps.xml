@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<import-steps>
+  <import-step id="linguaplone_reindex"
+               version="20070906-01"
+               handler="Products.LinguaPlone.setuphandlers.importReindexLanguageIndex"
+               title="LinguaPlone Reindex Language Index">
+    LinguaPlone Index Reindex Language Index.
+    <dependency step="content"/>
+    <dependency step="toolset"/>
+  </import-step>
+</import-steps>
+

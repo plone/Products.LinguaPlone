@@ -1,0 +1,117 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="linguaplone">
+
+<head>
+    <metal:top fill-slot="top_slot">
+        <tal:border define="dummy python:request.set('disable_border', 1)"/>
+    </metal:top>
+</head>
+
+<body>
+
+<metal:main metal:fill-slot="main"
+            tal:define="langtool nocall:context/portal_languages;
+                        set_language request/set_language | nothing;
+                        lang_code langtool/getPreferredLanguage;
+                        lang_name python:langtool.getNameForLanguageCode(lang_code);
+                        untranslated_languages here/getUntranslatedLanguages;
+                        translations context/getTranslations">
+
+    <div metal:use-macro="here/document_actions/macros/document_actions">
+        Document actions (print, sendto etc)
+    </div>
+
+    <h1 i18n:translate="header_translation_unavailable">
+        Translation Unavailable
+    </h1>
+
+    <p i18n:translate="description_changed_translation_unavailable"
+       tal:condition="set_language">
+        The content you were viewing does not exist in the language
+        you just selected. The site language has been switched to
+        <strong i18n:name="language"
+                tal:content="lang_name">
+            Language
+        </strong>
+        and you can keep browsing the site in this language.
+    </p>
+
+    <p i18n:translate="description_translation_unavailable"
+       tal:condition="not:set_language">
+        This content does not exist in your current language,
+        <strong i18n:name="language"
+                tal:content="lang_name">
+            Language
+        </strong>,
+        but you can keep browsing the site in this language.
+    </p>
+
+    <tal:translations condition="context/getTranslatedLanguages"
+                      define="translations context/getTranslations">
+
+        <p i18n:translate="description_read_translated_versions">
+            If you want to read the content of this document, you have to
+            switch to one of the following languages:
+        </p>
+
+        <ul>
+            <li tal:repeat="code translations">
+                <a href=""
+                   tal:define="query string:set_language=$code;
+                               obj python:context.getTranslation(code);
+                               name python:langtool.getNameForLanguageCode(code)"
+                   tal:attributes="href string:${obj/absolute_url}?$query"
+                   tal:content="name"></a>
+            </li>
+        </ul>
+
+    </tal:translations>
+
+    <tal:add condition="python:checkPermission('Add portal content', context)">
+
+        <h2 i18n:translate="header_add_content_translation">
+            Add content translation
+        </h2>
+
+        <form name="create"
+              method="post"
+              action=""
+              tal:attributes="action here/absolute_url">
+
+            <p i18n:translate="description_create_language_translation">
+                Create
+                <span i18n:name="language">
+                    <select name="set_language">
+                        <option tal:repeat="lang untranslated_languages"
+                                tal:content="python:lang[1]"
+                                tal:attributes="value python:lang[0]">Language</option>
+                    </select>
+                </span>
+                translation of this item.
+            </p>
+            <div class="formControls">
+
+                <input type="hidden"
+                       name="current"
+                       value=""
+                       tal:attributes="value lang_code"
+                       />
+
+                <input class="context"
+                       type="submit"
+                       name="createTranslation:method"
+                       i18n:attributes="value label_add_translation;"
+                       value="Add Translation"
+                       />
+            </div>
+
+         </form>
+    </tal:add>
+
+</metal:main>
+
+</body>
+</html>
