@@ -133,6 +133,8 @@ class I18NBaseObject(Implicit):
         translation.reindexObject()
         notify(events.ObjectTranslatedEvent(self, translation, language))
 
+        return translation
+
 
     security.declareProtected(permissions.AddPortalContent,
                               'addTranslationReference')

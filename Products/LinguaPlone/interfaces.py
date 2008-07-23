@@ -88,6 +88,8 @@ class ITranslatable(Interface):
     def addTranslation(language, **kwargs):
         """
         Add a new language translation of this content.
+
+        Returns the newly created translation.
         """
 
     def removeTranslation(language):

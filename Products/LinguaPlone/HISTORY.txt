@@ -4,6 +4,9 @@ Changelog
 2.2 - UNRELEASED
 ----------------
 
+- addTranslation now returns the newly created translation.
+  [wichert]
+
 - Include the FAQ in the package description.
   [wichert]
 
