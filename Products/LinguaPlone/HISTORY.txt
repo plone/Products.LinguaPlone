@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.2 - UNRELEASED
+2.3 - UNRELEASED
 ----------------
 
 - addTranslation now returns the newly created translation.
@@ -11,7 +11,7 @@ Changelog
   [wichert]
 
 - Refactor addTranslation: introduce adapters to determine where
-  a translation should be crated and to create the translation. 
+  a translation should be created and to create the translation. 
   [wichert]
 
 
