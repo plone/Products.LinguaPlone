@@ -57,7 +57,7 @@ Now, time to create our english content object:
 
 And add a german translation:
 
-  >>> english.addTranslation('de')
+  >>> _ = english.addTranslation('de')
   >>> german = english.getTranslation('de')
   >>> german.setBody('__GERMAN_CONTENT__')
   >>> de_path = '/'.join(german.getPhysicalPath())
@@ -92,7 +92,7 @@ Finally, add some stuff inside portal root:
   >>> root = portal.root
   >>> root.setLanguage('en')
   >>> root.setBody('__ENGLISH_CONTENT__')
-  >>> root.addTranslation('de')
+  >>> _ = root.addTranslation('de')
   >>> root.getTranslation('de').setBody('__GERMAN_CONTENT__')
 
   We also make the newly content the actual portal default page

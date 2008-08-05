@@ -27,7 +27,7 @@ First, we are going to setup an environment.
   'en'
 
   And add a german translation:
-  >>> english.addTranslation('de')
+  >>> _ = english.addTranslation('de')
   >>> german = english.getTranslation('de')
   >>> german.setBody('__GERMAN_CONTENT__')
   >>> de_path = '/'.join(german.getPhysicalPath())
