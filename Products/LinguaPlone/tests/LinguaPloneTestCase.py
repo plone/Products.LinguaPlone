@@ -38,12 +38,12 @@ def setup_product():
     # Load the ZCML configuration for this package and its dependencies
     fiveconfigure.debug_mode = True
 
+    fiveconfigure.debug_mode = False
 
     # We need to tell the testing framework that these products
     # should be available. This can't happen until after we have loaded
     # the ZCML.
-    PloneTestCase.installPackage('plone.browserlayer')
-    fiveconfigure.debug_mode = False
+    PloneTestCase.installPackage('plone.browserlayer', quiet=1)
 
 extension_profiles=['Products.LinguaPlone:LinguaPlone',
                     'Products.LinguaPlone:LinguaPlone_tests',
