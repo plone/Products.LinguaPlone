@@ -3,7 +3,6 @@ from Testing import ZopeTestCase
 # Make sure the dummy types are registered
 from Products.LinguaPlone import examples
 from Products.LinguaPlone.tests import dummy
-ZopeTestCase.installProduct('LinguaPlone')
 
 from Products.GenericSetup import EXTENSION, profile_registry
 
@@ -13,6 +12,7 @@ profile_registry.registerProfile('LinguaPlone_samples',
         'profiles/sample_types',
         'Products.LinguaPlone',
         EXTENSION)
+
 profile_registry.registerProfile('LinguaPlone_tests',
         'LinguaPlone test content types',
         'Extension profile including dummy types to test LinguaPlone',
@@ -24,9 +24,11 @@ from Products.Five import fiveconfigure
 from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase import PloneTestCase
 from Products.LinguaPlone.tests import utils
-from Testing.ZopeTestCase.utils import setupCoreSessions
 
 PORTAL_NAME = 'plone'
+
+ZopeTestCase.utils.setupCoreSessions()
+ZopeTestCase.installProduct('LinguaPlone')
 
 @onsetup
 def setup_product():
@@ -75,7 +77,6 @@ class LinguaPloneTestCase(PloneTestCase.PloneTestCase):
         # Transparently extend the base setup
         PloneTestCase.PloneTestCase._setup(self)
         utils.setupGlobalRequest(self.app.REQUEST)
-        setupCoreSessions(self.app)
 
     def addLanguage(self, language):
         self.portal.portal_languages.addSupportedLanguage(language)
