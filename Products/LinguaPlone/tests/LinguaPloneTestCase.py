@@ -39,7 +39,8 @@ def setup_product():
     """
     # Load the ZCML configuration for this package and its dependencies
     fiveconfigure.debug_mode = True
-
+    # plone.browserlayer's configure.zcml is included by LP's configure.zcml
+    # so we don't need to load it here.
     fiveconfigure.debug_mode = False
 
     # We need to tell the testing framework that these products
