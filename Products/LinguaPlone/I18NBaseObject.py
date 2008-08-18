@@ -143,8 +143,8 @@ class I18NBaseObject(Implicit):
         if self.hasTranslation(translation.Language()):
             double = self.getTranslation(translation.Language())
             raise AlreadyTranslated, double.absolute_url()
-        if self.portal_type!=translation.portal_type:
-            raise ValueError, "Can only link objects of the same portal type"
+        ##if self.portal_type!=translation.portal_type:
+        ##    raise ValueError, "Can only link objects of the same portal type"
         self.addReference(translation, config.RELATIONSHIP)
         self.invalidateTranslationCache()
 
