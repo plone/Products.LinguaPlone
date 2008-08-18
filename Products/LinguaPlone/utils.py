@@ -407,10 +407,16 @@ class TranslationFactory(object):
         return new_id
 
 
-    def copyLanguageIndependentFields(self, canonical, translation):
-        schema = canonical.Schema()
-        independent_fields = schema.filterFields(languageIndependent=True)
+    def getLanguageIndependentFieldsToCopy(self, canonical, translation):
+        # Only copy fields that exist in the destination schema
+        source, dest = canonical.Schema(), translation.Schema()
+        fields = source.filterFields(languageIndependent=True)
+        return [x for x in fields if x.getName() in dest]
 
+
+    def copyLanguageIndependentFields(self, canonical, translation):
+        independent_fields = self.getLanguageIndependentFieldsToCopy(
+                                                canonical, translation)
         for field in independent_fields:
             accessor = field.getEditAccessor(canonical)
             if not accessor:
@@ -428,12 +434,17 @@ class TranslationFactory(object):
                 translation_mutator(data)
 
 
+    def getTranslationPortalType(self, container, language):
+        return self.context.portal_type
+
+
     def createTranslation(self, container, language, *args, **kwargs):
         context = aq_inner(self.context)
         canonical = context.getCanonical()
+        portal_type = self.getTranslationPortalType(container, language)
         new_id = self.generateId(container, canonical.getId(), language)
         kwargs["language"] = language
-        translation = _createObjectByType(context.portal_type, container,
+        translation = _createObjectByType(portal_type, container,
                                           new_id, *args, **kwargs)
 
         # If there is a custom factory method that doesn't add the
