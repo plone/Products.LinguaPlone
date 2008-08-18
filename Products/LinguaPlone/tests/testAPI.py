@@ -69,6 +69,15 @@ class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
     def testNonCanonicalHasNoTranslationForFrench(self):
         self.failIf(self.german.hasTranslation('fr'))
 
+    def testSchemaUpdateDoesNotRaiseAlreadyTranslated(self):
+        # Actually, this passes even with the original wrong code,
+        # because the AlreadyTranslated exception gets swallowed
+        # somewhere.  In the browser it does not get swallowed, but
+        # gives a real error for any language that is not the default.
+        self.english._updateSchema()
+        self.german._updateSchema()
+        self.french._updateSchema()
+
     def testCanonicalSetLanguageRaiseAlreadyTranslated(self):
         self.assertRaises(AlreadyTranslated, self.english.setLanguage, 'de')
 

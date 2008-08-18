@@ -4,6 +4,14 @@ Changelog
 2.3 - UNRELEASED
 ----------------
 
+- Fixed unneeded AlreadyTranslated exception during a schema update.
+  A schema update saves the current value, sets the default language
+  (at which point there can easily be two English translations if that
+  is the default language) and restores the original value again.  So
+  really there is no reason for doing anything other than setting the
+  value in that case.
+  [maurits]
+
 - addTranslation now returns the newly created translation.
   [wichert]
 

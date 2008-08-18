@@ -289,6 +289,21 @@ class I18NBaseObject(Implicit):
         When changing the language in a translated folder structure,
         we try to move the content to the existing language tree.
         """
+        # If we are called during a schema update we should not be
+        # deleting any language relations or complaining about already
+        # existing translations.  A schema update saves the current
+        # value, sets the default language (at which point there can
+        # easily be two English translations if that is the default
+        # language) and restores the original value again.  So really
+        # there is no reason for doing anything other than setting the
+        # value.
+        req = getattr(self, 'REQUEST', None)
+        if shasattr(req, 'get'):
+            if req.get('SCHEMA_UPDATE', None) is not None:
+                # We at least should set the field.
+                self.getField('language').set(self, value, **kwargs)
+                return
+
         translation = self.getTranslation(value)
         if self.hasTranslation(value):
             if translation == self:
@@ -296,13 +311,6 @@ class I18NBaseObject(Implicit):
             else:
                 raise AlreadyTranslated, translation.absolute_url()
         self.getField('language').set(self, value, **kwargs)
-
-        # If we are called during a schema update we should not be deleting
-        # any language relations.
-        req = getattr(self, 'REQUEST', None)
-        if shasattr(req, 'get'):
-            if req.get('SCHEMA_UPDATE', None) is not None:
-                return
 
         if not value:
             self.deleteReferences(config.RELATIONSHIP)
