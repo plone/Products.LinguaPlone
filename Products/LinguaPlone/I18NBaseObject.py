@@ -314,11 +314,13 @@ class I18NBaseObject(Implicit):
             self.deleteReferences(config.RELATIONSHIP)
 
         parent = aq_parent(aq_inner(self))
-        if ITranslatable.providedBy(parent):
-            new_parent = parent.getTranslation(value) or parent
-            if new_parent != parent:
-                info = parent.manage_cutObjects([self.getId()])
-                new_parent.manage_pasteObjects(info)
+
+        locator = ILocateTranslation(self)
+        new_parent = locator.findLocationForTranslation(value)
+
+        if new_parent != parent:
+            info = parent.manage_cutObjects([self.getId()])
+            new_parent.manage_pasteObjects(info)
         self.reindexObject()
         self.invalidateTranslationCache()
 
