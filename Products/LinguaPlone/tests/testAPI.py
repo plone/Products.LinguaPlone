@@ -84,10 +84,6 @@ class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
     def testNonCanonicalSetLanguageRaiseAlreadyTranslated(self):
         self.assertRaises(AlreadyTranslated, self.german.setLanguage, 'en')
 
-    def testAddTranslationReferenceToDifferentType(self):
-        self.assertRaises(ValueError,
-                self.french.addTranslationReference, self.folder_en)
-
     def testCanonicalAddTranslationReferenceRaiseAlreadyTranslated(self):
         self.assertRaises(AlreadyTranslated,
                 self.english.addTranslationReference, self.english)
