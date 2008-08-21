@@ -468,7 +468,8 @@ class TranslationFactory(object):
                         lockable.unlock()
                     moveids.append(obj.getId())
             if moveids:
-                translation.manage_pasteObjects(context.manage_cutObjects(moveids))
+                info = context.manage_cutObjects(moveids)
+                translation.manage_pasteObjects(info)
 
         return translation
 
