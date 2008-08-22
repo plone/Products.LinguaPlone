@@ -32,7 +32,7 @@ class IObjectTranslatedEvent(IObjectEvent):
     """Sent after an object was translated."""
 
     object = Attribute("The object to be translated.")
-    translation = Attribute("The translation target object.")
+    target = Attribute("The translation target object.")
     language = Attribute("Target language.")    
     
  
