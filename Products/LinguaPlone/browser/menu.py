@@ -12,14 +12,12 @@ from Products.LinguaPlone.browser.interfaces import ITranslateMenu
 from Products.LinguaPlone.browser.interfaces import ITranslateSubMenuItem
 from Products.LinguaPlone.interfaces import ITranslatable
 from Products.LinguaPlone.interfaces import ILinguaPloneProductLayer
-from plone.memoize.instance import memoize
 from plone.browserlayer import utils as browserlayerutils
 
 
 class TranslateMenu(BrowserMenu):
     implements(ITranslateMenu)
 
-    @memoize
     def getUntranslatedLanguages(self, context):
         lt=getToolByName(context, "portal_languages")
         languages=lt.listSupportedLanguages()
@@ -29,7 +27,6 @@ class TranslateMenu(BrowserMenu):
         return languages
 
 
-    @memoize
     def getMenuItems(self, context, request):
         """Return menu item entries in a TAL-friendly form."""
 
@@ -118,7 +115,6 @@ class TranslateSubMenuItem(BrowserSubMenuItem):
     def action(self):
         return self.context.absolute_url() + "/manage_translations_form"
 
-    @memoize
     def available(self):
         if not ITranslatable.providedBy(self.context):
             return False
