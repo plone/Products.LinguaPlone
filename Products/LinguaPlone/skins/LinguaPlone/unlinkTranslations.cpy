@@ -2,6 +2,8 @@
 ##title=
 
 from Products.CMFPlone.utils import transaction_note
+from Products.CMFPlone.utils import safe_unicode
+
 REQUEST = context.REQUEST
 
 if context.getLanguage() in languages:
@@ -18,7 +20,7 @@ titles_and_ids = []
 
 for language in languages:
     obj = context.getTranslation(language)
-    title_or_id = obj.title_or_id().decode('utf8')
+    title_or_id = safe_unicode(obj.title_or_id())
     titles.append(title_or_id)
     titles_and_ids.append('%s (%s)' % (title_or_id, obj.getId()))
     o.removeTranslationReference(obj)

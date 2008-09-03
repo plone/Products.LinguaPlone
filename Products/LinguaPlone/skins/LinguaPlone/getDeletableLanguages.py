@@ -1,6 +1,8 @@
 ##parameters=
 ##title=Return deletable languages
 
+from Products.CMFPlone.utils import safe_unicode
+
 lang_names = context.portal_languages.getAvailableLanguages()
 translations = context.getNonCanonicalTranslations()
 
@@ -10,7 +12,7 @@ languages = []
 for lang in translations.keys():
     item = translations[lang][0]
     languages.append(dict(id=lang, name=lang_names[lang]['name'],
-        title = item.Title().decode('utf8'),
+        title = safe_unicode(item.Title()),
         path = item.absolute_url_path()))
         
 def lcmp(x, y):

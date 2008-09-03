@@ -2,6 +2,8 @@
 ##title=
 
 from Products.CMFPlone.utils import transaction_note
+from Products.CMFPlone.utils import safe_unicode
+
 REQUEST = context.REQUEST
 
 translation = context.reference_catalog.lookupObject(link_content)
@@ -28,7 +30,7 @@ translation.setLanguage(link_language)
 canonical = context.getCanonical()
 translation.addTranslationReference(canonical)
 
-title = translation.Title().decode('utf8')
+title = safe_unicode(translation.Title())
 language = context.portal_languages.getNameForLanguageCode(link_language)
 
 message = "'%s' linked as %s translation for the current content." % (title, language)
