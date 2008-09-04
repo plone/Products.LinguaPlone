@@ -400,7 +400,7 @@ class TranslationFactory(object):
 
     def generateId(self, container, canonical_id, language):
         new_id = canonical_id
-        suffix = "-" + language
+        suffix = "-" + str(language)    # unicode breaks `checkValidId()`
         while not container.checkIdAvailable(new_id):
             new_id += suffix
 
