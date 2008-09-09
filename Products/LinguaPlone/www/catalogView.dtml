@@ -58,7 +58,11 @@ function toggleSelect() {
                 <dtml-if "_['sequence-item'] == REQUEST.get('portal_type',None)"> selected="selected" </dtml-if>>&dtml-sequence-item;</option>
     </dtml-in>
   </select>
-
+  
+  <dtml-if "'path' in indexes()">
+      Path: <input type="text" name="path" value="&dtml-path;"/>
+  </dtml-if>
+  
   <input type="submit"
          name="manage_catalogView:method"
          value="Constrain" />

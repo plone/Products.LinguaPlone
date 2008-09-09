@@ -22,6 +22,9 @@ Changelog
   a translation should be created and to create the translation. 
   [wichert]
 
+- Add path filter in catalog view, like the non-LP version has.
+  [mj]
+
 
 2.2 - July 22, 2008
 -------------------
