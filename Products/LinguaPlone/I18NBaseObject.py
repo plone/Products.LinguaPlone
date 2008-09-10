@@ -398,6 +398,8 @@ class I18NBaseObject(Implicit):
     def notifyCanonicalUpdate(self):
         """Marks the translation as outdated."""
         self._lp_outdated = True
+        # Because language independent fields may have changed, reindex
+        self.reindexObject()
 
     security.declareProtected(permissions.View, 'isOutdated')
     def isOutdated(self):

@@ -7,6 +7,8 @@ from Products.LinguaPlone.tests import dummy
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
+from Products.CMFCore.utils import getToolByName
+
 
 class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
 
@@ -123,9 +125,29 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         # Annotate the generated method!!!! provide original method name
         self.assertEqual(str(english.contactName5), 'cn5 %s' % teststring)
 
+class TestLanguageIndependentCatalog(LinguaPloneTestCase.LinguaPloneTestCase):
+
+    def afterSetUp(self):
+        self.addLanguage('de')
+        self.setLanguage('en')
+
+    def testLangIndependentIndexing(self):
+        catalog = getToolByName(self.folder, 'portal_catalog')
+        catalog.addColumn('getContactName')
+        
+        english = makeContent(self.folder, 'SimpleType', 'doc')
+        english.setLanguage('en')
+        english.processForm(values=dict(contactName='foo'))
+        res = [r.getContactName for r in
+            catalog.unrestrictedSearchResults(portal_type='SimpleType')]
+        self.assertEqual(res, ['foo'])
+        
+        german = makeTranslation(english, 'de')
+        english.processForm(values=dict(contactName='bar'))
+        res = [r.getContactName for r in
+            catalog.unrestrictedSearchResults(portal_type='SimpleType')]
+        self.assertEqual(res, ['bar', 'bar'])
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestLanguageIndependentFields))
-    return suite
+    import unittest, sys
+    return unittest.findTestCases(sys.modules[__name__])

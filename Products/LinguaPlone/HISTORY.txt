@@ -25,6 +25,10 @@ Changelog
 - Add path filter in catalog view, like the non-LP version has.
   [mj]
 
+- Ensure that translations are reindexed when processing an edit form;
+  language independent fields may have been updated.
+  [mj]
+
 
 2.2 - July 22, 2008
 -------------------
