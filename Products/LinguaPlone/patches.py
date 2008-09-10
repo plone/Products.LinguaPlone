@@ -71,6 +71,10 @@ def GlobalRequestPatch():
             # raised in the previous line, I haven't been able to reproduce it.
             # This try/except clause seems to work. I'd prefer to understand
             # what is happening.
+            # MJ: this happens during conflicts; old_publish calls itself with 
+            # request.retry() as the new request.
+            # TODO: use zope.publisher.browser.setDefaultSkin and weak references
+            # instead to track requests.
             LOG(PKG_NAME, PROBLEM,
                 "The thread number %s doesn't have an associated request object." % id)
         return x
