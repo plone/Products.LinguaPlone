@@ -427,7 +427,7 @@ class TranslationFactory(object):
                 # seems we have some field from archetypes.schemaextender
                 # or something else not using ClassGen
                 # fall back to default mutator
-                translation.getField(field.getName()).set(self.context, data)
+                translation.getField(field.getName()).set(translation, data)
             else:
                 # holy ClassGen crap - we have a generated method!
                 translation_mutator = getattr(translation, mutatorname)
