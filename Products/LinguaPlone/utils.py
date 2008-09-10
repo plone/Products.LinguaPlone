@@ -101,7 +101,9 @@ class Generator(ATGenerator):
                 translations.reverse()
                 res = None
                 for t in translations:
-                    res = getattr(t, translationMethodName)(value, **kw)
+                    # Only copy fields thast exist in the destination schema
+                    if name in t.Schema():
+                        res = getattr(t, translationMethodName)(value, **kw)
                 return res
             method = generatedMutator
         elif mode == "t":
