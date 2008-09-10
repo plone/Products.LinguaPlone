@@ -60,7 +60,7 @@ function toggleSelect() {
   </select>
   
   <dtml-if "'path' in indexes()">
-      Path: <input type="text" name="path" value="&dtml-path;"/>
+      Path: <input type="text" name="path" value="&dtml.html_quote.missing-path;"/>
   </dtml-if>
   
   <input type="submit"
