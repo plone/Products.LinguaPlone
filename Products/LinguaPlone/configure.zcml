@@ -10,6 +10,7 @@
 
   <adapter factory=".utils.LocateTranslation" />
   <adapter factory=".utils.TranslationFactory" />
+  <adapter factory=".utils.LanguageIndependentFields" />
 
   <cmf:registerDirectory name="LinguaPlone"/>
 

@@ -21,13 +21,10 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
     def testLanguageIndependentField(self):
         english = makeContent(self.folder, 'SimpleType', 'doc')
         english.setLanguage('en')
-        german = makeTranslation(english, 'de')
 
-        contact = 'Test string'
-        english.setTitle('English title')
+        contact = 'Fred Flintstone'
         english.setContactName(contact)
-        german.setTitle('German title')
-        self.failIfEqual(english.Title(), german.Title())
+        german = makeTranslation(english, 'de')
         self.assertEqual(english.getContactName(), contact)
         self.assertEqual(english.getRawContactName(), contact)
         self.assertEqual(german.getContactName(), contact)
@@ -38,7 +35,7 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEqual(german.testing, english.contactName)
         self.assertEqual(english.contactName, german.contactName)
 
-        contact = 'First name'
+        contact = 'Barney Rubble'
         german.setContactName(contact)
         self.assertEqual(english.getContactName(), contact)
         self.assertEqual(english.getRawContactName(), contact)
@@ -49,6 +46,11 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         self.failUnless(hasattr(english, 'testing'))
         self.assertEqual(english.testing, german.contactName)
         self.assertEqual(english.contactName, german.contactName)
+
+        # Sanity check: not all fields are language independent
+        english.setTitle('English title')
+        german.setTitle('German title')
+        self.failIfEqual(english.Title(), german.Title())
 
     # Test derived type
 

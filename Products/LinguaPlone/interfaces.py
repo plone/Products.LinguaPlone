@@ -169,3 +169,23 @@ class ITranslationFactory(Interface):
         new object.
         """
 
+
+class ILanguageIndependentFields(Interface):
+    context = Attribute("context", "A translatable object")
+
+    def getFields():
+        """Return list of language independent fields"""
+
+    def getFieldsToCopy(translation):
+        """Return list of language independent fields to copy to translation.
+
+        The list only includes fields present in both source and destination
+        schemas.
+        """
+
+    def copyField(field, translation):
+        """Copy a language independent field to translation."""
+
+    def copyFields(translation):
+        """Copy language independent fields to translation."""
+

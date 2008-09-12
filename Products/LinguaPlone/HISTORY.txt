@@ -29,6 +29,10 @@ Changelog
   language independent fields may have been updated.
   [mj]
 
+- Extracted ILanguageIndependentFields adapter, encapsulating the
+  synchronization of language independent fields.
+  [stefan]
+
 
 2.2 - July 22, 2008
 -------------------

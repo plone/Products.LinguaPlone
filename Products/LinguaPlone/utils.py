@@ -40,6 +40,7 @@ from Products.LinguaPlone.config import KWARGS_TRANSLATION_KEY, RELATIONSHIP
 from Products.LinguaPlone.interfaces import ITranslatable
 from Products.LinguaPlone.interfaces import ILocateTranslation
 from Products.LinguaPlone.interfaces import ITranslationFactory
+from Products.LinguaPlone.interfaces import ILanguageIndependentFields
 
 AT_GENERATE_METHOD = []
 _modes.update({
@@ -409,33 +410,6 @@ class TranslationFactory(object):
         return new_id
 
 
-    def getLanguageIndependentFieldsToCopy(self, canonical, translation):
-        # Only copy fields that exist in the destination schema
-        source, dest = canonical.Schema(), translation.Schema()
-        fields = source.filterFields(languageIndependent=True)
-        return [x for x in fields if x.getName() in dest]
-
-
-    def copyLanguageIndependentFields(self, canonical, translation):
-        independent_fields = self.getLanguageIndependentFieldsToCopy(
-                                                canonical, translation)
-        for field in independent_fields:
-            accessor = field.getEditAccessor(canonical)
-            if not accessor:
-                accessor = field.getAccessor(canonical)
-            data = accessor()
-            mutatorname = getattr(field, 'translation_mutator', None)
-            if mutatorname is None:
-                # seems we have some field from archetypes.schemaextender
-                # or something else not using ClassGen
-                # fall back to default mutator
-                translation.getField(field.getName()).set(translation, data)
-            else:
-                # holy ClassGen crap - we have a generated method!
-                translation_mutator = getattr(translation, mutatorname)
-                translation_mutator(data)
-
-
     def getTranslationPortalType(self, container, language):
         return self.context.portal_type
 
@@ -454,7 +428,7 @@ class TranslationFactory(object):
         if translation.getCanonical() != canonical:
             translation.addTranslationReference(canonical)
 
-        self.copyLanguageIndependentFields(canonical, translation)
+        ILanguageIndependentFields(canonical).copyFields(translation)
 
         if isDefaultPage(aq_parent(aq_inner(canonical)), canonical):
             translation._lp_default_page=True
@@ -475,4 +449,51 @@ class TranslationFactory(object):
 
         return translation
 
+
+class LanguageIndependentFields(object):
+    """Default language independent fields manager.
+    """
+
+    implements(ILanguageIndependentFields)
+    adapts(ITranslatable)
+
+    def __init__(self, context):
+        self.context = context
+
+
+    def getFields(self, schema=None):
+        if schema is None:
+            schema = self.context.Schema()
+        return schema.filterFields(languageIndependent=True)
+
+
+    def getFieldsToCopy(self, translation, source_schema=None, dest_schema=None):
+        # Only copy fields that exist in the destination schema.
+        if source_schema is None:
+            source_schema = self.context.Schema()
+        if dest_schema is None:
+            dest_schema = translation.Schema()
+        fields = self.getFields(source_schema)
+        return [x for x in fields if x.getName() in dest_schema]
+
+
+    def copyField(self, field, translation):
+        accessor = field.getEditAccessor(self.context)
+        if not accessor:
+            accessor = field.getAccessor(self.context)
+        data = accessor()
+        mutatorname = getattr(field, 'translation_mutator', None)
+        if mutatorname is None:
+            # We have a field from archetypes.schemaextender or something
+            # else not using ClassGen. Fall back to default mutator.
+            translation.getField(field.getName()).set(translation, data)
+        else:
+            # Holy ClassGen crap - we have a generated method!
+            translation_mutator = getattr(translation, mutatorname)
+            translation_mutator(data)
+
+
+    def copyFields(self, translation):
+        for field in self.getFieldsToCopy(translation):
+            self.copyField(field, translation)
 
