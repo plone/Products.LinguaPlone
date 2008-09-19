@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os.path
 
-version = '2.3'
+version = '2.3.jarn.1'
 
 setup(name='Products.LinguaPlone',
       version=version,
