@@ -27,6 +27,6 @@ setup(name='Products.LinguaPlone',
       install_requires=[
         'setuptools',
         'plone.browserlayer',
-        'plone.app.layout >=1.1.4dev-r21791',
+        'plone.app.layout >= 1.1.4',
       ],
 )

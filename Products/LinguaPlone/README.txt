@@ -53,20 +53,11 @@ Dependencies
 
 Requires the following minimum versions:
 
-- Plone 3.0.6
-- `plone.browserlayer`_ 1.0rc2
-
-Plone 3.1 and later already include plone.browserlayer.
-
-.. _plone.browserlayer: http://cheeseshop.python.org/pypi/plone.browserlayer
+- Plone 3.1.5
 
 
 Installation
 ============
-
-If you are using a Plone version before 3.1 you need to install
-plone.browserlayer in your Plone site. It shows up as ''Local browser layer
-support'' in the Plone ''Add-on Products' control panel.
 
 If you are upgrading LinguaPlone there may be an upgrade step that you
 need to do.  Please check the manage_upgrades tab in portal_setup (in
@@ -85,20 +76,6 @@ at the ``portal_languages`` tool in the ZMI and check if ``Use cookie for
 manual override`` is enabled.
 
 
-There is no option to select multiple languages in the languages control panel
-------------------------------------------------------------------------------
-
-This happens if plone.browserlayer is uninstalled. To correct this you need to
-install plone.browserlayer and then uninstall and reinstall LinguaPlone.
-
-LinguaPlone refuses to install
-------------------------------
-
-Make sure you have 'Local browser layer support' installed first. Unless
-this is installed you can not install LinguaPlone.
-
-
-
 LinguaPlone - quick demo instructions
 =====================================
 
@@ -106,7 +83,7 @@ LinguaPlone ships with a few example types that demonstrates the translation
 mechanism. It's trivial to add this to your own classes (see the README),
 but to save you the hassle, you can try this simple experiment:
 
-- Make sure you have Plone 3.0.4 or newer installed.
+- Make sure you have Plone 3.1.5 or newer installed.
 
 - Put LinguaPlone in your Products directory
 
@@ -252,4 +229,3 @@ License
 =======
 
   GNU General Public License, version 2.1
-
