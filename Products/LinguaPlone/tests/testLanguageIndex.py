@@ -225,6 +225,28 @@ class TestLanguageIndex(TestCase):
         dummy = NoCallableDummy('abc', None)
         self.assertEqual(self.index.index_object(0, dummy), 1)
 
+    def testPathologicalIndex(self):
+        # This issue surfaced because collective.indexing allowed
+        # operations to take place in random order, potentially causing a
+        # moved item to disappear from the index (depending on the order
+        # of keys in a dict, no less).
+
+        self.index.index_object(0, Dummy('abc', 'de'))
+        self.assertEqual(self.search('de', False), [0])
+
+        # Now watch this: We index an object with a new documentId
+        # but the same cid and language, e.g. a moved object at its
+        # new location.
+        self.index.index_object(23, Dummy('abc', 'de'))
+
+        # It doesn't get indexed because hash('abc') already exists
+        # in the set at self.index._index['de'][None].
+        self.assertEqual(self.search('de', False), [0, 23])
+
+        # While its unlikely to encounter the pathological sequence
+        # in real life, the LanguageIndex still appears to be corruptible
+        # by not getting the sequence of operations right.
+
 class TestSplitLanguage(TestCase):
     def split(self, tag):
         from Products.LinguaPlone.utils import splitLanguage
