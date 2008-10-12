@@ -21,9 +21,9 @@ class TestPatchesSetup(LinguaPloneTestCase.LinguaPloneTestCase):
 
     def testCatalogPatch(self):
         if config.I18NAWARE_CATALOG:
-            self.failUnless(hasattr(CatalogTool, '__old_searchResults'))
+            self.failUnless(hasattr(CatalogTool, '__lp_old_searchResults'))
         else:
-            self.failIf(hasattr(CatalogTool, '__old_searchResults'))
+            self.failIf(hasattr(CatalogTool, '__lp_old_searchResults'))
 
 
 class TestInstallSetup(LinguaPloneTestCase.LinguaPloneTestCase):

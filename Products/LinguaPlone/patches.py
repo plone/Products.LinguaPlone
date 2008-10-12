@@ -132,9 +132,9 @@ def I18nAwareCatalog():
         elif kw.get('Language', '') == 'all':
             del kw['Language']
 
-        return self.__old_searchResults(REQUEST, **kw)
+        return self.__lp_old_searchResults(REQUEST, **kw)
 
-    CatalogTool.__old_searchResults = CatalogTool.searchResults
+    CatalogTool.__lp_old_searchResults = CatalogTool.searchResults
     CatalogTool.searchResults = searchResults
     CatalogTool.__call__ = searchResults
     CatalogTool.manage_catalogView = DTMLFile('www/catalogView',globals())
