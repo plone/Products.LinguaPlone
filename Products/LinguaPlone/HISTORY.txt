@@ -4,6 +4,11 @@ Changelog
 2.3 - UNRELEASED
 ----------------
 
+- Registered NoCopyReferenceAdapter for translationOf relations on
+  iterate checkout to avoid the checked out object becoming the
+  translation.
+  [tesdal]
+
 - Fixed unneeded AlreadyTranslated exception during a schema update.
   A schema update saves the current value, sets the default language
   (at which point there can easily be two English translations if that

@@ -12,6 +12,13 @@
   <adapter factory=".utils.TranslationFactory" />
   <adapter factory=".utils.LanguageIndependentFields" />
 
+  <adapter 
+     for="Products.Archetypes.interfaces.IBaseObject"
+     provides="plone.app.iterate.interfaces.ICheckinCheckoutReference"
+     factory="plone.app.iterate.relation.NoCopyReferenceAdapter"
+     name="translationOf"
+     />
+
   <cmf:registerDirectory name="LinguaPlone"/>
 
   <genericsetup:registerProfile
