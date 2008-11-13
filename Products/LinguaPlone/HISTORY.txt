@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.3 - UNRELEASED
-----------------
+2.3 - Nov 13, 2008
+------------------
 
 - Registered NoCopyReferenceAdapter for translationOf relations on
   iterate checkout to avoid the checked out object becoming the
