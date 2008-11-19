@@ -418,7 +418,8 @@ class TranslationFactory(object):
         context = aq_inner(self.context)
         canonical = context.getCanonical()
         portal_type = self.getTranslationPortalType(container, language)
-        new_id = self.generateId(container, canonical.getId(), language)
+        new_id = kwargs.pop(
+            'id', self.generateId(container, canonical.getId(), language))
         kwargs["language"] = language
         translation = _createObjectByType(portal_type, container,
                                           new_id, *args, **kwargs)

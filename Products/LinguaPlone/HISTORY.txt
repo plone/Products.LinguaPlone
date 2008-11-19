@@ -4,6 +4,8 @@ Changelog
 2.4 - UNRELEASED
 ----------------
 
+- Allow 'id' to be passed to addTranslation/createTranslation.
+  [nouri]
 
 2.3 - Nov 13, 2008
 ------------------
