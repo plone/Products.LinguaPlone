@@ -48,7 +48,7 @@ class TranslateMenu(BrowserMenu):
             icon=showflags and lt.getFlagForLanguageCode(lang_id) or None
             item={
                 "title"       : lang_name,
-                "description" : _(u"label_translate_into",
+                "description" : _(u"title_translate_into",
                                     default=u"Translate into ${lang_name}",
                                     mapping={"lang_name" : lang_name}),
                 "action"      : url+"/@@translate?newlanguage=%s" % lang_id,
