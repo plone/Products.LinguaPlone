@@ -1,2 +1,0 @@
-[actions]
-action.success=redirect_to:string:manage_translations_form

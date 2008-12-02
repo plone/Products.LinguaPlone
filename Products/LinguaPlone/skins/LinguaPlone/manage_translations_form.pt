@@ -31,7 +31,7 @@
               method="post"
               action=""
               class="group"
-              tal:attributes="action here/absolute_url">
+              tal:attributes="action string:${context/absolute_url}/@@translate">
 
             <fieldset tal:define="content_language context/Language">
 
@@ -44,7 +44,7 @@
                     <input type="radio"
                            class="noborder"
                            id="change_neutral"
-                           name="language"
+                           name="newlanguage"
                            value=""
                            tal:attributes="checked not:content_language"
                            />
@@ -55,7 +55,7 @@
                         <input type="radio"
                                class="noborder"
                                id="language_code"
-                               name="language"
+                               name="newlanguage"
                                tal:attributes="value python:lang[0];
                                                id python:'change_' + lang[0];
                                                checked python:content_language == lang[0]"
@@ -71,7 +71,6 @@
                 <div class="formControls">
                     <input class="context"
                            type="submit"
-                           name="changeLanguage:method"
                            i18n:attributes="value label_change_language;"
                            value="Change Language"
                            />
