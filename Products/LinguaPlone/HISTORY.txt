@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.4 - UNRELEASED
-----------------
+2.4 - Dec 9, 2008
+-----------------
 
 - Removed `Language settings` from the `Translate into` menu. A global action
   has no place in a context specific menu.
