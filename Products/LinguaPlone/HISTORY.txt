@@ -4,7 +4,11 @@ Changelog
 2.4 - UNRELEASED
 ----------------
 
-- Remove the useless 'changeLanguage' script.  In
+- Removed `Language settings` from the `Translate into` menu. A global action
+  has no place in a context specific menu.
+  [hannosch]
+
+- Remove the useless 'changeLanguage' script. In
   'manage_translations_form', use '@@translate' instead.
   [nouri]
 

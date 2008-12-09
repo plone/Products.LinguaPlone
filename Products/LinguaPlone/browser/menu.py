@@ -1,10 +1,7 @@
 from Acquisition import aq_parent, aq_inner
 from zope.interface import implements
 from zope.component import getMultiAdapter
-from zope.component import getUtility
 from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.interfaces import ISiteRoot
-from Products.CMFCore.permissions import ManagePortal
 from zope.app.publisher.browser.menu import BrowserMenu
 from zope.app.publisher.browser.menu import BrowserSubMenuItem
 from Products.LinguaPlone import LinguaPloneMessageFactory as _
@@ -77,25 +74,6 @@ class TranslateMenu(BrowserMenu):
                              },
             "submenu"     : None,
             })
-
-        site=getUtility(ISiteRoot)
-        mt=getToolByName(context, "portal_membership")
-        if mt.checkPermission(ManagePortal, site): 
-            portal_state=getMultiAdapter((context, request), name="plone_portal_state")
-
-            menu.append({
-                "title"       : _(u"label_language_settings",
-                                    default=u"Language settings..."),
-                "description" : _(u"title_language_settings", default=u""),
-                "action"      : portal_state.portal_url()+"/@@language-controlpanel",
-                "selected"    : False,
-                "icon"        : None,
-                "extra"       : { "id" : "_language_settings",
-                                  "separator" : None,
-                                  "class" : "",
-                                },
-                "submenu"     : None,
-                })
 
         return menu
 
