@@ -11,7 +11,10 @@ setup(name='Products.LinguaPlone',
                         open(os.path.join("Products", "LinguaPlone", "FAQ.txt")).read() + "\n" +
                         open(os.path.join("Products", "LinguaPlone", "HISTORY.txt")).read(),
       classifiers=[
+        "Environment :: Web Environment",
         "Framework :: Plone",
+        "License :: OSI Approved :: GNU General Public License (GPL)",
+        "Operating System :: OS Independent",
         "Programming Language :: Python",
       ],
       keywords='Zope CMF Plone multilingual translation',
