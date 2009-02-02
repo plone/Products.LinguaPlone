@@ -22,5 +22,5 @@ if errors:
     context.plone_utils.addPortalMessage('Please correct the indicated errors.', type='error')
     return state.set(status='failure', errors=errors)
 else:
-    context.plone_utils.addPortalMessage('Your changes have been saved.')
+    context.plone_utils.addPortalMessage('Changes saved.')
     return state.set()
