@@ -1,0 +1,439 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="linguaplone">
+
+<body>
+
+   <div metal:fill-slot="main"
+        tal:define="deletable_languages here/getDeletableLanguages;
+                    untranslated_languages here/getUntranslatedLanguages;">
+
+        <h1 i18n:translate="header_manage_translations">
+            Manage translations
+        </h1>
+
+        <p class="documentDescription"
+           i18n:translate="description_manage_translations">
+            Here you can change the content language and link or unlink translations.
+        </p>
+
+        <h2 i18n:translate="header_change_language">
+            Change content language
+        </h2>
+
+        <p i18n:translate="description_change_language">
+            Select the language you want to change the content to.
+        </p>
+
+        <form name="changeLanguage"
+              method="post"
+              action=""
+              class="group"
+              tal:attributes="action string:${context/absolute_url}/@@translate">
+
+            <fieldset tal:define="content_language context/Language">
+
+                <legend i18n:translate="legend_available_languages">
+                    Available languages
+                </legend>
+
+                <div class="field">
+
+                    <input type="radio"
+                           class="noborder"
+                           id="change_neutral"
+                           name="newlanguage"
+                           value=""
+                           tal:attributes="checked not:content_language"
+                           />
+                    <label for="change_neutral"
+                           i18n:translate="label_neutral">Neutral</label>
+
+                    <div tal:repeat="lang untranslated_languages">
+                        <input type="radio"
+                               class="noborder"
+                               id="language_code"
+                               name="newlanguage"
+                               tal:attributes="value python:lang[0];
+                                               id python:'change_' + lang[0];
+                                               checked python:content_language == lang[0]"
+                               />
+                        <label for=""
+                               tal:attributes="for python:'change_' + lang[0]"
+                               tal:content="python:lang[1]"
+                               />
+                    </div>
+
+                </div>
+
+                <div class="formControls">
+                    <input class="context"
+                           type="submit"
+                           i18n:attributes="value label_change_language;"
+                           value="Change Language"
+                           />
+                </div>
+
+            </fieldset>
+
+        </form>
+
+
+        <tal:uncanonical condition="not:context/isCanonical">
+
+        <h2 i18n:translate="header_not_canonical">
+          Not the canonical language
+        </h2>
+
+
+        <tal:safety i18n:translate="description_not_canonical_safety">
+          For safety some actions can only be done on the canonical
+          language.  This is not it.
+        </tal:safety>
+        <a href="#"
+           tal:define="url python:context.getCanonical().absolute_url()"
+           tal:attributes="href string:${url}/manage_translations_form?set_language=${context/getCanonicalLanguage};"
+           i18n:translate="description_go_canonical_language">
+          Go to the canonical language.
+        </a>
+
+        <form name="setCanonicalTranslation"
+              method="post"
+              action=""
+              class=""
+              tal:attributes="action here/absolute_url">
+
+                <br />
+                <p i18n:translate="description_make_canonical">
+                  Alternatively, click the button below to make this object the canonical language.
+                </p>
+
+                <div class="formControls">
+                    <input class="context"
+                           type="submit"
+                           name="setCanonicalTranslation:method"
+                           i18n:attributes="value label_make_canonical"
+                           value="Make canonical"
+                           />
+                </div>
+        </form>
+
+        </tal:uncanonical>
+
+        <tal:canonical condition="context/isCanonical">
+
+        <h2 i18n:translate="header_link_translations">
+            Link translations
+        </h2>
+
+        <p class="documentDescription"
+           tal:condition="not:untranslated_languages"
+           i18n:translate="description_no_linkable_translations">
+            There are no untranslated languages to link to.
+        </p>
+
+        <tal:untranslated condition="untranslated_languages">
+        <p i18n:translate="description_link_translations">
+            Link another existing content as a translation for
+            the current one in the selected language.
+        </p>
+
+        <form name="linkTranslation"
+              method="post"
+              action=""
+              class="group"
+              tal:attributes="action here/absolute_url">
+
+        <fieldset
+                 tal:define="kupu context/kupu_library_tool;
+                 usekupu python:kupu.isKupuEnabled(REQUEST=request) and kupu.getRefBrowser();">
+
+            <legend i18n:translate="legend_link_translations">
+                Link translations
+            </legend>
+
+            <div class="field">
+
+                <label for="link_language"
+                       i18n:translate="label_link_language">Language</label>
+
+                <div class="formHelp" i18n:translate="help_link_language">
+                    Select the language that the translation will be linked as.
+                </div>
+
+                <div tal:repeat="lang untranslated_languages"
+                     tal:define="content_language context/Language">
+                    <input type="radio"
+                           class="noborder"
+                           id="link"
+                           name="link_language"
+                           tal:attributes="value python:lang[0];
+                                           id python:'link_' + lang[0];
+                                           checked python:content_language == lang[0]"
+                           />
+                    <label for=""
+                           tal:attributes="for python:'link_' + lang[0];"
+                           tal:content="python:lang[1]"
+                           />
+                </div>
+
+            </div>
+
+            <div class="field" tal:condition="usekupu">
+               <script type="text/javascript"
+                       tal:attributes="src portal/referencebrowser.js/absolute_url_path"
+                       ></script>
+               <label for="link_content_browse"
+                      i18n:translate="label_link_content">Content</label>
+
+               <div class="formHelp" i18n:translate="help_link_content">
+                  Select the content to link as a translation.
+               </div>
+
+               <div id="krb_drawer_base">
+                  <div class="kupu-librarydrawer-parent"></div>
+               </div>
+
+               <script type="text/javascript"
+                       tal:define="kupu context/kupu_library_tool;
+                       base python:kupu.getBaseUrl(here);
+                       uid context/UID|nothing;
+                       lib_prefix    string:${base}/linguaplonelibraries.xml?instance=$uid&amp;resource_type=;
+                       search_prefix string:${portal_url}/kupusearch.xml?instance=$uid&amp;resource_type=;
+                       select_prefix string:${portal_url}/kupuselection.xml?instance=$uid&amp;resource_type=;
+                       xsl_uri string:${portal_url}/kupudrawers/drawer.xsl;"
+                       tal:content="string:var content_language='${context/Language}';krb_initdrawer('$xsl_uri','$lib_prefix','$search_prefix','$select_prefix');">
+               </script>
+               <div 
+                    tal:define="multiVal python:0;
+                    fieldName string:link_content;
+                    rFieldName python:repr(unicode(fieldName))[1:];
+                    kupu context/kupu_library_tool;
+                    lookupObject nocall:here/reference_catalog/lookupObject;
+                    resource_type string:linguaplone-${context/portal_type};
+                    rt python:kupu.getResourceType(resource_type);
+                    label label|string:path;
+                    rLabel python:repr(unicode(label))[1:];
+                    value request/link_content|nothing;
+                    uids python:same_type(value, []) and value or [value];
+                    uids python:[u for u in uids if u];
+                    required python:0;
+                    referenced python:[ context.reference_catalog.lookupObject(uid) for uid in [value] if uid];
+                    info python:kupu.infoForBrains(referenced,rt);
+                    onchange onchange|nothing;
+                    ">
+               <script type="text/javascript">
+function openDrawer(e,f,l,m,r) {
+    referencebrowser_draweropen(e,f,l,m,r);;;
+    drawertool.drawers['krbdrawer-'+f].initialSelection = function() {
+        try {
+            var els = document.forms['linkTranslation'].elements['link_language'];
+            for (var i = 0; i < els.length; i++) {
+                if (els[i].checked) {
+                    this.selectLibrary('current_'+els[i].value);
+                    return;
+                };
+            };
+        } catch(e) {};
+        try { this.selectLibrary('current_'+content_language); } catch(e) {
+            try { this.selectLibrary('root'); } catch(e) {};
+        };
+    };
+}
+               </script>
+                     <input type="hidden"
+                            value=""
+                            tal:condition="python:not required and multiVal"
+                            tal:attributes="name string:$fieldName:default:list"
+                            />
+
+                     <div class="kupu-reference" tal:attributes="id string:${fieldName}_preview">
+                        <em class="empty-ref" i18n:translate="label_no_reference_set"
+                            tal:condition="not:info">
+                           No reference set. Click the browse button to select.
+                        </em>
+                        <em class="empty-ref" i18n:translate="label_no_reference_set"
+                            tal:condition="info" style="display:none">
+                           No reference set. Click the browse button to select.
+                        </em>
+                        <tal:loop repeat="i info">
+                           <div tal:define="odd repeat/i/odd" tal:attributes="class python:test(odd,'odd','even');">
+                              <a href="#" tal:attributes="href string:${i/url}/view;">
+                                 <div class="kupu-preview-row" tal:condition="i/preview">
+                                    <img tal:attributes="src i/preview; title i/title;"
+                                         onload="kupuFixImage(this);" width="1" height="1"/>
+                                 </div>
+                                 <h1 class="kupu-title-row" tal:content="i/title">Item heading</h1>
+                                 <div class="kupu-description-row" tal:content="structure i/description" tal:condition="i/description"></div>
+                                 <div style="clear:both;line-height:1px;">&#xa0;</div>
+                              </a>
+                           </div>
+                        </tal:loop>
+                     </div>
+
+                     <textarea style="display:none"
+                               tal:attributes="name string:${fieldName}:lines;
+                               id string:${fieldName};onchange onchange"
+                               tal:content="python:'\n'.join(uids)"></textarea>
+                     <div>
+                        <input type="button" 
+                               class="searchButton"
+                               value="Browse..." 
+                               onclick=""
+                               i18n:attributes="value label_browse;"
+                               tal:attributes="onclick string:openDrawer(event,$rFieldName,$rLabel,$multiVal,escape('$resource_type'));;;" />
+                     </div>          
+               </div>
+            </div>
+            <div class="field" tal:condition="not:usekupu"
+                 tal:define="startup_directory python:here.referencebrowser_startupDirectory('');
+                             value request/link_content | nothing;
+                             fieldName string:link_content;
+                             fieldRealName fieldName;
+                             at_url python:'/'.join(here.getPhysicalPath());
+                             at_type here/portal_type;
+                 ">
+
+                <label for="link_content_browse"
+                       i18n:translate="label_link_content">Content</label>
+
+                <div class="formHelp" i18n:translate="help_link_content">
+                    Select the content to link as a translation.
+                </div>
+
+                <tal:value tal:condition="value">
+                    <input size="30"
+                           type="text"
+                           id="link_content_label"
+                           readonly="readonly"
+                           value=""
+                           tal:define="obj python:here.reference_catalog.lookupObject(value)"
+                           tal:attributes="value obj/title_or_id"
+                           />
+                </tal:value>
+
+                <input tal:condition="not:value"
+                       id="link_content_label"
+                       size="50"
+                       type="text"
+                       readonly="readonly"
+                       value="No translation content selected. Click the browse button to select."
+                       i18n:attributes="value label_no_translation_selected;"
+                       />
+
+                <input type="hidden"
+                       name="link_content"
+                       id="link_content"
+                       value=""
+                       tal:attributes="value value"
+                       />
+
+                <input type="button"
+                       name="link_content_browse"
+                       class="searchButton"
+                       value="Browse..."
+                       onClick=""
+                       i18n:attributes="value label_browse;"
+                       tal:attributes="onClick string:javascript:translationbrowser_openBrowser('${startup_directory}', '${at_url}', '${at_type}')"
+                       />
+
+                <script type="text/javascript"
+                        charset="iso-8859-1"
+                        src="translationbrowser.js"
+                        tal:attributes="src string:$portal_url/translationbrowser.js"></script>
+
+            </div>
+
+            <div class="formControls">
+                <input class="context"
+                       type="submit"
+                       name="linkTranslation:method"
+                       i18n:attributes="value label_link_translation;"
+                       value="Link Translation"
+                       />
+            </div>
+
+        </fieldset>
+
+        </form>
+      </tal:untranslated>
+
+
+
+        <h2 i18n:translate="header_remove_translations">
+            Remove translations
+        </h2>
+
+        <p tal:condition="deletable_languages"
+           i18n:translate="description_remove_translations">
+            Select translations to remove.
+        </p>
+
+        <p class="documentDescription"
+           tal:condition="not:deletable_languages"
+           i18n:translate="description_no_removable_translations">
+            There are no translations to remove.
+        </p>
+
+        <form name="deleteLanguage"
+              method="post"
+              action=""
+              class="group"
+              tal:condition="deletable_languages"
+              tal:attributes="action here/absolute_url">
+
+            <fieldset>
+
+                <legend i18n:translate="legend_existing_translations">
+                    Existing translations
+                </legend>
+
+                <div class="field">
+                   <div tal:repeat="lang deletable_languages">
+                       <input type="checkbox"
+                              class="noborder"
+                              id="remove_language"
+                              name="languages:list"
+                              tal:attributes="value lang/id;
+                                              id string:remove_${lang/id}"
+                              />
+                       <label for="remove_language"
+                              tal:attributes="for string:remove_${lang/id};"
+                              tal:content="string: ${lang/name} (${lang/id}): ${lang/title}"
+                              />
+                       <div class="discreet" style="padding-left: 4em;">
+                          <a
+                            tal:content="lang/path"
+                            tal:attributes="href lang/path" />
+                       </div>
+                   </div>
+                </div>
+
+                <div class="formControls">
+                    <input class="destructive"
+                           type="submit"
+                           name="deleteTranslations:method"
+                           i18n:domain="plone"
+                           i18n:attributes="value"
+                           value="Delete"
+                           />
+                    <input class="context"
+                           type="submit"
+                           name="unlinkTranslations:method"
+                           i18n:domain="plone"
+                           i18n:attributes="value"
+                           value="Unlink"
+                           />
+                </div>
+
+            </fieldset>
+
+        </form>
+        </tal:canonical>
+
+    </div>
+
+</body>
+</html>
