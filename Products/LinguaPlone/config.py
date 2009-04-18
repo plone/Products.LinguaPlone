@@ -27,6 +27,7 @@ CACHE_TRANSLATIONS = 0
 # language, unless you explicitly ask for all results by providing the
 # Language='all' keyword.
 I18NAWARE_CATALOG = 1
+NOFILTERKEYS = ['Language', 'UID', 'id', 'getId']
 
 # When auto-notification is enabled, editing the canonical translation object
 # will automatically invalidate all translations.

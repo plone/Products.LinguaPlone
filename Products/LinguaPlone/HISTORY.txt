@@ -4,6 +4,9 @@ Changelog
 2.5 - unreleased
 ----------------
 
+- Allow the query keys which prevent the automatic addition of the language to
+  catalog queries be configured through a NOFILTERKEYS list in config.
+  [hannosch]
 
 2.4 - Dec 9, 2008
 -----------------

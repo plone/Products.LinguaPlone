@@ -21,6 +21,7 @@ Patches.
 
 from Products.LinguaPlone.config import GLOBAL_REQUEST_PATCH
 from Products.LinguaPlone.config import I18NAWARE_CATALOG
+from Products.LinguaPlone.config import NOFILTERKEYS
 from Products.LinguaPlone.config import PKG_NAME
 
 _enabled = []
@@ -111,13 +112,11 @@ def I18nAwareCatalog():
         languageTool = getToolByName(self, 'portal_languages', None)
 
         # When searching on certain indexes we don't want language filtering.
-        nofilterkeys = ['Language', 'UID', 'id', 'getId']
-
-        def filterSearch(dict, keys=nofilterkeys):
-            if not dict:
+        def filterSearch(query, nofilter=NOFILTERKEYS):
+            if not query:
                 return 1
-            for key in keys:
-                if dict.has_key(key):
+            for key in nofilter:
+                if key in query:
                     return 0
             return 1
 
