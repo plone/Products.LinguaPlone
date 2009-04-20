@@ -36,7 +36,9 @@ from Products.Archetypes.ClassGen import Generator as ATGenerator
 from Products.Archetypes.ClassGen import ClassGenerator as ATClassGenerator
 from Products.Archetypes.ArchetypeTool import registerType as registerATType
 
-from Products.LinguaPlone.config import KWARGS_TRANSLATION_KEY, RELATIONSHIP
+from Products.LinguaPlone.config import KWARGS_TRANSLATION_KEY
+from Products.LinguaPlone.config import RELATIONSHIP
+from Products.LinguaPlone.config import I18NAWARE_REFERENCE_FIELDS
 from Products.LinguaPlone.interfaces import ITranslatable
 from Products.LinguaPlone.interfaces import ILocateTranslation
 from Products.LinguaPlone.interfaces import ITranslationFactory
@@ -103,8 +105,22 @@ class Generator(ATGenerator):
                 res = None
                 for t in translations:
                     # Only copy fields thast exist in the destination schema
-                    if name in t.Schema():
-                        res = getattr(t, translationMethodName)(value, **kw)
+                    schema = t.Schema()
+                    if name in schema:
+                        field = schema[name]
+                        if type(field) in I18NAWARE_REFERENCE_FIELDS:
+                            language = t.getLanguage()
+                            res = getattr(t, translationMethodName)(value, **kw)
+                            target = field.get(t)
+                            target_uid = None
+                            try:
+                                target_uid = target.getTranslation(language).UID()
+                            except AttributeError, e:
+                                pass
+                            if target_uid is not None and target_uid != value:
+                                res = getattr(t, translationMethodName)(target_uid, **kw)
+                        else:
+                            res = getattr(t, translationMethodName)(value, **kw)
                 return res
             method = generatedMutator
         elif mode == "t":
