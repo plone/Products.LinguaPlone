@@ -4,6 +4,9 @@ Changelog
 2.5 - unreleased
 ----------------
 
+- Added tests for language in-/dependent reference fields.
+  [hannosch]
+
 - Allow the query keys which prevent the automatic addition of the language to
   catalog queries be configured through a NOFILTERKEYS list in config.
   [hannosch]

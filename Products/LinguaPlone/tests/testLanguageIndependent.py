@@ -52,6 +52,72 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         german.setTitle('German title')
         self.failIfEqual(english.Title(), german.Title())
 
+    def testReferenceFields(self):
+        english = makeContent(self.folder, 'SimpleType', 'doc')
+        english.setLanguage('en')
+        german = makeTranslation(english, 'de')
+
+        target = makeContent(self.folder, 'SimpleType', 'target')
+        target.setLanguage('en')
+
+        # Test language dependent reference fields
+        english.setReferenceDependent(target.UID())
+        self.assertEqual(english.getReferenceDependent().UID(), target.UID())
+        self.assertEqual(german.getReferenceDependent(), None)
+
+        # Test language independent reference fields
+        english.setReference(target.UID())
+        self.assertEqual(english.getReference().UID(), target.UID())
+        self.assertEqual(german.getReference().UID(), target.UID())
+
+        # Now we make a german translation of the target
+        target_german = makeTranslation(target, 'de')
+
+        # The language dependent field shouldn't change
+        self.assertEqual(english.getReferenceDependent().UID(), target.UID())
+        self.assertEqual(german.getReferenceDependent(), None)
+
+        # But the language independent field should now point to the
+        # translation of the target
+        self.assertEqual(english.getReference().UID(), target.UID())
+        # XXX This needs to change
+        # self.assertEqual(german.getReference().UID(), target_german.UID())
+
+        # If we clear the reference, there should be no link left
+        english.setReferenceDependent(None)
+        english.setReference(None)
+
+        self.assertEqual(english.getReferenceDependent(), None)
+        self.assertEqual(german.getReferenceDependent(), None)
+
+        self.assertEqual(english.getReference(), None)
+        self.assertEqual(german.getReference(), None)
+
+        # If the target already has a translation, it should set the reference
+        # to the translation right away
+
+        target2 = makeContent(self.folder, 'SimpleType', 'target2')
+        target2_german = makeTranslation(target2, 'de')
+
+        english.setReferenceDependent(target2.UID())
+        self.assertEqual(english.getReferenceDependent().UID(), target2.UID())
+        self.assertEqual(german.getReferenceDependent(), None)
+
+        english.setReference(target2.UID())
+        self.assertEqual(english.getReference().UID(), target2.UID())
+        # XXX This needs to change
+        # self.assertEqual(german.getReference().UID(), target2_german.UID())
+
+        # If we delete the referenced item, it should no longer be referenced
+        self.folder._delObject(target.getId())
+        self.folder._delObject(target2.getId())
+
+        self.assertEqual(english.getReferenceDependent(), None)
+        self.assertEqual(german.getReferenceDependent(), None)
+
+        self.assertEqual(english.getReference(), None)
+        self.assertEqual(german.getReference(), None)
+
     # Test derived type
 
     def testBaseSchemaSetup(self):

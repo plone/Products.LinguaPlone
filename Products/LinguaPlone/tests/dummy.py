@@ -101,6 +101,20 @@ SimpleSchema = BaseSchema + Schema((
         languageIndependent=False,
     ),
 
+    ReferenceField(
+        name='reference',
+        allowed_types=('SimpleType', ),
+        languageIndependent = True,
+        relationship='referenceType',
+    ),
+
+    ReferenceField(
+        name='referenceDependent',
+        allowed_types=('SimpleType', ),
+        languageIndependent = False,
+        relationship='referenceDependentType',
+    ),
+
 ))
 
 
