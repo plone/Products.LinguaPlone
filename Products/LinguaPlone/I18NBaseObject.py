@@ -261,7 +261,7 @@ class I18NBaseObject(Implicit):
     security.declareProtected(permissions.View, 'getCanonical')
     def getCanonical(self):
         """Returns the canonical translation."""
-        if config.CACHE_TRANSLATIONS and getattr(self, '_v_canonical', None):
+        if config.CACHE_CANONICAL and getattr(self, '_v_canonical', None):
             return self._v_canonical
         ret = None
 
@@ -271,7 +271,7 @@ class I18NBaseObject(Implicit):
             refs = self.getRefs(config.RELATIONSHIP)
             ret = refs and refs[0] or None
 
-        if config.CACHE_TRANSLATIONS:
+        if config.CACHE_CANONICAL:
             self._v_canonical = ret
         return ret
 
@@ -386,11 +386,13 @@ class I18NBaseObject(Implicit):
 
     security.declarePrivate('invalidateTranslationCache')
     def invalidateTranslationCache(self):
-        if config.CACHE_TRANSLATIONS:
+        if config.CACHE_CANONICAL:
             if shasattr(self, '_v_canonical'):
                 delattr(self, '_v_canonical')
+        if config.CACHE_TRANSLATIONS:
             if shasattr(self, '_v_translations'):
                 delattr(self, '_v_translations')
+        if config.CACHE_CANONICAL or config.CACHE_TRANSLATIONS:
             if not self.isCanonical():
                 self.getCanonical().invalidateTranslationCache()
 

@@ -4,6 +4,10 @@ Changelog
 2.5 - unreleased
 ----------------
 
+- Split the canonical status caching of CACHE_TRANSLATIONS into its own config
+  setting via CACHE_CANONICAL.
+  [hannosch]
+
 - Fixed the language selector tests to pass in Plone 3.3.
   [hannosch]
 

@@ -18,6 +18,7 @@ GLOBAL_REQUEST_PATCH = 1
 
 # With cache translations, getCanonical() and getTranslations() will be cached.
 # However, it might lead to read inconsistencies between threads and ZEO clients
+CACHE_CANONICAL = 0
 CACHE_TRANSLATIONS = 0
 
 # With translations-aware catalog you only get the results for the current

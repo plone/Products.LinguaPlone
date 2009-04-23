@@ -135,7 +135,8 @@ class TestTranslationsCache(LinguaPloneTestCase.LinguaPloneTestCase):
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    if config.CACHE_TRANSLATIONS:
+    if config.CACHE_CANONICAL:
         suite.addTest(makeSuite(TestCanonicalCache))
+    if config.CACHE_TRANSLATIONS:
         suite.addTest(makeSuite(TestTranslationsCache))
     return suite
