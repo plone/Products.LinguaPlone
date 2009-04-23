@@ -4,6 +4,9 @@ Changelog
 2.5 - unreleased
 ----------------
 
+- Fixed the language selector tests to pass in Plone 3.3.
+  [hannosch]
+
 - Removed empty translation from translate menu description.
   [hannosch, maurits]
 

@@ -46,6 +46,9 @@ class MockLanguageTool(object):
         # en = selected by user, nl = default, [] = other options
         return ('en', 'nl', [])
 
+    def getSupportedLanguages(self):
+        return ['nl', 'en']
+
 
 class TestLanguageSelector(cleanup.CleanUp, TestCase):
     def setUp(self):
