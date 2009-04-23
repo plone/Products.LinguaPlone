@@ -4,6 +4,9 @@ Changelog
 2.5 - unreleased
 ----------------
 
+- Removed empty translation from translate menu description.
+  [hannosch, maurits]
+
 - Added smarter handling of language independent reference fields. If a
   language independent reference field points to a target, the translations of
   that source item will point to the translations of the target and not the

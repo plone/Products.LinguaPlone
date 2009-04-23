@@ -63,8 +63,7 @@ class TranslateMenu(BrowserMenu):
         menu.append({
             "title"       : _(u"label_manage_translations",
                                 default=u"Manage translations..."),
-            "description" : _(u"title_manage_translations",
-                                default=u""),
+            "description" : u"",
             "action"      : url+"/manage_translations_form",
             "selected"    : False,
             "icon"        : None,
