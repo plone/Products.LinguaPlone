@@ -4,6 +4,34 @@ Changelog
 2.5 - unreleased
 ----------------
 
+- Reworked the translationOf reference handling. Instead of relying on the
+  normal Archetypes reference API, we digg into some of the internals to
+  optimize the handling for the specific use-case we have:
+
+  * We added Language as additional metadata to the reference catalog. To do
+    so we needed to add a GenericSetup handler for the catalog to this package
+    for now. This should be moved to Archetypes itself. An upgrade step for
+    existing sites is available and needs to be run. The step is advertised in
+    the add-on control panel of Plone 3.3 and later or available via the
+    portal_setup tool in the ZMI.
+
+    The new metadata reflects the language of the source of the reference, so
+    we index the translation languages and not the canonical language. So a
+    reference inside the at_references folder of a translation, stores the
+    Language of that translation. It gets it via Acquisition, since neither the
+    reference nor the at_references OFS.Folder has a Language function.
+
+  * As a second step we use this new metadata to more efficiently query the
+    reference catalog. In general we avoid getting the real objects where
+    possible and rely on the catalog internal brains to get all relevant
+    information. We also bypass getting the actual reference object and
+    instead look up the source or target of the reference directly by their
+    uid.
+
+  These changes do not change external API's nor should they cause problems
+  for other add-ons using the reference engine.
+  [hannosch]
+
 - Split the canonical status caching of CACHE_TRANSLATIONS into its own config
   setting via CACHE_CANONICAL.
   [hannosch]

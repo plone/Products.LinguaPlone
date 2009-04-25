@@ -10,6 +10,13 @@ class TranslatableLanguageSelector(LanguageSelector):
 
     render = ZopeTwoPageTemplateFile('selector.pt')
 
+    def available(self):
+        if self.tool is not None:
+            selector = self.tool.showSelector()
+            languages = len(self.tool.getSupportedLanguages()) > 1
+            return selector and languages
+        return False
+
     def languages(self):
         results = LanguageSelector.languages(self)
         translatable = ITranslatable(self.context, None)

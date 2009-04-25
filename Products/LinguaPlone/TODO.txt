@@ -38,13 +38,6 @@ Documentation
     shouldn't do. Also for consultants to give to their customers.
 
 
-Archetypes changes
-==================
-
-  - Enable language aware references tool to enable linking to canonical and
-    retrieval of correct translation (this has to be fixed in Archetypes).
-
-
 Additional notes
 ================
 

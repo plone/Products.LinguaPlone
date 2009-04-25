@@ -38,4 +38,12 @@
       handler="Products.LinguaPlone.migrations.remove_old_import_step"
       profile="Products.LinguaPlone:LinguaPlone" />
 
+  <genericsetup:upgradeStep
+      title="LinguaPlone specific reference enhancements"
+      description="Add Language as metadata to the reference catalog."
+      source="2.1"
+      destination="2.2"
+      handler="Products.LinguaPlone.migrations.add_language_metadata"
+      profile="Products.LinguaPlone:LinguaPlone" />
+
 </configure>

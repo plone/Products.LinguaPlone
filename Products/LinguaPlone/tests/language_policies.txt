@@ -68,7 +68,7 @@ And add a german translation:
   >>> english.hasTranslation('fr')
   False
   >>> english.getTranslationLanguages()
-  ['de', 'en']
+  ['en', 'de']
 
   Both english and german objects are considered 'translations'
   >>> english.isTranslation()

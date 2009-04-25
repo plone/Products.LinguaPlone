@@ -37,6 +37,8 @@ from Products.CMFCore.DynamicType import DynamicType
 from Products.Archetypes.atapi import BaseObject
 from Products.Archetypes.utils import shasattr
 from Products.Archetypes.config import LANGUAGE_DEFAULT
+from Products.Archetypes.config import REFERENCE_CATALOG
+from Products.Archetypes.config import UID_CATALOG
 
 from Products.LinguaPlone import events
 from Products.LinguaPlone import config
@@ -110,7 +112,7 @@ class I18NBaseObject(Implicit):
         """Tells whether this object is used in a i18n context."""
         return bool(self.getReferenceImpl(config.RELATIONSHIP) or \
                     self.getBackReferenceImpl(config.RELATIONSHIP) \
-                    and self.getLanguage() or False)
+                    and self.Language() or False)
 
     security.declareProtected(permissions.AddPortalContent, 'addTranslation')
     def addTranslation(self, language, *args, **kwargs):
@@ -178,8 +180,22 @@ class I18NBaseObject(Implicit):
                 language = language_tool.getPreferredLanguage()
             else:
                 return self
-        l = self.getTranslations().get(language, None)
-        return l and l[0] or l
+        # Short-cut for self
+        lang = self.Language()
+        if lang == language:
+            return self
+        # Find and test canonical
+        canonical = self
+        if not self.isCanonical():
+            canonical = self.getCanonical()
+        if canonical.Language() == language:
+            return canonical
+        brains = canonical.getTranslationBackReferences()
+        if brains:
+            found = [b for b in brains if b.Language == language]
+            if found:
+                return self._getReferenceObject(uid=found[0].sourceUID)
+        return None
 
     security.declareProtected(permissions.View, 'getTranslationLanguages')
     def getTranslationLanguages(self):
@@ -189,7 +205,13 @@ class I18NBaseObject(Implicit):
         the translations from the current portal_language selected list,
         you should use the getTranslatedLanguages script.
         """
-        return self.getTranslations().keys()
+        canonical = self
+        if not self.isCanonical():
+            canonical = self.getCanonical()
+        brains = canonical.getTranslationBackReferences()
+        result = [canonical.Language()]
+        result.extend([b.Language for b in brains])
+        return result
 
     security.declareProtected(permissions.View, 'getTranslations')
     def getTranslations(self):
@@ -202,15 +224,15 @@ class I18NBaseObject(Implicit):
             workflow_tool = getToolByName(self, 'portal_workflow', None)
             if workflow_tool is None:
                 # No context, most likely FTP or WebDAV
-                result[self.getLanguage()] = [self, None]
+                result[self.Language()] = [self, None]
                 return result
-            lang = self.getLanguage()
+            lang = self.Language()
             state = workflow_tool.getInfoFor(self, 'review_state', None)
             result[lang] = [self, state]
-            for obj in self.getBRefs(config.RELATIONSHIP):
+            for obj in self.getTranslationBackReferences(objects=True):
                 if obj is None:
                     continue
-                lang = obj.getLanguage()
+                lang = obj.Language()
                 state = workflow_tool.getInfoFor(obj, 'review_state', None)
                 result[lang] = [obj, state]
             if config.CACHE_TRANSLATIONS:
@@ -236,10 +258,7 @@ class I18NBaseObject(Implicit):
         An object is considered 'canonical' when there's no
         'translationOf' references associated.
         """
-        try:
-            return not bool(self.getReferenceImpl(config.RELATIONSHIP))
-        except AttributeError:
-            return True
+        return not bool(self.getTranslationReferences())
 
     security.declareProtected(permissions.ModifyPortalContent, 'setCanonical')
     def setCanonical(self):
@@ -256,7 +275,7 @@ class I18NBaseObject(Implicit):
     security.declareProtected(permissions.View, 'getCanonicalLanguage')
     def getCanonicalLanguage(self):
         """Returns the language code for the canonical language."""
-        return self.getCanonical().getLanguage()
+        return self.getCanonical().Language()
 
     security.declareProtected(permissions.View, 'getCanonical')
     def getCanonical(self):
@@ -268,8 +287,9 @@ class I18NBaseObject(Implicit):
         if self.isCanonical():
             ret = self
         else:
-            refs = self.getRefs(config.RELATIONSHIP)
-            ret = refs and refs[0] or None
+            refs = self.getTranslationReferences()
+            if refs:
+                ret = self._getReferenceObject(uid=refs[0].targetUID)
 
         if config.CACHE_CANONICAL:
             self._v_canonical = ret
@@ -322,6 +342,7 @@ class I18NBaseObject(Implicit):
             info = parent.manage_cutObjects([self.getId()])
             new_parent.manage_pasteObjects(info)
         self.reindexObject()
+        self._catalogRefs(self)
         self.invalidateTranslationCache()
 
     security.declarePrivate('defaultLanguage')
@@ -357,7 +378,7 @@ class I18NBaseObject(Implicit):
 
         if shasattr(self, '_lp_default_page'):
             delattr(self, '_lp_default_page')
-            language = self.getLanguage()
+            language = self.Language()
             canonical = self.getCanonical()
             parent = aq_parent(aq_inner(self))
             if ITranslatable.providedBy(parent):
@@ -402,6 +423,7 @@ class I18NBaseObject(Implicit):
         self._lp_outdated = True
         # Because language independent fields may have changed, reindex
         self.reindexObject()
+        self._catalogRefs(self)
 
     security.declareProtected(permissions.View, 'isOutdated')
     def isOutdated(self):
@@ -426,6 +448,47 @@ class I18NBaseObject(Implicit):
         if ti is not None and not self.isCanonical():
             return TypeInfoWrapper(ti)
         return ti
+
+    security.declareProtected(permissions.View, 'getTranslationReferences')
+    def getTranslationReferences(self, objects=False):
+        """Get all translation references for this object"""
+        sID = self.UID()
+        tool = getToolByName(self, REFERENCE_CATALOG)
+        brains = tool._queryFor(sid=sID, relationship=config.RELATIONSHIP)
+        if brains:
+            if objects:
+                return [
+                    self._getReferenceObject(brain.targetUID)
+                    for brain in brains
+                ]
+            else:
+                return brains
+        return []
+
+    security.declareProtected(permissions.View, 'getTranslationBackReferences')
+    def getTranslationBackReferences(self, objects=False):
+        """Get all translation back references for this object"""
+        tID = self.UID()
+        tool = getToolByName(self, REFERENCE_CATALOG)
+        brains = tool._queryFor(tid=tID, relationship=config.RELATIONSHIP)
+        if brains:
+            if objects:
+                return [
+                    self._getReferenceObject(brain.sourceUID)
+                    for brain in brains
+                ]
+            else:
+                return brains
+        return []
+
+    def _getReferenceObject(self, uid):
+        tool = getToolByName(self, UID_CATALOG, None)
+        brains = tool(UID=uid)
+        for brain in brains:
+            obj = brain.getObject()
+            if obj is not None:
+                return obj
+        return None
 
 
 InitializeClass(I18NBaseObject)

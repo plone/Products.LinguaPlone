@@ -1,9 +1,7 @@
-<tal:language
-    tal:define="available view/available;
-                languages view/languages;
-                showFlags view/showFlags;">
+<tal:language tal:condition="view/available">
     <ul id="portal-languageselector"
-        tal:condition="python:available and len(languages)>=2">
+        tal:define="showFlags view/showFlags;
+                    languages view/languages;">
         <tal:language repeat="lang languages">
         <li tal:define="code lang/code;
                         selected lang/selected"
