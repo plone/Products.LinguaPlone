@@ -498,7 +498,10 @@ class LanguageIndependentFields(object):
         accessor = field.getEditAccessor(self.context)
         if not accessor:
             accessor = field.getAccessor(self.context)
-        data = accessor()
+        if accessor:
+            data = accessor()
+        else:
+            data = field.get(self.context)
         mutatorname = getattr(field, 'translation_mutator', None)
         if mutatorname is None:
             # We have a field from archetypes.schemaextender or something

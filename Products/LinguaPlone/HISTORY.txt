@@ -4,6 +4,10 @@ Changelog
 2.5 - unreleased
 ----------------
 
+- Adjust the copyField methods of the LanguageIndependentFields adapter to
+  work with fields which have no accessor methods.
+  [hannosch]
+
 - Reworked the translationOf reference handling. Instead of relying on the
   normal Archetypes reference API, we digg into some of the internals to
   optimize the handling for the specific use-case we have:
