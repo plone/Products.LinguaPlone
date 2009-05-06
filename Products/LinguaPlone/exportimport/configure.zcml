@@ -11,6 +11,7 @@
     />
 
   <adapter factory=".reference.ReferenceCatalogXMLAdapter"/>
+  <adapter factory=".uid.UIDCatalogXMLAdapter"/>
 
   <genericsetup:importStep
       name="reference_catalog"
@@ -25,6 +26,21 @@
       title="Reference Catalog"
       description="Export reference catalog."
       handler=".reference.exportCatalogTool"
+      />
+
+  <genericsetup:importStep
+      name="uid_catalog"
+      title="UID Catalog"
+      description="Import uid catalog."
+      handler=".uid.importCatalogTool">
+    <depends name="toolset" />
+  </genericsetup:importStep>
+
+  <genericsetup:exportStep
+      name="uid_catalog"
+      title="UID Catalog"
+      description="Export uid catalog."
+      handler=".uid.exportCatalogTool"
       />
 
 </configure>

@@ -30,3 +30,17 @@ def add_language_metadata(context):
         log.info("Updating reference catalog...")
         tool.refreshCatalog()
         log.info("Reference catalog updated.")
+
+
+def add_uid_language_index(context):
+    log = logging.getLogger("LinguaPlone")
+    tool = getToolByName(context, 'uid_catalog')
+    if 'Language' not in tool.indexes():
+        tool.addIndex('Language', 'LanguageIndex')
+        log.info("Added LanguageIndex field Language.")
+        # Reindex when there are no objects.
+        index = tool._catalog.getIndex('Language')
+        if index.numObjects() == 0:
+            log.info("Updating UID catalog...")
+            tool.reindexIndex('Language', None)
+            log.info("UID catalog updated.")

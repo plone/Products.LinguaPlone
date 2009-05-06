@@ -46,4 +46,12 @@
       handler="Products.LinguaPlone.migrations.add_language_metadata"
       profile="Products.LinguaPlone:LinguaPlone" />
 
+  <genericsetup:upgradeStep
+      title="LinguaPlone specific uid enhancements"
+      description="Add Language as an index to the uid catalog."
+      source="2.1"
+      destination="2.2"
+      handler="Products.LinguaPlone.migrations.add_uid_language_index"
+      profile="Products.LinguaPlone:LinguaPlone" />
+
 </configure>

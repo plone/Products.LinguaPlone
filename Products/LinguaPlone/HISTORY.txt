@@ -4,6 +4,11 @@ Changelog
 2.5 - unreleased
 ----------------
 
+- Added Language as an additional index to the uid catalog. This is required
+  to get at least normal reference criteria to be able to restrict their
+  selections based on the language.
+  [hannosch]
+
 - Adjust the copyField methods of the LanguageIndependentFields adapter to
   work with fields which have no accessor methods.
   [hannosch]
