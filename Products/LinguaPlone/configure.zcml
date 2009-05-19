@@ -41,16 +41,16 @@
   <genericsetup:upgradeStep
       title="LinguaPlone specific reference enhancements"
       description="Add Language as metadata to the reference catalog."
-      source="2.1"
-      destination="2.2"
+      source="2.4"
+      destination="3.0"
       handler="Products.LinguaPlone.migrations.add_language_metadata"
       profile="Products.LinguaPlone:LinguaPlone" />
 
   <genericsetup:upgradeStep
       title="LinguaPlone specific uid enhancements"
       description="Add Language as an index to the uid catalog."
-      source="2.1"
-      destination="2.2"
+      source="2.4"
+      destination="3.0"
       handler="Products.LinguaPlone.migrations.add_uid_language_index"
       profile="Products.LinguaPlone:LinguaPlone" />
 

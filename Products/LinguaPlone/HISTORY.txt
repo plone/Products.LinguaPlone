@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.5 - unreleased
+3.0 - unreleased
 ----------------
 
 - Changed the language selector to respect default pages. We now link to the
