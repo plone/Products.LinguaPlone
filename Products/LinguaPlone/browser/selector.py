@@ -1,7 +1,12 @@
-from zope.component import getMultiAdapter
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.LinguaPlone.interfaces import ITranslatable
 from plone.app.i18n.locales.browser.selector import LanguageSelector
+from plone.app.layout.navigation.defaultpage import isDefaultPage
+from zope.component import getMultiAdapter
+
+from Acquisition import aq_inner
+from Acquisition import aq_parent
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+
+from Products.LinguaPlone.interfaces import ITranslatable
 
 
 class TranslatableLanguageSelector(LanguageSelector):
@@ -18,8 +23,9 @@ class TranslatableLanguageSelector(LanguageSelector):
         return False
 
     def languages(self):
+        context = aq_inner(self.context)
         results = LanguageSelector.languages(self)
-        translatable = ITranslatable(self.context, None)
+        translatable = ITranslatable(context, None)
         if translatable is not None:
             translations = translatable.getTranslations()
         else:
@@ -29,17 +35,21 @@ class TranslatableLanguageSelector(LanguageSelector):
             data['translated'] = data['code'] in translations
             if data['translated']:
                 trans = translations[data['code']][0]
+                container = aq_parent(trans)
+                if isDefaultPage(container, trans):
+                    trans = container
                 state = getMultiAdapter((trans, self.request),
                         name='plone_context_state')
                 data['url'] = state.view_url() + '?set_language=' + data['code']
             else:
-                state = getMultiAdapter((self.context, self.request),
+                container = aq_parent(context)
+                if isDefaultPage(container, context):
+                    context = container
+                state = getMultiAdapter((context, self.request),
                         name='plone_context_state')
                 try:
                     data['url'] = state.view_url() + '?set_language=' + data['code']
                 except AttributeError:
-                    data['url'] = self.context.absolute_url() + '?set_language=' + data['code']
+                    data['url'] = context.absolute_url() + '?set_language=' + data['code']
 
         return results
-
-
