@@ -1,4 +1,4 @@
-from zLOG import LOG, INFO
+import logging
 
 from Products.Archetypes.Field import ReferenceField
 
@@ -45,5 +45,7 @@ CANONICAL_DELETE_PROTECTION = 0
 # before notifyWorkflowCreated.
 KWARGS_TRANSLATION_KEY = 'linguaplone_languageOf'
 
-def log(msg, level=INFO):
-    LOG(PKG_NAME, level, msg)
+logger = logging.getLogger("LinguaPlone")
+
+def log(msg, level=logging.INFO):
+    logger.log(level, msg)

@@ -22,7 +22,6 @@ Patches.
 from Products.LinguaPlone.config import GLOBAL_REQUEST_PATCH
 from Products.LinguaPlone.config import I18NAWARE_CATALOG
 from Products.LinguaPlone.config import NOFILTERKEYS
-from Products.LinguaPlone.config import PKG_NAME
 
 _enabled = []
 
@@ -52,10 +51,12 @@ def GlobalRequestPatch():
     if AlreadyApplied('GlobalRequestPatch'):
         return
 
+    import logging
     from thread import get_ident
     from ZPublisher import Publish
-    from zLOG import LOG, PROBLEM
     import Globals
+
+    logger = logging.getLogger("LinguaPlone")
 
     def get_request():
         """Get a request object"""
@@ -76,8 +77,7 @@ def GlobalRequestPatch():
             # request.retry() as the new request.
             # TODO: use zope.publisher.browser.setDefaultSkin and weak references
             # instead to track requests.
-            LOG(PKG_NAME, PROBLEM,
-                "The thread number %s doesn't have an associated request object." % id)
+            logging.debug("The thread number %s doesn't have an associated request object." % id)
         return x
 
     if not hasattr(Globals, 'get_request'):

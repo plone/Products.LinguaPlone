@@ -4,6 +4,9 @@ Changelog
 3.0 - unreleased
 ----------------
 
+- Cleaned up some old package metadata and converted zLOG usage to logging.
+  [hannosch]
+
 - Changed the language selector to respect default pages. We now link to the
   container of the translated default page rather than the default page itself.
   [hannosch]
