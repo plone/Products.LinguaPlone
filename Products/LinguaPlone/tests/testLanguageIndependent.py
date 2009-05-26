@@ -52,6 +52,18 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         german.setTitle('German title')
         self.failIfEqual(english.Title(), german.Title())
 
+    def testLinesField(self):
+        english = makeContent(self.folder, 'SimpleType', 'doc')
+        english.setLanguage('en')
+
+        english.setLines(('foo', 'bar'))
+
+        german = makeTranslation(english, 'de')
+        self.assertEqual(german.getLines(), ('foo', 'bar'))
+
+        english.setLines(('bar', 'baz'))
+        self.assertEqual(german.getLines(), ('bar', 'baz'))
+
     def testReferenceFields(self):
         english = makeContent(self.folder, 'SimpleType', 'doc')
         english.setLanguage('en')

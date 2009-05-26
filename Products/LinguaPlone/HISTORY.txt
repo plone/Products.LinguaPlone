@@ -4,6 +4,9 @@ Changelog
 3.0 - unreleased
 ----------------
 
+- Added test for language independent lines fields.
+  [hannosch]
+
 - Fixed the testSelector tests to work with the new default page handling.
   [hannosch]
 

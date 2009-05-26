@@ -115,6 +115,12 @@ SimpleSchema = BaseSchema + Schema((
         relationship='referenceDependentType',
     ),
 
+    LinesField(
+        name='lines',
+        languageIndependent = True,
+        widget=LinesWidget(label="Lines"),
+    ),
+
 ))
 
 
