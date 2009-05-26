@@ -3,11 +3,15 @@ from zope.component import provideAdapter
 from zope.interface import Interface
 from zope.testing import cleanup
 from unittest import TestCase
+from Acquisition import Explicit
 from Products.LinguaPlone.browser.selector import TranslatableLanguageSelector
 from Products.LinguaPlone.interfaces import ITranslatable
 
-class Dummy(object):
+class Dummy(Explicit):
     implements(ITranslatable)
+
+    def objectIds(self):
+        return ()
 
     def getPortalObject(self):
         return self
@@ -56,6 +60,8 @@ class TestLanguageSelector(cleanup.CleanUp, TestCase):
                        provides=Interface, name="plone_context_state")
         self.context=Dummy()
         self.context.portal_url = Dummy()
+        self.container=Dummy()
+        self.context = self.context.__of__(self.container)
         self.request=DummyRequest()
         self.selector=TranslatableLanguageSelector(self.context,
                         self.request, None, None)

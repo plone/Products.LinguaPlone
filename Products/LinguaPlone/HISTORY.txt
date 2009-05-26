@@ -4,6 +4,9 @@ Changelog
 3.0 - unreleased
 ----------------
 
+- Fixed the testSelector tests to work with the new default page handling.
+  [hannosch]
+
 - Cleaned up some old package metadata and converted zLOG usage to logging.
   [hannosch]
 
