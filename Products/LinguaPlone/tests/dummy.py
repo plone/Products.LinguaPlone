@@ -115,6 +115,14 @@ SimpleSchema = BaseSchema + Schema((
         relationship='referenceDependentType',
     ),
 
+    ReferenceField(
+        name='referenceMulti',
+        allowed_types=('SimpleType', ),
+        languageIndependent = True,
+        multiValued = True,
+        relationship='referenceType',
+    ),
+
     LinesField(
         name='lines',
         languageIndependent = True,

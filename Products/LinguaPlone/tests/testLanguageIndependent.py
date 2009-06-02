@@ -135,7 +135,31 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEqual(english.getReference(), None)
         self.assertEqual(german.getReference(), None)
 
-    # Test derived type
+    def testMultiValuedReferenceFields(self):
+        english = makeContent(self.folder, 'SimpleType', 'doc')
+        english.setLanguage('en')
+        german = makeTranslation(english, 'de')
+
+        target = makeContent(self.folder, 'SimpleType', 'target')
+        target.setLanguage('en')
+        target_german = makeTranslation(target, 'de')
+
+        target2 = makeContent(self.folder, 'SimpleType', 'target2')
+        target2.setLanguage('en')
+        target2_german = makeTranslation(target2, 'de')
+
+        # Test single valued
+        english.setReferenceMulti(target.UID())
+        self.assertEqual(english.getReferenceMulti()[0].UID(),target.UID())
+        self.assertEqual(german.getReferenceMulti()[0].UID(),
+            target_german.UID())
+
+        # Test multi-valued
+        english.setReferenceMulti([target.UID(), target2.UID()])
+        self.assertEqual(set(english.getReferenceMulti()),
+            set([target, target2]))
+        self.assertEqual(set(german.getReferenceMulti()),
+            set([target_german, target2_german]))
 
     def testBaseSchemaSetup(self):
         schema = dummy.SimpleType.schema

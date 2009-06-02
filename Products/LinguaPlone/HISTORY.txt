@@ -4,6 +4,9 @@ Changelog
 3.0 - unreleased
 ----------------
 
+- Extended multi-lingual aware reference fields to handle multi-valued fields.
+  [hannosch]
+
 - Added test for language independent lines fields.
   [hannosch]
 

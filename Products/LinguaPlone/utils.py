@@ -39,10 +39,11 @@ from Products.Archetypes.ArchetypeTool import registerType as registerATType
 from Products.LinguaPlone.config import KWARGS_TRANSLATION_KEY
 from Products.LinguaPlone.config import RELATIONSHIP
 from Products.LinguaPlone.config import I18NAWARE_REFERENCE_FIELDS
-from Products.LinguaPlone.interfaces import ITranslatable
-from Products.LinguaPlone.interfaces import ILocateTranslation
-from Products.LinguaPlone.interfaces import ITranslationFactory
 from Products.LinguaPlone.interfaces import ILanguageIndependentFields
+from Products.LinguaPlone.interfaces import ILocateTranslation
+from Products.LinguaPlone.interfaces import ITranslatable
+from Products.LinguaPlone.interfaces import ITranslationFactory
+
 
 AT_GENERATE_METHOD = []
 _modes.update({
@@ -109,16 +110,32 @@ class Generator(ATGenerator):
                     if name in schema:
                         field = schema[name]
                         if type(field) in I18NAWARE_REFERENCE_FIELDS:
-                            language = t.getLanguage()
+                            language = t.Language()
                             res = getattr(t, translationMethodName)(value, **kw)
-                            target = field.get(t)
-                            target_uid = None
-                            try:
-                                target_uid = target.getTranslation(language).UID()
-                            except AttributeError, e:
-                                pass
-                            if target_uid is not None and target_uid != value:
-                                res = getattr(t, translationMethodName)(target_uid, **kw)
+                            targets = field.get(t)
+                            if targets is None:
+                                res = None
+                            elif isinstance(targets, (list, tuple)):
+                                # multi valued
+                                target_uids = []
+                                for target in targets:
+                                    # Check for empty value
+                                    if target:
+                                        try:
+                                            target_uids.append(target.getTranslation(language).UID())
+                                        except AttributeError, e:
+                                            pass
+                                if target_uids and target_uids != value:
+                                    res = getattr(t, translationMethodName)(target_uids, **kw)
+                            else:
+                                # single valued
+                                target_uid = None
+                                try:
+                                    target_uid = targets.getTranslation(language).UID()
+                                except AttributeError, e:
+                                    pass
+                                if target_uid is not None and target_uid != value:
+                                    res = getattr(t, translationMethodName)(target_uid, **kw)
                         else:
                             res = getattr(t, translationMethodName)(value, **kw)
                 return res
