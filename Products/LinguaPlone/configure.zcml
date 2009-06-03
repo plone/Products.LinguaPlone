@@ -42,7 +42,7 @@
       title="LinguaPlone specific reference enhancements"
       description="Add Language as metadata to the reference catalog."
       source="2.4"
-      destination="3.0"
+      destination="3"
       handler="Products.LinguaPlone.migrations.add_language_metadata"
       profile="Products.LinguaPlone:LinguaPlone" />
 
@@ -50,7 +50,7 @@
       title="LinguaPlone specific uid enhancements"
       description="Add Language as an index to the uid catalog."
       source="2.4"
-      destination="3.0"
+      destination="3"
       handler="Products.LinguaPlone.migrations.add_uid_language_index"
       profile="Products.LinguaPlone:LinguaPlone" />
 

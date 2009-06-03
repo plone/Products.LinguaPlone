@@ -1,8 +1,12 @@
 Changelog
 =========
 
-3.0 - unreleased
-----------------
+3.0a1 - 2009-06-03
+------------------
+
+- Changed the profile version to a simple `3`, to follow best practices of
+  using simple integers for profile version numbers.
+  [hannosch]
 
 - Extended multi-lingual aware reference fields to handle multi-valued fields.
   [hannosch]
