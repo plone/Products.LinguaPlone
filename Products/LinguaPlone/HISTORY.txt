@@ -91,8 +91,8 @@ Changelog
   catalog queries be configured through a NOFILTERKEYS list in config.
   [hannosch]
 
-2.4 - Dec 9, 2008
------------------
+2.4 - 2008-12-09
+----------------
 
 - Removed `Language settings` from the `Translate into` menu. A global action
   has no place in a context specific menu.
@@ -105,8 +105,8 @@ Changelog
 - Allow 'id' to be passed to addTranslation/createTranslation.
   [nouri]
 
-2.3 - Nov 13, 2008
-------------------
+2.3 - 2008-11-13
+----------------
 
 - Registered NoCopyReferenceAdapter for translationOf relations on
   iterate checkout to avoid the checked out object becoming the
@@ -142,9 +142,8 @@ Changelog
   synchronization of language independent fields.
   [stefan]
 
-
-2.2 - July 22, 2008
--------------------
+2.2 - 2008-07-22
+----------------
 
 - LanguageIndependent fields are now shown in view mode for the translations,
   so they no longer are editable from the translations, which is how it's
@@ -184,9 +183,8 @@ Changelog
 - Make tests run on Plone 3.0.6 with plone.browserlayer 1.0rc3 and
   original GenericSetup (1.3) next to simply Plone 3.1.  [maurits]
 
-
-2.1.1 - May 1, 2008
--------------------
+2.1.1 - 2008-05-01
+------------------
 
 - Removed the dependency on the no longer existing plone.browserlayer
   GS profile. This closes http://dev.plone.org/plone/ticket/8083.
@@ -197,9 +195,8 @@ Changelog
   the portlet add form.
   [wichert]
 
-
-2.1 - April 11, 2008
---------------------
+2.1 - 2008-04-11
+----------------
 
 - Use our language selector viewlet for all content types instead of just
   translatable types. This makes things consistent for all types.
@@ -217,9 +214,8 @@ Changelog
   find the language names.
   [wichert]
 
-
-2.1beta1 - April 7, 2008
-------------------------
+2.1beta1 - 2008-04-07
+---------------------
 
 - Register the LanguageIndex with the selection widget, so you can query
   for languages in Collections.
@@ -248,9 +244,8 @@ Changelog
   http://plone.org/products/linguaplone/issues/127
   [wichert]
 
-
-2.1alpha1 - December 13, 2007
------------------------------
+2.1alpha1 - 2007-12-13
+----------------------
 
 - Refuse to install LinguaPlone of plone.browserlayer is not already
   installed.
@@ -273,9 +268,8 @@ Changelog
   screen so multiple translations may be linked. Existing
   translations display their path. [Duncan]
 
-
-2.0 - October 11, 2007
-----------------------
+2.0 - 2007-10-11
+----------------
 
 - When creating new content in a translated parent use the language of
   the parent as the default language.
@@ -295,9 +289,8 @@ Changelog
   itself so this is not needed.
   [wichert]
 
-
-2.0beta2 - September 24, 2007
------------------------------
+2.0beta2 - 2007-09-24
+---------------------
 
 - Fix a syntax error in the translate_item template.
   [wichert]
@@ -306,9 +299,8 @@ Changelog
   as an egg.
   [wichert]
 
-
-2.0beta1 - September 21, 2007
------------------------------
+2.0beta1 - 2007-09-21
+---------------------
 
 - Allow translating the default view for an untranslated container
   again: we have correct code that adds a translation of the container
@@ -323,9 +315,8 @@ Changelog
   untranslatable parent.
   [wichert]
 
-
-2.0alpha2 - September 19, 2007
-------------------------------
+2.0alpha2 - 2007-09-19
+----------------------
 
 - Only show the content menu if LinguaPlone is installed in the quick
   installer.
@@ -339,9 +330,8 @@ Changelog
   language for which the folder has no translation.
   [wichert]
 
-
-2.0alpha1 - September 10, 2007
-------------------------------
+2.0alpha1 - 2007-09-10
+----------------------
 
 - Use a GenericSetup profile to install LinguaPlone.
   [wichert]
@@ -351,10 +341,6 @@ Changelog
 
 - Port to Plone 3.0.1.
   [wichert]
-
-
-1.1 - UNRELEASED
-----------------
 
 - Only allow linking to other objects of the same portal type.
   [wichert]
@@ -374,8 +360,8 @@ Changelog
   conflicts with adding restrictions.
   [deo]
 
-1.0.1 - September 24, 2007
---------------------------
+1.0.1 - 2007-09-24
+------------------
 
 - Fix spitLanguage to return (None, None) when fed a non-string object.
   This fixes LP issue #101.
@@ -392,8 +378,8 @@ Changelog
   translations is not accessible (i.e. in "private" state)
   [fschulze, godchap]
 
-1.0 - June 19, 2007
--------------------
+1.0 - 2007-06-19
+----------------
 
 - If we are resetting the language due to a schema update do not delete the
   translation references. This fixes
@@ -431,9 +417,8 @@ Changelog
   translations within the main language when searching.
   [mj]
 
-
-0.9.0 - June 16, 2006
----------------------
+0.9.0 - 2006-06-16
+------------------
 
 - Now works with Plone 2.5 out-of-the-box, and Plone 2.1.3 if using the
   included PloneLanguageTool.
@@ -497,9 +482,8 @@ Changelog
   policy.
   [deo]
 
-
-0.9-beta - October 27, 2005
----------------------------
+0.9-beta - 2005-10-27
+---------------------
 
 - Removed content border from Translation Unavailable template.
   [limi]
@@ -520,9 +504,8 @@ Changelog
 - Fixed i18n domain everywhere... :-)
   [deo]
 
-
-0.8.5 - September 6, 2005
--------------------------
+0.8.5 - 2005-09-06
+------------------
 
 - Made content be created in neutral language, now that this concept
   works as expected.
@@ -577,9 +560,8 @@ Changelog
 - Improved i18n markup. Updated brazilian portuguese translation.
   [deo]
 
-
-0.8 - August 15, 2005
----------------------
+0.8 - 2005-08-15
+----------------
 
 - Plone __browser_default__ review.
   [deo]
@@ -630,17 +612,14 @@ Changelog
 - Update dropdown menus markup.
   [deo]
 
-
-0.7 - September 24, 2004
-------------------------
+0.7 - 2004-09-24
+----------------
 
 - Released at Plone Conference 2004.
   [limi] [testal] [geir]
 
-
-Technology Preview - June 29, 2004
-----------------------------------
+Technology Preview - 2004-06-29
+-------------------------------
 
 - First publicly available version.
   [limi] [testal] [geir]
-
