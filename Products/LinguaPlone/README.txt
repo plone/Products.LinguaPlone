@@ -53,7 +53,7 @@ Dependencies
 
 Requires the following minimum versions:
 
-- Plone 3.1.5
+- Plone 3.2
 
 
 Installation
@@ -83,9 +83,9 @@ LinguaPlone ships with a few example types that demonstrates the translation
 mechanism. It's trivial to add this to your own classes (see the README),
 but to save you the hassle, you can try this simple experiment:
 
-- Make sure you have Plone 3.1.5 or newer installed.
+- Make sure you have Plone 3.2 or newer installed.
 
-- Put LinguaPlone in your Products directory
+- Install the Products.LinguaPlone egg
 
 - (Re)start Zope
 
