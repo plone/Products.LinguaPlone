@@ -4,6 +4,10 @@ Changelog
 3.0a1 - 2009-06-03
 ------------------
 
+- Removed `checkVersion` check from our init method and declare a dependency
+  on Plone instead.
+  [hannosch]
+
 - Changed the profile version to a simple `3`, to follow best practices of
   using simple integers for profile version numbers.
   [hannosch]

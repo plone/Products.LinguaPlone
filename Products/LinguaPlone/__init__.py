@@ -6,17 +6,6 @@ from Products.LinguaPlone import permissions
 from zope.i18nmessageid import MessageFactory
 LinguaPloneMessageFactory = MessageFactory('linguaplone')
 
-def checkVersion():
-    from Products.CMFPlone.utils import getFSVersionTuple
-    if getFSVersionTuple()[:3] < (3,0,1):
-        import logging, sys
-        logger=logging.getLogger("LinguaPlone")
-        logger.log(logging.ERROR,
-                "Unsupported Plone version: " 
-                "LinguaPlone 2.0 requires Plone 3.0.1 or later")
-        sys.exit(1)
-
-checkVersion()
 
 def initialize(context):
     # Apply monkey patches

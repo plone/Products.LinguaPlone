@@ -29,6 +29,7 @@ setup(name='Products.LinguaPlone',
       download_url='http://plone.org/products/linguaplone',
       install_requires=[
         'setuptools',
+        'Plone >= 3.2'
         'plone.browserlayer',
         'plone.app.layout >= 1.1.4',
       ],
