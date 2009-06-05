@@ -4,6 +4,8 @@ Changelog
 3.0a2 - unreleased
 ------------------
 
+- Added undeclared dependency on Products.PloneLanguageTool >= 3.0.
+  [hannosch]
 
 3.0a1 - 2009-06-03
 ------------------
