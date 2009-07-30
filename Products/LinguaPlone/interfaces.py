@@ -21,7 +21,9 @@ from zope.interface import Interface
 
 from Products.PluginIndexes.interfaces import IPluggableIndex
 
-class ILinguaPloneProductLayer(Interface):
+from plone.theme.interfaces import IDefaultPloneLayer
+
+class ILinguaPloneProductLayer(IDefaultPloneLayer):
     """A layer specific for LinguaPlone.
 
     We will use this to register browser pages that should only be used
