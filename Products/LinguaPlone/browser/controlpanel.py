@@ -1,15 +1,10 @@
-from zope.component import adapts
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-
 from zope.interface import Interface
 from zope.interface import implementsOnly
 from zope.schema import Choice
 from zope.schema import Tuple
 from zope.formlib.form import FormFields
-from plone.app.form.widgets import LanguageDropdownChoiceWidget
 from plone.app.controlpanel.language import LanguageControlPanel as BasePanel
 from plone.app.controlpanel.language import LanguageControlPanelAdapter
-from plone.app.controlpanel.language import ILanguageSelectionSchema
 from Products.LinguaPlone import LinguaPloneMessageFactory as _
 
 

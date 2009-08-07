@@ -1,4 +1,3 @@
-from Acquisition import aq_inner, aq_parent
 from zope.component import getMultiAdapter
 from Products.Five import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
