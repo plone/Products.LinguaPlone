@@ -31,8 +31,8 @@ from BTrees.OOBTree import union as oo_union
 from BTrees.Length import Length
 from zope.interface import implements
 
-from Products.CMFCore.interfaces.portal_catalog import IndexableObjectWrapper
-from Products.CMFPlone.interfaces.Translatable import ITranslatable
+from plone.indexer.interfaces import IIndexableObjectWrapper
+from Products.LinguaPlone.interfaces import ITranslatable
 from Products.PluginIndexes.common.util import parseIndexRequest
 from Products.PluginIndexes.interfaces import IUniqueValueIndex
 from Products.PluginIndexes.interfaces import ISortIndex
@@ -118,10 +118,14 @@ class LanguageIndex(SimpleItem, PropertyManager):
     security.declarePrivate('index_object')
     def index_object(self, documentId, obj, treshold=None):
         """Index the object"""
-        if not ITranslatable.isImplementedBy(obj):
-            if IndexableObjectWrapper.isImplementedBy(obj):
+        if not ITranslatable.providedBy(obj):
+            if IIndexableObjectWrapper.providedBy(obj):
+                # wrapped object in `plone.indexer`
+                wrapped = getattr(obj, '_IndexableObjectWrapper__object', None)
+                # XXX: the rest can probably go now...
                 # Wrapper doesn't proxy __implements__
-                wrapped = getattr(obj, '_IndexableObjectWrapper__ob', None)
+                if wrapped is None:
+                    wrapped = getattr(obj, '_IndexableObjectWrapper__ob', None)
                 # Older CMFPlone
                 if wrapped is None:
                     wrapped = getattr(obj, '_obj', None)
@@ -136,7 +140,7 @@ class LanguageIndex(SimpleItem, PropertyManager):
         except AttributeError:
             return 0
         
-        if ITranslatable.isImplementedBy(obj):
+        if ITranslatable.providedBy(obj):
             cid = obj.getCanonical().UID()
         else:
             # Also index non-translatable content, otherwise

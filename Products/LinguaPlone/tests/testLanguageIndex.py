@@ -18,11 +18,12 @@
 
 from unittest import TestCase
 
-from Products.CMFPlone.interfaces.Translatable import ITranslatable
-from Products.CMFCore.interfaces.portal_catalog import IndexableObjectWrapper
+from zope.interface import implements
+from Products.LinguaPlone.interfaces import ITranslatable
+from plone.indexer.interfaces import IIndexableObjectWrapper
 
 class Dummy:
-    __implements__ = (ITranslatable,)
+    implements(ITranslatable)
     
     def __init__(self, cid, lang):
         self._cid = cid
@@ -51,7 +52,8 @@ class Dummy:
     __repr__ = __str__
     
 class DummyIndexableObjectWrapper:
-    __implements__ = (IndexableObjectWrapper,)
+    implements(IIndexableObjectWrapper)
+
     def __init__(self, wrapped):
         self._IndexableObjectWrapper__ob = wrapped
         self._obj = wrapped

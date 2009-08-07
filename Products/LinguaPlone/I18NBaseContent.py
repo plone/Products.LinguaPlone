@@ -26,7 +26,6 @@ from Products.LinguaPlone.I18NBaseObject import I18NBaseObject
 
 class I18NBaseContent(I18NBaseObject, BaseContent):
     """Overrides BaseContent for *i18n* content."""
-    __implements__ = I18NBaseObject.__implements__ + BaseContent.__implements__
 
     security = ClassSecurityInfo()
 

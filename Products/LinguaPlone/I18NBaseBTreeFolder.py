@@ -26,7 +26,6 @@ from Products.LinguaPlone.I18NBaseObject import I18NBaseObject
 
 class I18NBaseBTreeFolder(I18NBaseObject, BaseBTreeFolder):
     """Base class for translatable objects."""
-    __implements__ = I18NBaseObject.__implements__ + BaseBTreeFolder.__implements__
 
     security = ClassSecurityInfo()
 

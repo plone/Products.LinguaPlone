@@ -49,14 +49,6 @@ from Products.LinguaPlone.interfaces import ITranslatable
 from Products.CMFDynamicViewFTI.interface import ISelectableBrowserDefault
 
 
-try:
-    from Products.CMFPlone.interfaces.Translatable \
-            import ITranslatable as Z2ITranslatable
-except ImportError:
-    # Forward-compatibility: this interface will disappear from CMFPlone
-    Z2ITranslatable = (())
-
-
 class AlreadyTranslated(Exception):
     """Raised when trying to create an existing translation."""
     pass
@@ -102,7 +94,6 @@ class TypeInfoWrapper:
 
 class I18NBaseObject(Implicit):
     """Base class for translatable objects."""
-    __implements__ = (Z2ITranslatable,)
     implements(ITranslatable)
 
     security = ClassSecurityInfo()
