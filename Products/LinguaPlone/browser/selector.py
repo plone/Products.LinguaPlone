@@ -32,6 +32,11 @@ class TranslatableLanguageSelector(LanguageSelector):
         else:
             translations = []
 
+        # We want to preserve the current template / view as used for the
+        # current object and also use it for the other languages
+
+        # We need to find the actual translatable content object. As an
+        # optimization we assume it is one of the last two path segments
         match = filter(None,context.getPhysicalPath()[-2:])
         current_path = filter(None, self.request.get('PATH_INFO', '').split('/'))
         append_path = []
