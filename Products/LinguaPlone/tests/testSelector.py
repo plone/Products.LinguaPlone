@@ -23,9 +23,14 @@ class Dummy(Explicit):
         return {'en':[self, 'published'],
                 'nl':[self, 'published']}
 
+    def getPhysicalPath(self):
+        return getattr(self, 'physicalpath', [])
+
 
 class DummyRequest(object):
-    pass
+    def get(self, key, default):
+        return self.__dict__.get(key, default)
+    form = {}
 
 
 class DummyState(object):
@@ -80,6 +85,25 @@ class TestLanguageSelector(cleanup.CleanUp, TestCase):
                     'translated': True,
                     'selected': True,
                     'url': 'view_url?set_language=en',
+                   },
+                   ])
+
+    def testPreserveViewAndQuery(self):
+        self.context.physicalpath = ['','fake', 'path']
+        self.request.PATH_INFO = '/fake/path/to/object'
+        self.request.form['variable'] = 'preserved'
+        self.selector.update()
+        self.selector.tool=MockLanguageTool()
+        self.assertEqual(self.selector.languages(),
+                [ {'code': 'nl',
+                   'translated': True,
+                   'selected': False,
+                   'url': 'view_url/to/object?variable=preserved&set_language=nl',
+                   },
+                   {'code': 'en',
+                    'translated': True,
+                    'selected': True,
+                    'url': 'view_url/to/object?variable=preserved&set_language=en',
                    },
                    ])
 

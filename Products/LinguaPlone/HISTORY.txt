@@ -4,6 +4,9 @@ Changelog
 3.0a2 - unreleased
 ------------------
 
+- Preserve view, template and query components when switching language
+  [tesdal]
+
 - Added undeclared dependency on Products.PloneLanguageTool >= 3.0.
   [hannosch]
 
