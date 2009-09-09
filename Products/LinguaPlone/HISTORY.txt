@@ -1,10 +1,10 @@
 Changelog
 =========
 
-3.0a3 - Unreleased
+3.0a3 - 2009-09-09
 ------------------
 
-- Allow unicode in request.form
+- Allow Unicode in request.form.
   [tesdal]
 
 3.0a2 - 2009-09-07
