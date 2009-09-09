@@ -50,10 +50,20 @@ class TranslatableLanguageSelector(LanguageSelector):
         if append_path:
             append_path.insert(0, '')
 
+        formvariables = self.request.form
+        default_charset = 'utf-8'#XXX portal_properties.site_properties.getProperty('default_charset', 'utf-8')
+        for k,v in formvariables.items():
+            if isinstance(v, unicode):
+                formvariables[k] = v.encode(default_charset)
         for data in results:
             data['translated'] = data['code'] in translations
-            appendtourl = '/'.join(append_path) + \
-                      '?' + make_query(self.request.form, dict(set_language=data['code']))
+
+            try:
+                appendtourl = '/'.join(append_path) + \
+                          '?' + make_query(formvariables, dict(set_language=data['code']))
+            except UnicodeError:
+                appendtourl = '/'.join(append_path) + '?set_language=' + data['code']
+
             if data['translated']:
                 trans = translations[data['code']][0]
                 container = aq_parent(trans)

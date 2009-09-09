@@ -4,6 +4,8 @@ Changelog
 3.0a3 - Unreleased
 ------------------
 
+- Allow unicode in request.form
+  [tesdal]
 
 3.0a2 - 2009-09-07
 ------------------

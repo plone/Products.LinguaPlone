@@ -91,21 +91,22 @@ class TestLanguageSelector(cleanup.CleanUp, TestCase):
     def testPreserveViewAndQuery(self):
         self.context.physicalpath = ['','fake', 'path']
         self.request.PATH_INFO = '/fake/path/to/object'
-        self.request.form['variable'] = 'preserved'
+        self.request.form['variable'] = u'pres\xd8rved'
         self.selector.update()
         self.selector.tool=MockLanguageTool()
-        self.assertEqual(self.selector.languages(),
+        expected = \
                 [ {'code': 'nl',
                    'translated': True,
                    'selected': False,
-                   'url': 'view_url/to/object?variable=preserved&set_language=nl',
+                   'url': 'view_url/to/object?variable=pres%C3%98rved&set_language=nl',
                    },
                    {'code': 'en',
                     'translated': True,
                     'selected': True,
-                    'url': 'view_url/to/object?variable=preserved&set_language=en',
+                    'url': 'view_url/to/object?variable=pres%C3%98rved&set_language=en',
                    },
-                   ])
+                   ]
+        self.assertEqual(self.selector.languages(),expected)
 
 def test_suite():
     from unittest import TestSuite, makeSuite
