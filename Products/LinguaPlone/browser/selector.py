@@ -51,7 +51,7 @@ class TranslatableLanguageSelector(LanguageSelector):
             append_path.insert(0, '')
 
         formvariables = self.request.form
-        default_charset = 'utf-8'#XXX portal_properties.site_properties.getProperty('default_charset', 'utf-8')
+        default_charset = 'utf-8'
         for k,v in formvariables.items():
             if isinstance(v, unicode):
                 formvariables[k] = v.encode(default_charset)
