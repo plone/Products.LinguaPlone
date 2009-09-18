@@ -135,7 +135,8 @@
                                 </p>
                             </td>
                         </tr>
-                        <tr tal:repeat="field python:schematas[fieldset].editableFields(here, visible_only=True)">
+                        <tr tal:repeat="field python:schematas[fieldset].editableFields(here, visible_only=True)"
+                            tal:attributes="id string:archetypes-fieldname-${field/getName}">
                             <tal:block define="fieldname field/getName">
                                 <td class="canonicalLanguage" style="width: 50%"
                                      tal:define="otherfield python:other.Schemata()[fieldset][fieldname];

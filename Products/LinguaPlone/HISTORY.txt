@@ -4,6 +4,9 @@ Changelog
 3.0b1 - Unreleased
 ------------------
 
+- Added dynamic id attribute to <tr> in translate_item.cpt for easier styling  
+  [jensens, hpeteragitator]
+
 
 3.0a3 - 2009-09-09
 ------------------
