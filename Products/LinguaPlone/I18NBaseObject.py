@@ -340,6 +340,8 @@ class I18NBaseObject(Implicit):
     def defaultLanguage(self):
         """Returns the initial default language."""
         parent = aq_parent(aq_inner(self))
+        if getattr(parent, 'portal_type', None) == 'TempFolder':# We have factory tool
+            parent = aq_parent(aq_parent(parent))
         if ITranslatable.providedBy(parent):
             language = parent.Language()
             if language:
