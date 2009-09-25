@@ -4,6 +4,9 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Removed the long broken portlet_languages. This was a pre-Plone 3 old-style
+  portlet. See http://plone.org/products/linguaplone/issues/209.
+  [hannosch]
 
 3.0b2 - 2009-09-25
 ------------------
