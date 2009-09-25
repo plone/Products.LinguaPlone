@@ -1,15 +1,16 @@
 Changelog
 =========
 
-3.0b2 - Unreleased
+3.0b2 - 2009-09-25
 ------------------
 
-
+- Don't forget the rest of the formvariables, when dealing with request.form.
+  [tesdal]
 
 3.0b1 - 2009-09-25
 ------------------
 
-- Don't mangle request.form when allowing unicode.
+- Don't mangle request.form when allowing Unicode.
   [tesdal]
 
 - Get default language from content parent inside portal factory.
