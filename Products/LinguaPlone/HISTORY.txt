@@ -1,18 +1,17 @@
 Changelog
 =========
 
-3.0b1 - Unreleased
+3.0b1 - 2009-09-25
 ------------------
 
-- Don't mangle request.form when allowing unicode
+- Don't mangle request.form when allowing unicode.
   [tesdal]
 
 - Get default language from content parent inside portal factory.
   [tesdal]
 
-- Added dynamic id attribute to <tr> in translate_item.cpt for easier styling  
+- Added dynamic id attribute to <tr> in translate_item.cpt for easier styling.
   [jensens, hpeteragitator]
-
 
 3.0a3 - 2009-09-09
 ------------------
