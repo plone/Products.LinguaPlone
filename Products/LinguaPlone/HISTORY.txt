@@ -4,6 +4,10 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Make sure to use the native language name in the language selector in the
+  same way Plone itself does this.
+  [hannosch]
+
 - Specify an alt text on the language selector images. This closes
   http://plone.org/products/linguaplone/issues/188.
   [hannosch]

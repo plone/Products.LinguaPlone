@@ -8,7 +8,7 @@
             tal:attributes="class python: selected and 'currentLanguage' or '';">
                 <a href=""
                    tal:define="flag lang/flag|nothing;
-                               name lang/name"
+                               name lang/native|lang/name"
                    tal:attributes="href lang/url;
                                    title name">
                     <tal:flag condition="python:showFlags and flag">
