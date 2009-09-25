@@ -4,6 +4,9 @@ Changelog
 3.0b1 - Unreleased
 ------------------
 
+- Don't mangle request.form when allowing unicode
+  [tesdal]
+
 - Get default language from content parent inside portal factory.
   [tesdal]
 

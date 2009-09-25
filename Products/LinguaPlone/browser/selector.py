@@ -50,8 +50,8 @@ class TranslatableLanguageSelector(LanguageSelector):
         if append_path:
             append_path.insert(0, '')
 
-        formvariables = self.request.form
-        for k,v in formvariables.items():
+        formvariables = {}
+        for k,v in self.request.form.items():
             if isinstance(v, unicode):
                 formvariables[k] = v.encode('utf-8')
         for data in results:
