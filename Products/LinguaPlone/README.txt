@@ -217,10 +217,10 @@ At the top, **instead** of ``from Products.Archetypes.atapi import *``, you
 add::
 
   try:
-      from Products.LinguaPlone.atapi import *
+      from Products.LinguaPlone.public import *
   except ImportError:
       # No multilingual support
-      from Products.Archetypes.public import *
+      from Products.Archetypes.atapi import *
 
 For the fields that are language independent, you add
 'languageIndependent=True' in the schema definition.

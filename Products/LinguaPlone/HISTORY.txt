@@ -4,6 +4,10 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Fixed invalid code instructions in the README. This closes
+  http://plone.org/products/linguaplone/issues/207.
+  [hannosch]
+
 - Removed the long broken portlet_languages. This was a pre-Plone 3 old-style
   portlet. See http://plone.org/products/linguaplone/issues/209.
   [hannosch]
