@@ -54,6 +54,8 @@ class TranslatableLanguageSelector(LanguageSelector):
         for k,v in self.request.form.items():
             if isinstance(v, unicode):
                 formvariables[k] = v.encode('utf-8')
+            else:
+                formvariables[k] = v
         for data in results:
             data['translated'] = data['code'] in translations
 
