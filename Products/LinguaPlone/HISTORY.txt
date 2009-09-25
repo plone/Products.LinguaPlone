@@ -4,6 +4,10 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Specify an alt text on the language selector images. This closes
+  http://plone.org/products/linguaplone/issues/188.
+  [hannosch]
+
 - Fixed invalid code instructions in the README. This closes
   http://plone.org/products/linguaplone/issues/207.
   [hannosch]

@@ -17,6 +17,7 @@
                              height="11"
                              alt=""
                              tal:attributes="src string:${view/portal_url}${flag};
+                                             alt python: name;
                                              title python: name;
                                              class python: selected and 'currentItem' or '';" />
                     </tal:flag>
