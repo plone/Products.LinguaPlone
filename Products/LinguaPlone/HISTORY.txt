@@ -35,6 +35,10 @@ Changelog
 - Preserve view, template and query components when switching language
   [tesdal]
 
+- Ensure that the LinguaPlone browser layer is more specific than the default
+  in the interface __iro__ so that registrations to the LinguaPlone layer win.
+  [rossp]
+
 - Added undeclared dependency on Products.PloneLanguageTool >= 3.0.
   [hannosch]
 
