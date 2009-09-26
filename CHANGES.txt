@@ -4,6 +4,9 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Removed the `not_available_lang` template. It wasn't used anymore.
+  [hannosch]
+
 - Use request negotiation by default.
   [hannosch]
 
