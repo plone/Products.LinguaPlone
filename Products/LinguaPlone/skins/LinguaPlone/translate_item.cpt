@@ -28,7 +28,10 @@
                    isLocked isLocked | lock_info/is_locked_for_current_user;
                    css python:here.getUniqueWidgetAttr(fields, 'helper_css');
                    js python:here.getUniqueWidgetAttr(fields, 'helper_js');
-                   other python:here.getCanonical();">
+                   other python:here.getCanonical();
+                   ptool context/portal_properties;
+                   lprops ptool/linguaplone_properties|nothing;
+                   hide_column_two lprops/hide_right_column_on_translate_form|python:False;">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xml:lang="en"
@@ -45,8 +48,11 @@
       <metal:block use-macro="macro" />
     </tal:block>
   </metal:head>
-  
+
   <metal:javascript_head fill-slot="javascript_head_slot">
+    <tal:block tal:condition="hide_column_two">
+      <tal:hide tal:define="global sr python:False;" />
+    </tal:block>
     <tal:block define="macro here/archetypes_custom_js/macros/javascript_head | nothing"
                condition="macro">
       <metal:block use-macro="macro" />

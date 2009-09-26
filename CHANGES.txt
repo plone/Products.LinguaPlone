@@ -4,6 +4,10 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Added a simple configuration option to hide the right column on the
+  translation edit form and enable it by default.
+  [hannosch]
+
 - Removed the canonical and translations cache. It was never completely save
   to use. This closes http://plone.org/products/linguaplone/issues/82.
   [hannosch]

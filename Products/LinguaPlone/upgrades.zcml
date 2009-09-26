@@ -35,4 +35,12 @@
         handler="Products.LinguaPlone.migrations.add_synced_vocabularies"
         profile="Products.LinguaPlone:LinguaPlone" />
 
+    <genericsetup:upgradeStep
+        title="LinguaPlone translate form properties"
+        description="Add properties sheet for LP specific configuration"
+        source="4"
+        destination="5"
+        handler="Products.LinguaPlone.migrations.add_properties_sheet"
+        profile="Products.LinguaPlone:LinguaPlone" />
+
 </configure>

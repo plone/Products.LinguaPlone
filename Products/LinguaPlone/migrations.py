@@ -81,3 +81,11 @@ def add_synced_vocabularies(context):
                 site.registerUtility(component=SyncedLanguages(),
                     provided=IMetadataLanguageAvailability)
                 log.info("Converted metadata language vocabulary.")
+
+
+def add_properties_sheet(context):
+    log = logging.getLogger("LinguaPlone")
+    context.runImportStepFromProfile('profile-Products.LinguaPlone:LinguaPlone',
+                                     'propertiestool',
+                                     run_dependencies=False,
+                                     purge_old=False)
