@@ -74,9 +74,7 @@
                        value="Change Language"
                        />
             </div>
-
         </fieldset>
-
     </form>
 
     <tal:uncanonical condition="not:context/isCanonical">
@@ -98,6 +96,7 @@
     </tal:uncanonical>
 
     <tal:canonical condition="context/isCanonical">
+
         <h2 i18n:translate="header_link_translations">
             Link translations
         </h2>
@@ -121,7 +120,6 @@
                   tal:attributes="action here/absolute_url">
 
                 <fieldset>
-
                     <legend i18n:translate="legend_link_translations">
                         Link translations
                     </legend>
@@ -221,7 +219,6 @@
                     </div>
 
                 </fieldset>
-
             </form>
         </tal:untranslated>
 
@@ -248,7 +245,6 @@
               tal:attributes="action here/absolute_url">
 
             <fieldset>
-
                 <legend i18n:translate="legend_existing_translations">
                     Existing translations
                 </legend>
