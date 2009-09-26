@@ -4,6 +4,9 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Use request negotiation by default.
+  [hannosch]
+
 - Turn on the content language negotiator by default.
   [hannosch]
 

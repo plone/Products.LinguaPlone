@@ -2,7 +2,7 @@
 <object name="portal_languages">
  <use_cookie_negotiation value="True"/>
  <use_content_negotiation value="True"/>
- <use_request_negotiation value="False"/>
+ <use_request_negotiation value="True"/>
  <display_flags value="False"/>
  <start_neutral value="False"/>
 </object>
