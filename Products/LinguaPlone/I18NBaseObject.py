@@ -122,7 +122,6 @@ class I18NBaseObject(Implicit):
 
         factory = ITranslationFactory(self)
         translation = factory.createTranslation(parent, language, *args, **kwargs)
-        self.invalidateTranslationCache()        
         translation.reindexObject()
         notify(events.ObjectTranslatedEvent(self, translation, language))
 
@@ -137,7 +136,6 @@ class I18NBaseObject(Implicit):
             double = self.getTranslation(translation.Language())
             raise AlreadyTranslated, double.absolute_url()
         self.addReference(translation, config.RELATIONSHIP)
-        self.invalidateTranslationCache()
 
     security.declareProtected(permissions.ModifyPortalContent,
                               'removeTranslation')
@@ -148,14 +146,12 @@ class I18NBaseObject(Implicit):
             self.setCanonical()
         translation_parent = aq_parent(aq_inner(translation))
         translation_parent.manage_delObjects([translation.getId()])
-        self.invalidateTranslationCache()
 
     security.declareProtected(permissions.ModifyPortalContent,
                               'removeTranslationReference')
     def removeTranslationReference(self, translation):
         """Removes the translation reference."""
         translation.deleteReference(self, config.RELATIONSHIP)
-        self.invalidateTranslationCache()
 
     security.declareProtected(permissions.View, 'hasTranslation')
     def hasTranslation(self, language):
@@ -208,9 +204,6 @@ class I18NBaseObject(Implicit):
     def getTranslations(self):
         """Returns a dict of {lang : [object, wf_state]}, pass on to layer."""
         if self.isCanonical():
-            if config.CACHE_TRANSLATIONS and \
-               getattr(self, '_v_translations', None):
-                return self._v_translations
             result = {}
             workflow_tool = getToolByName(self, 'portal_workflow', None)
             if workflow_tool is None:
@@ -226,8 +219,6 @@ class I18NBaseObject(Implicit):
                 lang = obj.Language()
                 state = workflow_tool.getInfoFor(obj, 'review_state', None)
                 result[lang] = [obj, state]
-            if config.CACHE_TRANSLATIONS:
-                self._v_translations = result
             return result
         else:
             return self.getCanonical().getTranslations()
@@ -261,7 +252,6 @@ class I18NBaseObject(Implicit):
             for obj, wfstate in translations.values():
                 if obj != self:
                     obj.addTranslationReference(self)
-            self.invalidateTranslationCache()
 
     security.declareProtected(permissions.View, 'getCanonicalLanguage')
     def getCanonicalLanguage(self):
@@ -271,19 +261,13 @@ class I18NBaseObject(Implicit):
     security.declareProtected(permissions.View, 'getCanonical')
     def getCanonical(self):
         """Returns the canonical translation."""
-        if config.CACHE_CANONICAL and getattr(self, '_v_canonical', None):
-            return self._v_canonical
         ret = None
-
         if self.isCanonical():
             ret = self
         else:
             refs = self.getTranslationReferences()
             if refs:
                 ret = self._getReferenceObject(uid=refs[0].targetUID)
-
-        if config.CACHE_CANONICAL:
-            self._v_canonical = ret
         return ret
 
     security.declareProtected(permissions.View, 'getLanguage')
@@ -334,7 +318,6 @@ class I18NBaseObject(Implicit):
             new_parent.manage_pasteObjects(info)
         self.reindexObject()
         self._catalogRefs(self)
-        self.invalidateTranslationCache()
 
     security.declarePrivate('defaultLanguage')
     def defaultLanguage(self):
@@ -396,19 +379,6 @@ class I18NBaseObject(Implicit):
         translations = self.getNonCanonicalTranslations()
         for lang in translations.keys():
             translations[lang][0].notifyCanonicalUpdate()
-        self.invalidateTranslationCache()
-
-    security.declarePrivate('invalidateTranslationCache')
-    def invalidateTranslationCache(self):
-        if config.CACHE_CANONICAL:
-            if shasattr(self, '_v_canonical'):
-                delattr(self, '_v_canonical')
-        if config.CACHE_TRANSLATIONS:
-            if shasattr(self, '_v_translations'):
-                delattr(self, '_v_translations')
-        if config.CACHE_CANONICAL or config.CACHE_TRANSLATIONS:
-            if not self.isCanonical():
-                self.getCanonical().invalidateTranslationCache()
 
     security.declarePrivate('notifyCanonicalUpdate')
     def notifyCanonicalUpdate(self):

@@ -13,11 +13,6 @@ RELATIONSHIP = 'translationOf'
 INSTALL_DEMO_TYPES = 0 ##Install the demo types
 DEBUG = 0  ## See debug messages
 
-# With cache translations, getCanonical() and getTranslations() will be cached.
-# However, it might lead to read inconsistencies between threads and ZEO clients
-CACHE_CANONICAL = 0
-CACHE_TRANSLATIONS = 0
-
 # With translations-aware catalog you only get the results for the current
 # language, unless you explicitly ask for all results by providing the
 # Language='all' keyword.

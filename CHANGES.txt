@@ -4,6 +4,10 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Removed the canonical and translations cache. It was never completely save
+  to use. This closes http://plone.org/products/linguaplone/issues/82.
+  [hannosch]
+
 - Added a new synchronized language vocabulary and use it for the content and
   metadata language availability. This restricts the languages in the common
   language widgets to the set of the supported languages of the site.
