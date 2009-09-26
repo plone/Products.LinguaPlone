@@ -1,8 +1,13 @@
 Changelog
 =========
 
-3.0b3 - Unreleased
+3.0b3 - 2009-09-26
 ------------------
+
+- Update the requirement to Plone 3.3 instead of individual packages. We don't
+  test this version against former Plone versions anymore. Removed no longer
+  required code for pre-Plone 3.1.
+  [hannosch]
 
 - If no item was selected in the link translations form, a random item was
   selected in the form handler. Thanks to Ichim Tiberiu for the patch. This

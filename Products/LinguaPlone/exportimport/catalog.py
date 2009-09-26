@@ -48,7 +48,7 @@ class CatalogXMLAdapter(ZCatalogXMLAdapter):
         ZCatalogXMLAdapter._initIndexes(self, node)
 
         if len(added) > 0:
-            zcatalog.reindexIndex(tuple(added), zcatalog.REQUEST)
+            zcatalog.reindexIndex(tuple(added), None)
 
     def _initColumns(self, node):
         for child in node.childNodes:

@@ -6,19 +6,6 @@ def importReindexLanguageIndex(context):
         return
     site = context.getSite()
     logger = context.getLogger('LinguaPlone')
-
-    # Recent GS versions have import steps on the tool, older versions
-    # need to check the registry.
-    tool = context.getSetupTool()
-    registry = tool.getImportStepRegistry()    
-    checkmethod = getattr(tool, 'getImportStep', None) or \
-                  getattr(tool.getImportStepRegistry(), 'getStep')    
-    if checkmethod('browserlayer') is None:
-        msg="Can not install LinguaPlone: you need to install 'Local " \
-            "browser layer support' from plone.browserlayer first."
-        logger.error(msg)
-        raise RuntimeError, msg
-
     catalog = getToolByName(site, 'portal_catalog')
 
     if 'Language' in catalog.indexes():
