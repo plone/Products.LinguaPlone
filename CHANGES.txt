@@ -4,6 +4,10 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Refactored common functionality of the catalog exportimport handlers. Added
+  automatic reindexing for newly added indexes.
+  [hannosch]
+
 - Rearranged the package documentation to the top-level of the distribution.
   [hannosch]
 
