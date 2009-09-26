@@ -41,7 +41,7 @@ class CreateTranslation(BrowserView):
 
 
     def __call__(self):
-        status=IStatusMessage(self.request)
+        status = IStatusMessage(self.request)
         self._setCanonicalLanguage(self.context)
 
         newlang=self.request["newlanguage"]
@@ -50,8 +50,6 @@ class CreateTranslation(BrowserView):
         lt.setLanguageCookie(newlang)
 
         if self.context.hasTranslation(newlang):
-            state=getMultiAdapter((self.context, self.request),
-                                    name="plone_context_state")
             status.addStatusMessage(_(u"message_translation_exists",
                                         default=u"Translation already exists"),
                                     type="info")
@@ -60,7 +58,7 @@ class CreateTranslation(BrowserView):
             status.addStatusMessage(_(u"message_translation_created",
                                       default=u"Translation created."),
                                     type="info")
-        trans=self.context.getTranslation(newlang)
+        trans = self.context.getTranslation(newlang)
 
         return self.request.response.redirect(self.nextUrl(trans))
 
