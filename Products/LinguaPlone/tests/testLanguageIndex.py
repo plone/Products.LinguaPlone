@@ -243,7 +243,7 @@ class TestLanguageIndex(TestCase):
 
         # It doesn't get indexed because hash('abc') already exists
         # in the set at self.index._index['de'][None].
-        self.assertEqual(self.search('de', False), [0, 23])
+        self.assertEqual(self.search('de', False), [0])
 
         # While its unlikely to encounter the pathological sequence
         # in real life, the LanguageIndex still appears to be corruptible
