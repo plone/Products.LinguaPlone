@@ -4,6 +4,9 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Avoid a space after the language name in the selector.
+  [hannosch]
+
 - Modernized the code of the language index export import handler.
   [hannosch]
 

@@ -20,10 +20,10 @@
                                              alt python: name;
                                              title python: name;
                                              class python: selected and 'currentItem' or '';" />
-                    </tal:flag>
-                    <tal:nonflag condition="python:not showFlags or not flag"
-                                 replace="name">language name</tal:nonflag>
-                </a>&nbsp; 
+                    </tal:flag
+                    ><tal:nonflag condition="python:not showFlags or not flag"
+                                 replace="name">language name</tal:nonflag
+                    ></a>&nbsp;
         </li>
         </tal:language>
     </ul>
