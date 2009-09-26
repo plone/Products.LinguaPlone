@@ -4,6 +4,12 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Rearranged the package documentation to the top-level of the distribution.
+  [hannosch]
+
+- Added a buildout configuration to the package for stand-alone testing.
+  [hannosch]
+
 - Fixed bad spelling in status message in translate view.
   [hannosch]
 

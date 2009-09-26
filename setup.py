@@ -7,9 +7,9 @@ setup(name='Products.LinguaPlone',
       version=version,
       description="Manage and maintain multilingual content that integrates seamlessly with Plone.",
       long_description=".. contents::\n\n" +
-                        open(os.path.join("Products", "LinguaPlone", "README.txt")).read() + "\n" +
-                        open(os.path.join("Products", "LinguaPlone", "FAQ.txt")).read() + "\n" +
-                        open(os.path.join("Products", "LinguaPlone", "HISTORY.txt")).read(),
+                        open("README.txt").read() + "\n" +
+                        open(os.path.join("docs", "FAQ.txt")).read() + "\n" +
+                        open("CHANGES.txt").read(),
       classifiers=[
         "Environment :: Web Environment",
         "Framework :: Plone",
