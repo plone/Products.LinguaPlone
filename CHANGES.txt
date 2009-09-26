@@ -4,6 +4,9 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Modernized the code of the language index export import handler.
+  [hannosch]
+
 - Refactored common functionality of the catalog exportimport handlers. Added
   automatic reindexing for newly added indexes.
   [hannosch]

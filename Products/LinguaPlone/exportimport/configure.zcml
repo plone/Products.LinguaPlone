@@ -3,13 +3,7 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="linguaplone">
 
-  <adapter
-    factory=".LanguageIndex.LanguageIndexNodeAdapter"
-    provides="Products.GenericSetup.interfaces.INode"
-    for="Products.LinguaPlone.interfaces.ILanguageIndex
-         Products.GenericSetup.interfaces.ISetupEnviron"
-    />
-
+  <adapter factory=".LanguageIndex.LanguageIndexNodeAdapter" />
   <adapter factory=".reference.ReferenceCatalogXMLAdapter"/>
   <adapter factory=".uid.UIDCatalogXMLAdapter"/>
 
