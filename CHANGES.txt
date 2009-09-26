@@ -4,6 +4,9 @@ Changelog
 3.0b4 - Unreleased
 ------------------
 
+- Removed bogus license headers from Python files. All code is owned by the
+  Plone Foundation and licensed under the GPL.
+  [hannosch]
 
 3.0b3 - 2009-09-26
 ------------------
