@@ -85,8 +85,8 @@
         </h2>
 
         <tal:safety i18n:translate="description_not_canonical_safety">
-          For safety some actions can only be done on the canonical
-          language. This is not it.
+          For safety reasons some actions can only be performed on the
+          canonical language. This is not it.
         </tal:safety>
 
         <a href="#"
