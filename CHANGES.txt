@@ -4,6 +4,10 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Fixed a deprecation warning for the isRightToLeft script, which is used in
+  the translationbrower_popup.
+  [hannosch]
+
 - Removed the GlobalRequestPatch - it is no longer required.
   [hannosch]
 

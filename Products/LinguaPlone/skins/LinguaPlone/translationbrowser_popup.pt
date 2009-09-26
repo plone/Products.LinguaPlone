@@ -96,7 +96,7 @@
                      tal:define=    "portal here/portal_url/getPortalObject;
                                      putils nocall:portal/plone_utils;
                                      crumbs python:putils.createBreadCrumbs(here);
-                                     isRTL python:here.isRightToLeft(domain='plone');
+                                     isRTL context/@@plone_portal_state/is_rtl;
                                      parents request/PARENTS;
                                      nil python: parents.reverse();">
                                      
