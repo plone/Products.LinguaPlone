@@ -10,10 +10,7 @@ def AlreadyApplied(patch):
     return False
 
 
-# PATCH 2
-#
 # Patches the catalog tool to filter languages
-#
 def I18nAwareCatalog():
     if AlreadyApplied('I18nAwareCatalog'):
         return
@@ -61,32 +58,5 @@ def I18nAwareCatalog():
     CatalogTool.manage_catalogView = DTMLFile('www/catalogView',globals())
 
 
-# PATCH 3
-#
-# Patches kupu to allow a single portal type to be used as a resource
-# type
-#
-def PortalTypeAsResourceType():
-    if AlreadyApplied('PortalTypeAsResourceType'):
-        return
-
-    import Products.kupu.plone.plonedrawers
-
-    PREFIX = 'linguaplone-'
-    BaseResourceType = Products.kupu.plone.plonedrawers.ResourceType
-    class LinguaPloneResourceType(BaseResourceType):
-        def __init__(self, tool, name):
-            if name.startswith(PREFIX):
-                self.name = name
-                self._tool = tool
-                self._portal_types = name[len(PREFIX):].split(',')
-                self._field = self._widget = None
-            else:
-                BaseResourceType.__init__(self, tool, name)
-
-    Products.kupu.plone.plonedrawers.ResourceType = LinguaPloneResourceType
-
 if I18NAWARE_CATALOG:
     I18nAwareCatalog()
-
-PortalTypeAsResourceType()

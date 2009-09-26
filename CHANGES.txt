@@ -4,6 +4,10 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Removed the unmaintained support for using the Kupu reference browser in the
+  manage_translations_form.
+  [hannosch]
+
 - Fixed a deprecation warning for the isRightToLeft script, which is used in
   the translationbrower_popup.
   [hannosch]
