@@ -24,7 +24,7 @@ from plone.indexer.interfaces import IIndexableObjectWrapper
 
 class Dummy:
     implements(ITranslatable)
-    
+
     def __init__(self, cid, lang):
         self._cid = cid
         self._lang = lang
