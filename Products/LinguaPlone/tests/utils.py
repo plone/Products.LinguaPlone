@@ -1,8 +1,3 @@
-def setupGlobalRequest(request):
-    from ZPublisher import Publish
-    from thread import get_ident
-    Publish._requests[get_ident()] = request
-
 def makeContent(context, portal_type, id='doc', **kw):
     context.invokeFactory(portal_type, id, **kw)
     return getattr(context, id)

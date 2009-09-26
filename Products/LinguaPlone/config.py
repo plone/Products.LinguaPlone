@@ -13,9 +13,6 @@ RELATIONSHIP = 'translationOf'
 INSTALL_DEMO_TYPES = 0 ##Install the demo types
 DEBUG = 0  ## See debug messages
 
-# If true the global request patch should be applied.
-GLOBAL_REQUEST_PATCH = 1
-
 # With cache translations, getCanonical() and getTranslations() will be cached.
 # However, it might lead to read inconsistencies between threads and ZEO clients
 CACHE_CANONICAL = 0

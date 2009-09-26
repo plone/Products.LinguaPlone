@@ -23,7 +23,6 @@ profile_registry.registerProfile('LinguaPlone_tests',
 from Products.Five import fiveconfigure
 from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase import PloneTestCase
-from Products.LinguaPlone.tests import utils
 
 PORTAL_NAME = 'plone'
 
@@ -73,11 +72,6 @@ class LinguaPloneTestCase(PloneTestCase.PloneTestCase):
 
     def getPortal(self):
         return self.app[PORTAL_NAME]
-
-    def _setup(self):
-        # Transparently extend the base setup
-        PloneTestCase.PloneTestCase._setup(self)
-        utils.setupGlobalRequest(self.app.REQUEST)
 
     def addLanguage(self, language):
         self.portal.portal_languages.addSupportedLanguage(language)

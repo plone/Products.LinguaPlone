@@ -7,17 +7,10 @@ from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.CMFPlone.CatalogTool import CatalogTool
 from Products.LinguaPlone import config
 
-import Globals
 from Acquisition import aq_base
 
 
 class TestPatchesSetup(LinguaPloneTestCase.LinguaPloneTestCase):
-
-    def testRequestPatch(self):
-        if config.GLOBAL_REQUEST_PATCH:
-            self.failUnless(hasattr(Globals, 'get_request'))
-        else:
-            self.failIf(hasattr(Globals, 'get_request'))
 
     def testCatalogPatch(self):
         if config.I18NAWARE_CATALOG:

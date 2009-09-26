@@ -1,25 +1,3 @@
-# Copyright (C) 2004 Helge Tesdal <info@jarn.com>
-# Jarn AS http://www.jarn.com
-
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-"""
-Patches.
-"""
-
-from Products.LinguaPlone.config import GLOBAL_REQUEST_PATCH
 from Products.LinguaPlone.config import I18NAWARE_CATALOG
 from Products.LinguaPlone.config import NOFILTERKEYS
 
@@ -30,62 +8,6 @@ def AlreadyApplied(patch):
         return True
     _enabled.append(patch)
     return False
-
-
-# PATCH 1
-#
-# Makes REQUEST available from the Globals module.
-#
-# It's needed because context is not available in the __of__ method,
-# so we can't get REQUEST with acquisition. And we need REQUEST for
-# local properties (see LocalPropertyManager.pu).
-#
-# This patch was taken from Localizer (http://www.localizer.org)
-# so this software runs indepently of Localizer
-#
-# The patch is inspired in a similar patch by Tim McLaughlin, see
-# "http://dev.zope.org/Wikis/DevSite/Proposals/GlobalGetRequest".
-# Thanks Tim!!
-#
-def GlobalRequestPatch():
-    if AlreadyApplied('GlobalRequestPatch'):
-        return
-
-    import logging
-    from thread import get_ident
-    from ZPublisher import Publish
-    import Globals
-
-    logger = logging.getLogger("LinguaPlone")
-
-    def get_request():
-        """Get a request object"""
-        return Publish._requests.get(get_ident(), None)
-
-    def new_publish(request, module_name, after_list, debug=0):
-        id = get_ident()
-        Publish._requests[id] = request
-        x = Publish.old_publish(request, module_name, after_list, debug)
-        try:
-            del Publish._requests[id]
-        except KeyError:
-            # Some people has reported that sometimes a KeyError exception is
-            # raised in the previous line, I haven't been able to reproduce it.
-            # This try/except clause seems to work. I'd prefer to understand
-            # what is happening.
-            # MJ: this happens during conflicts; old_publish calls itself with 
-            # request.retry() as the new request.
-            # TODO: use zope.publisher.browser.setDefaultSkin and weak references
-            # instead to track requests.
-            logging.debug("The thread number %s doesn't have an associated request object." % id)
-        return x
-
-    if not hasattr(Globals, 'get_request'):
-        # Apply patch
-        Publish._requests = {}
-        Publish.old_publish = Publish.publish
-        Publish.publish = new_publish
-        Globals.get_request = get_request
 
 
 # PATCH 2
@@ -163,9 +85,6 @@ def PortalTypeAsResourceType():
                 BaseResourceType.__init__(self, tool, name)
 
     Products.kupu.plone.plonedrawers.ResourceType = LinguaPloneResourceType
-
-if GLOBAL_REQUEST_PATCH:
-    GlobalRequestPatch()
 
 if I18NAWARE_CATALOG:
     I18nAwareCatalog()
