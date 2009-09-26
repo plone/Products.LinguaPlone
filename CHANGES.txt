@@ -4,6 +4,11 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Restored the proper functionality of the change language function on the
+  manage_translations_form. This closes
+  http://plone.org/products/linguaplone/issues/215.
+  [hannosch]
+
 - Added a simple configuration option to hide the right column on the
   translation edit form and enable it by default.
   [hannosch]

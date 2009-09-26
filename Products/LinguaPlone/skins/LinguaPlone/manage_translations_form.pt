@@ -30,7 +30,7 @@
           method="post"
           action=""
           class="group"
-          tal:attributes="action string:${context/absolute_url}/@@translate">
+          tal:attributes="action here/absolute_url">
 
         <fieldset tal:define="content_language context/Language">
 
@@ -40,21 +40,11 @@
 
             <div class="field">
 
-                <input type="radio"
-                       class="noborder"
-                       id="change_neutral"
-                       name="newlanguage"
-                       value=""
-                       tal:attributes="checked not:content_language"
-                       />
-                <label for="change_neutral"
-                       i18n:translate="label_neutral">Neutral</label>
-
                 <div tal:repeat="lang untranslated_languages">
                     <input type="radio"
                            class="noborder"
                            id="language_code"
-                           name="newlanguage"
+                           name="language"
                            tal:attributes="value python:lang[0];
                                            id python:'change_' + lang[0];
                                            checked python:content_language == lang[0]"
@@ -70,6 +60,7 @@
             <div class="formControls">
                 <input class="context"
                        type="submit"
+                       name="changeLanguage:method"
                        i18n:attributes="value label_change_language;"
                        value="Change Language"
                        />
@@ -78,13 +69,14 @@
     </form>
 
     <tal:uncanonical condition="not:context/isCanonical">
+
         <h2 i18n:translate="header_not_canonical">
           Not the canonical language
         </h2>
 
         <tal:safety i18n:translate="description_not_canonical_safety">
-          For safety reasons some actions can only be performed on the
-          canonical language. This is not it.
+          For safety reasons some actions can only be performed on the canonical
+          language. This is not it.
         </tal:safety>
 
         <a href="#"
@@ -93,6 +85,7 @@
            i18n:translate="description_go_canonical_language">
           Go to the canonical language.
         </a>
+
     </tal:uncanonical>
 
     <tal:canonical condition="context/isCanonical">

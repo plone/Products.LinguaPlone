@@ -533,4 +533,3 @@ class LanguageIndependentFields(object):
     def copyFields(self, translation):
         for field in self.getFieldsToCopy(translation):
             self.copyField(field, translation)
-
