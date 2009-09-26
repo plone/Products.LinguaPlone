@@ -4,6 +4,9 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Turn on the content language negotiator by default.
+  [hannosch]
+
 - Avoid a space after the language name in the selector.
   [hannosch]
 
