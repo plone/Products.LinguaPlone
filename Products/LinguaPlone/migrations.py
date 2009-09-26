@@ -1,6 +1,16 @@
 import logging
 
+from plone.i18n.locales.interfaces import IContentLanguageAvailability
+from plone.i18n.locales.interfaces import IMetadataLanguageAvailability
+from plone.app.i18n.locales.languages import ContentLanguages
+from plone.app.i18n.locales.languages import MetadataLanguages
+from zope.component import getSiteManager
+
+from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
+
+from Products.LinguaPlone.vocabulary import SyncedLanguages
+
 
 def remove_old_import_step(context):
     # context is portal_setup which is nice
@@ -44,3 +54,30 @@ def add_uid_language_index(context):
             log.info("Updating UID catalog...")
             tool.reindexIndex('Language', None)
             log.info("UID catalog updated.")
+
+
+def add_synced_vocabularies(context):
+    log = logging.getLogger("LinguaPlone")
+    site = getSiteManager(context=context)
+
+    util = site.queryUtility(IContentLanguageAvailability)
+    if util is not None:
+        if not isinstance(util, SyncedLanguages):
+            if isinstance(aq_base(util), ContentLanguages):
+                site.unregisterUtility(component=aq_base(util),
+                    provided=IContentLanguageAvailability)
+                del util
+                site.registerUtility(component=SyncedLanguages(),
+                    provided=IContentLanguageAvailability)
+                log.info("Converted content language vocabulary.")
+
+    util = site.queryUtility(IMetadataLanguageAvailability)
+    if util is not None:
+        if not isinstance(util, SyncedLanguages):
+            if isinstance(aq_base(util), MetadataLanguages):
+                site.unregisterUtility(component=aq_base(util),
+                    provided=IMetadataLanguageAvailability)
+                del util
+                site.registerUtility(component=SyncedLanguages(),
+                    provided=IMetadataLanguageAvailability)
+                log.info("Converted metadata language vocabulary.")

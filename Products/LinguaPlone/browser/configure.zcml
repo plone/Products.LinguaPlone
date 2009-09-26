@@ -34,6 +34,11 @@
     permission="cmf.AddPortalContent" />
 
   <utility
+    component=".vocabularies.AllContentLanguageVocabularyFactory"
+    name="LinguaPlone.vocabularies.AllContentLanguageVocabulary"
+    />
+
+  <utility
     component=".vocabularies.UntranslatedLanguagesVocabularyFactory"
     name="LinguaPlone.vocabularies.UntranslatedLanguages"
     />

@@ -60,3 +60,18 @@ def I18nAwareCatalog():
 
 if I18NAWARE_CATALOG:
     I18nAwareCatalog()
+
+
+# Make sure the addSupportedLanguage method works without checking the
+# vocabularies
+from Products.PloneLanguageTool import LanguageTool
+
+def new_addSupportedLanguage(self, langCode):
+    """Registers a language code as supported."""
+    value = str(langCode)
+    languages = [str(l) for l in self.supported_langs]
+    if value not in languages:
+        languages.append(value)
+    self.supported_langs = languages
+
+LanguageTool.addSupportedLanguage = new_addSupportedLanguage

@@ -4,6 +4,11 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Added a new synchronized language vocabulary and use it for the content and
+  metadata language availability. This restricts the languages in the common
+  language widgets to the set of the supported languages of the site.
+  [hannosch]
+
 - Removed the unmaintained support for using the Kupu reference browser in the
   manage_translations_form.
   [hannosch]

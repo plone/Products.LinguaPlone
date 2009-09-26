@@ -7,6 +7,7 @@
   <include package="plone.browserlayer" />
   <include package=".browser"/>
   <include package=".exportimport"/>
+  <include file="upgrades.zcml"/>
 
   <adapter factory=".utils.LocateTranslation" />
   <adapter factory=".utils.TranslationFactory" />
@@ -29,29 +30,5 @@
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-
-  <genericsetup:upgradeStep
-      title="Remove LinguaPlone import step"
-      description="Remove linguaplone_various import step from import registry."
-      source="2.0"
-      destination="2.1"
-      handler="Products.LinguaPlone.migrations.remove_old_import_step"
-      profile="Products.LinguaPlone:LinguaPlone" />
-
-  <genericsetup:upgradeStep
-      title="LinguaPlone specific reference enhancements"
-      description="Add Language as metadata to the reference catalog."
-      source="2.4"
-      destination="3"
-      handler="Products.LinguaPlone.migrations.add_language_metadata"
-      profile="Products.LinguaPlone:LinguaPlone" />
-
-  <genericsetup:upgradeStep
-      title="LinguaPlone specific uid enhancements"
-      description="Add Language as an index to the uid catalog."
-      source="2.4"
-      destination="3"
-      handler="Products.LinguaPlone.migrations.add_uid_language_index"
-      profile="Products.LinguaPlone:LinguaPlone" />
 
 </configure>
