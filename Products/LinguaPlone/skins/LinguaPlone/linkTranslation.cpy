@@ -6,6 +6,13 @@ from Products.CMFPlone.utils import safe_unicode
 
 REQUEST = context.REQUEST
 
+if link_content in (None, ''):
+    message = context.translate(msgid='message_content_not_found',
+                                default="Translation content not found.",
+                                domain='linguaplone')
+    context.plone_utils.addPortalMessage(message, 'error')
+    return state.set(status='failure')
+
 translation = context.reference_catalog.lookupObject(link_content)
 
 if translation is None:

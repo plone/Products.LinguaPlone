@@ -4,6 +4,11 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- If no item was selected in the link translations form, a random item was
+  selected in the form handler. Thanks to Ichim Tiberiu for the patch. This
+  closes http://plone.org/products/linguaplone/issues/204.
+  [hannosch]
+
 - Restored the proper functionality of the change language function on the
   manage_translations_form. This closes
   http://plone.org/products/linguaplone/issues/215.
