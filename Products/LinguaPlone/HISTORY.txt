@@ -4,6 +4,9 @@ Changelog
 3.0b3 - Unreleased
 ------------------
 
+- Fixed bad spelling in status message in translate view.
+  [hannosch]
+
 - Make sure to use the native language name in the language selector in the
   same way Plone itself does this.
   [hannosch]

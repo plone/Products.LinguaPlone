@@ -58,7 +58,7 @@ class CreateTranslation(BrowserView):
         else:
             self.context.addTranslation(newlang)
             status.addStatusMessage(_(u"message_translation_created",
-                                      default=u"Translated created."),
+                                      default=u"Translation created."),
                                     type="info")
         trans=self.context.getTranslation(newlang)
 
