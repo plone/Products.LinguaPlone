@@ -69,10 +69,6 @@ class TestCustomAccessors(LinguaPloneTestCase.LinguaPloneTestCase):
 
     # Do custom accessors work?
 
-    def afterSetUp(self):
-        # Speed things up
-        self.portal._delObject('portal_catalog')
-
     def testLanguageDependentCustomAccessor(self):
         english = makeContent(self.folder, 'SimpleType', 'doc')
         english.setLanguage('en')

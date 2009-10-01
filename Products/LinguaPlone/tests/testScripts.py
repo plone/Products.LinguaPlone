@@ -14,8 +14,6 @@ class TestLanguageLists(LinguaPloneTestCase.LinguaPloneTestCase):
         self.addLanguage('fr')
         self.addLanguage('es')
         self.setLanguage('en')
-        # Speed things up
-        self.portal._delObject('portal_catalog')
         self.english = makeContent(self.folder, 'SimpleType', 'doc')
         self.english.setLanguage('en')
 

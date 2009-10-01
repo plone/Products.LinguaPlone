@@ -15,8 +15,6 @@ class TestDeleteTranslations(LinguaPloneTestCase.LinguaPloneTestCase):
     def afterSetUp(self):
         self.addLanguage('de')
         self.setLanguage('en')
-        # Speed things up
-        self.portal._delObject('portal_catalog')
         self.english = makeContent(self.folder, 'SimpleType', 'doc')
         self.english.setLanguage('en')
 
@@ -38,8 +36,6 @@ class TestCanonicalProtection(LinguaPloneTestCase.LinguaPloneTestCase):
     def afterSetUp(self):
         self.addLanguage('de')
         self.setLanguage('en')
-        # Speed things up
-        self.portal._delObject('portal_catalog')
 
     def testDeleteCanonicalWithTranslations(self):
         # Must delete translations first

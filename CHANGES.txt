@@ -4,6 +4,9 @@ Changelog
 3.0b4 - Unreleased
 ------------------
 
+- Removed dubious performance optimization in tests. Don't delete the catalog.
+  [hannosch]
+
 - Removed bogus license headers from Python files. All code is owned by the
   Plone Foundation and licensed under the GPL.
   [hannosch]

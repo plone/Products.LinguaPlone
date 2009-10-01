@@ -15,8 +15,6 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
     def afterSetUp(self):
         self.addLanguage('de')
         self.setLanguage('en')
-        # Speed things up
-        self.portal._delObject('portal_catalog')
 
     def testLanguageIndependentField(self):
         english = makeContent(self.folder, 'SimpleType', 'doc')
