@@ -317,16 +317,16 @@ class TestProcessFormRename(LinguaPloneTestCase.LinguaPloneTestCase):
         self.english.processForm(values={'title':'Not Second'})
         self.assertEqual(self.english.getId(), 'only-first')
 
-    def testProcessFormRenameTranslation(self):
+    def testProcessFormDoesNotRenameTranslation(self):
         transaction.savepoint(optimistic=True)
-        self.german.processForm(values={'title':'Renamed Too'})
-        self.assertEqual(self.german.getId(), 'renamed-too')
+        self.german.processForm(values={'title' : 'Renamed Too'})
+        self.assertEqual(self.german.getId(), 'doc-de')
 
-    def testProcessFormRenameTranslationOnlyFirstTime(self):
+    def testProcessFormRenameTranslationWithId(self):
         transaction.savepoint(optimistic=True)
-        self.german.processForm(values={'title':'Only First'})
-        self.german.processForm(values={'title':'Not Second'})
-        self.assertEqual(self.german.getId(), 'only-first')
+        self.german.processForm(values={'id':'explicit-id'})
+        self.german.processForm(values={'title':'But not Title'})
+        self.assertEqual(self.german.getId(), 'explicit-id')
 
 
 def test_suite():

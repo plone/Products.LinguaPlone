@@ -71,7 +71,7 @@ class TestDynamicFolderProcessForm(LinguaPloneTestCase.LinguaPloneTestCase):
         self.folder_en.setDefaultPage(self.english.getId())
         self.portuguese = makeTranslation(self.english, 'pt')
         transaction.savepoint(optimistic=True)
-        self.portuguese.processForm(values={'title': 'Foo'})
+        self.portuguese.processForm(values={'id' : 'foo', 'title' : 'Foo'})
         self.folder_pt = self.folder_en.getTranslation('pt')
 
     def testCreatedNewFolder(self):

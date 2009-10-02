@@ -4,6 +4,10 @@ Changelog
 3.0b4 - Unreleased
 ------------------
 
+- LinguaPlone didn't allow manual editing of IDs. Thanks to David Hostetler
+  for the patch. This closes http://plone.org/products/linguaplone/issues/70.
+  [hannosch]
+
 - Removed dubious performance optimization in tests. Don't delete the catalog.
   [hannosch]
 

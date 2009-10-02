@@ -13,10 +13,10 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.DynamicType import DynamicType
 
 from Products.Archetypes.atapi import BaseObject
-from Products.Archetypes.utils import shasattr
 from Products.Archetypes.config import LANGUAGE_DEFAULT
 from Products.Archetypes.config import REFERENCE_CATALOG
 from Products.Archetypes.config import UID_CATALOG
+from Products.Archetypes.utils import shasattr
 
 from Products.LinguaPlone import events
 from Products.LinguaPlone import config
@@ -25,6 +25,8 @@ from Products.LinguaPlone.interfaces import ILocateTranslation
 from Products.LinguaPlone.interfaces import ITranslationFactory
 from Products.LinguaPlone.interfaces import ITranslatable
 from Products.CMFDynamicViewFTI.interface import ISelectableBrowserDefault
+
+_marker = object()
 
 
 class AlreadyTranslated(Exception):
@@ -320,20 +322,16 @@ class I18NBaseObject(Implicit):
     security.declareProtected(permissions.ModifyPortalContent, 'processForm')
     def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
         """Process the schema looking for data in the form."""
-        is_new_object = self.checkCreationFlag()
-        
-        BaseObject.processForm(self, data, metadata, REQUEST, values)
+        BaseObject.processForm(self, data=data, metadata=metadata,
+                               REQUEST=REQUEST, values=values)
+        # LP specific bits
         if config.AUTO_NOTIFY_CANONICAL_UPDATE:
             if self.isCanonical():
                 self.invalidateTranslations()
 
-        if self._at_rename_after_creation and is_new_object:
-            new_id = self._renameAfterCreation()
-
         if shasattr(self, '_lp_default_page'):
             delattr(self, '_lp_default_page')
             language = self.Language()
-            canonical = self.getCanonical()
             parent = aq_parent(aq_inner(self))
             if ITranslatable.providedBy(parent):
                 if not parent.hasTranslation(language):
@@ -345,9 +343,8 @@ class I18NBaseObject(Implicit):
                     parent = translation_parent
 
                 if ISelectableBrowserDefault.providedBy(parent):
-                    parent.setDefaultPage(new_id)
+                    parent.setDefaultPage(self.getId())
 
-            
         if shasattr(self, '_lp_outdated'):
             delattr(self, '_lp_outdated')
 
