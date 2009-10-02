@@ -4,6 +4,15 @@ Changelog
 3.0b4 - Unreleased
 ------------------
 
+- Fixed a serious bug that showed itself with multi valued reference fields and
+  archetypes.referencebrowserwidget. Since we render language independent
+  fields on the translate_item view in view mode, their data wasn't part of the
+  request anymore. Omitting a field from the request is considered equivalent
+  to "delete all" by processForm. We now override _processForm to ignore
+  language independent fields in processForm on canonical items. This also
+  gives a bit of a speed advantage.
+  [hannosch]
+
 - LinguaPlone didn't allow manual editing of IDs. Thanks to David Hostetler
   for the patch. This closes http://plone.org/products/linguaplone/issues/70.
   [hannosch]

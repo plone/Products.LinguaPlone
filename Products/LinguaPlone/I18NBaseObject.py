@@ -16,6 +16,8 @@ from Products.Archetypes.atapi import BaseObject
 from Products.Archetypes.config import LANGUAGE_DEFAULT
 from Products.Archetypes.config import REFERENCE_CATALOG
 from Products.Archetypes.config import UID_CATALOG
+from Products.Archetypes.interfaces import IMultiPageSchema
+from Products.Archetypes.utils import mapply
 from Products.Archetypes.utils import shasattr
 
 from Products.LinguaPlone import events
@@ -318,6 +320,80 @@ class I18NBaseObject(Implicit):
                 return language_tool.getPreferredLanguage()
         else:
             return LANGUAGE_DEFAULT
+
+    security.declarePrivate('_processForm')
+    def _processForm(self, data=1, metadata=None, REQUEST=None, values=None):
+        request = REQUEST or self.REQUEST
+        if values:
+            form = values
+        else:
+            form = request.form
+        fieldset = form.get('fieldset', None)
+        schema = self.Schema()
+        schemata = self.Schemata()
+        fields = []
+
+        if not IMultiPageSchema.providedBy(self):
+            fields = schema.fields()
+        elif fieldset is not None:
+            fields = schemata[fieldset].fields()
+        else:
+            if data:
+                fields += schema.filterFields(isMetadata=0)
+            if metadata:
+                fields += schema.filterFields(isMetadata=1)
+
+        canonical = self.isCanonical()
+        for field in fields:
+            if not canonical:
+                # On non-canonical items the translate screen shows language
+                # independent fields in view mode. This means the form will not
+                # contain their data. The contract for processForm is that missing
+                # fields can be interpreted as "delete all". We need to avoid this
+                # for LP or we might accidentally delete data.
+                if getattr(field, 'languageIndependent', False):
+                    continue
+
+            # Delegate to the widget for processing of the form
+            # element.  This means that if the widget needs _n_
+            # fields under a naming convention it can handle this
+            # internally.  The calling API is process_form(instance,
+            # field, form) where instance should rarely be needed,
+            # field is the field object and form is the dict. of
+            # kv_pairs from the REQUEST
+            #
+            # The product of the widgets processing should be:
+            #   (value, **kwargs) which will be passed to the mutator
+            #   or None which will simply pass
+
+            if not field.writeable(self):
+                # If the field has no 'w' in mode, or the user doesn't
+                # have the required permission, or the mutator doesn't
+                # exist just bail out.
+                continue
+
+            try:
+                # Pass validating=False to inform the widget that we
+                # aren't in the validation phase, IOW, the returned
+                # data will be forwarded to the storage
+                result = field.widget.process_form(self, field, form,
+                                                   empty_marker=_marker,
+                                                   validating=False)
+            except TypeError:
+                # Support for old-style process_form methods
+                result = field.widget.process_form(self, field, form,
+                                                   empty_marker=_marker)
+
+            if result is _marker or result is None:
+                continue
+
+            # Set things by calling the mutator
+            mutator = field.getMutator(self)
+            __traceback_info__ = (self, field, mutator)
+            result[1]['field'] = field.__name__
+            mapply(mutator, result[0], **result[1])
+
+        self.reindexObject()
 
     security.declareProtected(permissions.ModifyPortalContent, 'processForm')
     def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
