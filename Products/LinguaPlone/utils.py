@@ -120,16 +120,16 @@ class Generator(ATGenerator):
                     # special handling of at-references start here
                     lang = t.Language()
                     translated_value = None                    
-                    if isinstance(value, (list, tuple)):
-                        # multi valued
+                    if field.multiValued:
+                        if isinstance(value, basestring):
+                            value = [value] 
                         translated_value = [_translatedOfUID(refcat, u, lang) 
                                             for u in value if u]
                     else:
                         # single valued
                         translated_value = _translatedOfUID(refcat, value, lang)
-                    if translated_value != value:
-                        translationMethod = getattr(t, translationMethodName)
-                        res = translationMethod(translated_value, **kw)                
+                    translationMethod = getattr(t, translationMethodName)
+                    res = translationMethod(translated_value, **kw)                
                 return res
             # end of "def generatedMutator"
             method = generatedMutator
