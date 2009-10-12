@@ -1,7 +1,7 @@
-#
 # Language Independent Tests
 #
 
+from Products.LinguaPlone.interfaces import ITranslatable
 from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.LinguaPlone.tests import dummy
 from Products.LinguaPlone.tests.utils import makeContent
@@ -146,6 +146,19 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         target2.setLanguage('en')
         target2_german = makeTranslation(target2, 'de')
 
+        # untranslated target
+        target3 = makeContent(self.folder, 'SimpleType', 'target3')
+        target3.setLanguage('en')
+        
+        # targets with different language than sources
+        target4 = makeContent(self.folder, 'SimpleType', 'target4')
+        target4.setLanguage('fr')
+        target4_italian = makeTranslation(target4, 'it')
+        
+        # untranslatable target (non-LP aware)
+        target5 = makeContent(self.folder, 'UntranslatableType', 'target5')
+        self.assertEqual(ITranslatable.providedBy(target5), False)
+
         # Test single valued
         english.setReferenceMulti(target.UID())
         self.assertEqual(english.getReferenceMulti()[0].UID(),target.UID())
@@ -158,6 +171,48 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
             set([target, target2]))
         self.assertEqual(set(german.getReferenceMulti()),
             set([target_german, target2_german]))
+        
+        # test reduce references
+        english.setReferenceMulti([target.UID()])
+        self.assertEqual(len(english.getReferenceMulti()), 1)
+
+        # test delete references
+        english.setReferenceMulti([])
+        self.assertEqual(len(english.getReferenceMulti()), 0)
+        
+        # test with untranslated target, german points to only canonical target
+        english.setReferenceMulti([target3.UID()])
+        self.assertEqual(english.getReferenceMulti()[0].UID(), target3.UID())
+        self.assertEqual(german.getReferenceMulti()[0].UID(), target3.UID())
+        
+        # test with an untranslatable target
+        english.setReferenceMulti([target5.UID()])
+        self.assertEqual(english.getReferenceMulti()[0].UID(), target5.UID())
+        self.assertEqual(german.getReferenceMulti()[0].UID(), target5.UID())
+
+        # test with untranslatable and translatable mixed targets
+        english.setReferenceMulti([target.UID(), target5.UID()])
+        self.assertEqual(set(english.getReferenceMulti()),
+            set([target, target5]))
+        self.assertEqual(set(german.getReferenceMulti()),
+            set([target_german, target5]))
+        
+        # test remove translatable from the list
+        english.setReferenceMulti([target5.UID()])
+        self.assertEqual(english.getReferenceMulti()[0].UID(), target5.UID())
+        self.assertEqual(german.getReferenceMulti()[0].UID(), target5.UID())
+
+        # test with different language on targets, "fr" is canonical
+        english.setReferenceMulti([target4.UID()])
+        self.assertEqual(english.getReferenceMulti()[0].UID(), target4.UID())
+        self.assertEqual(german.getReferenceMulti()[0].UID(), target4.UID())
+        
+        # after adding an italian content, it must point to italian target
+        italian = makeTranslation(english, 'it')
+        self.assertEqual(italian.getReferenceMulti()[0].UID(), 
+                         target4_italian.UID())
+        
+        
 
     def testBaseSchemaSetup(self):
         schema = dummy.SimpleType.schema
