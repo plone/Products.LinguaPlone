@@ -1,12 +1,12 @@
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-
 from zope.interface import implements
 from zope.component import adapts
 from types import FunctionType as function
 
 from plone.locking.interfaces import ILockable
 from plone.app.layout.navigation.defaultpage import isDefaultPage
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import _createObjectByType
 
 # Method generation for ITranslatable content with language independent fields
@@ -14,6 +14,7 @@ from Products.Archetypes.ClassGen import GeneratorError, _modes
 from Products.Archetypes.ClassGen import Generator as ATGenerator
 from Products.Archetypes.ClassGen import ClassGenerator as ATClassGenerator
 from Products.Archetypes.ArchetypeTool import registerType as registerATType
+from Products.Archetypes.config import REFERENCE_CATALOG
 
 from Products.LinguaPlone.config import KWARGS_TRANSLATION_KEY
 from Products.LinguaPlone.config import RELATIONSHIP
@@ -32,6 +33,20 @@ _modes.update({
             },
 })
 
+def _translatedOfUID(refcat, sUID, language):
+    """The UID of the translation language of the object with given sUID.""" 
+    sobj = refcat.lookupObject(sUID)
+    if not sobj:
+        raise ValueError, "Invalid source UID given"
+    tuid = sUID
+    if ITranslatable.providedBy(sobj):
+        tobj = sobj.getTranslation(language)
+        if tobj:
+            tuid = tobj.UID()
+        else:
+            canonical = sobj.getCanonical()
+            tuid = canonical.UID()
+    return tuid    
 
 class Generator(ATGenerator):
     """Generates methods for language independent fields."""
@@ -63,61 +78,60 @@ class Generator(ATGenerator):
             # the generatedMutator doesn't actually mutate, but calls a
             # translation mutator on all translations, including self.
             def generatedMutator(self, value, **kw):
-                """Default Mutator."""
+                """LinguaPlone Default Mutator."""
                 if kw.has_key('schema'):
                     schema = kw['schema']
                 else:
                     schema = self.Schema()
                     kw['schema'] = schema
-                # translationMethodName is always present, as it is set in the generator
-                translationMethodName = getattr(getattr(self, schema[name].mutator, None), '_lp_mutator', None)
+                # translationMethodName is always present, as it is set in the 
+                # generator as a method on the mutator method, which is this 
+                # method :-/
+                mutator = getattr(self, schema[name].mutator, None)
+                translationMethodName = getattr(mutator, '_lp_mutator', None)
                 if translationMethodName is None: # Houston, we have a problem
                     return schema[name].set(self, value, **kw)
-                # Instead of additional classgen magic, we check the language independent
+                # Instead of additional classgen magic below, we check the  
+                # languageIndependent property and have a shortcut for the
+                # language dependent fields
                 if not schema[name].languageIndependent:
+                    # Look up the actual mutator and delegate to it.
                     return getattr(self, translationMethodName)(value, **kw)
-                # Look up the actual mutator and delegate to it.
+                # get all translations including self
                 translations = [t[0] for t in \
                                 hasattr(self, 'getTranslations') and \
                                 self.getTranslations().values() or []]
-                # reverse to return the result of the canonical mutator
+                # reverse to return the result of the canonical mutator 
                 translations.reverse()
+                refcat = getToolByName(self, REFERENCE_CATALOG)
                 res = None
                 for t in translations:
-                    # Only copy fields thast exist in the destination schema
-                    schema = t.Schema()
-                    if name in schema:
-                        field = schema[name]
-                        if type(field) in I18NAWARE_REFERENCE_FIELDS:
-                            language = t.Language()
-                            res = getattr(t, translationMethodName)(value, **kw)
-                            targets = field.get(t)
-                            if targets is None:
-                                res = None
-                            elif isinstance(targets, (list, tuple)):
-                                # multi valued
-                                target_uids = []
-                                for target in targets:
-                                    # Check for empty value
-                                    if target:
-                                        try:
-                                            target_uids.append(target.getTranslation(language).UID())
-                                        except AttributeError, e:
-                                            pass
-                                if target_uids and target_uids != value:
-                                    res = getattr(t, translationMethodName)(target_uids, **kw)
-                            else:
-                                # single valued
-                                target_uid = None
-                                try:
-                                    target_uid = targets.getTranslation(language).UID()
-                                except AttributeError, e:
-                                    pass
-                                if target_uid is not None and target_uid != value:
-                                    res = getattr(t, translationMethodName)(target_uid, **kw)
-                        else:
-                            res = getattr(t, translationMethodName)(value, **kw)
+                    schema = t.Schema()                    
+                    if name not in schema:
+                        # don't copy fields not existing in destination schema
+                        continue                    
+                    field = schema[name]
+                    if type(field) not in I18NAWARE_REFERENCE_FIELDS:
+                        # This is a "normal" field:
+                        # Look up the actual mutator and delegate to it.
+                        res = getattr(t, translationMethodName)(value, **kw)
+                        continue
+                    # Some kind of reference field:
+                    # special handling of at-references start here
+                    lang = t.Language()
+                    translated_value = None                    
+                    if isinstance(value, (list, tuple)):
+                        # multi valued
+                        translated_value = [_translatedOfUID(refcat, u, lang) 
+                                            for u in value if u]
+                    else:
+                        # single valued
+                        translated_value = _translatedOfUID(refcat, value, lang)
+                    if translated_value != value:
+                        translationMethod = getattr(t, translationMethodName)
+                        res = translationMethod(translated_value, **kw)                
                 return res
+            # end of "def generatedMutator"
             method = generatedMutator
         elif mode == "t":
             # The translation mutator that changes data
@@ -248,7 +262,8 @@ generateMethods = _cg.generateMethods
 
 
 def registerType(klass, package=None):
-    """Overrides the AT registerType to enable method generation for language independent fields"""
+    """Overrides the AT registerType to enable method generation for language 
+    independent fields"""
     # Generate methods for language independent fields
     generateClass(klass)
 
@@ -270,7 +285,8 @@ def add%(name)s(self, id, **kwargs):
     if canonical is not None:
         o.addReference(canonical, '%(RELATIONSHIP)s')
     return o.getId()
-""" % {'name':name, 'KWARGS_TRANSLATION_KEY':KWARGS_TRANSLATION_KEY, 'RELATIONSHIP':RELATIONSHIP}
+""" % {'name':name, 'KWARGS_TRANSLATION_KEY':KWARGS_TRANSLATION_KEY, 
+       'RELATIONSHIP':RELATIONSHIP}
 
     exec ctor in module.__dict__
     return getattr(module, 'add%s' % name)
@@ -279,7 +295,8 @@ def add%(name)s(self, id, **kwargs):
 # Exact copy of ArchetypeTool.process_type, but with new generateCtor
 import sys
 from copy import deepcopy
-from Products.Archetypes.ArchetypeTool import base_factory_type_information, modify_fti
+from Products.Archetypes.ArchetypeTool import base_factory_type_information
+from Products.Archetypes.ArchetypeTool import modify_fti
 def process_types(types, pkg_name):
     content_types = ()
     constructors  = ()
@@ -451,7 +468,8 @@ class TranslationFactory(object):
             moveids = []
             for obj in context.objectValues():
                 translator = ITranslatable(obj, None)
-                if translator is not None and translator.getLanguage() == language:
+                if translator is not None \
+                   and translator.getLanguage() == language:
                     lockable = ILockable(obj, None)
                     if lockable is not None and lockable.can_safely_unlock():
                         lockable.unlock()
@@ -480,7 +498,8 @@ class LanguageIndependentFields(object):
         return schema.filterFields(languageIndependent=True)
 
 
-    def getFieldsToCopy(self, translation, source_schema=None, dest_schema=None):
+    def getFieldsToCopy(self, translation, source_schema=None, 
+                        dest_schema=None):
         # Only copy fields that exist in the destination schema.
         if source_schema is None:
             source_schema = self.context.Schema()

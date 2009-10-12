@@ -4,6 +4,12 @@ Changelog
 3.0b5 - Unreleased
 ------------------
 
+- Fixed the whole references handling. Prior it used the saved references for
+  synchronization, with the effect of ignoring new refs. Now it uses actually
+  the given new values and looks up them. It deals now with partly translated 
+  targets and non-translatable targets. Also I cleaned up this part of the
+  code. 
+  [jensens]
 
 3.0b4 - 2009-10-02
 ------------------
