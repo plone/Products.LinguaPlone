@@ -125,8 +125,8 @@ class Generator(ATGenerator):
                             value = [value]
                         translated_value = [_translatedOfUID(refcat, u, lang)
                                             for u in value if u]
-                    else:
-                        # single valued
+                    elif value is not None:
+                        # single valued and none empty
                         translated_value = _translatedOfUID(refcat, value, lang)
                     translationMethod = getattr(t, translationMethodName)
                     res = translationMethod(translated_value, **kw)
