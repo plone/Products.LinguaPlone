@@ -491,12 +491,10 @@ class LanguageIndependentFields(object):
     def __init__(self, context):
         self.context = context
 
-
     def getFields(self, schema=None):
         if schema is None:
             schema = self.context.Schema()
         return schema.filterFields(languageIndependent=True)
-
 
     def getFieldsToCopy(self, translation, source_schema=None,
                         dest_schema=None):
@@ -508,7 +506,6 @@ class LanguageIndependentFields(object):
         fields = self.getFields(source_schema)
         return [x for x in fields if x.getName() in dest_schema]
 
-
     def copyField(self, field, translation):
         accessor = field.getEditAccessor(self.context)
         if not accessor:
@@ -517,16 +514,7 @@ class LanguageIndependentFields(object):
             data = accessor()
         else:
             data = field.get(self.context)
-        mutatorname = getattr(field, 'translation_mutator', None)
-        if mutatorname is None:
-            # We have a field from archetypes.schemaextender or something
-            # else not using ClassGen. Fall back to default mutator.
-            translation.getField(field.getName()).set(translation, data)
-        else:
-            # Holy ClassGen crap - we have a generated method!
-            translation_mutator = getattr(translation, mutatorname)
-            translation_mutator(data)
-
+        field.getMutator(translation)(data)
 
     def copyFields(self, translation):
         for field in self.getFieldsToCopy(translation):

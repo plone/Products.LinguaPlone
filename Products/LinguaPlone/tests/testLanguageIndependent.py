@@ -14,6 +14,8 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')
+        self.addLanguage('fr')
+        self.addLanguage('it')
         self.setLanguage('en')
 
     def testLanguageIndependentField(self):

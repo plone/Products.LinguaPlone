@@ -4,6 +4,11 @@ Changelog
 3.0b5 - Unreleased
 ------------------
 
+- Fixed a bug in the LanguageIndependentFields adapter. It did a whole lot of
+  magic to be LinguaPlone aware, just to miss the whole point. Simple is
+  sometimes better. This fixes the last reference handling test failure.
+  [hannosch]
+
 - Fixed the whole references handling. Prior it used the saved references for
   synchronization, with the effect of ignoring new refs. Now it uses actually
   the given new values and looks up them. It deals now with partly translated 
