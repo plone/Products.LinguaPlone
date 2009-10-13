@@ -11,9 +11,9 @@ Changelog
 
 - Fixed the whole references handling. Prior it used the saved references for
   synchronization, with the effect of ignoring new refs. Now it uses actually
-  the given new values and looks up them. It deals now with partly translated 
+  the given new values and looks up them. It deals now with partly translated
   targets and non-translatable targets. Also I cleaned up this part of the
-  code. 
+  code.
   [jensens]
 
 3.0b4 - 2009-10-02
@@ -289,7 +289,7 @@ Changelog
   [wichert]
 
 - Refactor addTranslation: introduce adapters to determine where
-  a translation should be created and to create the translation. 
+  a translation should be created and to create the translation.
   [wichert]
 
 - Add path filter in catalog view, like the non-LP version has.
@@ -389,7 +389,7 @@ Changelog
 
 - Dont depend on Quickinstaller at setup time and in browsermenu.
   [jensens]
-  
+
 - Minor GenericSetup cleanup
   [jensens]
 
@@ -401,7 +401,7 @@ Changelog
   This will automatically install it in Plone 3.1.
   [wichert]
 
-- Better unlink handling. This fixes 
+- Better unlink handling. This fixes
   http://plone.org/products/linguaplone/issues/127
   [wichert]
 
@@ -535,7 +535,7 @@ Changelog
 - Fix LanguageIndex to run on python 2.3.
   [wichert]
 
-- Fix language selector to not go the the login screen if one of the 
+- Fix language selector to not go the the login screen if one of the
   translations is not accessible (i.e. in "private" state)
   [fschulze, godchap]
 
