@@ -34,7 +34,7 @@ _modes.update({
 })
 
 def _translatedOfUID(refcat, sUID, language):
-    """The UID of the translation language of the object with given sUID.""" 
+    """The UID of the translation language of the object with given sUID."""
     sobj = refcat.lookupObject(sUID)
     if not sobj:
         raise ValueError, "Invalid source UID given"
@@ -46,7 +46,7 @@ def _translatedOfUID(refcat, sUID, language):
         else:
             canonical = sobj.getCanonical()
             tuid = canonical.UID()
-    return tuid    
+    return tuid
 
 class Generator(ATGenerator):
     """Generates methods for language independent fields."""
@@ -84,14 +84,14 @@ class Generator(ATGenerator):
                 else:
                     schema = self.Schema()
                     kw['schema'] = schema
-                # translationMethodName is always present, as it is set in the 
-                # generator as a method on the mutator method, which is this 
+                # translationMethodName is always present, as it is set in the
+                # generator as a method on the mutator method, which is this
                 # method :-/
                 mutator = getattr(self, schema[name].mutator, None)
                 translationMethodName = getattr(mutator, '_lp_mutator', None)
                 if translationMethodName is None: # Houston, we have a problem
                     return schema[name].set(self, value, **kw)
-                # Instead of additional classgen magic below, we check the  
+                # Instead of additional classgen magic below, we check the
                 # languageIndependent property and have a shortcut for the
                 # language dependent fields
                 if not schema[name].languageIndependent:
@@ -101,15 +101,15 @@ class Generator(ATGenerator):
                 translations = [t[0] for t in \
                                 hasattr(self, 'getTranslations') and \
                                 self.getTranslations().values() or []]
-                # reverse to return the result of the canonical mutator 
+                # reverse to return the result of the canonical mutator
                 translations.reverse()
                 refcat = getToolByName(self, REFERENCE_CATALOG)
                 res = None
                 for t in translations:
-                    schema = t.Schema()                    
+                    schema = t.Schema()
                     if name not in schema:
                         # don't copy fields not existing in destination schema
-                        continue                    
+                        continue
                     field = schema[name]
                     if type(field) not in I18NAWARE_REFERENCE_FIELDS:
                         # This is a "normal" field:
@@ -119,17 +119,17 @@ class Generator(ATGenerator):
                     # Some kind of reference field:
                     # special handling of at-references start here
                     lang = t.Language()
-                    translated_value = None                    
+                    translated_value = None
                     if field.multiValued:
                         if isinstance(value, basestring):
-                            value = [value] 
-                        translated_value = [_translatedOfUID(refcat, u, lang) 
+                            value = [value]
+                        translated_value = [_translatedOfUID(refcat, u, lang)
                                             for u in value if u]
                     else:
                         # single valued
                         translated_value = _translatedOfUID(refcat, value, lang)
                     translationMethod = getattr(t, translationMethodName)
-                    res = translationMethod(translated_value, **kw)                
+                    res = translationMethod(translated_value, **kw)
                 return res
             # end of "def generatedMutator"
             method = generatedMutator
@@ -262,7 +262,7 @@ generateMethods = _cg.generateMethods
 
 
 def registerType(klass, package=None):
-    """Overrides the AT registerType to enable method generation for language 
+    """Overrides the AT registerType to enable method generation for language
     independent fields"""
     # Generate methods for language independent fields
     generateClass(klass)
@@ -285,7 +285,7 @@ def add%(name)s(self, id, **kwargs):
     if canonical is not None:
         o.addReference(canonical, '%(RELATIONSHIP)s')
     return o.getId()
-""" % {'name':name, 'KWARGS_TRANSLATION_KEY':KWARGS_TRANSLATION_KEY, 
+""" % {'name':name, 'KWARGS_TRANSLATION_KEY':KWARGS_TRANSLATION_KEY,
        'RELATIONSHIP':RELATIONSHIP}
 
     exec ctor in module.__dict__
@@ -339,11 +339,11 @@ def process_types(types, pkg_name):
 # Language tag splitting
 def splitLanguage(tag):
     """Split a language tag (RFC 1766) into components
-    
-    Currently, this splits a language tag on the first dash *only*, and will 
+
+    Currently, this splits a language tag on the first dash *only*, and will
     not split i- and x- language tags, as these prefixes denote non-standard
     languages.
-    
+
     """
     try:
         tag = tag.lower()
@@ -498,7 +498,7 @@ class LanguageIndependentFields(object):
         return schema.filterFields(languageIndependent=True)
 
 
-    def getFieldsToCopy(self, translation, source_schema=None, 
+    def getFieldsToCopy(self, translation, source_schema=None,
                         dest_schema=None):
         # Only copy fields that exist in the destination schema.
         if source_schema is None:
