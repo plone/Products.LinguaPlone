@@ -214,6 +214,15 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEqual(italian.getReferenceMulti()[0].UID(),
                          target4_italian.UID())
 
+        # test edge cases, can we use None to delete references?
+        english.setReferenceMulti(None)
+
+        # can we use a content object instead of its UID?
+        english.setReferenceMulti([target2])
+        self.assertEqual(english.getReferenceMulti()[0].UID(), target2.UID())
+        self.assertEqual(
+            german.getReferenceMulti()[0].UID(), target2_german.UID())
+
     def testBaseSchemaSetup(self):
         schema = dummy.SimpleType.schema
         self.assertEqual(schema['langIndependentInBase'].languageIndependent, 1)

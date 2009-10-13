@@ -15,6 +15,7 @@ from Products.Archetypes.ClassGen import Generator as ATGenerator
 from Products.Archetypes.ClassGen import ClassGenerator as ATClassGenerator
 from Products.Archetypes.ArchetypeTool import registerType as registerATType
 from Products.Archetypes.config import REFERENCE_CATALOG
+from Products.Archetypes.interfaces import IReferenceable
 
 from Products.LinguaPlone.config import KWARGS_TRANSLATION_KEY
 from Products.LinguaPlone.config import RELATIONSHIP
@@ -33,11 +34,15 @@ _modes.update({
             },
 })
 
-def _translatedOfUID(refcat, sUID, language):
-    """The UID of the translation language of the object with given sUID."""
+def _translatedOfUID(refcat, source, language):
+    """The UID of the translation language of the given source."""
+    if source is None:
+        raise ValueError, "Source UID of None given"
+    sUID = source
+    if not isinstance(source, basestring):
+        if IReferenceable.providedBy(source):
+            sUID = source.UID()
     sobj = refcat.lookupObject(sUID)
-    if not sobj:
-        raise ValueError, "Invalid source UID given"
     tuid = sUID
     if ITranslatable.providedBy(sobj):
         tobj = sobj.getTranslation(language)
@@ -121,10 +126,11 @@ class Generator(ATGenerator):
                     lang = t.Language()
                     translated_value = None
                     if field.multiValued:
-                        if isinstance(value, basestring):
-                            value = [value]
-                        translated_value = [_translatedOfUID(refcat, u, lang)
-                                            for u in value if u]
+                        if value is not None:
+                            if isinstance(value, basestring):
+                                value = [value]
+                            translated_value = [_translatedOfUID(refcat, u, lang)
+                                                for u in value if u]
                     elif value is not None:
                         # single valued and none empty
                         translated_value = _translatedOfUID(refcat, value, lang)
