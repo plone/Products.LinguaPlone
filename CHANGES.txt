@@ -4,6 +4,10 @@ Changelog
 3.0b5 - Unreleased
 ------------------
 
+- Added tests for and fixed more edge cases for the reference handling.
+  There's about seventeen different ways how this API can be called.
+  [hannosch]
+
 - Fixed a bug in the LanguageIndependentFields adapter. It did a whole lot of
   magic to be LinguaPlone aware, just to miss the whole point. Simple is
   sometimes better. This fixes the last reference handling test failure.

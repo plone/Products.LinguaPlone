@@ -126,13 +126,13 @@ class Generator(ATGenerator):
                     lang = t.Language()
                     translated_value = None
                     if field.multiValued:
-                        if value is not None:
+                        if value:
                             if isinstance(value, basestring):
                                 value = [value]
                             translated_value = [_translatedOfUID(refcat, u, lang)
                                                 for u in value if u]
-                    elif value is not None:
-                        # single valued and none empty
+                    elif value:
+                        # single valued and not empty
                         translated_value = _translatedOfUID(refcat, value, lang)
                     translationMethod = getattr(t, translationMethodName)
                     res = translationMethod(translated_value, **kw)

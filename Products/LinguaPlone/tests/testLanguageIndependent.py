@@ -217,6 +217,15 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         # test edge cases, can we use None to delete references?
         english.setReferenceMulti(None)
 
+        # can we delete things via an empty string?
+        english.setReferenceMulti([target2])
+        english.setReferenceMulti('')
+        self.failUnless(len(english.getReferenceMulti()) == 0)
+
+        english.setReferenceMulti([target2])
+        english.setReferenceMulti([''])
+        self.failUnless(len(english.getReferenceMulti()) == 0)
+
         # can we use a content object instead of its UID?
         english.setReferenceMulti([target2])
         self.assertEqual(english.getReferenceMulti()[0].UID(), target2.UID())
