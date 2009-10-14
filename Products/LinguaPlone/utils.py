@@ -36,20 +36,20 @@ _modes.update({
 
 def _translatedOfUID(refcat, source, language):
     """The UID of the translation language of the given source."""
-    if source is None:
-        raise ValueError, "Source UID of None given"
-    sUID = source
-    if not isinstance(source, basestring):
-        if IReferenceable.providedBy(source):
-            sUID = source.UID()
-    sobj = refcat.lookupObject(sUID)
-    tuid = sUID
-    if ITranslatable.providedBy(sobj):
-        tobj = sobj.getTranslation(language)
-        if tobj:
-            tuid = tobj.UID()
+    suid = source
+    if isinstance(source, basestring):
+        # if we get a uid, lookup the object
+        source = refcat.lookupObject(suid)
+    elif IReferenceable.providedBy(source):
+        suid = source.UID()
+
+    tuid = suid
+    if ITranslatable.providedBy(source):
+        target = source.getTranslation(language)
+        if target:
+            tuid = target.UID()
         else:
-            canonical = sobj.getCanonical()
+            canonical = source.getCanonical()
             tuid = canonical.UID()
     return tuid
 
