@@ -52,11 +52,12 @@ def translated_references(context, language, sources):
             source = brains[0].getObject()
         target = source
         if ITranslatable.providedBy(source):
-            target = source.getTranslation(language)
-            if target:
-                target = target.UID()
+            canonical = source.getCanonical()
+            brains = canonical.getTranslationBackReferences()
+            found = [b for b in brains if b.Language == language]
+            if found:
+                target = found[0].sourceUID
             else:
-                canonical = source.getCanonical()
                 target = canonical.UID()
         result.append(target)
     return result
