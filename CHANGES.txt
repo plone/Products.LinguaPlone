@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0b5 - Unreleased
+3.0b5 - 2009-10-14
 ------------------
 
 - Optimized the getTranslations method by allowing the calling functions to
