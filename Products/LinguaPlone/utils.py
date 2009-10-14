@@ -32,22 +32,35 @@ _modes.update({
             },
 })
 
-def _translatedOfUID(catalog, source, language):
-    """The UID of the translation language of the given source."""
-    if isinstance(source, basestring):
-        # if we get a uid, lookup the object
-        brains = catalog(UID=source)
-        source = brains[0].getObject()
 
-    target = source
-    if ITranslatable.providedBy(source):
-        target = source.getTranslation(language)
-        if target:
-            target = target.UID()
-        else:
-            canonical = source.getCanonical()
-            target = canonical.UID()
-    return target
+def translated_references(context, language, sources):
+    """Convert the given sources into a list of targets in the given language,
+    should those exist."""
+    if not sources:
+        return sources
+    if not isinstance(sources, list):
+        sources = [sources]
+
+    result = []
+    catalog = getToolByName(context, 'uid_catalog')
+    for source in sources:
+        if not source:
+            continue
+        if isinstance(source, basestring):
+            # if we get a uid, lookup the object
+            brains = catalog(UID=source)
+            source = brains[0].getObject()
+        target = source
+        if ITranslatable.providedBy(source):
+            target = source.getTranslation(language)
+            if target:
+                target = target.UID()
+            else:
+                canonical = source.getCanonical()
+                target = canonical.UID()
+        result.append(target)
+    return result
+
 
 class Generator(ATGenerator):
     """Generates methods for language independent fields."""
@@ -104,7 +117,6 @@ class Generator(ATGenerator):
                                 self.getTranslations().values() or []]
                 # reverse to return the result of the canonical mutator
                 translations.reverse()
-                catalog = getToolByName(self, 'uid_catalog')
                 res = None
                 for t in translations:
                     schema = t.Schema()
@@ -112,26 +124,11 @@ class Generator(ATGenerator):
                         # don't copy fields not existing in destination schema
                         continue
                     field = schema[name]
-                    if type(field) not in I18NAWARE_REFERENCE_FIELDS:
-                        # This is a "normal" field:
-                        # Look up the actual mutator and delegate to it.
-                        res = getattr(t, translationMethodName)(value, **kw)
-                        continue
-                    # Some kind of reference field:
-                    # special handling of at-references start here
-                    lang = t.Language()
-                    translated_value = None
-                    if field.multiValued:
-                        if value:
-                            if isinstance(value, basestring):
-                                value = [value]
-                            translated_value = [_translatedOfUID(catalog, u, lang)
-                                                for u in value if u]
-                    elif value:
-                        # single valued and not empty
-                        translated_value = _translatedOfUID(catalog, value, lang)
-                    translationMethod = getattr(t, translationMethodName)
-                    res = translationMethod(translated_value, **kw)
+                    if type(field) in I18NAWARE_REFERENCE_FIELDS:
+                        # Handle translation of reference targets
+                        language = t.Language()
+                        value = translated_references(self, language, value)
+                    res = getattr(t, translationMethodName)(value, **kw)
                 return res
             # end of "def generatedMutator"
             method = generatedMutator
