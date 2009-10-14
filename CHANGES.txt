@@ -4,6 +4,10 @@ Changelog
 3.0b5 - Unreleased
 ------------------
 
+- Optimized the getCanonical method to avoid two identical reference catalog
+  queries and just do the query once.
+  [hannosch]
+
 - Added tests for and fixed more edge cases for the reference handling.
   There's about seventeen different ways how this API can be called.
   [hannosch]

@@ -243,13 +243,10 @@ class I18NBaseObject(Implicit):
     security.declareProtected(permissions.View, 'getCanonical')
     def getCanonical(self):
         """Returns the canonical translation."""
-        ret = None
-        if self.isCanonical():
-            ret = self
-        else:
-            refs = self.getTranslationReferences()
-            if refs:
-                ret = self._getReferenceObject(uid=refs[0].targetUID)
+        ret = self
+        refs = self.getTranslationReferences()
+        if len(refs):
+            ret = self._getReferenceObject(uid=refs[0].targetUID)
         return ret
 
     security.declareProtected(permissions.View, 'getLanguage')
