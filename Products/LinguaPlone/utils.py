@@ -14,7 +14,6 @@ from Products.Archetypes.ClassGen import GeneratorError, _modes
 from Products.Archetypes.ClassGen import Generator as ATGenerator
 from Products.Archetypes.ClassGen import ClassGenerator as ATClassGenerator
 from Products.Archetypes.ArchetypeTool import registerType as registerATType
-from Products.Archetypes.config import REFERENCE_CATALOG
 from Products.Archetypes.interfaces import IReferenceable
 
 from Products.LinguaPlone.config import KWARGS_TRANSLATION_KEY
@@ -34,12 +33,13 @@ _modes.update({
             },
 })
 
-def _translatedOfUID(refcat, source, language):
+def _translatedOfUID(catalog, source, language):
     """The UID of the translation language of the given source."""
     suid = source
     if isinstance(source, basestring):
         # if we get a uid, lookup the object
-        source = refcat.lookupObject(suid)
+        brains = catalog(UID=suid)
+        source = brains[0].getObject()
     elif IReferenceable.providedBy(source):
         suid = source.UID()
 
@@ -108,7 +108,7 @@ class Generator(ATGenerator):
                                 self.getTranslations().values() or []]
                 # reverse to return the result of the canonical mutator
                 translations.reverse()
-                refcat = getToolByName(self, REFERENCE_CATALOG)
+                catalog = getToolByName(self, 'uid_catalog')
                 res = None
                 for t in translations:
                     schema = t.Schema()
@@ -129,11 +129,11 @@ class Generator(ATGenerator):
                         if value:
                             if isinstance(value, basestring):
                                 value = [value]
-                            translated_value = [_translatedOfUID(refcat, u, lang)
+                            translated_value = [_translatedOfUID(catalog, u, lang)
                                                 for u in value if u]
                     elif value:
                         # single valued and not empty
-                        translated_value = _translatedOfUID(refcat, value, lang)
+                        translated_value = _translatedOfUID(catalog, value, lang)
                     translationMethod = getattr(t, translationMethodName)
                     res = translationMethod(translated_value, **kw)
                 return res
