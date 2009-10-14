@@ -4,6 +4,13 @@ Changelog
 3.0b5 - Unreleased
 ------------------
 
+- Optimized the getTranslations method by allowing the calling functions to
+  pass in a hint about the canonical status of self. Often this is known by
+  the caller and doesn't have to be determined inside the getTranslations call.
+  Also optimized getNonCanonicalTranslations by extending the API of
+  getTranslations with a include_canonical flag.
+  [hannosch]
+
 - Optimized the getCanonical method to avoid two identical reference catalog
   queries and just do the query once.
   [hannosch]

@@ -183,9 +183,11 @@ class I18NBaseObject(Implicit):
         return result
 
     security.declareProtected(permissions.View, 'getTranslations')
-    def getTranslations(self):
+    def getTranslations(self, include_canonical=True, _is_canonical=None):
         """Returns a dict of {lang : [object, wf_state]}, pass on to layer."""
-        if self.isCanonical():
+        if _is_canonical is None:
+            _is_canonical = self.isCanonical()
+        if _is_canonical:
             result = {}
             lang = self.Language()
             workflow_tool = getToolByName(self, 'portal_workflow', None)
@@ -194,7 +196,8 @@ class I18NBaseObject(Implicit):
                 result[lang] = [self, None]
                 return result
             state = workflow_tool.getInfoFor(self, 'review_state', None)
-            result[lang] = [self, state]
+            if include_canonical:
+                result[lang] = [self, state]
             for obj in self.getTranslationBackReferences(objects=True):
                 if obj is None:
                     continue
@@ -203,17 +206,13 @@ class I18NBaseObject(Implicit):
                 result[lang] = [obj, state]
             return result
         else:
-            return self.getCanonical().getTranslations()
+            return self.getCanonical().getTranslations(
+                include_canonical=include_canonical, _is_canonical=True)
 
     security.declareProtected(permissions.View, 'getNonCanonicalTranslations')
     def getNonCanonicalTranslations(self):
         """Returns a dict of {lang : [object, wf_state]}."""
-        translations = self.getTranslations()
-        non_canonical = {}
-        for lang in translations.keys():
-            if not translations[lang][0].isCanonical():
-                non_canonical[lang] = translations[lang]
-        return non_canonical
+        return self.getTranslations(include_canonical=False)
 
     security.declareProtected(permissions.View, 'isCanonical')
     def isCanonical(self):
@@ -228,7 +227,7 @@ class I18NBaseObject(Implicit):
     def setCanonical(self):
         """Sets the canonical attribute."""
         if not self.isCanonical():
-            translations = self.getTranslations()
+            translations = self.getTranslations(_is_canonical=False)
             for obj, wfstate in translations.values():
                 obj.deleteReferences(config.RELATIONSHIP)
             for obj, wfstate in translations.values():
