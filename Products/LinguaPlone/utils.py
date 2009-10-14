@@ -14,7 +14,6 @@ from Products.Archetypes.ClassGen import GeneratorError, _modes
 from Products.Archetypes.ClassGen import Generator as ATGenerator
 from Products.Archetypes.ClassGen import ClassGenerator as ATClassGenerator
 from Products.Archetypes.ArchetypeTool import registerType as registerATType
-from Products.Archetypes.interfaces import IReferenceable
 
 from Products.LinguaPlone.config import KWARGS_TRANSLATION_KEY
 from Products.LinguaPlone.config import RELATIONSHIP
@@ -35,23 +34,20 @@ _modes.update({
 
 def _translatedOfUID(catalog, source, language):
     """The UID of the translation language of the given source."""
-    suid = source
     if isinstance(source, basestring):
         # if we get a uid, lookup the object
-        brains = catalog(UID=suid)
+        brains = catalog(UID=source)
         source = brains[0].getObject()
-    elif IReferenceable.providedBy(source):
-        suid = source.UID()
 
-    tuid = suid
+    target = source
     if ITranslatable.providedBy(source):
         target = source.getTranslation(language)
         if target:
-            tuid = target.UID()
+            target = target.UID()
         else:
             canonical = source.getCanonical()
-            tuid = canonical.UID()
-    return tuid
+            target = canonical.UID()
+    return target
 
 class Generator(ATGenerator):
     """Generates methods for language independent fields."""
