@@ -187,12 +187,12 @@ class I18NBaseObject(Implicit):
         """Returns a dict of {lang : [object, wf_state]}, pass on to layer."""
         if self.isCanonical():
             result = {}
+            lang = self.Language()
             workflow_tool = getToolByName(self, 'portal_workflow', None)
             if workflow_tool is None:
                 # No context, most likely FTP or WebDAV
-                result[self.Language()] = [self, None]
+                result[lang] = [self, None]
                 return result
-            lang = self.Language()
             state = workflow_tool.getInfoFor(self, 'review_state', None)
             result[lang] = [self, state]
             for obj in self.getTranslationBackReferences(objects=True):
