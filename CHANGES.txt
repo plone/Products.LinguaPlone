@@ -4,6 +4,9 @@ Changelog
 3.0b6 - Unreleased
 ------------------
 
+- Replaced `has_key` with `in` checks using the `__contains__` protocol.
+  [hannosch]
+
 - Factored out generated methods from the language independent ClassGenerator
   into module scope functions to allow outside access to them.
   [hannosch]

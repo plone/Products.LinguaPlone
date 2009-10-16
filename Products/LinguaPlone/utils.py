@@ -66,7 +66,7 @@ def translated_references(context, language, sources):
 def generatedAccessorWrapper(name):
     def generatedAccessor(self, **kw):
         """Default Accessor."""
-        if kw.has_key('schema'):
+        if 'schema' in kw:
             schema = kw['schema']
         else:
             schema = self.Schema()
@@ -78,7 +78,7 @@ def generatedAccessorWrapper(name):
 def generatedEditAccessorWrapper(name):
     def generatedEditAccessor(self, **kw):
         """Default Edit Accessor."""
-        if kw.has_key('schema'):
+        if 'schema' in kw:
             schema = kw['schema']
         else:
             schema = self.Schema()
@@ -90,7 +90,7 @@ def generatedEditAccessorWrapper(name):
 def generatedMutatorWrapper(name):
     def generatedMutator(self, value, **kw):
         """LinguaPlone Default Mutator."""
-        if kw.has_key('schema'):
+        if 'schema' in kw:
             schema = kw['schema']
         else:
             schema = self.Schema()
@@ -134,7 +134,7 @@ def generatedMutatorWrapper(name):
 def generatedTranslationMutatorWrapper(name):
     def generatedTranslationMutator(self, value, **kw):
         """Delegated Mutator."""
-        if kw.has_key('schema'):
+        if 'schema' in kw:
             schema = kw['schema']
         else:
             schema = self.Schema()
@@ -233,7 +233,7 @@ class ClassGenerator(ATClassGenerator):
 
         # If there is already a mutator, make that the translation mutator
         # NB: Use of __dict__ means base class attributes are ignored
-        if mode == 'w' and klass.__dict__.has_key(methodName):
+        if mode == 'w' and methodName in klass.__dict__:
             method = getattr(klass, methodName).im_func
             method._lp_renamed = True # Note that we renamed this method
             method._lp_renamed_by = klass.__name__
@@ -247,10 +247,10 @@ class ClassGenerator(ATClassGenerator):
             if mode == 'r':
                 return not hasattr(klass, methodName)
             else: # mode == w|m|t
-                return not klass.__dict__.has_key(methodName)
+                return not methodName in klass.__dict__
 
         if want_generated_method(klass, methodName, mode):
-            if typ.has_key(methodName):
+            if methodName in typ:
                 raise GeneratorError("There is a conflict"
                                      "between the Field(%s) and the attempt"
                                      "to generate a method of the same name on"
@@ -294,7 +294,7 @@ def add%(name)s(self, id, **kwargs):
     self._setObject(id, o)
     o = self._getOb(id)
     canonical = None
-    if kwargs.has_key('%(KWARGS_TRANSLATION_KEY)s'):
+    if '%(KWARGS_TRANSLATION_KEY)s' in kwargs:
         canonical = kwargs.get('%(KWARGS_TRANSLATION_KEY)s')
         del kwargs['%(KWARGS_TRANSLATION_KEY)s']
     o.initializeArchetype(**kwargs)

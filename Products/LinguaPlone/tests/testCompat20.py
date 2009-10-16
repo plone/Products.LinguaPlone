@@ -128,7 +128,7 @@ class TestNavTree(PloneTestCase.PloneTestCase):
         # See if we can create one at all
         tree = self.utils.createNavTree(self.portal)
         self.failUnless(tree, tree)
-        self.failUnless(tree.has_key('children'))
+        self.failUnless('children' in tree)
 
     def testCreateNavTreeCurrentItem(self):
         # With the context set to folder2 it should return a dict with
@@ -185,7 +185,7 @@ class TestNavTree(PloneTestCase.PloneTestCase):
                          {"review_state":"published"})
         tree = self.utils.createNavTree(self.portal.folder2)
         self.failUnless(tree, tree)
-        self.failUnless(tree.has_key('children'))
+        self.failUnless('children' in tree)
         #Should only contain current object
         self.assertEqual(len(tree['children']), 1)
         #change workflow for folder1
@@ -203,7 +203,7 @@ class TestNavTree(PloneTestCase.PloneTestCase):
         ntp.manage_changeProperties(enable_wf_state_filtering=True)
         tree = self.utils.createNavTree(self.portal.folder2)
         self.failUnless(tree, tree)
-        self.failUnless(tree.has_key('children'))
+        self.failUnless('children' in tree)
         #Should only contain current object
         self.assertEqual(len(tree['children']), 1)
         #change workflow for folder1
