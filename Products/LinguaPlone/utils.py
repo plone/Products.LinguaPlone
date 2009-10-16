@@ -63,6 +63,86 @@ def translated_references(context, language, sources):
     return result
 
 
+def generatedAccessorWrapper(name):
+    def generatedAccessor(self, **kw):
+        """Default Accessor."""
+        if kw.has_key('schema'):
+            schema = kw['schema']
+        else:
+            schema = self.Schema()
+            kw['schema'] = schema
+        return schema[name].get(self, **kw)
+    return generatedAccessor
+
+
+def generatedEditAccessorWrapper(name):
+    def generatedEditAccessor(self, **kw):
+        """Default Edit Accessor."""
+        if kw.has_key('schema'):
+            schema = kw['schema']
+        else:
+            schema = self.Schema()
+            kw['schema'] = schema
+        return schema[name].getRaw(self, **kw)
+    return generatedEditAccessor
+
+
+def generatedMutatorWrapper(name):
+    def generatedMutator(self, value, **kw):
+        """LinguaPlone Default Mutator."""
+        if kw.has_key('schema'):
+            schema = kw['schema']
+        else:
+            schema = self.Schema()
+            kw['schema'] = schema
+        # translationMethodName is always present, as it is set in the
+        # generator as a method on the mutator method, which is this
+        # method :-/
+        mutator = getattr(self, schema[name].mutator, None)
+        translationMethodName = getattr(mutator, '_lp_mutator', None)
+        if translationMethodName is None: # Houston, we have a problem
+            return schema[name].set(self, value, **kw)
+        # Instead of additional classgen magic below, we check the
+        # languageIndependent property and have a shortcut for the
+        # language dependent fields
+        if not schema[name].languageIndependent:
+            # Look up the actual mutator and delegate to it.
+            return getattr(self, translationMethodName)(value, **kw)
+        # get all translations including self
+        translations = [t[0] for t in \
+                        hasattr(self, 'getTranslations') and \
+                        self.getTranslations().values() or []]
+        # reverse to return the result of the canonical mutator
+        translations.reverse()
+        res = None
+        for t in translations:
+            schema = t.Schema()
+            if name not in schema:
+                # don't copy fields not existing in destination schema
+                continue
+            field = schema[name]
+            if type(field) in I18NAWARE_REFERENCE_FIELDS:
+                # Handle translation of reference targets
+                language = t.Language()
+                value = translated_references(self, language, value)
+            res = getattr(t, translationMethodName)(value, **kw)
+        return res
+    # end of "def generatedMutator"
+    return generatedMutator
+
+
+def generatedTranslationMutatorWrapper(name):
+    def generatedTranslationMutator(self, value, **kw):
+        """Delegated Mutator."""
+        if kw.has_key('schema'):
+            schema = kw['schema']
+        else:
+            schema = self.Schema()
+            kw['schema'] = schema
+        return schema[name].set(self, value, **kw)
+    return generatedTranslationMutator
+
+
 class Generator(ATGenerator):
     """Generates methods for language independent fields."""
 
@@ -70,80 +150,16 @@ class Generator(ATGenerator):
         name = field.getName()
         method = None
         if mode == "r":
-            def generatedAccessor(self, **kw):
-                """Default Accessor."""
-                if kw.has_key('schema'):
-                    schema = kw['schema']
-                else:
-                    schema = self.Schema()
-                    kw['schema'] = schema
-                return schema[name].get(self, **kw)
-            method = generatedAccessor
+            method = generatedAccessorWrapper(name)
         elif mode == "m":
-            def generatedEditAccessor(self, **kw):
-                """Default Edit Accessor."""
-                if kw.has_key('schema'):
-                    schema = kw['schema']
-                else:
-                    schema = self.Schema()
-                    kw['schema'] = schema
-                return schema[name].getRaw(self, **kw)
-            method = generatedEditAccessor
+            method = generatedEditAccessorWrapper(name)
         elif mode == "w":
             # the generatedMutator doesn't actually mutate, but calls a
             # translation mutator on all translations, including self.
-            def generatedMutator(self, value, **kw):
-                """LinguaPlone Default Mutator."""
-                if kw.has_key('schema'):
-                    schema = kw['schema']
-                else:
-                    schema = self.Schema()
-                    kw['schema'] = schema
-                # translationMethodName is always present, as it is set in the
-                # generator as a method on the mutator method, which is this
-                # method :-/
-                mutator = getattr(self, schema[name].mutator, None)
-                translationMethodName = getattr(mutator, '_lp_mutator', None)
-                if translationMethodName is None: # Houston, we have a problem
-                    return schema[name].set(self, value, **kw)
-                # Instead of additional classgen magic below, we check the
-                # languageIndependent property and have a shortcut for the
-                # language dependent fields
-                if not schema[name].languageIndependent:
-                    # Look up the actual mutator and delegate to it.
-                    return getattr(self, translationMethodName)(value, **kw)
-                # get all translations including self
-                translations = [t[0] for t in \
-                                hasattr(self, 'getTranslations') and \
-                                self.getTranslations().values() or []]
-                # reverse to return the result of the canonical mutator
-                translations.reverse()
-                res = None
-                for t in translations:
-                    schema = t.Schema()
-                    if name not in schema:
-                        # don't copy fields not existing in destination schema
-                        continue
-                    field = schema[name]
-                    if type(field) in I18NAWARE_REFERENCE_FIELDS:
-                        # Handle translation of reference targets
-                        language = t.Language()
-                        value = translated_references(self, language, value)
-                    res = getattr(t, translationMethodName)(value, **kw)
-                return res
-            # end of "def generatedMutator"
-            method = generatedMutator
+            method = generatedMutatorWrapper(name)
         elif mode == "t":
             # The translation mutator that changes data
-            def generatedTranslationMutator(self, value, **kw):
-                """Delegated Mutator."""
-                if kw.has_key('schema'):
-                    schema = kw['schema']
-                else:
-                    schema = self.Schema()
-                    kw['schema'] = schema
-                return schema[name].set(self, value, **kw)
-            method = generatedTranslationMutator
+            method = generatedTranslationMutatorWrapper(name)
         else:
             raise GeneratorError("""Unhandled mode for method creation:
             %s:%s -> %s:%s""" %(klass.__name__,

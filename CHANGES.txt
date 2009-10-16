@@ -4,6 +4,9 @@ Changelog
 3.0b6 - Unreleased
 ------------------
 
+- Factored out generated methods from the language independent ClassGenerator
+  into module scope functions to allow outside access to them.
+  [hannosch]
 
 3.0b5 - 2009-10-14
 ------------------
