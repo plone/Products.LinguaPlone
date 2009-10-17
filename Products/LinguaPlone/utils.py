@@ -95,19 +95,22 @@ def generatedMutatorWrapper(name):
         else:
             schema = self.Schema()
             kw['schema'] = schema
-        # translationMethodName is always present, as it is set in the
-        # generator as a method on the mutator method, which is this
-        # method :-/
-        mutator = getattr(self, schema[name].mutator, None)
-        translationMethodName = getattr(mutator, '_lp_mutator', None)
-        if translationMethodName is None: # Houston, we have a problem
-            return schema[name].set(self, value, **kw)
-        # Instead of additional classgen magic below, we check the
-        # languageIndependent property and have a shortcut for the
-        # language dependent fields
-        if not schema[name].languageIndependent:
+
+        translationMethodName = None
+        field = schema[name]
+        mutatorName = getattr(field, 'mutator', None)
+        if mutatorName is not None:
+            mutator = getattr(self, mutatorName, None)
+            translationMethodName = getattr(mutator, '_lp_mutator', None)
+
+        if not field.languageIndependent:
             # Look up the actual mutator and delegate to it.
-            return getattr(self, translationMethodName)(value, **kw)
+            if translationMethodName is None:
+                # Handle schemaextender fields
+                return field.set(self, value, **kw)
+            else:
+                return getattr(self, translationMethodName)(value, **kw)
+
         # get all translations including self
         translations = [t[0] for t in \
                         hasattr(self, 'getTranslations') and \
@@ -116,16 +119,19 @@ def generatedMutatorWrapper(name):
         translations.reverse()
         res = None
         for t in translations:
-            schema = t.Schema()
-            if name not in schema:
+            field = t.Schema().get(name)
+            if field is None:
                 # don't copy fields not existing in destination schema
                 continue
-            field = schema[name]
             if type(field) in I18NAWARE_REFERENCE_FIELDS:
                 # Handle translation of reference targets
                 language = t.Language()
                 value = translated_references(self, language, value)
-            res = getattr(t, translationMethodName)(value, **kw)
+            if translationMethodName is None:
+                # Handle schemaextender fields
+                res = field.set(t, value, **kw)
+            else:
+                res = getattr(t, translationMethodName)(value, **kw)
         return res
     # end of "def generatedMutator"
     return generatedMutator
