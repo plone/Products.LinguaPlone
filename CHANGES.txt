@@ -4,6 +4,9 @@ Changelog
 3.0b6 - Unreleased
 ------------------
 
+- Avoid preserving the mysterious `-C` in the language selector.
+  [hannosch]
+
 - Made sure that subclasses of fields listed in I18NAWARE_REFERENCE_FIELDS
   also get the special reference handling. Otherwise schemaextender fields
   won't get the behavior.

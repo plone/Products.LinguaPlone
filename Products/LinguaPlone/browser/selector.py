@@ -52,6 +52,10 @@ class TranslatableLanguageSelector(LanguageSelector):
 
         formvariables = {}
         for k,v in self.request.form.items():
+            if k == '-C':
+                # no idea where the -C is put into the form variables, but it
+                # appears to be always there without any actual meaning
+                continue
             if isinstance(v, unicode):
                 formvariables[k] = v.encode('utf-8')
             else:
