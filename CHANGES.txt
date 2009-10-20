@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0b6 - Unreleased
+3.0b6 - 2009-10-20
 ------------------
 
 - Avoid preserving the mysterious `-C` in the language selector.
