@@ -123,7 +123,7 @@ def generatedMutatorWrapper(name):
             if field is None:
                 # don't copy fields not existing in destination schema
                 continue
-            if type(field) in I18NAWARE_REFERENCE_FIELDS:
+            if isinstance(field, tuple(I18NAWARE_REFERENCE_FIELDS)):
                 # Handle translation of reference targets
                 language = t.Language()
                 value = translated_references(self, language, value)

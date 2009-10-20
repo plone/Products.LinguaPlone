@@ -4,6 +4,11 @@ Changelog
 3.0b6 - Unreleased
 ------------------
 
+- Made sure that subclasses of fields listed in I18NAWARE_REFERENCE_FIELDS
+  also get the special reference handling. Otherwise schemaextender fields
+  won't get the behavior.
+  [hannosch]
+
 - Let the `generatedMutatorWrapper` work directly on schemaextender fields.
   [hannosch]
 
