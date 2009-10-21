@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0b7 - Unreleased
+3.0b7 - 2009-10-21
 ------------------
 
 - Protect the LanguageIndependentFields adapter against weird fields, like
