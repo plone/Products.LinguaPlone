@@ -4,6 +4,9 @@ Changelog
 3.0b7 - Unreleased
 ------------------
 
+- Protect the LanguageIndependentFields adapter against weird fields, like
+  computed fields.
+  [hannosch]
 
 3.0b6 - 2009-10-20
 ------------------

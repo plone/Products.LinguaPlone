@@ -536,7 +536,12 @@ class LanguageIndependentFields(object):
             data = accessor()
         else:
             data = field.get(self.context)
-        field.getMutator(translation)(data)
+        mutator = field.getMutator(translation)
+        if mutator is not None:
+            # Protect against weird fields, like computed fields
+            mutator(data)
+        else:
+            field.set(translation, data)
 
     def copyFields(self, translation):
         for field in self.getFieldsToCopy(translation):
