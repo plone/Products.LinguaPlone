@@ -1,9 +1,7 @@
 from plone.app.i18n.locales.browser.selector import LanguageSelector
-from plone.app.layout.navigation.defaultpage import isDefaultPage
 from zope.component import getMultiAdapter
 
 from Acquisition import aq_inner
-from Acquisition import aq_parent
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from Products.LinguaPlone.interfaces import ITranslatable
@@ -71,20 +69,14 @@ class TranslatableLanguageSelector(LanguageSelector):
 
             if data['translated']:
                 trans = translations[data['code']][0]
-                container = aq_parent(trans)
-                if isDefaultPage(container, trans):
-                    trans = container
                 state = getMultiAdapter((trans, self.request),
                         name='plone_context_state')
-                data['url'] = state.view_url() + appendtourl
+                data['url'] = state.canonical_object_url() + appendtourl
             else:
-                container = aq_parent(context)
-                if isDefaultPage(container, context):
-                    context = container
                 state = getMultiAdapter((context, self.request),
                         name='plone_context_state')
                 try:
-                    data['url'] = state.view_url() + appendtourl
+                    data['url'] = state.canonical_object_url() + appendtourl
                 except AttributeError:
                     data['url'] = context.absolute_url() + appendtourl
 

@@ -4,6 +4,11 @@ Changelog
 3.0b8 - Unreleased
 ------------------
 
+- Changed the language selector to use the canonical_object_url instead of the
+  view_url. We preserve the /view postfix ourselves, so using view_url would
+  duplicate this in certain situations. We also stopped doing the default page
+  analysis ourselves and use the given feature from the context state view.
+  [hannosch]
 
 3.0b7 - 2009-10-21
 ------------------
