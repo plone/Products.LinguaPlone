@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0b8 - Unreleased
+3.0b8 - 2009-10-22
 ------------------
 
 - Adjusted the language selector to point to the nearest translation for each
