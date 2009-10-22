@@ -93,11 +93,13 @@ class ITranslatable(Interface):
         Return a list of language codes
         """
 
-    def getTranslations(include_canonical=True):
+    def getTranslations(include_canonical=True, review_state=True):
         """
         Return a dict of {lang : [object, wf_state]}. If the argument
         include_canonical is False, the canonical object itself won't be
-        returned. By default the canonical object is returned.
+        returned. By default the canonical object is returned. If the
+        review_state argument is False, a dict of {lang : object} will be
+        returned.
         """
 
     def isCanonical():

@@ -183,31 +183,46 @@ class I18NBaseObject(Implicit):
         return result
 
     security.declareProtected(permissions.View, 'getTranslations')
-    def getTranslations(self, include_canonical=True, _is_canonical=None):
-        """Returns a dict of {lang : [object, wf_state]}, pass on to layer."""
+    def getTranslations(self, include_canonical=True, review_state=True,
+                        _is_canonical=None):
+        """Returns a dict of {lang : [object, wf_state]}.
+        If review_state is False, returns a dict of {lang : object}
+        """
         if _is_canonical is None:
             _is_canonical = self.isCanonical()
         if _is_canonical:
             result = {}
             lang = self.Language()
+            state = None
             workflow_tool = getToolByName(self, 'portal_workflow', None)
             if workflow_tool is None:
                 # No context, most likely FTP or WebDAV
-                result[lang] = [self, None]
-                return result
-            state = workflow_tool.getInfoFor(self, 'review_state', None)
+                if review_state:
+                    return {lang : [self, None]}
+                else:
+                    return {lang : self}
+            if review_state:
+                state = workflow_tool.getInfoFor(self, 'review_state', None)
             if include_canonical:
-                result[lang] = [self, state]
+                if review_state:
+                    result[lang] = [self, state]
+                else:
+                    result[lang] = self
             for obj in self.getTranslationBackReferences(objects=True):
                 if obj is None:
                     continue
                 lang = obj.Language()
-                state = workflow_tool.getInfoFor(obj, 'review_state', None)
-                result[lang] = [obj, state]
+                state = None
+                if review_state:
+                    state = workflow_tool.getInfoFor(obj, 'review_state', None)
+                    result[lang] = [obj, state]
+                else:
+                    result[lang] = obj
             return result
         else:
             return self.getCanonical().getTranslations(
-                include_canonical=include_canonical, _is_canonical=True)
+                include_canonical=include_canonical, review_state=review_state,
+                _is_canonical=True)
 
     security.declareProtected(permissions.View, 'getNonCanonicalTranslations')
     def getNonCanonicalTranslations(self):

@@ -29,8 +29,11 @@ setup(name='Products.LinguaPlone',
       install_requires=[
         'setuptools',
         'Plone >= 3.3',
+        'Products.CMFCore',
         'Products.PloneLanguageTool',
         'plone.browserlayer',
+        'plone.app.i18n',
         'plone.app.layout',
+        'zope.component',
       ],
 )

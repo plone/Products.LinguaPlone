@@ -4,6 +4,13 @@ Changelog
 3.0b8 - Unreleased
 ------------------
 
+- Adjusted the language selector to point to the nearest translation for each
+  language. So far the selector only worked on items which had translations
+  into all languages. Otherwise the content language negotiator would render
+  the selector useless. This closes
+  http://plone.org/products/linguaplone/issues/219.
+  [hannosch]
+
 - Fixed the language selector to work directly on the root in a virtual hosting
   environment. This closes http://plone.org/products/linguaplone/issues/216.
   [hannosch]

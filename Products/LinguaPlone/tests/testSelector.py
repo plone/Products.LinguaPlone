@@ -19,9 +19,8 @@ class Dummy(Explicit):
     def absolute_url(self):
         return 'absolute url'
 
-    def getTranslations(self):
-        return {'en':[self, 'published'],
-                'nl':[self, 'published']}
+    def getTranslations(self, review_state=False):
+        return {'en' : self, 'nl' : self}
 
     def getPhysicalPath(self):
         return getattr(self, 'physicalpath', [])

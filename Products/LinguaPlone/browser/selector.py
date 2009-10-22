@@ -1,11 +1,14 @@
 from plone.app.i18n.locales.browser.selector import LanguageSelector
+from plone.app.layout.navigation.interfaces import INavigationRoot
 from zope.component import getMultiAdapter
 
+from Acquisition import aq_chain
 from Acquisition import aq_inner
+from Products.CMFCore.interfaces import ISiteRoot
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from ZTUtils import make_query
 
 from Products.LinguaPlone.interfaces import ITranslatable
-from ZTUtils import make_query
 
 
 class TranslatableLanguageSelector(LanguageSelector):
@@ -24,11 +27,44 @@ class TranslatableLanguageSelector(LanguageSelector):
     def languages(self):
         context = aq_inner(self.context)
         results = LanguageSelector.languages(self)
-        translatable = ITranslatable(context, None)
-        if translatable is not None:
-            translations = translatable.getTranslations()
-        else:
-            translations = []
+        supported_langs = [v['code'] for v in results]
+        missing = set([str(c) for c in supported_langs])
+
+        # The next part is to figure out the "closest" translation in the
+        # parent chain of the context. We stop at both an INavigationRoot or
+        # a ISiteRoot to look for translations.
+        translations = {}
+        chain = aq_chain(context)
+        for item in chain:
+            if ISiteRoot.providedBy(item):
+                # We have a site root, which works as a fallback
+                for c in missing:
+                    translations[c] = item
+                break
+
+            translatable = ITranslatable(item, None)
+            if translatable is None:
+                continue
+
+            item_trans = item.getTranslations(review_state=False)
+            found = set([str(c) for c in item_trans.keys()])
+            for code,trans in item_trans.items():
+                code = str(code)
+                if code not in translations:
+                    # If we don't yet have a translation for this language
+                    # add it and mark it as found
+                    translations[code] = trans
+                    missing = missing - set((code, ))
+
+            if len(missing) <= 0:
+                # We have translations for all
+                break
+            if INavigationRoot.providedBy(item):
+                # Don't break out of the navigation root jail, we assume
+                # the INavigationRoot is usually translated into all languages
+                for c in missing:
+                    translations[c] = item
+                break
 
         # We want to preserve the current template / view as used for the
         # current object and also use it for the other languages
@@ -64,16 +100,17 @@ class TranslatableLanguageSelector(LanguageSelector):
             else:
                 formvariables[k] = v
         for data in results:
-            data['translated'] = data['code'] in translations
+            code = str(data['code'])
+            data['translated'] = code in translations
 
             try:
                 appendtourl = '/'.join(append_path) + \
-                          '?' + make_query(formvariables, dict(set_language=data['code']))
+                          '?' + make_query(formvariables, dict(set_language=code))
             except UnicodeError:
-                appendtourl = '/'.join(append_path) + '?set_language=' + data['code']
+                appendtourl = '/'.join(append_path) + '?set_language=' + code
 
             if data['translated']:
-                trans = translations[data['code']][0]
+                trans = translations[code]
                 state = getMultiAdapter((trans, self.request),
                         name='plone_context_state')
                 data['url'] = state.canonical_object_url() + appendtourl
