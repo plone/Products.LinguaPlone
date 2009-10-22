@@ -4,6 +4,10 @@ Changelog
 3.0b8 - Unreleased
 ------------------
 
+- Fixed the language selector to work directly on the root in a virtual hosting
+  environment. This closes http://plone.org/products/linguaplone/issues/216.
+  [hannosch]
+
 - Expanded the development buildout to include a simple Nginx configuration to
   make it easier to test virtual hosting issues.
   [hannosch]

@@ -37,8 +37,8 @@ class DummyState(object):
     def __init__(self, context, request):
         pass
 
-    def view_url(self):
-        return 'view_url'
+    def canonical_object_url(self):
+        return 'object_url'
 
 
 class MockLanguageTool(object):
@@ -79,12 +79,12 @@ class TestLanguageSelector(cleanup.CleanUp, TestCase):
                 [ {'code': 'nl',
                    'translated': True,
                    'selected': False,
-                   'url': 'view_url?set_language=nl',
+                   'url': 'object_url?set_language=nl',
                    },
                    {'code': 'en',
                     'translated': True,
                     'selected': True,
-                    'url': 'view_url?set_language=en',
+                    'url': 'object_url?set_language=en',
                    },
                    ])
 
@@ -98,12 +98,12 @@ class TestLanguageSelector(cleanup.CleanUp, TestCase):
                 [ {'code': 'nl',
                    'translated': True,
                    'selected': False,
-                   'url': 'view_url/to/object?variable=pres%C3%98rved&set_language=nl',
+                   'url': 'object_url/to/object?variable=pres%C3%98rved&set_language=nl',
                    },
                    {'code': 'en',
                     'translated': True,
                     'selected': True,
-                    'url': 'view_url/to/object?variable=pres%C3%98rved&set_language=en',
+                    'url': 'object_url/to/object?variable=pres%C3%98rved&set_language=en',
                    },
                    ]
         self.assertEqual(self.selector.languages(),expected)

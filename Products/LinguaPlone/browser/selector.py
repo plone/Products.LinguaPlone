@@ -41,6 +41,11 @@ class TranslatableLanguageSelector(LanguageSelector):
         stop = False
         while current_path and not stop:
             check = current_path.pop()
+            if check == 'VirtualHostRoot':
+                # Just ignore the VirtualHostRoot path info. This looks
+                # somewhat odd, but I couldn't figure out a way to use the
+                # actual request API to give us what we need
+                continue
             if check not in match:
                 append_path.insert(0,check)
             else:
