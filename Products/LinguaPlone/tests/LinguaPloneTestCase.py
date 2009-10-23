@@ -23,9 +23,6 @@ profile_registry.registerProfile('LinguaPlone_tests',
 from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase import PloneTestCase
 
-PORTAL_NAME = 'plone'
-
-ZopeTestCase.utils.setupCoreSessions()
 ZopeTestCase.installProduct('LinguaPlone')
 
 @onsetup
@@ -37,14 +34,10 @@ extension_profiles=['Products.LinguaPlone:LinguaPlone',
                     'Products.LinguaPlone:LinguaPlone_samples']
 
 setup_product()
-PloneTestCase.setupPloneSite(id=PORTAL_NAME,
-        extension_profiles=extension_profiles)
+PloneTestCase.setupPloneSite(extension_profiles=extension_profiles)
 
 
 class LinguaPloneTestCase(PloneTestCase.PloneTestCase):
-
-    def getPortal(self):
-        return self.app[PORTAL_NAME]
 
     def addLanguage(self, language):
         self.portal.portal_languages.addSupportedLanguage(language)
