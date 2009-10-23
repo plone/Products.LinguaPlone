@@ -4,6 +4,10 @@ Changelog
 3.0b9 - Unreleased
 ------------------
 
+- Added a new I18NOnlyBaseBTreeFolder mix-in, which can be used in Plone 4 to
+  give LinguaPlone behavior to the new plone.app.folder types.
+  [hannosch]
+
 - Avoid deprecation warnings for the use of the Globals package.
   [hannosch]
 
