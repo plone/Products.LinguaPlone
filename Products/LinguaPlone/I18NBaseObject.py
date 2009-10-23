@@ -1,17 +1,11 @@
-from Globals import InitializeClass
-from AccessControl import ClassSecurityInfo
+from zope.event import notify
+from zope.interface import implements
 
+from AccessControl import ClassSecurityInfo
 from Acquisition import Implicit
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from OFS.ObjectManager import BeforeDeleteException
-
-from zope.interface import implements
-from zope.event import notify
-
-from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.DynamicType import DynamicType
-
 from Products.Archetypes.atapi import BaseObject
 from Products.Archetypes.config import LANGUAGE_DEFAULT
 from Products.Archetypes.config import REFERENCE_CATALOG
@@ -19,14 +13,21 @@ from Products.Archetypes.config import UID_CATALOG
 from Products.Archetypes.interfaces import IMultiPageSchema
 from Products.Archetypes.utils import mapply
 from Products.Archetypes.utils import shasattr
+from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.DynamicType import DynamicType
+from Products.CMFDynamicViewFTI.interface import ISelectableBrowserDefault
 
-from Products.LinguaPlone import events
+try:
+    from App.class_init import InitializeClass
+except ImportError:
+    from Globals import InitializeClass
+
 from Products.LinguaPlone import config
+from Products.LinguaPlone import events
 from Products.LinguaPlone import permissions
 from Products.LinguaPlone.interfaces import ILocateTranslation
-from Products.LinguaPlone.interfaces import ITranslationFactory
 from Products.LinguaPlone.interfaces import ITranslatable
-from Products.CMFDynamicViewFTI.interface import ISelectableBrowserDefault
+from Products.LinguaPlone.interfaces import ITranslationFactory
 
 _marker = object()
 

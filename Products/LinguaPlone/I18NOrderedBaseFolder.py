@@ -1,6 +1,11 @@
-from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import OrderedBaseFolder
+
+try:
+    from App.class_init import InitializeClass
+except ImportError:
+    from Globals import InitializeClass
+
 from Products.LinguaPlone.I18NBaseObject import I18NBaseObject
 
 class I18NOrderedBaseFolder(I18NBaseObject, OrderedBaseFolder):

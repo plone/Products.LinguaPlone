@@ -15,7 +15,11 @@ def I18nAwareCatalog():
     if AlreadyApplied('I18nAwareCatalog'):
         return
 
-    from Globals import DTMLFile
+    try:
+        from App.special_dtml import DTMLFile
+    except ImportError:
+        from Globals import DTMLFile
+
     from Products.CMFPlone.CatalogTool import CatalogTool
     from Products.CMFCore.utils import getToolByName
 

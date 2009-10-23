@@ -4,6 +4,8 @@ Changelog
 3.0b9 - Unreleased
 ------------------
 
+- Avoid deprecation warnings for the use of the Globals package.
+  [hannosch]
 
 3.0b8 - 2009-10-22
 ------------------

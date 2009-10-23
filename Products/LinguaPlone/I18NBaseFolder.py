@@ -1,8 +1,14 @@
-from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
-from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.atapi import BaseFolder
+from Products.CMFCore.utils import getToolByName
+
+try:
+    from App.class_init import InitializeClass
+except ImportError:
+    from Globals import InitializeClass
+
 from Products.LinguaPlone.I18NBaseObject import I18NBaseObject
+
 
 class I18NBaseFolder(I18NBaseObject, BaseFolder):
     """ Base class for translatable objects """

@@ -1,26 +1,30 @@
 from logging import getLogger
 
+from plone.indexer.interfaces import IIndexableObjectWrapper
+from zope.interface import implements
+
 from AccessControl import ClassSecurityInfo, Permissions
-from Globals import InitializeClass
-from Products.PageTemplates.PageTemplateFile import PageTemplateFile
-from OFS.SimpleItem import SimpleItem
-from OFS.PropertyManager import PropertyManager
 from BTrees.IOBTree import IOBTree
 from BTrees.IIBTree import IISet
 from BTrees.IIBTree import union as ii_union
 from BTrees.OOBTree import OOBTree, OOSet, OOTreeSet
 from BTrees.OOBTree import union as oo_union
 from BTrees.Length import Length
-from zope.interface import implements
-
-from plone.indexer.interfaces import IIndexableObjectWrapper
-from Products.LinguaPlone.interfaces import ITranslatable
+from OFS.SimpleItem import SimpleItem
+from OFS.PropertyManager import PropertyManager
+from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluginIndexes.common.util import parseIndexRequest
 from Products.PluginIndexes.interfaces import IUniqueValueIndex
 from Products.PluginIndexes.interfaces import ISortIndex
 
+try:
+    from App.class_init import InitializeClass
+except ImportError:
+    from Globals import InitializeClass
+
 from config import GLOBALS
 from interfaces import ILanguageIndex
+from Products.LinguaPlone.interfaces import ITranslatable
 from utils import splitLanguage
 
 LOG = getLogger('LinguaPlone.LanguageIndex')
