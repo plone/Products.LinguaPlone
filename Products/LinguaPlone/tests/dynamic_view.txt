@@ -24,7 +24,7 @@ Make sure that the dynamic actions still works as expected.
   Let's try to use the 'sharing' dynamic action. It should
   send us to the folder local roles form screen:
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Authorization: Basic %s:%s
   ... Cookie: I18N_LANGUAGE=en
   ... """ % (folder_path + '/@@sharing', default_user, default_password))
@@ -43,7 +43,7 @@ Also make sure that the dynamic layouts still works as expected.
   >>> folder.setLayout('folder_summary_view')
   >>> _ = folder.invokeFactory('SimpleType', 'doc')
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Cookie: I18N_LANGUAGE=en
   ... Authorization: Basic %s:%s
   ... """ % (folder_path, default_user, default_password))

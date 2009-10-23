@@ -114,7 +114,7 @@ one you ask for - the magic only happens with browserdefault
 
   a) Single page
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Accept-Language: de,en;q=0.7,en-us;q=0.3
   ... Authorization: Basic %s:%s
   ... """ % (en_path, default_user, default_password))
@@ -126,7 +126,7 @@ one you ask for - the magic only happens with browserdefault
   b) Default page in folder
   >>> folder.setDefaultPage(english.getId())
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Accept-Language: de,en;q=0.7,en-us;q=0.3
   ... Authorization: Basic %s:%s
   ... """ % (folder_path, default_user, default_password))
@@ -137,7 +137,7 @@ one you ask for - the magic only happens with browserdefault
 
   c) Default page in portal
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Accept-Language: de,en;q=0.7,en-us;q=0.3
   ... Authorization: Basic %s:%s
   ... """ % (portal_path, default_user, default_password))
@@ -152,7 +152,7 @@ should be set.
 
   a) Single page
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Accept-Language: fr,no;q=0.7,en-us;q=0.3
   ... Authorization: Basic %s:%s
   ... """ % (en_path, default_user, default_password))
@@ -163,7 +163,7 @@ should be set.
 
   b) Default page in folder
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Accept-Language: fr,no;q=0.7,en-us;q=0.3
   ... Authorization: Basic %s:%s
   ... """ % (folder_path, default_user, default_password))
@@ -174,7 +174,7 @@ should be set.
 
   c) Default page in portal
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Accept-Language: fr,no;q=0.7,en-us;q=0.3
   ... Authorization: Basic %s:%s
   ... """ % (portal_path, default_user, default_password))
@@ -199,7 +199,7 @@ XXX Maybe we should get an English cookie? Not sure...
 
   a) Single page
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Accept-Language: en,de;q=0.7,en-us;q=0.3
   ... Cookie: I18N_LANGUAGE=de
   ... Authorization: Basic %s:%s
@@ -210,7 +210,7 @@ XXX Maybe we should get an English cookie? Not sure...
 
   b) Default page in folder
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Accept-Language: en,de;q=0.7,en-us;q=0.3
   ... Cookie: I18N_LANGUAGE=de
   ... Authorization: Basic %s:%s
@@ -221,7 +221,7 @@ XXX Maybe we should get an English cookie? Not sure...
 
   c) Default page in portal
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Accept-Language: en,de;q=0.7,en-us;q=0.3
   ... Cookie: I18N_LANGUAGE=de
   ... Authorization: Basic %s:%s
@@ -235,7 +235,7 @@ show the canonical version.
 
   a) Default page in folder
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Accept-Language: en,de;q=0.7,en-us;q=0.3
   ... Cookie: I18N_LANGUAGE=fr
   ... Authorization: Basic %s:%s
@@ -247,7 +247,7 @@ show the canonical version.
 
   b) Default page in portal
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Accept-Language: en,de;q=0.7,en-us;q=0.3
   ... Cookie: I18N_LANGUAGE=fr
   ... Authorization: Basic %s:%s
@@ -263,7 +263,7 @@ requested.
   
   a) Single page
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Accept-Language: en,de;q=0.7,en-us;q=0.3
   ... Cookie: I18N_LANGUAGE=fr
   ... Authorization: Basic %s:%s

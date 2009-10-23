@@ -4,6 +4,9 @@ Changelog
 3.0b9 - Unreleased
 ------------------
 
+- Fixed functional tests to avoid an extraneous slash in the URL.
+  [hannosch]
+
 - Added a new I18NOnlyBaseBTreeFolder mix-in, which can be used in Plone 4 to
   give LinguaPlone behavior to the new plone.app.folder types.
   [hannosch]

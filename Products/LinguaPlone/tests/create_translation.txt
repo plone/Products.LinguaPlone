@@ -35,7 +35,7 @@ content, as expected.
 
   Invokes the script:
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Authorization: Basic %s:%s
   ... """ % (en_path + fr_create, default_user, default_password))
   HTTP/1.1 302 Moved Temporarily

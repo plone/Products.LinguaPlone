@@ -42,7 +42,7 @@ The normal 'edit' action is used when dealing with the canonical
 translation.
 
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Authorization: Basic %s:%s
   ... Cookie: I18N_LANGUAGE=en
   ... """ % (en_path + '/edit', default_user, default_password))
@@ -58,7 +58,7 @@ The custom 'translate_item' template is used when dealing with a
 non-canonical translation.
 
   >>> print http(r"""
-  ... GET /%s HTTP/1.1
+  ... GET %s HTTP/1.1
   ... Authorization: Basic %s:%s
   ... Cookie: I18N_LANGUAGE=de
   ... """ % (de_path + '/edit', default_user, default_password))
