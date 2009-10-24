@@ -9,11 +9,20 @@ from Products.LinguaPlone.tests.LinguaPloneTestCase import \
 FILES = [
     'create_translation.txt',
     'dynamic_view.txt',
-    'language_policies.txt',
     'translate_edit.txt',
     'migration.txt',
 ]
 
+PLONE40 = False
+try:
+    from Products.PloneTestCase.version import PLONE40
+except ImportError:
+    pass
+
+if PLONE40:
+    FILES.append('language_policies4.txt')
+else:
+    FILES.append('language_policies.txt')
 
 def test_suite():
     from unittest import TestSuite
