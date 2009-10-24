@@ -4,6 +4,9 @@ Changelog
 3.0b9 - Unreleased
 ------------------
 
+- Adjusted tests to new default page behavior in Plone 4.
+  [hannosch]
+
 - Made use of the new getTranslations API and avoid calculating the review
   state if it is not required.
   [hannosch]
