@@ -4,6 +4,10 @@ Changelog
 3.0b9 - Unreleased
 ------------------
 
+- Made use of the new getTranslations API and avoid calculating the review
+  state if it is not required.
+  [hannosch]
+
 - Fixed functional tests to avoid an extraneous slash in the URL.
   [hannosch]
 

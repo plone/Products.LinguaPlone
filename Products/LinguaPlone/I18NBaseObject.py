@@ -243,10 +243,11 @@ class I18NBaseObject(Implicit):
     def setCanonical(self):
         """Sets the canonical attribute."""
         if not self.isCanonical():
-            translations = self.getTranslations(_is_canonical=False)
-            for obj, wfstate in translations.values():
+            translations = self.getTranslations(
+                _is_canonical=False, review_state=False).values()
+            for obj in translations:
                 obj.deleteReferences(config.RELATIONSHIP)
-            for obj, wfstate in translations.values():
+            for obj in translations:
                 if obj != self:
                     obj.addTranslationReference(self)
 

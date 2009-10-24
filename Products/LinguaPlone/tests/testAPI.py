@@ -167,6 +167,11 @@ class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEqual(translations['de'][0], self.german)
         self.assertEqual(translations['de'][1], 'private')
 
+    def testGetTranslationsNoReviewState(self):
+        translations = self.english.getTranslations(review_state=False)
+        self.assertEqual(translations['en'], self.english)
+        self.assertEqual(translations['de'], self.german)
+
     def testReferences(self):
         reftool = self.portal.reference_catalog
         ref = reftool.getReferences(self.german, 'translationOf')[0]
