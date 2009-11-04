@@ -4,6 +4,9 @@ Changelog
 3.0b9 - Unreleased
 ------------------
 
+- Don't fail on broken references in ``translated_references``.
+  [hannosch]
+
 - Adjusted tests to new default page behavior in Plone 4.
   [hannosch]
 

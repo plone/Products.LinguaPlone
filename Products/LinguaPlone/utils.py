@@ -49,7 +49,11 @@ def translated_references(context, language, sources):
         if isinstance(source, basestring):
             # if we get a uid, lookup the object
             brains = catalog(UID=source)
-            source = brains[0].getObject()
+            if len(brains) > 0:
+                try:
+                    source = brains[0].getObject()
+                except AttributeError:
+                    pass
         target = source
         if ITranslatable.providedBy(source):
             canonical = source.getCanonical()
