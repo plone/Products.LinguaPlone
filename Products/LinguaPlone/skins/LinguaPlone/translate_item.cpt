@@ -2,7 +2,8 @@
            xmlns:tal="http://xml.zope.org/namespaces/tal"
            xmlns:metal="http://xml.zope.org/namespaces/metal"
            xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-            define="view context/@@at_base_edit_view;
+           define="view context/@@at_base_edit_view;
+                   portal context/@@plone_portal_state/portal;
                    dummy python:view.isTemporaryObject() and request.set('disable_border', True);
                    lifecycle context/@@at_lifecycle_view;
                    lock_info context/@@plone_lock_info;
