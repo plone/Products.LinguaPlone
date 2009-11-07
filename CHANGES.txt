@@ -4,6 +4,16 @@ Changelog
 3.0c2 - unreleased
 ------------------
 
+- Changed import from deprecated Products.Archetypes.public to
+  Products.Archetypes.atapi.
+  [maurits]
+
+- Explicitly define ``portal`` inside the style_slot.
+  [maurits]
+
+- Replaced the css_slot with the style_slot, as it is deprecated.
+  [maurits]
+
 - Use new shared plonetest config file.
   [hannosch]
 
