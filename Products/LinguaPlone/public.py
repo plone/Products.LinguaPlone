@@ -1,4 +1,4 @@
-from Products.Archetypes.public import *
+from Products.Archetypes.atapi import *
 from Products.LinguaPlone.utils import registerType, process_types
 from Products.LinguaPlone.I18NBaseObject import AlreadyTranslated
 from Products.LinguaPlone.I18NBaseObject import I18NBaseObject as BaseObject
