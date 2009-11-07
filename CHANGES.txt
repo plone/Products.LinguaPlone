@@ -4,6 +4,8 @@ Changelog
 3.0c2 - unreleased
 ------------------
 
+- Use new shared plonetest config file.
+  [hannosch]
 
 3.0c1 - 2009-11-04
 ------------------
