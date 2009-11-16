@@ -4,6 +4,10 @@ Changelog
 3.0c2 - unreleased
 ------------------
 
+- Silence reference exceptions raised inside the reference multiplexing.
+  A normal user cannot do anything about them, so we log them instead.
+  [hannosch]
+
 - Changed import from deprecated Products.Archetypes.public to
   Products.Archetypes.atapi.
   [maurits]

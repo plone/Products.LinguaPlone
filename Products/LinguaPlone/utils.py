@@ -13,11 +13,13 @@ from Products.CMFPlone.utils import _createObjectByType
 from Products.Archetypes.ClassGen import GeneratorError, _modes
 from Products.Archetypes.ClassGen import Generator as ATGenerator
 from Products.Archetypes.ClassGen import ClassGenerator as ATClassGenerator
+from Products.Archetypes.exceptions import ReferenceException
 from Products.Archetypes.ArchetypeTool import registerType as registerATType
 
 from Products.LinguaPlone.config import KWARGS_TRANSLATION_KEY
 from Products.LinguaPlone.config import RELATIONSHIP
 from Products.LinguaPlone.config import I18NAWARE_REFERENCE_FIELDS
+from Products.LinguaPlone.config import log
 from Products.LinguaPlone.interfaces import ILanguageIndependentFields
 from Products.LinguaPlone.interfaces import ILocateTranslation
 from Products.LinguaPlone.interfaces import ITranslatable
@@ -132,11 +134,14 @@ def generatedMutatorWrapper(name):
                 # Handle translation of reference targets
                 language = t.Language()
                 value = translated_references(self, language, value)
-            if translationMethodName is None:
-                # Handle schemaextender fields
-                res = field.set(t, value, **kw)
-            else:
-                res = getattr(t, translationMethodName)(value, **kw)
+            try:
+                if translationMethodName is None:
+                    # Handle schemaextender fields
+                    res = field.set(t, value, **kw)
+                else:
+                    res = getattr(t, translationMethodName)(value, **kw)
+            except ReferenceException:
+                log("Tried setting reference to an invalid uid %s" % value)
         return res
     # end of "def generatedMutator"
     return generatedMutator
