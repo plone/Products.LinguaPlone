@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os.path
 
-version = '3.0c3'
+version = '3.0c4'
 
 setup(name='Products.LinguaPlone',
       version=version,
