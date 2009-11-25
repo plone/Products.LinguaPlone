@@ -130,16 +130,17 @@ def generatedMutatorWrapper(name):
             if field is None:
                 # don't copy fields not existing in destination schema
                 continue
+            tvalue = value
             if isinstance(field, tuple(I18NAWARE_REFERENCE_FIELDS)):
                 # Handle translation of reference targets
                 language = t.Language()
-                value = translated_references(self, language, value)
+                tvalue = translated_references(self, language, value)
             try:
                 if translationMethodName is None:
                     # Handle schemaextender fields
-                    res = field.set(t, value, **kw)
+                    res = field.set(t, tvalue, **kw)
                 else:
-                    res = getattr(t, translationMethodName)(value, **kw)
+                    res = getattr(t, translationMethodName)(tvalue, **kw)
             except ReferenceException:
                 log("Tried setting reference to an invalid uid %s" % value)
         return res

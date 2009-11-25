@@ -4,6 +4,11 @@ Changelog
 3.0c3 - Unreleased
 ------------------
 
+- Made the translated reference functionality more resilient against errors.
+  We overwrote the target ``value`` inside the loop setting the references on
+  translations. In case of an invalid target in one language, this caused all
+  subsequent translations to fail with a different error.
+  [hannosch]
 
 3.0c2 - 2009-11-16
 ------------------
