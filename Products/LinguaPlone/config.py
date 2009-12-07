@@ -1,4 +1,5 @@
 import logging
+import os
 
 from Products.Archetypes.Field import ReferenceField
 
@@ -16,7 +17,13 @@ DEBUG = 0  ## See debug messages
 # With translations-aware catalog you only get the results for the current
 # language, unless you explicitly ask for all results by providing the
 # Language='all' keyword.
-I18NAWARE_CATALOG = 1
+
+I18NAWARE_CATALOG = os.environ.get('PLONE_I18NAWARE_CATALOG', None)
+if I18NAWARE_CATALOG is None:
+    I18NAWARE_CATALOG = True
+else:
+    I18NAWARE_CATALOG = I18NAWARE_CATALOG.lower().strip() in ('true', '1')
+
 NOFILTERKEYS = ['Language', 'UID', 'id', 'getId']
 I18NAWARE_REFERENCE_FIELDS = [ReferenceField, ]
 

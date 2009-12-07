@@ -4,6 +4,9 @@ Changelog
 3.0c4 - Unreleased
 ------------------
 
+- Made it possible to disable the i18n aware catalog feature via an environment
+  variable called ``PLONE_I18NAWARE_CATALOG``.
+  [hannosch]
 
 3.0c3 - 2009-11-25
 ------------------
