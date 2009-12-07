@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0c4 - Unreleased
+3.0c4 - 2009-12-07
 ------------------
 
 - Made it possible to disable the i18n aware catalog feature via an environment
