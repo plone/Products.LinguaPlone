@@ -1,9 +1,11 @@
 Changelog
 =========
 
-3.0c5 - Unreleased
-------------------
+3.0 - 2009-12-21
+----------------
 
+- No changes from last release candidate.
+  [hannosch]
 
 3.0c4 - 2009-12-07
 ------------------
