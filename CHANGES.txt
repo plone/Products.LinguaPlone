@@ -4,6 +4,7 @@ Changelog
 3.0.1 - unreleased
 ------------------
 
+- Small documentation updates.
 
 3.0 - 2009-12-21
 ----------------

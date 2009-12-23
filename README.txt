@@ -1,24 +1,23 @@
 Introduction
 ============
 
-LinguaPlone aims to be *the* multilingual/translation solution for
-Plone, and achieves this by being as transparent as possible and by
-minimizing the impact for existing applications and Plone itself.
+LinguaPlone is *the* multilingual/translation solution for Plone, and achieves
+this by being as transparent as possible and by minimizing the impact for
+existing applications and Plone itself.
 
-It utilizes Archetypes references to do the translation, and all content
-is left intact both on install and uninstall - thus, it will not disrupt
-your content structure in any way. It also works with WebDAV and FTP.
+It utilizes the Archetypes reference engine to do the translation, and all
+content is left intact both on install and uninstall - thus, it will not
+disrupt your content structure in any way. It also works with WebDAV and FTP.
 
-LinguaPlone doesn't require a particular hierarchy of content, and will
-work with any layout of your content space.
+LinguaPlone doesn't require a particular hierarchy of content, and will work
+with any layout of your content space.
 
 Some benefits of LinguaPlone
 ----------------------------
 
 - Totally transparent, install-and-go.
 
-- Each translation is a discrete object, and can be workflowed
-  individually.
+- Each translation is a discrete object, and can be workflowed individually.
 
 - This also means that it works with WebDAV and FTP.
 
@@ -43,7 +42,7 @@ Some benefits of LinguaPlone
   for fields you want to be the same across translations, and updated in all
   languages if one of them changes.
 
-- Uses the notion of Canonical versions, so you can do interesting things
+- Uses the notion of canonical versions, so you can do interesting things
   with workflow, like invalidate all translations of a document when the
   master copy has changed.
 
@@ -73,7 +72,7 @@ LinguaPlone ships with a few example types that demonstrates the translation
 mechanism. It's trivial to add this to your own classes (see the README),
 but to save you the hassle, you can try this simple experiment:
 
-- Make sure you have Plone 3.2 or newer installed.
+- Make sure you have Plone 3.3 or newer installed.
 
 - Install the Products.LinguaPlone egg
 
@@ -108,7 +107,7 @@ We now want to add a simple type:
 
 - Save this translation.
 
-- Try to switch languages by clicking the flags.
+- Try to switch languages using the language names.
 
 That's a very simple use case for the multilingual types.
 
@@ -116,57 +115,9 @@ That's a very simple use case for the multilingual types.
 Developer Usage
 ===============
 
-You can test it by multilingual-enabling your existing AT content types
-(see instructions below),  or by testing the simple included types.
-Don't forget to select what languages should be available in
-'portal_languages' in the ZMI. :)
-
-
-Credits
-=======
-
-LinguaPlone was donated to the Plone Foundation by Jarn AS in March 2006.
-
-Design and development --
-  Jarn_ (Alexander Limi, Dorneles Tremea, Geir Baekholt, Helge Tesdal, Stefan H. Holek, Wichert Akkerman)
-
-Original design idea:
-  `Object realms`_ (Benjamin Saller, Kapil Thangavelu)
-
-Funding and deployment, initial version:
-  Oxfam International
-
-.. _Jarn: http://www.jarn.com
-.. _Object realms: http://www.objectrealms.net/
-
-Additional funding/sponsorship:
-  Hitotsubashi University in Tokyo, Centre for New European studies
-  (Jonathan Lewis)
-
-Funding Plone 2.0.x compatibility:
-  Zope Japan Corporation
-  (Takeshi Yamamoto)
-
-Also many thanks to
-
-Simon Eisenmann:
-   For doing the hard job of the first implementations (I18NLayer)
-   we had to learn from before doing this.
-
-Learning Lab Denmark:
-   For contributing and sponsoring the experience needed to build a
-   multilingual solution.
-
-Nate Aune:
-   For always pushing for the better solution and making us realise
-   LinguaPlone had to be built.
-
-Jodok Batlogg:
-   For extensive testing, deploying and feedback.
-
-Sasha Vincic:
-   For testing and expanding and making cool new stuff happen with
-   LinguaPlone, XLIFF import/export in particular.
+You can test it by multilingual-enabling your existing AT content types (see
+instructions below), or by testing the simple included types. Don't forget to
+select what languages should be available in 'portal_languages' in the ZMI. :)
 
 
 Implementation details
@@ -188,7 +139,7 @@ translation.
 
 The value is also stored on each translated object so every object has every
 attribute in case it is moved out of a translation context or some attributes
-(like start and end on Events) are referenced directly.
+(like start and end on events) are referenced directly.
 
 Language independence is set in the AT schema definition. Only AT based
 content types can have language independent fields.
@@ -215,7 +166,8 @@ add::
 For the fields that are language independent, you add
 'languageIndependent=True' in the schema definition.
 
+
 License
 =======
 
-  GNU General Public License, version 2.1
+GNU General Public License, version 2.1
