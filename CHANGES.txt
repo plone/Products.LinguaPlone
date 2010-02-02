@@ -4,10 +4,11 @@ Changelog
 3.0.1 - unreleased
 ------------------
 
-- Language Portlet was broken due to an prior change of the selector. fixed.
-  [jensens] 
+- The language portlet was broken due to a prior change of the selector.
+  [jensens]
 
 - Small documentation updates.
+  [hannosch]
 
 3.0 - 2009-12-21
 ----------------
