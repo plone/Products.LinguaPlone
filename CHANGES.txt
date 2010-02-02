@@ -4,6 +4,10 @@ Changelog
 3.0.1 - unreleased
 ------------------
 
+- Adjusted the FAQ related to changing the language of an item. This closes
+  http://plone.org/products/linguaplone/issues/234.
+  [hannosch]
+
 - Clarify ITranslatable interface description for the getTranslation method.
   This closes http://plone.org/products/linguaplone/issues/226.
   [hannosch]

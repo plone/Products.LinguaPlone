@@ -45,7 +45,7 @@ What happens when I translate a folder?
    with the same language currently in the original folder will be moved
    to the new folder, automatically.
 
-What happens whe I translate the default view of a folder?
+What happens when I translate the default view of a folder?
    The default view is the content selected to be displayed when
    directly accessing a folder. In this case, when translating it, LinguaPlone
    first creates a translation for the folder, then the content.
@@ -73,17 +73,18 @@ Can I change the language of content after initial creation?
    the same language.
 
 How can I change the content language?
-   Both the 'Properties' tab and the 'Manage Translations' menu item allows
-   you to change the language to 'neutral' again. The difference
-   is that the latter also performs some restrictions to only display sane
-   values, while the former display all languages. We recommend using the
-   'Manage Translations' entry in the Translate pulldown.
+   Both the 'Categorization' tab and the 'Manage Translations' menu item allows
+   you to change the language of an item. The difference is that the latter also
+   performs some restrictions to only display sane values, while the former
+   display all languages. We recommend using the 'Manage Translations' entry in
+   the Translate pulldown.
 
 Can I make an already translated content be language independent again?
-   Yes. You just need to change the language to 'neutral'.
+   Yes. You just need to change the language to 'neutral'. This only works on
+   'Categorization' tab of an item.
 
 What is the 'neutral' language?
-   It's exacty what it means: neutral. In other words, it's a way to represent
+   It's exactly what it means: neutral. In other words, it's a way to represent
    the content in all languages. The content becomes language independent and
    can be displayed for any language when both navigating and searching.
 
