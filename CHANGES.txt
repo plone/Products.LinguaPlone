@@ -4,6 +4,10 @@ Changelog
 3.0.1 - unreleased
 ------------------
 
+- Clarify ITranslatable interface description for the getTranslation method.
+  This closes http://plone.org/products/linguaplone/issues/226.
+  [hannosch]
+
 - Made language index more forgiving when dealing with broken canonical
   references. This closes http://plone.org/products/linguaplone/issues/231.
   [hannosch]

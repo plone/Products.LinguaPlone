@@ -83,9 +83,12 @@ class ITranslatable(Interface):
 
     def getTranslation(language='language'):
         """
-        Return the object corresponding to a translated version or None.
+        Return the object corresponding to a translated version or None if no
+        translation exists.
+
         If called without arguments it returns the translation in the currently
-        selected language, or self.
+        selected language. If the object is already in the selection language
+        it returns self.
         """
  
     def getTranslationLanguages():
