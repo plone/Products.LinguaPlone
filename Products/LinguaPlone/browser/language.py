@@ -10,10 +10,12 @@ from plone.memoize.instance import memoize
 class Renderer(base.Renderer):
     def __init__(self, context, request, view, manager, data):
         base.Renderer.__init__(self, context, request, view, manager, data)
-        self.selector=TranslatableLanguageSelector(context, request, None, None)
-        self.languages=self.selector.languages()
+        self.selector = TranslatableLanguageSelector(context, request, None, None)
+        self.selector.update()
+        self.languages = self.selector.languages()
         self.languages.sort(key=operator.itemgetter("native"))
-        portal_state = getMultiAdapter((context, request), name=u'plone_portal_state')
+        portal_state = getMultiAdapter((context, request), 
+                                       name=u'plone_portal_state')
         self.portal_url = portal_state.portal_url()
 
     def show(self):

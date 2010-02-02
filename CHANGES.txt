@@ -4,6 +4,9 @@ Changelog
 3.0.1 - unreleased
 ------------------
 
+- Language Portlet was broken due to an prior change of the selector. fixed.
+  [jensens] 
+
 - Small documentation updates.
 
 3.0 - 2009-12-21
