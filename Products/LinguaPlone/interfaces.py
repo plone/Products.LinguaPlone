@@ -87,7 +87,7 @@ class ITranslatable(Interface):
         translation exists.
 
         If called without arguments it returns the translation in the currently
-        selected language. If the object is already in the selection language
+        selected language. If the object is already in the selected language
         it returns self.
         """
  
