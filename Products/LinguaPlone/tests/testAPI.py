@@ -322,10 +322,10 @@ class TestProcessFormRename(LinguaPloneTestCase.LinguaPloneTestCase):
         self.english.processForm(values={'title':'Not Second'})
         self.assertEqual(self.english.getId(), 'only-first')
 
-    def testProcessFormDoesNotRenameTranslation(self):
+    def testProcessFormRenamesTranslation(self):
         transaction.savepoint(optimistic=True)
         self.german.processForm(values={'title' : 'Renamed Too'})
-        self.assertEqual(self.german.getId(), 'doc-de')
+        self.assertEqual(self.german.getId(), 'renamed-too')
 
     def testProcessFormRenameTranslationWithId(self):
         transaction.savepoint(optimistic=True)

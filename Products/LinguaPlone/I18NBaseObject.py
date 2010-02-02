@@ -411,12 +411,31 @@ class I18NBaseObject(Implicit):
     security.declareProtected(permissions.ModifyPortalContent, 'processForm')
     def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
         """Process the schema looking for data in the form."""
+        is_new_object = self.checkCreationFlag()
         BaseObject.processForm(self, data=data, metadata=metadata,
                                REQUEST=REQUEST, values=values)
         # LP specific bits
         if config.AUTO_NOTIFY_CANONICAL_UPDATE:
             if self.isCanonical():
                 self.invalidateTranslations()
+
+        # Check if an explicit id has been passed
+        explicit_id = False
+        if REQUEST is None:
+            REQUEST = getattr(self, 'REQUEST', None)
+
+        if REQUEST is not None:
+            if 'id' in REQUEST.form and REQUEST.form.get('id'):
+                explicit_id = True
+
+        if values is not None:
+            if 'id' in values and values.get('id'):
+                explicit_id = True
+
+        if (is_new_object and not explicit_id and
+            self._at_rename_after_creation):
+            # Renames an object like its normalized title
+            new_id = self._renameAfterCreation()
 
         if shasattr(self, '_lp_default_page'):
             delattr(self, '_lp_default_page')

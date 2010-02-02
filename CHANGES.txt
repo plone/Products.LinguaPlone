@@ -4,6 +4,12 @@ Changelog
 3.0.1 - unreleased
 ------------------
 
+- Fixed a regression introduced in 3.0b4. The title of translations wasn't
+  generated from the title anymore. While we retain the ability to specify an
+  explicit id, by default the new id is now generated from the title again.
+  This closes http://plone.org/products/linguaplone/issues/233.
+  [hannosch]
+
 - The language portlet was broken due to a prior change of the selector.
   [jensens]
 
