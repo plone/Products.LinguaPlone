@@ -127,7 +127,11 @@ class LanguageIndex(SimpleItem, PropertyManager):
             return 0
 
         if ITranslatable.providedBy(obj):
-            cid = obj.getCanonical().UID()
+            canonical = obj.getCanonical()
+            # Gracefully deal with broken references
+            if canonical is None:
+                return 0
+            cid = canonical.UID()
         else:
             # Also index non-translatable content, otherwise
             # LinguaPlone only shows translatable content.

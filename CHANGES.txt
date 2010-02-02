@@ -4,6 +4,10 @@ Changelog
 3.0.1 - unreleased
 ------------------
 
+- Made language index more forgiving when dealing with broken canonical
+  references. This closes http://plone.org/products/linguaplone/issues/231.
+  [hannosch]
+
 - Fixed a regression introduced in 3.0b4. The title of translations wasn't
   generated from the title anymore. While we retain the ability to specify an
   explicit id, by default the new id is now generated from the title again.
