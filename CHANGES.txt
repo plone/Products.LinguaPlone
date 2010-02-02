@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.1 - unreleased
+3.0.1 - 2010-02-02
 ------------------
 
 - Adjusted the FAQ related to changing the language of an item. This closes
