@@ -17,7 +17,7 @@ class SetupView(BrowserView):
         pl = getToolByName(self.context, "portal_languages")
         self.languages = languages = pl.getSupportedLanguages()
         if len(languages) == 1 and not forceOneLanguage:
-            raise Exception('Only one supported language configured.')
+            return 'Only one supported language configured.'
         self.defaultLanguage = pl.getDefaultLanguage()
         available = pl.getAvailableLanguages()
         for language in languages:
@@ -30,7 +30,7 @@ class SetupView(BrowserView):
             result.extend(self.resetDefaultPage())
         result.extend(self.setupLanguageSwitcher())
         if not result:
-            return "Nothing done"
+            return "Nothing done."
         else:
             result.insert(0, "Setup of language root folders on Plone site "
                 "'%s'" % self.context.getId())
@@ -41,7 +41,7 @@ class SetupView(BrowserView):
         doneSomething = False
         canonical = self.folders[self.defaultLanguage]
         for language in self.languages:
-            if ((language <> self.defaultLanguage) and (not
+            if ((language != self.defaultLanguage) and (not
                 canonical.hasTranslation(language))):
                 self.folders[language].addTranslationReference(canonical)
                 doneSomething = True

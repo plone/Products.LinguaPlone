@@ -19,9 +19,7 @@ With the right permission, a user can access the view.
 If only one language is supported, the view also raises an exception.
 
     >>> view()
-    Traceback (most recent call last):
-    ...
-    Exception: Only one supported language configured.
+    'Only one supported language configured.'
 
 After setting up more than one language, calling the view actually sets up the
 language root folders.
@@ -85,4 +83,4 @@ If the view is called a second time, it does nothing.
 
     >>> view = self.portal.restrictedTraverse('@@language-setup-folders')
     >>> print view()
-    Nothing done
+    Nothing done.
