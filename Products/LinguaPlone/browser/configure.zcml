@@ -3,9 +3,7 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone">
 
-  <adapter
-    factory=".controlpanel.MultiLanguageControlPanelAdapter"
-    />
+  <adapter factory=".controlpanel.MultiLanguageControlPanelAdapter" />
 
   <plone:portletRenderer
     portlet="plone.app.portlets.portlets.language.ILanguagePortlet"
@@ -59,22 +57,22 @@
     />
 
   <browser:menu
-     id="plone_contentmenu_translate"
-     title="Translate menu - contains translation-related actions"
-     class=".menu.TranslateMenu"
-     />
+    id="plone_contentmenu_translate"
+    title="Translate menu - contains translation-related actions"
+    class=".menu.TranslateMenu"
+    />
 
-   <adapter for="..interfaces.ITranslatable *"
-     name="plone.contentmenu.translate"
-     factory=".menu.TranslateSubMenuItem"
-     provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
+  <adapter for="..interfaces.ITranslatable *"
+    name="plone.contentmenu.translate"
+    factory=".menu.TranslateSubMenuItem"
+    provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
 
-   <browser:viewlet
-     name="plone.app.i18n.locales.languageselector"
-     manager="plone.app.layout.viewlets.interfaces.IPortalTop"
-     class=".selector.TranslatableLanguageSelector"
-     permission="zope2.View"
-     layer="..interfaces.ILinguaPloneProductLayer"
-     />
+  <browser:viewlet
+    name="plone.app.i18n.locales.languageselector"
+    manager="plone.app.layout.viewlets.interfaces.IPortalTop"
+    class=".selector.TranslatableLanguageSelector"
+    permission="zope2.View"
+    layer="..interfaces.ILinguaPloneProductLayer"
+    />
 
 </configure>
