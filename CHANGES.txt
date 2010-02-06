@@ -4,6 +4,9 @@ Changelog
 3.1.0 - unreleased
 ------------------
 
+- Changed the setup view to give the folders native language titles.
+  [hannosch]
+
 - Added automatic setup of the language switcher to the setup view.
   [hannosch]
 

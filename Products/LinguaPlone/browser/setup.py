@@ -19,9 +19,11 @@ class SetupView(BrowserView):
         if len(languages) == 1 and not forceOneLanguage:
             raise Exception('Only one supported language configured.')
         self.defaultLanguage = pl.getDefaultLanguage()
+        available = pl.getAvailableLanguages()
         for language in languages:
+            info = available[language]
             result.extend(self.setUpLanguage(language,
-                pl.getNameForLanguageCode(language)))
+                info.get('native', info.get('name'))))
         result.extend(self.linkTranslations())
         result.extend(self.removePortalDefaultPage())
         if self.previousDefaultPageId:

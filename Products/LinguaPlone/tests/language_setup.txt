@@ -65,11 +65,11 @@ The folders are linked as translations.
     >>> defaultLanguageFolder.getTranslation('nl') == folders['nl']
     True
     >>> folders['nl'].Title()
-    'Dutch'
+    'Nederlands'
     >>> defaultLanguageFolder.getTranslation('fr') == folders['fr']
     True
     >>> folders['fr'].Title()
-    'French'
+    'Fran\xc3\xa7ais'
 
 The portal has no default page anymore.
 
