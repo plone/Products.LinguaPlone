@@ -4,6 +4,10 @@ Changelog
 3.0.2 - unreleased
 ------------------
 
+- Added more CSS classes to the language selector making it possible to target
+  each language. Inspired by http://www.thirtysomething.it/.
+  [hannosch]
+
 - Only register the catalog export import handlers if they aren't already part
   of Archetypes. This avoids conflicts in Plone 4.0.
   [hannosch]
