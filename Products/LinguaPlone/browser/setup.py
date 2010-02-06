@@ -73,6 +73,7 @@ class SetupView(BrowserView):
             return result
         self.previousDefaultPageId = defaultPageId
         self.context.setDefaultPage(None)
+        self.context.reindexObject()
         result.append('Portal default page removed.')
         return result
 
@@ -107,5 +108,6 @@ class SetupView(BrowserView):
             methods = site.view_methods
             site.view_methods = methods + ('language-switcher', )
             site.default_view = 'language-switcher'
+            self.context.reindexObject()
             result.append('Root language switcher set up.')
         return result
