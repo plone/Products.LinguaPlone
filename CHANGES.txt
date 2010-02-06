@@ -1,8 +1,17 @@
 Changelog
 =========
 
-3.0.2 - unreleased
+3.1.0 - unreleased
 ------------------
+
+- Added new ``language-switcher`` view usable as a default page for the Plone
+  site object to dispatch to the appropriate language root folder.
+  [hannosch]
+
+- Added new ``language-setup-folders`` helper view to set up a regular structure
+  of language root folders for each supported language each marked as a
+  navigation root.
+  [hannosch]
 
 - Added more CSS classes to the language selector making it possible to target
   each language. Inspired by http://www.thirtysomething.it/.

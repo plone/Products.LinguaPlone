@@ -11,6 +11,7 @@ FILES = [
     'dynamic_view.txt',
     'translate_edit.txt',
     'migration.txt',
+    'language_setup.txt',
 ]
 
 PLONE40 = False

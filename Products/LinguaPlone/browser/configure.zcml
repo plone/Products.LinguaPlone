@@ -3,6 +3,9 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone">
 
+  <include package="plone.app.contentmenu" />
+  <include package="plone.app.portlets" />
+
   <adapter factory=".controlpanel.MultiLanguageControlPanelAdapter" />
 
   <plone:portletRenderer
@@ -17,6 +20,21 @@
     class=".controlpanel.LanguageControlPanel"
     permission="cmf.ManagePortal"
     layer="..interfaces.ILinguaPloneProductLayer"
+    />
+
+  <browser:page
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    name="language-setup-folders"
+    class=".setup.SetupView"
+    permission="cmf.ManagePortal" />
+
+  <browser:view
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".switcher.LanguageSwitcher"
+    name="language-switcher"
+    permission="zope.Public"
+    menu="plone_displayviews"
+    title="Root language switcher"
     />
 
   <browser:page 
