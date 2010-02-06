@@ -40,7 +40,8 @@ language root folders.
     INavigationRoot setup on folder 'fr'
     Translations linked.
     Portal default page removed.
-    Moved default page 'front-page' to folder 'en'
+    Moved default page 'front-page' to folder 'en'.
+    Root language switcher set up.
 
 The portal holds a folder per supported language, each of them is marked as
 INavigationRoot.
@@ -82,5 +83,6 @@ The original default page is the default page of the corresponding folder.
 
 If the view is called a second time, it does nothing.
 
+    >>> view = self.portal.restrictedTraverse('@@language-setup-folders')
     >>> print view()
     Nothing done

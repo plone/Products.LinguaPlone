@@ -7,7 +7,9 @@ from Products.Five import BrowserView
 
 class SetupView(BrowserView):
 
-    fixDefaultPage = False
+    def __init__(self, context, request):
+        super(SetupView, self).__init__(context, request)
+        self.previousDefaultPageId = None
 
     def __call__(self, forceOneLanguage=False):
         result = []
@@ -22,8 +24,9 @@ class SetupView(BrowserView):
                 pl.getNameForLanguageCode(language)))
         result.extend(self.linkTranslations())
         result.extend(self.removePortalDefaultPage())
-        if self.fixDefaultPage:
+        if self.previousDefaultPageId:
             result.extend(self.resetDefaultPage())
+        result.extend(self.setupLanguageSwitcher())
         if not result:
             return "Nothing done"
         else:
@@ -66,16 +69,16 @@ class SetupView(BrowserView):
         defaultPageId = self.context.getDefaultPage()
         if not defaultPageId:
             return result
-        self.previousDefaultPage = getattr(self.context, defaultPageId)
+        self.previousDefaultPageId = defaultPageId
         self.context.setDefaultPage(None)
-        self.fixDefaultPage = True
         result.append('Portal default page removed.')
         return result
 
     def resetDefaultPage(self):
         result = []
-        language = self.previousDefaultPage.Language()
-        pageId = self.previousDefaultPage.getId()
+        previousDefaultPage = getattr(self.context, self.previousDefaultPageId)
+        language = previousDefaultPage.Language()
+        pageId = self.previousDefaultPageId
         # test language neutral
         if language == '':
             language = self.defaultLanguage
@@ -90,6 +93,17 @@ class SetupView(BrowserView):
             target.reindexObject()
             defaultPage = getattr(target, pageId)
             defaultPage.reindexObject()
-            result.append("Moved default page '%s' to folder '%s'" %
+            result.append("Moved default page '%s' to folder '%s'." %
                 (pageId, target.getId()))
+        return result
+
+    def setupLanguageSwitcher(self):
+        result = []
+        tt = getToolByName(self.context, 'portal_types')
+        site = tt['Plone Site']
+        if 'language-switcher' not in site.view_methods:
+            methods = site.view_methods
+            site.view_methods = methods + ('language-switcher', )
+            site.default_view = 'language-switcher'
+            result.append('Root language switcher set up.')
         return result
