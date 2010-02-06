@@ -53,11 +53,16 @@ class SetupView(BrowserView):
         result = []
         folderId = "%s" % code
         folder = getattr(self.context, folderId, None)
+        wftool = getToolByName(self.context, 'portal_workflow')
         if folder is None:
             self.context.invokeFactory('Folder', folderId)
             folder = getattr(self.context, folderId)
             folder.setLanguage(code)
             folder.setTitle(name)
+            state = wftool.getInfoFor(folder, 'review_state', None)
+            # This assumes a direct 'publish' transition from the initial state
+            if state != 'published':
+                wftool.doActionFor(folder, 'publish')
             folder.reindexObject()
             result.append("Added '%s' folder: %s" % (code, folderId))
         self.folders[code] = folder

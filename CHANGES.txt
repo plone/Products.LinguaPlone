@@ -4,6 +4,9 @@ Changelog
 3.1.0 - unreleased
 ------------------
 
+- Added workflow transitions to the setup view to publish the language folders.
+  [hannosch]
+
 - Changed the setup view to give the folders native language titles.
   [hannosch]
 
