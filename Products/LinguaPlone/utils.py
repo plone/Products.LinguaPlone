@@ -119,7 +119,7 @@ def generatedMutatorWrapper(name):
 
         # get all translations including self
         translations = []
-        if hasattr(self, 'getTranslations'):
+        if not kw.get('_initializing_', False) and hasattr(self, 'getTranslations'):
             translations = self.getTranslations(review_state=False).values()
 
         # reverse to return the result of the canonical mutator
