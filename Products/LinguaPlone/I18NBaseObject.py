@@ -190,12 +190,7 @@ class I18NBaseObject(Implicit):
         If review_state is False, returns a dict of {lang : object}
         """
         if _is_canonical is None:
-            if getattr(aq_parent(aq_inner(self)), 'portal_type', None) == 'TempFolder':
-                # It's a temporary object
-                _is_canonical = True
-            else:
-                _is_canonical = self.isCanonical()
-
+            _is_canonical = self.isCanonical()
         if _is_canonical:
             result = {}
             lang = self.Language()
@@ -290,11 +285,6 @@ class I18NBaseObject(Implicit):
         # language) and restores the original value again.  So really
         # there is no reason for doing anything other than setting the
         # value.
-        if '_initializing_' in kwargs:
-            # setting default value doesn't need computing relations
-            self.getField('language').set(self, value)
-            return
-
         req = getattr(self, 'REQUEST', None)
         if shasattr(req, 'get'):
             if req.get('SCHEMA_UPDATE', None) is not None:
@@ -328,15 +318,12 @@ class I18NBaseObject(Implicit):
     def defaultLanguage(self):
         """Returns the initial default language."""
         parent = aq_parent(aq_inner(self))
-        if getattr(parent, 'portal_type', None) == 'TempFolder':
-            # We have factory tool
+        if getattr(parent, 'portal_type', None) == 'TempFolder':# We have factory tool
             parent = aq_parent(aq_parent(parent))
-
         if ITranslatable.providedBy(parent):
             language = parent.Language()
             if language:
                 return parent.Language()
-
 
         language_tool = getToolByName(self, 'portal_languages', None)
         if language_tool:

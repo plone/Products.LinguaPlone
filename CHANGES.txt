@@ -4,9 +4,6 @@ Changelog
 3.1.0 - unreleased
 ------------------
 
-- Fix creation as neutral with the portal_factory
-  [edegoute]
-
 - Added workflow transitions to the setup view to publish the language folders.
   [hannosch]
 
