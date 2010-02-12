@@ -145,7 +145,7 @@
                     </div>
 
                     <div class="field"
-                         tal:define="startup_directory python:here.referencebrowser_startupDirectory('');
+                         tal:define="startup_directory python:'/'.join(here.getPhysicalPath());
                                      value request/link_content | nothing;
                                      fieldName string:link_content;
                                      fieldRealName fieldName;
