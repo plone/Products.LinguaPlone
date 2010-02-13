@@ -4,6 +4,11 @@ Changelog
 3.1.0 - unreleased
 ------------------
 
+- Made the manage_translations_form compatible with Plone 4 by replacing a
+  call to referencebrowser_startupDirectory with hardcoding the current context
+  as the startup directory.
+  [huub_bouma]
+
 - Added workflow transitions to the setup view to publish the language folders.
   [hannosch]
 
