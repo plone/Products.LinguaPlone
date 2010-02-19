@@ -14,8 +14,8 @@ def languageFilter(query):
         return
     if query.get('Language') == 'all':
         del query['Language']
-	return
-    for key in NOFILTERKEYS:	# any "nofilter" indexing prevent mangling
+        return
+    for key in NOFILTERKEYS:    # any "nofilter" indexing prevent mangling
         if key in query:
             return
     query['Language'] = [languageTool.getPreferredLanguage(), '']

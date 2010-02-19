@@ -30,10 +30,10 @@ def I18nAwareCatalog():
             language, unless you explicitly ask for all results by
             providing the Language="all" keyword.
         """
-	if REQUEST is not None:
-	    languageFilter(REQUEST)
-	else:
-	    languageFilter(kw)
+        if REQUEST is not None:
+            languageFilter(REQUEST)
+        else:
+            languageFilter(kw)
         return self.__lp_old_searchResults(REQUEST, **kw)
 
     CatalogTool.__lp_old_searchResults = CatalogTool.searchResults
