@@ -2,9 +2,61 @@
 # Catalog Tests
 #
 
+from Products.LinguaPlone.config import NOFILTERKEYS
+from Products.LinguaPlone.catalog import languageFilter
 from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
+
+
+class TestLanguageFilter(LinguaPloneTestCase.LinguaPloneTestCase):
+
+    def afterSetUp(self):
+        LinguaPloneTestCase.LinguaPloneTestCase.afterSetUp(self)
+        self.addLanguage('de')
+        self.setLanguage('en')
+
+    def testEnglish(self):
+        query = {'review_state' : 'published'}
+        languageFilter(query)
+        self.failUnless('Language' in query)
+        self.assertEquals(query['Language'], ['en', ''])
+
+    def testGerman(self):
+        query = {'review_state' : 'published', 'Language' : 'de'}
+        languageFilter(query)
+        self.failUnless('Language' in query)
+        self.assertEquals(query['Language'], 'de')
+
+    def testMultiple(self):
+        query = {'review_state' : 'published', 'Language' : ['en', 'de']}
+        languageFilter(query)
+        self.failUnless('Language' in query)
+        self.assertEquals(query['Language'], ['en', 'de'])
+
+    def testNeutral(self):
+        query = {'review_state' : 'published', 'Language' : ''}
+        languageFilter(query)
+        self.failUnless('Language' in query)
+        self.assertEquals(query['Language'], '')
+
+    def testAll(self):
+        query = {'review_state' : 'published', 'Language' : 'all'}
+        languageFilter(query)
+        self.failIf('Language' in query)
+
+    def testNoFilter(self):
+        self.failUnless('UID' in NOFILTERKEYS)
+        query = {'UID' : '123'}
+        languageFilter(query)
+        self.failIf('Language' in query)
+
+    def testNoFilterExplicitLanguage(self):
+        self.failUnless('UID' in NOFILTERKEYS)
+        query = {'UID' : '123', 'Language' : 'de'}
+        languageFilter(query)
+        self.failUnless('Language' in query)
+        self.assertEquals(query['Language'], 'de')
 
 
 class TestMultilingualCatalog(LinguaPloneTestCase.LinguaPloneTestCase):
@@ -74,6 +126,6 @@ class TestMultilingualCatalog(LinguaPloneTestCase.LinguaPloneTestCase):
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
+    suite.addTest(makeSuite(TestLanguageFilter))
     suite.addTest(makeSuite(TestMultilingualCatalog))
     return suite
-
