@@ -1,5 +1,5 @@
 from Products.LinguaPlone.config import I18NAWARE_CATALOG
-from Products.LinguaPlone.config import NOFILTERKEYS
+from Products.LinguaPlone.catalog import languageFilter
 
 _enabled = []
 
@@ -21,7 +21,6 @@ def I18nAwareCatalog():
         from Globals import DTMLFile
 
     from Products.CMFPlone.CatalogTool import CatalogTool
-    from Products.CMFCore.utils import getToolByName
 
     def searchResults(self, REQUEST=None, **kw):
         """ Calls ZCatalog.searchResults with extra arguments that
@@ -31,29 +30,10 @@ def I18nAwareCatalog():
             language, unless you explicitly ask for all results by
             providing the Language="all" keyword.
         """
-        kw = kw.copy()
-        languageTool = getToolByName(self, 'portal_languages', None)
-
-        # When searching on certain indexes we don't want language filtering.
-        def filterSearch(query, nofilter=NOFILTERKEYS):
-            if not query:
-                return 1
-            for key in nofilter:
-                if key in query:
-                    return 0
-            return 1
-
-        if languageTool is not None and filterSearch(REQUEST) and filterSearch(kw):
-            try:
-                kw['Language'] = [languageTool.getPreferredLanguage(), '']
-            except AttributeError:
-                pass
-        # 'all' deletes the query key
-        elif REQUEST and REQUEST.get('Language', '') == 'all':
-            del REQUEST['Language']
-        elif kw.get('Language', '') == 'all':
-            del kw['Language']
-
+	if REQUEST is not None:
+	    languageFilter(REQUEST)
+	else:
+	    languageFilter(kw)
         return self.__lp_old_searchResults(REQUEST, **kw)
 
     CatalogTool.__lp_old_searchResults = CatalogTool.searchResults

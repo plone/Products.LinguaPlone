@@ -4,6 +4,9 @@ Changelog
 3.1.0 - unreleased
 ------------------
 
+- Factor out filtering of "Language" parameter so it can be reused elsewhere.
+  [hannosch, witsch]
+
 - Made the manage_translations_form compatible with Plone 4 by replacing a
   call to referencebrowser_startupDirectory with hardcoding the current context
   as the startup directory.
