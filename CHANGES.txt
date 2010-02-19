@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1.0 - unreleased
+3.1a1 - 2010-02-19
 ------------------
 
 - Factor out filtering of "Language" parameter so it can be reused elsewhere.
