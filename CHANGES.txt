@@ -4,6 +4,8 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Minor documentation updates.
+  [hannosch]
 
 3.1a1 - 2010-02-19
 ------------------

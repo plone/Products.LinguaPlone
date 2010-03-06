@@ -50,8 +50,8 @@ Some benefits of LinguaPlone
 Installation
 ============
 
-If you are upgrading LinguaPlone there may be an upgrade step that you
-need to do.  Please check the 'Add-on Products' control panel for this.
+If you are upgrading LinguaPlone there may be an upgrade step that you need to
+do. Please check the 'Add-ons' control panel for this.
 
 
 Frequently asked questions
@@ -78,7 +78,7 @@ but to save you the hassle, you can try this simple experiment:
 
 - (Re)start Zope
 
-- 'Site Setup' &rarr; 'Add/Remove Products', install LinguaPlone
+- 'Site Setup' &rarr; 'Addons', install LinguaPlone
 
 For the demonstration to make sense, we need to define a list of languages:
 
@@ -93,8 +93,7 @@ For the demonstration to make sense, we need to define a list of languages:
 - Press 'Save'
 
 Now we have a few languages to play with, and can go back to the Plone
-interface. Notice how you now have flags indicating your selected languages
-under the print/sendto area.
+interface. Notice how you now have a few language names in the top right corner.
 
 We now want to add a simple type:
 
