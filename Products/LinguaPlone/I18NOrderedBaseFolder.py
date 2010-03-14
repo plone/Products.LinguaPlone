@@ -8,6 +8,7 @@ except ImportError:
 
 from Products.LinguaPlone.I18NBaseObject import I18NBaseObject
 
+
 class I18NOrderedBaseFolder(I18NBaseObject, OrderedBaseFolder):
     """Base class for translatable objects."""
 

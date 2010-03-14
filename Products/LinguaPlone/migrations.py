@@ -85,7 +85,8 @@ def add_synced_vocabularies(context):
 
 def add_properties_sheet(context):
     log = logging.getLogger("LinguaPlone")
-    context.runImportStepFromProfile('profile-Products.LinguaPlone:LinguaPlone',
-                                     'propertiestool',
-                                     run_dependencies=False,
-                                     purge_old=False)
+    context.runImportStepFromProfile(
+        'profile-Products.LinguaPlone:LinguaPlone',
+        'propertiestool',
+        run_dependencies=False,
+        purge_old=False)

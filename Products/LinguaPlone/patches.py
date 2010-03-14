@@ -3,6 +3,7 @@ from Products.LinguaPlone.catalog import languageFilter
 
 _enabled = []
 
+
 def AlreadyApplied(patch):
     if patch in _enabled:
         return True
@@ -10,8 +11,8 @@ def AlreadyApplied(patch):
     return False
 
 
-# Patches the catalog tool to filter languages
 def I18nAwareCatalog():
+    # Patches the catalog tool to filter languages
     if AlreadyApplied('I18nAwareCatalog'):
         return
 
@@ -39,7 +40,7 @@ def I18nAwareCatalog():
     CatalogTool.__lp_old_searchResults = CatalogTool.searchResults
     CatalogTool.searchResults = searchResults
     CatalogTool.__call__ = searchResults
-    CatalogTool.manage_catalogView = DTMLFile('www/catalogView',globals())
+    CatalogTool.manage_catalogView = DTMLFile('www/catalogView', globals())
 
 
 if I18NAWARE_CATALOG:
@@ -49,6 +50,7 @@ if I18NAWARE_CATALOG:
 # Make sure the addSupportedLanguage method works without checking the
 # vocabularies
 from Products.PloneLanguageTool import LanguageTool
+
 
 def new_addSupportedLanguage(self, langCode):
     """Registers a language code as supported."""

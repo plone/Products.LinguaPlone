@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Some PEP8 cleanup.
+  [hannosch]
+
 - Minor documentation updates.
   [hannosch]
 

@@ -38,8 +38,8 @@ class IndexEntry:
     id. When used as mapping keys, these indexes are deemed the same object
     when their canonical id is identical, avoiding returning multiple
     translations of the same content.
-
     """
+
     def __init__(self, docid, main, sub, cid):
         self.docid = docid
         self.main = main
@@ -57,8 +57,10 @@ class IndexEntry:
     # Mapping key functions, cid is the actual key
     def __hash__(self):
         return hash(self.cid)
+
     def __cmp__(self, other):
         return cmp(self.cid, other.cid)
+
 
 class LanguageIndex(SimpleItem, PropertyManager):
     implements(ILanguageIndex, IUniqueValueIndex, ISortIndex)
@@ -70,7 +72,7 @@ class LanguageIndex(SimpleItem, PropertyManager):
     meta_type = 'LanguageIndex'
 
     manage_options = PropertyManager.manage_options + (
-        dict(label='Histogram', action='manage_histogram'),)
+        dict(label='Histogram', action='manage_histogram'), )
 
     security = ClassSecurityInfo()
 
@@ -185,9 +187,10 @@ class LanguageIndex(SimpleItem, PropertyManager):
             rows = self._search(language, fallback)
             result = ii_union(result, rows)
 
-        return (result or IISet()), ('Language',)
+        return (result or IISet()), ('Language', )
 
-    security.declareProtected(Permissions.manage_zcatalog_indexes, 'numObjects')
+    security.declareProtected(
+        Permissions.manage_zcatalog_indexes, 'numObjects')
     def numObjects(self):
         """Return the number of indexed objects"""
         return len(self)
@@ -275,7 +278,8 @@ class LanguageIndex(SimpleItem, PropertyManager):
         if entry in self._index[entry.main][entry.sub]:
             self._index[entry.main][entry.sub].remove(entry)
         else:
-            LOG.warning("entry %s existed in _unindex but not in _index." % str(entry))
+            LOG.warning("entry %s existed in _unindex "
+                        "but not in _index." % str(entry))
 
         if not self._index[entry.main][entry.sub]:
             del self._index[entry.main][entry.sub]
@@ -311,6 +315,7 @@ InitializeClass(LanguageIndex)
 
 manage_addLanguageIndexForm = PageTemplateFile('www/addLanguageIndex.pt',
                                                GLOBALS)
+
 
 def manage_addLanguageIndex(self, id, extra=None, REQUEST=None, RESPONSE=None,
                             URL3=None):

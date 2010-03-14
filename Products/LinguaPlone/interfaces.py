@@ -5,6 +5,7 @@ from Products.PluginIndexes.interfaces import IPluggableIndex
 
 from plone.theme.interfaces import IDefaultPloneLayer
 
+
 class ILinguaPloneProductLayer(IDefaultPloneLayer):
     """A layer specific for LinguaPlone.
 
@@ -15,46 +16,47 @@ class ILinguaPloneProductLayer(IDefaultPloneLayer):
 
 class ILanguageIndex(IPluggableIndex):
     """Index for ITranslatable Language tags
-    
+
     The index treats language tags according to RFC 1766, with the assumption
-    that languages with more than one subtag but with the same initial subtag 
+    that languages with more than one subtag but with the same initial subtag
     as related; en-us is related to en-gb, and will fall back to related
     content (same canonical UID) when queried.
-    
+
     Language tags are treated as containing a initial subtag, and one optional
     second subtag, splitting a tag on the first dash. Thus, this index does
-    not support additional subtags, but modern browsers never send anything 
+    not support additional subtags, but modern browsers never send anything
     more complicated than a main language with a region or dialect, nor do
     current Plone i18n tools support anything else.
-    
-    Fallback rules are as follows: if searching for a given language tag, a 
+
+    Fallback rules are as follows: if searching for a given language tag, a
     union is returned of:
-    
+
     1. Exact tag match
     2. Initial subtag match, no second subtag (if not the original search)
     3. Any other second subtags indexed for the initial subtag in alfabetical
        order.
-    
+
     Results are filtered for unique canonical UIDs, thus ensuring only one
     translation per content item is returned.
-    
+
     So, when searching for en-gb, all matches for en-gb are returned, plus
     any matches for en, en-au, en-ca, en-nz, en-us if such tags were indexed
     and not already translated into en-gb.
-    
+
     The fallback behaviour can be disabled by setting index.fallback to False,
     or passing a 'fallback' query parameter (also a boolean) to the index
     when querying.
 
     """
-    
+
     fallback = Attribute(
         'fallback',
         """Wether or not to enable language fallback querying.
-        
+
         Boolean, defaults to True.
         """,
         )
+
 
 class ITranslatable(Interface):
     """
@@ -65,8 +67,8 @@ class ITranslatable(Interface):
     """
 
     def isTranslation():
-        """
-        return language if this object is used as multilingual content, 0 otherwise
+        """Return language if this object is used as multilingual content,
+        0 otherwise.
         """
 
     def addTranslation(language, **kwargs):
@@ -90,7 +92,7 @@ class ITranslatable(Interface):
         selected language. If the object is already in the selected language
         it returns self.
         """
- 
+
     def getTranslationLanguages():
         """
         Return a list of language codes
@@ -179,4 +181,3 @@ class ILanguageIndependentFields(Interface):
 
     def copyFields(translation):
         """Copy language independent fields to translation."""
-

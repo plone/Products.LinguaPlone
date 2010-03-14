@@ -7,7 +7,7 @@ GLOBALS = globals()
 PKG_NAME = "LinguaPlone"
 SKIN_NAME = "LinguaPlone"
 
-SKIN_LAYERS = (SKIN_NAME,)
+SKIN_LAYERS = (SKIN_NAME, )
 
 RELATIONSHIP = 'translationOf'
 
@@ -45,6 +45,7 @@ CANONICAL_DELETE_PROTECTION = 0
 KWARGS_TRANSLATION_KEY = 'linguaplone_languageOf'
 
 logger = logging.getLogger("LinguaPlone")
+
 
 def log(msg, level=logging.INFO):
     logger.log(level, msg)

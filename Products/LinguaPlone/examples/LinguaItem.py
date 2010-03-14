@@ -10,8 +10,9 @@ except ImportError:
 schema = BaseSchema + Schema((
     StringField('contact',
                 languageIndependent = 1,
-                widget = StringWidget(description="Enter a contact email address"
-                                                  " (this field is language independent).")
+                widget = StringWidget(
+                    description="Enter a contact email address (this field is "
+                                "language independent)."),
                ),
     TextField('body',
               required = 1,
@@ -49,19 +50,22 @@ class LinguaItem(BaseContent):
     archetypes_name = portal_type = meta_type = 'Lingua Item'
     schema = schema
 
-    actions = [{ 'id': 'edit',
-                 'name': 'Edit',
-                 'action': 'string:${object_url}/base_edit',
-                 'condition': 'python: object.isTranslatable() and object.isCanonical()',
-                 'permissions': (ModifyPortalContent,),
-                 },
-               { 'id': 'translate',
-                 'name': 'Edit',
-                 'action': 'string:${object_url}/translate_item',
-                 'condition': 'python: object.isTranslatable() and not object.isCanonical()',
-                 'permissions': (ModifyPortalContent,),
-                 },
-               ]
+    actions = [
+        {'id': 'edit',
+         'name': 'Edit',
+         'action': 'string:${object_url}/base_edit',
+         'condition':
+            'python: object.isTranslatable() and object.isCanonical()',
+         'permissions': (ModifyPortalContent, ),
+        },
+       {'id': 'translate',
+        'name': 'Edit',
+        'action': 'string:${object_url}/translate_item',
+        'condition':
+            'python:object.isTranslatable() and not object.isCanonical()',
+        'permissions': (ModifyPortalContent, ),
+        },
+    ]
 
     security = ClassSecurityInfo()
 

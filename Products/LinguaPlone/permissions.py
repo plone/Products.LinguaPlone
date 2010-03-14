@@ -6,6 +6,6 @@ ModifyPortalContent = permissions.ModifyPortalContent
 AccessContentsInformation = permissions.AccessContentsInformation
 
 AddLanguageIndex = 'LinguaPlone: Add LanguageIndex'
-permissions.setDefaultRoles(AddLanguageIndex, ('Manager',))
+permissions.setDefaultRoles(AddLanguageIndex, ('Manager', ))
 
 del permissions

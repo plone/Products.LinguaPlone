@@ -25,10 +25,10 @@ def initialize(context):
         extra_constructors = constructors,
         fti = ftis,
     ).initialize(context)
-    
+
     from Products.LinguaPlone import LanguageIndex
     context.registerClass(
-        LanguageIndex.LanguageIndex, 
+        LanguageIndex.LanguageIndex,
         permission=permissions.AddLanguageIndex,
         constructors=(LanguageIndex.manage_addLanguageIndexForm,
                       LanguageIndex.manage_addLanguageIndex),
@@ -46,4 +46,4 @@ def initialize(context):
     crit_reg.criterion2index[crit_id] = indices + (index, )
 
     value = crit_reg.index2criterion.get(index, ())
-    crit_reg.index2criterion[index] = value + (crit_id,)
+    crit_reg.index2criterion[index] = value + (crit_id, )

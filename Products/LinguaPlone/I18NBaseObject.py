@@ -48,7 +48,6 @@ class TypeInfoWrapper:
     def __nonzero__(self):
         return bool(self.__typeinfo)
 
-
     security.declarePublic('getActionInfo')
     def getActionInfo(self, action_chain, object=None, check_visibility=0,
             check_condition=0):
@@ -56,12 +55,10 @@ class TypeInfoWrapper:
                 check_visibility, check_condition)
         if action_chain=='object/edit':
             urlparts=res['url'].split('/')
-            if urlparts[-1] in [ ('atct_edit', 'base_edit') ]:
+            if urlparts[-1] in [('atct_edit', 'base_edit')]:
                 urlparts[-1]='translate_item'
                 res['url']='/'.join(urlparts)
-
         return res
-
 
     security.declarePublic('queryMethodID')
     def queryMethodID(self, alias, default=None, context=None):
@@ -93,7 +90,7 @@ class I18NBaseObject(Implicit):
         """Adds a translation."""
         if self.hasTranslation(language):
             translation = self.getTranslation(language)
-            raise AlreadyTranslated, translation.absolute_url()
+            raise AlreadyTranslated(translation.absolute_url())
 
         locator = ILocateTranslation(self)
         parent = locator.findLocationForTranslation(language)
@@ -104,7 +101,8 @@ class I18NBaseObject(Implicit):
         kwargs[config.KWARGS_TRANSLATION_KEY] = canonical
 
         factory = ITranslationFactory(self)
-        translation = factory.createTranslation(parent, language, *args, **kwargs)
+        translation = factory.createTranslation(
+            parent, language, *args, **kwargs)
         translation.reindexObject()
         notify(events.ObjectTranslatedEvent(self, translation, language))
 
@@ -117,7 +115,7 @@ class I18NBaseObject(Implicit):
         """Adds the reference used to keep track of translations."""
         if self.hasTranslation(translation.Language()):
             double = self.getTranslation(translation.Language())
-            raise AlreadyTranslated, double.absolute_url()
+            raise AlreadyTranslated(double.absolute_url())
         self.addReference(translation, config.RELATIONSHIP)
 
     security.declareProtected(permissions.ModifyPortalContent,
@@ -199,9 +197,9 @@ class I18NBaseObject(Implicit):
             if workflow_tool is None:
                 # No context, most likely FTP or WebDAV
                 if review_state:
-                    return {lang : [self, None]}
+                    return {lang: [self, None]}
                 else:
-                    return {lang : self}
+                    return {lang: self}
             if review_state:
                 state = workflow_tool.getInfoFor(self, 'review_state', None)
             if include_canonical:
@@ -297,7 +295,7 @@ class I18NBaseObject(Implicit):
             if translation == self:
                 return
             else:
-                raise AlreadyTranslated, translation.absolute_url()
+                raise AlreadyTranslated(translation.absolute_url())
         self.getField('language').set(self, value, **kwargs)
 
         if not value:
@@ -318,7 +316,8 @@ class I18NBaseObject(Implicit):
     def defaultLanguage(self):
         """Returns the initial default language."""
         parent = aq_parent(aq_inner(self))
-        if getattr(parent, 'portal_type', None) == 'TempFolder':# We have factory tool
+        if getattr(parent, 'portal_type', None) == 'TempFolder':
+            # We have factory tool
             parent = aq_parent(aq_parent(parent))
         if ITranslatable.providedBy(parent):
             language = parent.Language()
@@ -361,9 +360,9 @@ class I18NBaseObject(Implicit):
             if not canonical:
                 # On non-canonical items the translate screen shows language
                 # independent fields in view mode. This means the form will not
-                # contain their data. The contract for processForm is that missing
-                # fields can be interpreted as "delete all". We need to avoid this
-                # for LP or we might accidentally delete data.
+                # contain their data. The contract for processForm is that
+                # missing fields can be interpreted as "delete all". We need to
+                # avoid this for LP or we might accidentally delete data.
                 if getattr(field, 'languageIndependent', False):
                     continue
 
@@ -456,7 +455,8 @@ class I18NBaseObject(Implicit):
         if shasattr(self, '_lp_outdated'):
             delattr(self, '_lp_outdated')
 
-    security.declareProtected(permissions.ModifyPortalContent, 'invalidateTranslations')
+    security.declareProtected(
+        permissions.ModifyPortalContent, 'invalidateTranslations')
     def invalidateTranslations(self):
         """Outdates all translations except the canonical one."""
         translations = self.getNonCanonicalTranslations()
@@ -482,10 +482,11 @@ class I18NBaseObject(Implicit):
         # veto deletion of the canonical translation object.
         if config.CANONICAL_DELETE_PROTECTION:
             if self.isCanonical() and self.getNonCanonicalTranslations():
-                raise BeforeDeleteException, 'Please delete translations first.'
+                raise BeforeDeleteException('Delete translations first.')
 
     # Wrapper around typeinfo to hook into the edit alias
-    security.declareProtected(permissions.AccessContentsInformation, 'getTypeInfo')
+    security.declareProtected(
+        permissions.AccessContentsInformation, 'getTypeInfo')
     def getTypeInfo(self):
         """Get the TypeInformation object specified by the portal type,
         possibly wrapped to intercept the edit alias.
@@ -503,10 +504,8 @@ class I18NBaseObject(Implicit):
         brains = tool._queryFor(sid=sID, relationship=config.RELATIONSHIP)
         if brains:
             if objects:
-                return [
-                    self._getReferenceObject(brain.targetUID)
-                    for brain in brains
-                ]
+                return [self._getReferenceObject(brain.targetUID)
+                        for brain in brains]
             else:
                 return brains
         return []
@@ -519,10 +518,8 @@ class I18NBaseObject(Implicit):
         brains = tool._queryFor(tid=tID, relationship=config.RELATIONSHIP)
         if brains:
             if objects:
-                return [
-                    self._getReferenceObject(brain.sourceUID)
-                    for brain in brains
-                ]
+                return [self._getReferenceObject(brain.sourceUID)
+                        for brain in brains]
             else:
                 return brains
         return []

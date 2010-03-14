@@ -15,14 +15,14 @@ class LanguageIndexNodeAdapter(NodeAdapterBase, PropertyManagerHelpers):
 
     def _exportNode(self):
         """Export the object as a DOM node."""
-        
+
         node = self._getObjectNode('index')
         node.appendChild(self._extractProperties())
         return node
 
     def _importNode(self, node):
         """Import the object from the DOM node."""
-        
+
         if self.environ.shouldPurge():
             self._purgeProperties()
 

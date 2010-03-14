@@ -28,10 +28,10 @@ from Products.LinguaPlone.interfaces import ITranslationFactory
 
 AT_GENERATE_METHOD = []
 _modes.update({
-    't' : { 'prefix'   : 'setTranslation',
-            'attr'     : 'translation_mutator',
-            'security' : 'write_permission',
-            },
+    't': {'prefix': 'setTranslation',
+          'attr': 'translation_mutator',
+          'security': 'write_permission',
+          },
 })
 
 
@@ -70,6 +70,7 @@ def translated_references(context, language, sources):
 
 
 def generatedAccessorWrapper(name):
+
     def generatedAccessor(self, **kw):
         """Default Accessor."""
         if 'schema' in kw:
@@ -82,6 +83,7 @@ def generatedAccessorWrapper(name):
 
 
 def generatedEditAccessorWrapper(name):
+
     def generatedEditAccessor(self, **kw):
         """Default Edit Accessor."""
         if 'schema' in kw:
@@ -94,6 +96,7 @@ def generatedEditAccessorWrapper(name):
 
 
 def generatedMutatorWrapper(name):
+
     def generatedMutator(self, value, **kw):
         """LinguaPlone Default Mutator."""
         if 'schema' in kw:
@@ -149,6 +152,7 @@ def generatedMutatorWrapper(name):
 
 
 def generatedTranslationMutatorWrapper(name):
+
     def generatedTranslationMutator(self, value, **kw):
         """Delegated Mutator."""
         if 'schema' in kw:
@@ -187,8 +191,8 @@ class Generator(ATGenerator):
         # Zope security requires all security protected methods to have a
         # function name. It uses this name to determine which roles are allowed
         # to access the method.
-        # This code is renaming the internal name from e.g. generatedAccessor to
-        # methodName.
+        # This code is renaming the internal name from e.g. generatedAccessor
+        # to methodName.
         method = function(method.func_code,
                           method.func_globals,
                           methodName,
@@ -318,8 +322,8 @@ def add%(name)s(self, id, **kwargs):
     if canonical is not None:
         o.addReference(canonical, '%(RELATIONSHIP)s')
     return o.getId()
-""" % {'name':name, 'KWARGS_TRANSLATION_KEY':KWARGS_TRANSLATION_KEY,
-       'RELATIONSHIP':RELATIONSHIP}
+""" % {'name': name, 'KWARGS_TRANSLATION_KEY': KWARGS_TRANSLATION_KEY,
+       'RELATIONSHIP': RELATIONSHIP}
 
     exec ctor in module.__dict__
     return getattr(module, 'add%s' % name)
@@ -330,9 +334,11 @@ import sys
 from copy import deepcopy
 from Products.Archetypes.ArchetypeTool import base_factory_type_information
 from Products.Archetypes.ArchetypeTool import modify_fti
+
+
 def process_types(types, pkg_name):
     content_types = ()
-    constructors  = ()
+    constructors = ()
     ftis = ()
 
     for rti in types:
@@ -363,13 +369,13 @@ def process_types(types, pkg_name):
         if ctor is None:
             ctor = generateCtor(typeName, module)
 
-        content_types += (klass,)
-        constructors += (ctor,)
+        content_types += (klass, )
+        constructors += (ctor, )
         ftis += fti
 
     return content_types, constructors, ftis
 
-# Language tag splitting
+
 def splitLanguage(tag):
     """Split a language tag (RFC 1766) into components
 
@@ -442,7 +448,6 @@ class LocateTranslation(object):
     def __init__(self, context):
         self.context=context
 
-
     def findLocationForTranslation(self, language):
         parent = aq_parent(aq_inner(self.context))
         trans_parent = ITranslatable(parent, None)
@@ -462,7 +467,6 @@ class TranslationFactory(object):
     def __init__(self, context):
         self.context=context
 
-
     def generateId(self, container, canonical_id, language):
         new_id = canonical_id
         suffix = "-" + str(language)    # unicode breaks `checkValidId()`
@@ -471,10 +475,8 @@ class TranslationFactory(object):
 
         return new_id
 
-
     def getTranslationPortalType(self, container, language):
         return self.context.portal_type
-
 
     def createTranslation(self, container, language, *args, **kwargs):
         context = aq_inner(self.context)
