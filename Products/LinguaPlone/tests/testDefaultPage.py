@@ -48,6 +48,21 @@ class TestFolderDefaultPage(LinguaPloneTestCase.LinguaPloneTestCase):
         self.failUnlessEqual(result, None)
 
 
+class TestSimpleFolderBrowserDefault(LinguaPloneTestCase.LinguaPloneTestCase):
+
+    def afterSetUp(self):
+        LinguaPloneTestCase.LinguaPloneTestCase.afterSetUp(self)
+        self.addLanguage('de')
+        self.setLanguage('en')
+        self.folder_en = makeContent(self.folder, 'SimpleFolder', 'folder_en')
+        self.folder_en.setLanguage('en')
+
+    def testBrowserDefault(self):
+        obj, views = self.folder_en.__browser_default__(None)
+        self.assertEqual(obj, self.folder_en)
+        self.assertEqual(views, ['base_view'])
+
+
 class TestPortalDefaultPage(LinguaPloneTestCase.LinguaPloneTestCase):
 
     def afterSetUp(self):
@@ -121,6 +136,7 @@ def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestFolderDefaultPage))
+    suite.addTest(makeSuite(TestSimpleFolderBrowserDefault))
     suite.addTest(makeSuite(TestPortalDefaultPage))
     suite.addTest(makeSuite(TestIndexDefaultPage))
     return suite

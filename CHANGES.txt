@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Added test for I18NBaseFolder browser default behavior.
+  [hannosch]
+
 - Added tests for I18NBaseBTreeFolder.
   [hannosch]
 
