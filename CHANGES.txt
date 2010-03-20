@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Added tests for the language switcher view.
+  [hannosch]
+
 - Reformat functional tests and add test for viewing the Plone site root.
   [hannosch]
 

@@ -84,3 +84,28 @@ If the view is called a second time, it does nothing.
     >>> view = self.portal.restrictedTraverse('@@language-setup-folders')
     >>> print view()
     Nothing done.
+
+Test the language switcher view:
+
+    >>> from Testing.makerequest import makerequest
+    >>> app = makerequest(self.app)
+    >>> view = self.portal.restrictedTraverse('@@language-switcher')
+    >>> print view()
+    None
+
+We should be redirected to the English folder:
+
+    >>> response = app.REQUEST.response
+    >>> response.getStatus()
+    301
+    >>> response.getHeader('location')
+    'http://nohost/plone/en'
+
+    >>> 'I18N_LANGUAGE' in response.cookies
+    True
+    >>> response.cookies['I18N_LANGUAGE']['value']
+    'en'
+
+Clear the request.
+
+    >>> app = makerequest(self.app)
