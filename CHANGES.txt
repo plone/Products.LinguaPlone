@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Convert GenericSetup steps registrations to ZCML.
+  [hannosch]
+
 - Added tests for SyncedLanguages vocabulary.
   [hannosch]
 

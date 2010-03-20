@@ -31,4 +31,20 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:importStep
+      name="linguaplone_reindex"
+      title="LinguaPlone Reindex Language Index"
+      description=""
+      handler=".setuphandlers.importReindexLanguageIndex">
+    <depends name="content"/>
+    <depends name="toolset"/>
+  </genericsetup:importStep>
+
+  <genericsetup:exportStep
+      name="languagetool"
+      title="Plone Language Tool"
+      description="Export language settings."
+      handler="Products.PloneLanguageTool.exportimport.exportLanguageTool"
+      />
+
 </configure>
