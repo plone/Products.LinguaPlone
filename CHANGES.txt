@@ -4,6 +4,10 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Added tests for the schema vocabularies and fixed bug uncovered in
+  the DeletableLanguagesVocabulary.
+  [hannosch]
+
 - Added tests for the language switcher view.
   [hannosch]
 

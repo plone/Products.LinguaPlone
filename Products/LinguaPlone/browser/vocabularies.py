@@ -99,8 +99,9 @@ class DeletableLanguagesVocabulary(object):
 
         items = []
         for lang in translations.keys():
+            info = available[lang]
             desc = u"%s (%s): %s" % (
-                available[lang].decode('utf-8'),
+                info.get(u'native', info.get(u'name')),
                 lang,
                 translations[lang][0].Title().decode('utf-8'),
             )
