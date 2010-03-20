@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Added tests for SyncedLanguages vocabulary.
+  [hannosch]
+
 - Added test for I18NBaseFolder browser default behavior.
   [hannosch]
 
