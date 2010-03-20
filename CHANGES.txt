@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Added tests for I18NBaseBTreeFolder.
+  [hannosch]
+
 - Removed all BBB imports for InitializeClass. We depend on Plone 3.3 which
   comes with Zope 2 versions with the forward compatible import locations, as
   introduced in Zope 2.10.8.

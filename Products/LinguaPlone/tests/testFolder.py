@@ -121,10 +121,32 @@ class TestOrderedFolder(LinguaPloneTestCase.LinguaPloneTestCase):
         self.failIf('folder2' in self.folder.keys())
 
 
+class TestBTreeFolder(LinguaPloneTestCase.LinguaPloneTestCase):
+
+    def afterSetUp(self):
+        self.addLanguage('de')
+        self.setLanguage('en')
+        self.folder_en = makeContent(self.folder, 'BTreeFolder', 'folder')
+        self.folder_en.setLanguage('en')
+
+    def testNonZero(self):
+        self.assertEqual(bool(self.folder_en), True)
+
+    def testLength(self):
+        self.assertEqual(len(self.folder_en), 0)
+
+    def testDelete(self):
+        folder2 = makeContent(self.folder, 'BTreeFolder', 'folder2')
+        folder2.setLanguage('en')
+        del self.folder['folder2']
+        self.failIf('folder2' in self.folder.keys())
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestFolderTranslation))
     suite.addTest(makeSuite(TestDynamicFolderProcessForm))
     suite.addTest(makeSuite(TestOrderedFolder))
+    suite.addTest(makeSuite(TestBTreeFolder))
     return suite
