@@ -1,6 +1,5 @@
-==================================
-createTranslation Functional Tests
-==================================
+Create translation
+==================
 
 Environment
 -----------

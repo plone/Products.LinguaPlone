@@ -1,6 +1,5 @@
-===================================
-Translate and Edit Functional Tests
-===================================
+Translation and Editing
+=======================
 
 Environment
 -----------
@@ -8,14 +7,17 @@ Environment
 First, we are going to setup an environment.
 
   Use standard username and password from PloneTestCase
-  >>> from Products.PloneTestCase.PloneTestCase import default_user
-  >>> from Products.PloneTestCase.PloneTestCase import default_password
+  >>> from Products.PloneTestCase.ptc import default_user
+  >>> from Products.PloneTestCase.ptc import default_password
+  >>> from Products.PloneTestCase.ptc import portal_owner
 
   Add German as an additional language:
   >>> language_tool = self.portal.portal_languages
   >>> language_tool.addSupportedLanguage('de')
   >>> language_tool.getSupportedLanguages()
   ['en', 'de']
+
+  >>> portal_path = '/'.join(self.portal.getPhysicalPath())
 
   Create an english content item:
   >>> _ = folder.invokeFactory('SimpleType', 'doc')
@@ -38,8 +40,7 @@ First, we are going to setup an environment.
 Edit
 ----
 
-The normal 'edit' action is used when dealing with the canonical
-translation.
+The normal 'edit' action is used when dealing with the canonical translation.
 
   >>> print http(r"""
   ... GET %s HTTP/1.1
@@ -49,6 +50,17 @@ translation.
   HTTP/1.1 200 OK
   Content-Language: en
   ...action=.../doc/base_edit...
+
+This also applies to untranslatable content like the site root:
+
+  >>> response = http(r"""
+  ... GET %s HTTP/1.1
+  ... Authorization: Basic %s:%s
+  ... Cookie: I18N_LANGUAGE=en
+  ... """ % (portal_path + '/edit', portal_owner, default_password))
+
+  >>> 'translate_item' not in str(response)
+  True
 
 
 Translate

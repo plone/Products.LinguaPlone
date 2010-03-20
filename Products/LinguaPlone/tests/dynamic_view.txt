@@ -1,6 +1,5 @@
-=============================
-Dynamic View Functional Tests
-=============================
+Dynamic Views
+=============
 
 Environment
 -----------

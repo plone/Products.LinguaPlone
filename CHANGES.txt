@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Reformat functional tests and add test for viewing the Plone site root.
+  [hannosch]
+
 - Added tests for the LanguageIndex export/import steps.
   [hannosch]
 

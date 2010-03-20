@@ -1,6 +1,5 @@
-=============================
-Lingua Plone Functional Tests
-=============================
+Language Policies
+=================
 
 Environment
 -----------
