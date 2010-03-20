@@ -21,10 +21,7 @@ class AllContentLanguageVocabulary(object):
 
     def __call__(self, context):
         context = getattr(context, 'context', context)
-        ltool = getToolByName(context, 'portal_languages', None)
-        if ltool is None:
-            return None
-
+        ltool = getToolByName(context, 'portal_languages')
         gsm = getGlobalSiteManager()
         util = gsm.queryUtility(ILanguageAvailability)
         if ltool.use_combined_language_codes:
