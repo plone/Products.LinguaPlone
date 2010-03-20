@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Added tests for the LanguageIndex export/import steps.
+  [hannosch]
+
 - Convert GenericSetup steps registrations to ZCML.
   [hannosch]
 

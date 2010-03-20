@@ -19,17 +19,15 @@ will just use the upgrade handler directly here.  We import it first::
 
   >>> from Products.LinguaPlone.migrations import remove_old_import_step
 
-We do some minimal sanity checking.  At least our new LinguaPlone
-import step should be available::
+We do some minimal sanity checking. Our new LinguaPlone import step should
+not be available in the persistent registry::
 
   >>> from Products.CMFCore.utils import getToolByName
   >>> setup = getToolByName(self.portal, 'portal_setup')
   >>> registry = setup.getImportStepRegistry()
   >>> number_of_original_steps = len(registry.listSteps())
-  >>> number_of_original_steps > 0
-  True
   >>> u'linguaplone_reindex' in registry.listSteps()
-  True
+  False
 
 Nothing is wrong with the current state of the portal, so calling the
 upgrade handler should not have any adverse effects.  It is always
