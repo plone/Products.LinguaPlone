@@ -4,6 +4,11 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Removed all BBB imports for InitializeClass. We depend on Plone 3.3 which
+  comes with Zope 2 versions with the forward compatible import locations, as
+  introduced in Zope 2.10.8.
+  [hannosch]
+
 - Removed old type actions from example and test types.
   [hannosch]
 

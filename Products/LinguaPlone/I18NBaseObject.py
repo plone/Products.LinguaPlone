@@ -5,6 +5,7 @@ from AccessControl import ClassSecurityInfo
 from Acquisition import Implicit
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from App.class_init import InitializeClass
 from OFS.ObjectManager import BeforeDeleteException
 from Products.Archetypes.atapi import BaseObject
 from Products.Archetypes.config import LANGUAGE_DEFAULT
@@ -16,11 +17,6 @@ from Products.Archetypes.utils import shasattr
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.DynamicType import DynamicType
 from Products.CMFDynamicViewFTI.interface import ISelectableBrowserDefault
-
-try:
-    from App.class_init import InitializeClass
-except ImportError:
-    from Globals import InitializeClass
 
 from Products.LinguaPlone import config
 from Products.LinguaPlone import events

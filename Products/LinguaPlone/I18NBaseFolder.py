@@ -1,11 +1,7 @@
 from AccessControl import ClassSecurityInfo
+from App.class_init import InitializeClass
 from Products.Archetypes.atapi import BaseFolder
 from Products.CMFCore.utils import getToolByName
-
-try:
-    from App.class_init import InitializeClass
-except ImportError:
-    from Globals import InitializeClass
 
 from Products.LinguaPlone.I18NBaseObject import I18NBaseObject
 

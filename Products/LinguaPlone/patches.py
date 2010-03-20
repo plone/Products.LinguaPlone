@@ -16,11 +16,7 @@ def I18nAwareCatalog():
     if AlreadyApplied('I18nAwareCatalog'):
         return
 
-    try:
-        from App.special_dtml import DTMLFile
-    except ImportError:
-        from Globals import DTMLFile
-
+    from App.special_dtml import DTMLFile
     from Products.CMFPlone.CatalogTool import CatalogTool
 
     def searchResults(self, REQUEST=None, **kw):

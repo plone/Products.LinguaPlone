@@ -3,7 +3,9 @@ from logging import getLogger
 from plone.indexer.interfaces import IIndexableObjectWrapper
 from zope.interface import implements
 
-from AccessControl import ClassSecurityInfo, Permissions
+from AccessControl import ClassSecurityInfo
+from AccessControl import Permissions
+from App.class_init import InitializeClass
 from BTrees.IOBTree import IOBTree
 from BTrees.IIBTree import IISet
 from BTrees.IIBTree import union as ii_union
@@ -16,11 +18,6 @@ from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluginIndexes.common.util import parseIndexRequest
 from Products.PluginIndexes.interfaces import IUniqueValueIndex
 from Products.PluginIndexes.interfaces import ISortIndex
-
-try:
-    from App.class_init import InitializeClass
-except ImportError:
-    from Globals import InitializeClass
 
 from config import GLOBALS
 from interfaces import ILanguageIndex
