@@ -3,6 +3,7 @@
   <object name="SimpleType" meta_type="Factory-based Type Information"/>
   <object name="DerivedType" meta_type="Factory-based Type Information"/>
   <object name="SimpleFolder" meta_type="Factory-based Type Information"/>
+  <object name="OrderedFolder" meta_type="Factory-based Type Information"/>
   <object name="NonLPSimpleType" meta_type="Factory-based Type Information"/>
   <object name="DynamicFolder"
       meta_type="Factory-based Type Information with dynamic views"/>
