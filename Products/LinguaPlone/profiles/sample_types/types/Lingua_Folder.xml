@@ -22,20 +22,4 @@
     url_expr="string:${object_url}/base_edit" visible="True">
   <permission value="Modify portal content"/>
  </action>
- <action title="Properties" action_id="metadata" category="object"
-    condition_expr="" url_expr="string:${object_url}/base_metadata"
-    visible="True">
-  <permission value="Modify portal content"/>
- </action>
- <action title="References" action_id="references" category="object"
-    condition_expr="object/archetype_tool/has_graphviz"
-    url_expr="string:${object_url}/reference_graph" visible="True">
-  <permission value="Modify portal content"/>
-  <permission value="Review portal content"/>
- </action>
- <action title="Folder Listing" action_id="folderlisting" category="folder"
-    condition_expr="object/isPrincipiaFolderish"
-    url_expr="string:${folder_url}/view" visible="False">
-  <permission value="View"/>
- </action>
 </object>

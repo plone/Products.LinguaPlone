@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Removed old type actions from example and test types.
+  [hannosch]
+
 - Added tests for I18NOrderedBaseFolder.
   [hannosch]
 
