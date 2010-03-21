@@ -17,8 +17,6 @@ class CreateTranslation(BrowserView):
             lang=portal_state.language()
             obj.setLanguage(lang)
 
-
-
     def nextUrl(self, trans):
         """Figure out where users should go after creating the translation.
         """
@@ -36,9 +34,9 @@ class CreateTranslation(BrowserView):
         except ValueError:
             pass
 
-        state=getMultiAdapter((trans, self.request), name="plone_context_state")
+        state = getMultiAdapter(
+            (trans, self.request), name="plone_context_state")
         return state.view_url()
-
 
     def __call__(self):
         status = IStatusMessage(self.request)
