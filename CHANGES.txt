@@ -4,7 +4,7 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
-- Added basic tests for rendering the language control panel.
+- Added tests for the language control panel.
   [hannosch]
 
 - Silence the ``manage_*`` warnings for the example and test types.
