@@ -7,6 +7,7 @@ from Acquisition import Explicit
 from Products.LinguaPlone.browser.selector import TranslatableLanguageSelector
 from Products.LinguaPlone.interfaces import ITranslatable
 
+
 class Dummy(Explicit):
     implements(ITranslatable)
 
@@ -20,7 +21,7 @@ class Dummy(Explicit):
         return 'absolute url'
 
     def getTranslations(self, review_state=False):
-        return {'en' : self, 'nl' : self}
+        return {'en': self, 'nl': self}
 
     def getPhysicalPath(self):
         return getattr(self, 'physicalpath', [])
@@ -47,8 +48,8 @@ class MockLanguageTool(object):
         return True
 
     def getAvailableLanguageInformation(self):
-        return dict(en={'selected' : True}, de={'selected' : False},
-                    nl={'selected' : True})
+        return dict(en={'selected': True}, de={'selected': False},
+                    nl={'selected': True})
 
     def getLanguageBindings(self):
         # en = selected by user, nl = default, [] = other options
@@ -75,37 +76,37 @@ class TestLanguageSelector(cleanup.CleanUp, TestCase):
         self.selector.update()
         self.selector.tool=MockLanguageTool()
         self.assertEqual(self.selector.languages(),
-                [ {'code': 'nl',
-                   'translated': True,
-                   'selected': False,
-                   'url': 'object_url?set_language=nl',
-                   },
-                   {'code': 'en',
-                    'translated': True,
-                    'selected': True,
-                    'url': 'object_url?set_language=en',
-                   },
-                   ])
+                [{'code': 'nl',
+                  'translated': True,
+                  'selected': False,
+                  'url': 'object_url?set_language=nl',
+                 },
+                 {'code': 'en',
+                  'translated': True,
+                  'selected': True,
+                  'url': 'object_url?set_language=en',
+                 },
+                 ])
 
     def testPreserveViewAndQuery(self):
-        self.context.physicalpath = ['','fake', 'path']
+        self.context.physicalpath = ['', 'fake', 'path']
         self.request.PATH_INFO = '/fake/path/to/object'
         self.request.form['variable'] = u'pres\xd8rved'
         self.selector.update()
         self.selector.tool=MockLanguageTool()
-        expected = \
-                [ {'code': 'nl',
-                   'translated': True,
-                   'selected': False,
-                   'url': 'object_url/to/object?variable=pres%C3%98rved&set_language=nl',
-                   },
-                   {'code': 'en',
-                    'translated': True,
-                    'selected': True,
-                    'url': 'object_url/to/object?variable=pres%C3%98rved&set_language=en',
-                   },
-                   ]
-        self.assertEqual(self.selector.languages(),expected)
+        base = 'object_url/to/object?variable='
+        expected = [{'code': 'nl',
+                     'translated': True,
+                     'selected': False,
+                     'url': base + 'pres%C3%98rved&set_language=nl',
+                    },
+                    {'code': 'en',
+                     'translated': True,
+                     'selected': True,
+                     'url': base + 'pres%C3%98rved&set_language=en',
+                    }]
+        self.assertEqual(self.selector.languages(), expected)
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite
