@@ -4,47 +4,16 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Expanded test coverage extensively. Going from 84% to 93%.
+  [hannosch]
+
 - Removed unfinished ``new_manage_translations_form`` prototype.
-  [hannosch]
-
-- Added tests for edge-cases in the selector viewlet.
-  [hannosch]
-
-- Added tests for the language control panel.
   [hannosch]
 
 - Silence the ``manage_*`` warnings for the example and test types.
   [hannosch]
 
-- Added tests for language selector viewlet and some small tweaks.
-  [hannosch]
-
-- Added tests for language selector portlet.
-  [hannosch]
-
-- Added tests for the schema vocabularies and fixed bug uncovered in
-  the DeletableLanguagesVocabulary.
-  [hannosch]
-
-- Added tests for the language switcher view.
-  [hannosch]
-
-- Reformat functional tests and add test for viewing the Plone site root.
-  [hannosch]
-
-- Added tests for the LanguageIndex export/import steps.
-  [hannosch]
-
 - Convert GenericSetup steps registrations to ZCML.
-  [hannosch]
-
-- Added tests for SyncedLanguages vocabulary.
-  [hannosch]
-
-- Added test for I18NBaseFolder browser default behavior.
-  [hannosch]
-
-- Added tests for I18NBaseBTreeFolder.
   [hannosch]
 
 - Removed all BBB imports for InitializeClass. We depend on Plone 3.3 which
@@ -55,13 +24,7 @@ Changelog
 - Removed old type actions from example and test types.
   [hannosch]
 
-- Added tests for I18NOrderedBaseFolder.
-  [hannosch]
-
-- Some PEP8 cleanup.
-  [hannosch]
-
-- Minor documentation updates.
+- Some PEP8 cleanup and minor documentation updates.
   [hannosch]
 
 3.1a1 - 2010-02-19
