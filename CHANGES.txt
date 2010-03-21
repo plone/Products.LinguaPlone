@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Silence the ``manage_*`` warnings for the example and test types.
+  [hannosch]
+
 - Added tests for language selector viewlet and some small tweaks.
   [hannosch]
 

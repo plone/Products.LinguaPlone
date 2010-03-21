@@ -1,9 +1,12 @@
 from Testing import ZopeTestCase
+from Testing.ZopeTestCase import Functional
 
 # Make sure the dummy types are registered
 from Products.LinguaPlone import examples
 from Products.LinguaPlone.tests import dummy
 
+from Products.Five import zcml
+from Products.Five import fiveconfigure
 from Products.GenericSetup import EXTENSION, profile_registry
 
 profile_registry.registerProfile('LinguaPlone_samples',
@@ -25,9 +28,14 @@ from Products.PloneTestCase import PloneTestCase
 
 ZopeTestCase.installProduct('LinguaPlone')
 
+
 @onsetup
 def setup_product():
     PloneTestCase.installPackage('plone.browserlayer', quiet=1)
+    fiveconfigure.debug_mode = True
+    import Products.LinguaPlone.tests
+    zcml.load_config('configure.zcml', Products.LinguaPlone.tests)
+    fiveconfigure.debug_mode = False
 
 extension_profiles=['Products.LinguaPlone:LinguaPlone',
                     'Products.LinguaPlone:LinguaPlone_tests',
@@ -48,6 +56,5 @@ class LinguaPloneTestCase(PloneTestCase.PloneTestCase):
         self.portal.portal_languages.setLanguageBindings()
 
 
-class LinguaPloneFunctionalTestCase(ZopeTestCase.Functional, LinguaPloneTestCase):
+class LinguaPloneFunctionalTestCase(Functional, LinguaPloneTestCase):
     pass
-
