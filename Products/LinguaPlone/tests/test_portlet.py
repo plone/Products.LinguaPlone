@@ -10,6 +10,7 @@ class TestLanguagePortlet(LinguaPloneTestCase.LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')
+        self.addLanguage('no')
         self.setLanguage('en')
         self.english = makeContent(self.folder, 'SimpleType', 'doc')
         self.english.setLanguage('en')
@@ -19,6 +20,7 @@ class TestLanguagePortlet(LinguaPloneTestCase.LinguaPloneTestCase):
     def testRenderPortlet(self):
         request = self.app.REQUEST
         renderer = Renderer(self.english, request, None, None, None)
+        renderer.update()
         output = renderer.render()
         self.assert_('<dl class="portlet portletLanguage">' in output)
         de_path = self.german.absolute_url()
@@ -31,6 +33,7 @@ class TestLanguagePortlet(LinguaPloneTestCase.LinguaPloneTestCase):
     def testRenderPortletOnUntranslatableContent(self):
         request = self.app.REQUEST
         renderer = Renderer(self.portal, request, None, None, None)
+        renderer.update()
         output = renderer.render()
         path = self.portal.absolute_url()
         de_link = '<a href="%s?set_language=de" title="German">' % path
@@ -43,6 +46,7 @@ class TestLanguagePortlet(LinguaPloneTestCase.LinguaPloneTestCase):
         ltool = getToolByName(self.portal, 'portal_languages')
         ltool.display_flags = True
         renderer = Renderer(self.english, request, None, None, None)
+        renderer.update()
         output = renderer.render()
         self.assert_('de.gif' in output)
         self.assert_('gb.gif' in output)
@@ -53,6 +57,7 @@ class TestLanguagePortlet(LinguaPloneTestCase.LinguaPloneTestCase):
         ltool.use_cookie_negotiation = False
         renderer = Renderer(self.english, request, None, None, None)
         output = renderer.render()
+        renderer.update()
         self.assertEquals(output.strip(), u'')
 
 
