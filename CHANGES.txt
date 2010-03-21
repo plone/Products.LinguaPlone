@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Added tests for edge-cases in the selector viewlet.
+  [hannosch]
+
 - Added tests for the language control panel.
   [hannosch]
 

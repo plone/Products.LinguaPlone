@@ -1,6 +1,10 @@
+# -*- coding: UTF-8 -*-
+
 from unittest import TestCase
 
+from plone.app.layout.navigation.interfaces import INavigationRoot
 from zope.component import provideAdapter
+from zope.interface import directlyProvides
 from zope.interface import implements
 from zope.interface import Interface
 from zope.testing import cleanup
@@ -37,7 +41,8 @@ class Dummy(Explicit):
 
 class DummyRequest(object):
 
-    form = {}
+    def __init__(self):
+        self.form = {}
 
     def get(self, key, default):
         return self.__dict__.get(key, default)
@@ -52,6 +57,15 @@ class DummyState(object):
         return 'object_url'
 
 
+class EvilObject(object):
+
+    def __str__(self):
+        raise UnicodeError
+
+    def __unicode__(self):
+        raise UnicodeError
+
+
 class MockLanguageTool(object):
 
     use_cookie_negotiation = True
@@ -61,14 +75,14 @@ class MockLanguageTool(object):
 
     def getAvailableLanguageInformation(self):
         return dict(en={'selected': True}, de={'selected': False},
-                    nl={'selected': True})
+                    nl={'selected': True}, no={'selected': True})
 
     def getLanguageBindings(self):
         # en = selected by user, nl = default, [] = other options
         return ('en', 'nl', [])
 
     def getSupportedLanguages(self):
-        return ['nl', 'en']
+        return ['nl', 'en', 'no']
 
 
 class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
@@ -89,35 +103,65 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
         self.selector.update()
         self.selector.tool = MockLanguageTool()
         self.assertEqual(self.selector.languages(),
-                [{'code': 'nl',
-                  'translated': True,
-                  'selected': False,
-                  'url': 'object_url?set_language=nl',
-                 },
-                 {'code': 'en',
-                  'translated': True,
-                  'selected': True,
-                  'url': 'object_url?set_language=en',
-                 },
-                 ])
+            [{'code': 'nl',
+              'translated': True,
+              'selected': False,
+              'url': 'object_url?set_language=nl'},
+             {'code': 'en',
+              'translated': True,
+              'selected': True,
+              'url': 'object_url?set_language=en'},
+             {'code': 'no',
+               'translated': False,
+               'selected': False,
+               'url': 'object_url?set_language=no'},
+             ])
 
     def testPreserveViewAndQuery(self):
         self.context.physicalpath = ['', 'fake', 'path']
         self.request.PATH_INFO = '/fake/path/to/object'
-        self.request.form['variable'] = u'pres\xd8rved'
+        self.request.form['-C'] = u'evil'
+        self.request.form['uni'] = u'pres\xd8rved'
+        self.request.form['int'] = '1'
         self.selector.update()
         self.selector.tool = MockLanguageTool()
-        base = 'object_url/to/object?variable='
-        expected = [{'code': 'nl',
-                     'translated': True,
-                     'selected': False,
-                     'url': base + 'pres%C3%98rved&set_language=nl',
-                    },
-                    {'code': 'en',
-                     'translated': True,
-                     'selected': True,
-                     'url': base + 'pres%C3%98rved&set_language=en',
-                    }]
+        base = 'object_url/to/object?int=1&uni='
+        expected = [
+            {'code': 'nl',
+             'translated': True,
+             'selected': False,
+             'url': base + 'pres%C3%98rved&set_language=nl'},
+            {'code': 'en',
+             'translated': True,
+             'selected': True,
+             'url': base + 'pres%C3%98rved&set_language=en'},
+            {'code': 'no',
+             'translated': False,
+             'selected': False,
+             'url': base + 'pres%C3%98rved&set_language=no'}]
+        self.assertEqual(self.selector.languages(), expected)
+
+    def testPreserveViewAndQueryWithUnprintableFormData(self):
+        self.context.physicalpath = ['', 'fake', 'path']
+        self.request.PATH_INFO = '/fake/path/to/object'
+        self.request.form['uni'] = u'pres\xd8rved'
+        self.request.form['obj'] = EvilObject()
+        self.selector.update()
+        self.selector.tool = MockLanguageTool()
+        base = 'object_url/to/object?set_language='
+        expected = [
+            {'code': 'nl',
+             'translated': True,
+             'selected': False,
+             'url': base + 'nl'},
+            {'code': 'en',
+             'translated': True,
+             'selected': True,
+             'url': base + 'en'},
+            {'code': 'no',
+             'translated': False,
+             'selected': False,
+             'url': base + 'no'}]
         self.assertEqual(self.selector.languages(), expected)
 
 
@@ -159,6 +203,20 @@ class TestLanguageSelectorRendering(LinguaPloneTestCase.LinguaPloneTestCase):
         de_link = '<a href="%s?set_language=de"' % path
         self.assert_(de_link in output)
         en_link = '<a href="%s?set_language=en"' % path
+        self.assert_(en_link in output)
+
+    def testRenderSelectorWithNavigationRoot(self):
+        request = self.app.REQUEST
+        directlyProvides(self.portal.Members, INavigationRoot)
+        selector = TranslatableLanguageSelector(
+            self.folder, request, None, None)
+        selector.update()
+        output = selector.render()
+        path = self.portal.Members.absolute_url()
+        folder_path = self.folder.absolute_url()
+        de_link = '<a href="%s?set_language=de"' % path
+        self.assert_(de_link in output)
+        en_link = '<a href="%s?set_language=en"' % folder_path
         self.assert_(en_link in output)
 
     def testRenderSelectorWithFlags(self):
