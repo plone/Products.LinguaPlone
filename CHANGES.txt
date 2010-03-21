@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Removed unfinished ``new_manage_translations_form`` prototype.
+  [hannosch]
+
 - Added tests for edge-cases in the selector viewlet.
   [hannosch]
 

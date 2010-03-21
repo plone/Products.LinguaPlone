@@ -43,12 +43,6 @@
     class=".translate.CreateTranslation"
     permission="cmf.AddPortalContent" />
 
-  <browser:page 
-    for="..interfaces.ITranslatable"
-    name="new_manage_translations_form"
-    class=".translations.ManageTranslationsForm"
-    permission="cmf.AddPortalContent" />
-
   <utility
     component=".vocabularies.AllContentLanguageVocabularyFactory"
     name="LinguaPlone.vocabularies.AllContentLanguageVocabulary"
