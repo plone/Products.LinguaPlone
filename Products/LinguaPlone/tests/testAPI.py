@@ -1,15 +1,13 @@
-#
-# API Tests
-#
+import transaction
 
+from Products.CMFCore.utils import getToolByName
+
+from Products.LinguaPlone.public import AlreadyTranslated
 from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 from Products.LinguaPlone.tests.utils import sortTuple
 
-from Products.LinguaPlone.public import AlreadyTranslated
-
-import transaction
 
 class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
 
@@ -111,6 +109,14 @@ class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
     def testGetCanonicalLanguageFromNonCanonicalObject(self):
         self.assertEqual('en', self.german.getCanonicalLanguage())
 
+    def testGetTranslationReturnsDefault(self):
+        self.assertEqual(self.english, self.german.getTranslation())
+
+    def testGetTranslationWithoutLanguageTool(self):
+        self.loginAsPortalOwner()
+        del self.portal['portal_languages']
+        self.assertEqual(self.german, self.german.getTranslation())
+
     def testGetTranslationFromCanonicalReturnLanguageObject(self):
         self.assertEqual(self.german, self.english.getTranslation('de'))
 
@@ -167,10 +173,32 @@ class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEqual(translations['de'][0], self.german)
         self.assertEqual(translations['de'][1], 'private')
 
+    def testGetTranslationsNoWorkflowToolNoReviewState(self):
+        self.loginAsPortalOwner()
+        del self.portal['portal_workflow']
+        translations = self.english.getTranslations()
+        self.assertEqual(translations['en'][0], self.english)
+        self.assertEqual(translations['en'][1], None)
+
     def testGetTranslationsNoReviewState(self):
         translations = self.english.getTranslations(review_state=False)
         self.assertEqual(translations['en'], self.english)
         self.assertEqual(translations['de'], self.german)
+
+    def testGetTranslationsNoWorkflowTool(self):
+        self.loginAsPortalOwner()
+        del self.portal['portal_workflow']
+        translations = self.english.getTranslations(review_state=False)
+        self.assertEqual(translations['en'], self.english)
+
+    def testGetTranslationsMissingObject(self):
+        french = makeTranslation(self.german, 'fr')
+        translations = self.english.getTranslations(review_state=False)
+        self.assertEqual(translations['fr'], french)
+        self.loginAsPortalOwner()
+        self.folder._delOb(french.getId())
+        translations = self.english.getTranslations(review_state=False)
+        self.assert_('fr' not in translations)
 
     def testReferences(self):
         reftool = self.portal.reference_catalog
@@ -179,6 +207,12 @@ class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEqual(self.english, ref.getTargetObject())
         self.assertEqual(self.german, self.english.getBRefs('translationOf')[0])
         self.assertEqual(self.english, self.german.getRefs('translationOf')[0])
+
+    def testGetTranslationReferences(self):
+        refs = self.german.getTranslationReferences()
+        self.assertEquals(len(refs), 1)
+        trans = self.german.getTranslationReferences(objects=True)
+        self.assertEquals(trans[0], self.english)
 
     def testRenameTranslation(self):
         transaction.savepoint(optimistic=True)
@@ -217,6 +251,54 @@ class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
         self.german.processForm(values={'title':'German'})
         self.failIf(self.german.isOutdated())
         self.failIf(self.english.isOutdated())
+
+    def testUnlinkTranslation(self):
+        de = self.english.getTranslation('de')
+        self.english.removeTranslationReference(de)
+        self.failIf(self.english.hasTranslation('de'))
+        self.assert_(de.getId() in self.folder)
+
+    def testDefaultLanguage(self):
+        de_folder = makeContent(self.folder, 'SimpleFolder', 'de')
+        de_folder.setLanguage('de')
+        de_doc = makeContent(de_folder, 'SimpleType', 'doc-de')
+        self.assertEquals(de_doc.defaultLanguage(), 'de')
+
+    def testDefaultLanguageNeutralFolder(self):
+        neutral_folder = makeContent(self.folder, 'SimpleFolder', 'neutral')
+        neutral_folder.setLanguage('')
+        neutral_doc = makeContent(neutral_folder, 'SimpleType', 'doc-neutral')
+        # TODO: We might want to changes this. Adding content to a neutral
+        # folder should maybe default to being neutral, even if the site is
+        # not neutral by default
+        self.assertEquals(neutral_doc.defaultLanguage(), 'en')
+
+    def testDefaultLanguageNeutralSite(self):
+        self.loginAsPortalOwner()
+        ltool = getToolByName(self.portal, 'portal_languages')
+        ltool.start_neutral = True
+        neutral_folder = makeContent(self.folder, 'SimpleFolder', 'neutral')
+        neutral_folder.setLanguage('')
+        neutral_doc = makeContent(neutral_folder, 'SimpleType', 'doc-neutral')
+        self.assertEquals(neutral_doc.defaultLanguage(), '')
+
+    def testDefaultLanguageNonNeutralSite(self):
+        self.loginAsPortalOwner()
+        ltool = getToolByName(self.portal, 'portal_languages')
+        ltool.start_neutral = False
+        neutral_folder = makeContent(self.folder, 'SimpleFolder', 'neutral')
+        neutral_folder.setLanguage('')
+        neutral_doc = makeContent(neutral_folder, 'SimpleType', 'doc-neutral')
+        self.assertEquals(neutral_doc.defaultLanguage(), 'en')
+
+    def testDefaultLanguageNoLanguageTool(self):
+        neutral_folder = makeContent(self.folder, 'SimpleFolder', 'neutral')
+        neutral_folder.setLanguage('')
+        neutral_doc = makeContent(neutral_folder, 'SimpleType', 'doc-neutral')
+        self.loginAsPortalOwner()
+        del self.portal['portal_languages']
+        from Products.Archetypes.config import LANGUAGE_DEFAULT
+        self.assertEquals(neutral_doc.defaultLanguage(), LANGUAGE_DEFAULT)
 
 
 class TestSetLanguage(LinguaPloneTestCase.LinguaPloneTestCase):
