@@ -94,3 +94,43 @@ Create a translation to French:
   Set-Cookie: I18N_LANGUAGE="fr"; Path=/
   <BLANKLINE>
   .../Members/test_user_1_/new-fr/base_edit...
+
+
+Type with explicit translate action
+-----------------------------------
+
+  >>> from Products.CMFCore.utils import getToolByName
+  >>> types_tool = getToolByName(self.portal, 'portal_types')
+  >>> fti = types_tool['SimpleType']
+  >>> fti.addAction(
+  ...     'translate', 'Translate', 'string:${object_url}/view',
+  ...     None, 'View', 'object')
+
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Authorization: Basic %s:%s
+  ... """ % (en_path + fr_create, default_user, default_password))
+  HTTP/1.1 302 Moved Temporarily
+  ...
+  Location: .../Members/test_user_1_/doc-fr/view...
+  Set-Cookie: I18N_LANGUAGE="fr"; Path=/
+  <BLANKLINE>
+  .../Members/test_user_1_/doc-fr/view...
+
+
+Type without translate and edit action
+--------------------------------------
+
+  >>> num_actions = len(fti._actions)
+  >>> fti.deleteActions(range(1, num_actions))
+
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Authorization: Basic %s:%s
+  ... """ % (en_path + fr_create, default_user, default_password))
+  HTTP/1.1 302 Moved Temporarily
+  ...
+  Location: .../Members/test_user_1_/doc-fr...
+  Set-Cookie: I18N_LANGUAGE="fr"; Path=/
+  <BLANKLINE>
+  .../Members/test_user_1_/doc-fr...

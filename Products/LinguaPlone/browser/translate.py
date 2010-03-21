@@ -20,17 +20,14 @@ class CreateTranslation(BrowserView):
     def nextUrl(self, trans):
         """Figure out where users should go after creating the translation.
         """
+        fti = trans.getTypeInfo()
         try:
-            action=trans.getTypeInfo().getActionInfo("object/translate",
-                    object=trans)
-            return action["url"]
+            return fti.getActionInfo("object/translate", object=trans)['url']
         except ValueError:
             pass
 
         try:
-            action=trans.getTypeInfo().getActionInfo("object/edit",
-                    object=trans)
-            return action["url"]
+            return fti.getActionInfo("object/edit", object=trans)['url']
         except ValueError:
             pass
 
