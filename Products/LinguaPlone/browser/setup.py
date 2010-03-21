@@ -90,19 +90,15 @@ class SetupView(BrowserView):
         # test language neutral
         if language == '':
             language = self.defaultLanguage
-        if language not in self.languages:
-            result.append("WARNING : Default page '%s' is of language '%s' "
-                "which is not available !" % (pageId, language))
-        else:
-            target = self.folders[language]
-            objects = self.context.manage_cutObjects(pageId)
-            target.manage_pasteObjects(objects)
-            target.setDefaultPage(pageId)
-            target.reindexObject()
-            defaultPage = getattr(target, pageId)
-            defaultPage.reindexObject()
-            result.append("Moved default page '%s' to folder '%s'." %
-                (pageId, target.getId()))
+        target = self.folders[language]
+        objects = self.context.manage_cutObjects(pageId)
+        target.manage_pasteObjects(objects)
+        target.setDefaultPage(pageId)
+        target.reindexObject()
+        defaultPage = getattr(target, pageId)
+        defaultPage.reindexObject()
+        result.append("Moved default page '%s' to folder '%s'." %
+            (pageId, target.getId()))
         return result
 
     def setupLanguageSwitcher(self):

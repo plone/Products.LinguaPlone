@@ -28,6 +28,9 @@ language root folders.
     >>> defaultLanguage = 'en'
     >>> self.portal.portal_languages.manage_setLanguageSettings(
     ...   defaultLanguage, languages)
+    >>> defaultid = self.portal.getDefaultPage()
+    >>> self.portal[defaultid].setLanguage('')
+
     >>> print view()
     Setup of language root folders on Plone site 'plone'
     Added 'en' folder: en
