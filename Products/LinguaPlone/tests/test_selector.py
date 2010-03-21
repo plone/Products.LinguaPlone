@@ -76,18 +76,18 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
     def setUp(self):
         provideAdapter(DummyState, adapts=(Dummy, DummyRequest),
                        provides=Interface, name="plone_context_state")
-        self.context=Dummy()
+        self.context = Dummy()
         self.context.portal_url = Dummy()
-        self.container=Dummy()
+        self.container = Dummy()
         self.context = self.context.__of__(self.container)
-        self.request=DummyRequest()
-        self.selector=TranslatableLanguageSelector(self.context,
-                        self.request, None, None)
+        self.request = DummyRequest()
+        self.selector = TranslatableLanguageSelector(self.context,
+                            self.request, None, None)
 
 
     def testLanguages(self):
         self.selector.update()
-        self.selector.tool=MockLanguageTool()
+        self.selector.tool = MockLanguageTool()
         self.assertEqual(self.selector.languages(),
                 [{'code': 'nl',
                   'translated': True,
@@ -106,7 +106,7 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
         self.request.PATH_INFO = '/fake/path/to/object'
         self.request.form['variable'] = u'pres\xd8rved'
         self.selector.update()
-        self.selector.tool=MockLanguageTool()
+        self.selector.tool = MockLanguageTool()
         base = 'object_url/to/object?variable='
         expected = [{'code': 'nl',
                      'translated': True,
