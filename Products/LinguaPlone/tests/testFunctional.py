@@ -2,6 +2,7 @@
 # Functional Tests
 #
 
+from Products.LinguaPlone.tests.LinguaPloneTestCase import PLONE40
 from Products.LinguaPlone.tests.LinguaPloneTestCase import \
      LinguaPloneFunctionalTestCase
 
@@ -13,12 +14,6 @@ FILES = [
     'migration.txt',
     'language_setup.txt',
 ]
-
-PLONE40 = False
-try:
-    from Products.PloneTestCase.version import PLONE40
-except ImportError:
-    pass
 
 if PLONE40:
     FILES.append('language_policies4.txt')

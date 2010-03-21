@@ -14,6 +14,7 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.LinguaPlone.browser.selector import TranslatableLanguageSelector
 from Products.LinguaPlone.interfaces import ITranslatable
+from Products.LinguaPlone.tests.LinguaPloneTestCase import PLONE40
 from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
@@ -245,5 +246,6 @@ def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestLanguageSelectorBasics))
-    suite.addTest(makeSuite(TestLanguageSelectorRendering))
+    if PLONE40:
+        suite.addTest(makeSuite(TestLanguageSelectorRendering))
     return suite

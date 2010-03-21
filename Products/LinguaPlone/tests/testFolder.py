@@ -111,9 +111,6 @@ class TestOrderedFolder(LinguaPloneTestCase.LinguaPloneTestCase):
     def testNonZero(self):
         self.assertEqual(bool(self.folder_en), True)
 
-    def testLength(self):
-        self.assertEqual(len(self.folder_en), 0)
-
     def testDelete(self):
         folder2 = makeContent(self.folder, 'OrderedFolder', 'folder2')
         folder2.setLanguage('en')
@@ -131,9 +128,6 @@ class TestBTreeFolder(LinguaPloneTestCase.LinguaPloneTestCase):
 
     def testNonZero(self):
         self.assertEqual(bool(self.folder_en), True)
-
-    def testLength(self):
-        self.assertEqual(len(self.folder_en), 0)
 
     def testDelete(self):
         folder2 = makeContent(self.folder, 'BTreeFolder', 'folder2')

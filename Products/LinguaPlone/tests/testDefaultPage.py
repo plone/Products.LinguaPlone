@@ -3,15 +3,9 @@
 #
 
 from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.LinguaPloneTestCase import PLONE40
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
-
-
-PLONE40 = False
-try:
-    from Products.PloneTestCase.version import PLONE40
-except ImportError:
-    pass
 
 
 class TestFolderDefaultPage(LinguaPloneTestCase.LinguaPloneTestCase):

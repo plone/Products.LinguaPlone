@@ -2,8 +2,8 @@ from Testing import ZopeTestCase
 from Testing.ZopeTestCase import Functional
 
 # Make sure the dummy types are registered
-from Products.LinguaPlone import examples
-from Products.LinguaPlone.tests import dummy
+from Products.LinguaPlone import examples; examples
+from Products.LinguaPlone.tests import dummy; dummy
 
 from Products.Five import zcml
 from Products.Five import fiveconfigure
@@ -25,6 +25,13 @@ profile_registry.registerProfile('LinguaPlone_tests',
 
 from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase import PloneTestCase
+
+PLONE40 = False
+try:
+    from Products.PloneTestCase.version import PLONE40
+except ImportError:
+    pass
+
 
 ZopeTestCase.installProduct('LinguaPlone')
 
@@ -58,3 +65,6 @@ class LinguaPloneTestCase(PloneTestCase.PloneTestCase):
 
 class LinguaPloneFunctionalTestCase(Functional, LinguaPloneTestCase):
     pass
+
+
+__all__ = (LinguaPloneTestCase, LinguaPloneFunctionalTestCase, PLONE40, )
