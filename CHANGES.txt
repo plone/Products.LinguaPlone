@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Added tests for language selector portlet.
+  [hannosch]
+
 - Added tests for the schema vocabularies and fixed bug uncovered in
   the DeletableLanguagesVocabulary.
   [hannosch]
