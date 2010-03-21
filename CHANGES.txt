@@ -4,6 +4,9 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Added tests for language selector viewlet and some small tweaks.
+  [hannosch]
+
 - Added tests for language selector portlet.
   [hannosch]
 

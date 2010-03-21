@@ -1,14 +1,22 @@
-from zope.interface import implements
+from unittest import TestCase
+
 from zope.component import provideAdapter
+from zope.interface import implements
 from zope.interface import Interface
 from zope.testing import cleanup
-from unittest import TestCase
+
 from Acquisition import Explicit
+from Products.CMFCore.utils import getToolByName
+
 from Products.LinguaPlone.browser.selector import TranslatableLanguageSelector
 from Products.LinguaPlone.interfaces import ITranslatable
+from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.utils import makeContent
+from Products.LinguaPlone.tests.utils import makeTranslation
 
 
 class Dummy(Explicit):
+
     implements(ITranslatable)
 
     def objectIds(self):
@@ -28,12 +36,15 @@ class Dummy(Explicit):
 
 
 class DummyRequest(object):
+
+    form = {}
+
     def get(self, key, default):
         return self.__dict__.get(key, default)
-    form = {}
 
 
 class DummyState(object):
+
     def __init__(self, context, request):
         pass
 
@@ -42,6 +53,7 @@ class DummyState(object):
 
 
 class MockLanguageTool(object):
+
     use_cookie_negotiation = True
 
     def showFlags(self):
@@ -59,7 +71,8 @@ class MockLanguageTool(object):
         return ['nl', 'en']
 
 
-class TestLanguageSelector(cleanup.CleanUp, TestCase):
+class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
+
     def setUp(self):
         provideAdapter(DummyState, adapts=(Dummy, DummyRequest),
                        provides=Interface, name="plone_context_state")
@@ -108,8 +121,71 @@ class TestLanguageSelector(cleanup.CleanUp, TestCase):
         self.assertEqual(self.selector.languages(), expected)
 
 
+class TestLanguageSelectorRendering(LinguaPloneTestCase.LinguaPloneTestCase):
+
+    def afterSetUp(self):
+        self.addLanguage('de')
+        self.addLanguage('no')
+        self.setLanguage('en')
+        self.english = makeContent(self.folder, 'SimpleType', 'doc')
+        self.english.setLanguage('en')
+        self.german = makeTranslation(self.english, 'de')
+        self.german.setLanguage('de')
+
+    def testRenderSelector(self):
+        request = self.app.REQUEST
+        selector = TranslatableLanguageSelector(
+            self.english, request, None, None)
+        selector.update()
+        output = selector.render()
+        self.assert_('<ul id="portal-languageselector"' in output)
+        en_path = self.english.absolute_url()
+        en_link = '<a href="%s?set_language=en"' % en_path
+        self.assert_(en_link in output)
+        de_path = self.german.absolute_url()
+        de_link = '<a href="%s?set_language=de"' % de_path
+        self.assert_(de_link in output)
+        no_path = self.portal.absolute_url()
+        no_link = '<a href="%s?set_language=no"' % no_path
+        self.assert_(no_link in output)
+
+    def testRenderSelectorOnSiteRoot(self):
+        request = self.app.REQUEST
+        selector = TranslatableLanguageSelector(
+            self.portal, request, None, None)
+        selector.update()
+        output = selector.render()
+        path = self.portal.absolute_url()
+        de_link = '<a href="%s?set_language=de"' % path
+        self.assert_(de_link in output)
+        en_link = '<a href="%s?set_language=en"' % path
+        self.assert_(en_link in output)
+
+    def testRenderSelectorWithFlags(self):
+        request = self.app.REQUEST
+        ltool = getToolByName(self.portal, 'portal_languages')
+        ltool.display_flags = True
+        selector = TranslatableLanguageSelector(
+            self.english, request, None, None)
+        selector.update()
+        output = selector.render()
+        self.assert_('de.gif' in output)
+        self.assert_('gb.gif' in output)
+
+    def testRenderSelectorWithoutCookieNegotiation(self):
+        request = self.app.REQUEST
+        ltool = getToolByName(self.portal, 'portal_languages')
+        ltool.use_cookie_negotiation = False
+        selector = TranslatableLanguageSelector(
+            self.english, request, None, None)
+        selector.update()
+        output = selector.render()
+        self.assertEquals(output.strip(), u'')
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    suite.addTest(makeSuite(TestLanguageSelector))
+    suite.addTest(makeSuite(TestLanguageSelectorBasics))
+    suite.addTest(makeSuite(TestLanguageSelectorRendering))
     return suite

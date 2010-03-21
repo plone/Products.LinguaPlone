@@ -24,21 +24,21 @@ class TestLanguagePortlet(LinguaPloneTestCase.LinguaPloneTestCase):
         output = renderer.render()
         self.assert_('<dl class="portlet portletLanguage">' in output)
         de_path = self.german.absolute_url()
-        de_link = '<a href="%s?set_language=de" title="German">' % de_path
+        de_link = '<a href="%s?set_language=de"' % de_path
         self.assert_(de_link in output)
         en_path = self.english.absolute_url()
-        en_link = '<a href="%s?set_language=en" title="English">' % en_path
+        en_link = '<a href="%s?set_language=en"' % en_path
         self.assert_(en_link in output)
 
-    def testRenderPortletOnUntranslatableContent(self):
+    def testRenderPortletOnSiteRoot(self):
         request = self.app.REQUEST
         renderer = Renderer(self.portal, request, None, None, None)
         renderer.update()
         output = renderer.render()
         path = self.portal.absolute_url()
-        de_link = '<a href="%s?set_language=de" title="German">' % path
+        de_link = '<a href="%s?set_language=de"' % path
         self.assert_(de_link in output)
-        en_link = '<a href="%s?set_language=en" title="English">' % path
+        en_link = '<a href="%s?set_language=en"' % path
         self.assert_(en_link in output)
 
     def testRenderPortletWithFlags(self):

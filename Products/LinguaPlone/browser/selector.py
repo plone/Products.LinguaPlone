@@ -47,7 +47,6 @@ class TranslatableLanguageSelector(LanguageSelector):
                 continue
 
             item_trans = item.getTranslations(review_state=False)
-            found = set([str(c) for c in item_trans.keys()])
             for code,trans in item_trans.items():
                 code = str(code)
                 if code not in translations:
