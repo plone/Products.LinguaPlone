@@ -99,7 +99,6 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
         self.selector = TranslatableLanguageSelector(self.context,
                             self.request, None, None)
 
-
     def testLanguages(self):
         self.selector.update()
         self.selector.tool = MockLanguageTool()
@@ -120,7 +119,8 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
 
     def testVirtualHostRoot(self):
         self.context.physicalpath = ['', 'fake', 'path']
-        self.request.PATH_INFO = '/VirtualHostBase/http/127.0.0.1/fake/path/VirtualHostRoot/to/object'
+        vbase = '/VirtualHostBase/http/127.0.0.1/'
+        self.request.PATH_INFO = vbase + 'fake/path/VirtualHostRoot/to/object'
         self.request.form['-C'] = u'evil'
         self.request.form['uni'] = u'pres\xd8rved'
         self.request.form['int'] = '1'
@@ -141,55 +141,49 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
              'selected': False,
              'url': base + 'pres%C3%98rved&set_language=no'}]
         self.assertEqual(self.selector.languages(), expected)
-
 
     def testVirtualHostRootWithVH(self):
         self.context.physicalpath = ['', 'fake', 'path']
-        self.request.PATH_INFO = '/VirtualHostBase/http/127.0.0.1/fake/path/VirtualHostRoot/_vh_secondlevel/to/object'
-        self.request.form['-C'] = u'evil'
-        self.request.form['uni'] = u'pres\xd8rved'
-        self.request.form['int'] = '1'
+        vbase = '/VirtualHostBase/http/127.0.0.1/'
+        vroot = '/VirtualHostRoot/_vh_secondlevel/'
+        self.request.PATH_INFO = vbase + 'fake/path' + vroot + 'to/object'
         self.selector.update()
         self.selector.tool = MockLanguageTool()
-        base = 'object_url/to/object?int=1&uni='
+        base = 'object_url/to/object?set_language='
         expected = [
             {'code': 'nl',
              'translated': True,
              'selected': False,
-             'url': base + 'pres%C3%98rved&set_language=nl'},
+             'url': base + 'nl'},
             {'code': 'en',
              'translated': True,
              'selected': True,
-             'url': base + 'pres%C3%98rved&set_language=en'},
+             'url': base + 'en'},
             {'code': 'no',
              'translated': False,
              'selected': False,
-             'url': base + 'pres%C3%98rved&set_language=no'}]
+             'url': base + 'no'}]
         self.assertEqual(self.selector.languages(), expected)
-
 
     def testPreserveViewAndQuery(self):
         self.context.physicalpath = ['', 'fake', 'path']
         self.request.PATH_INFO = '/fake/path/to/object'
-        self.request.form['-C'] = u'evil'
-        self.request.form['uni'] = u'pres\xd8rved'
-        self.request.form['int'] = '1'
         self.selector.update()
         self.selector.tool = MockLanguageTool()
-        base = 'object_url/to/object?int=1&uni='
+        base = 'object_url/to/object?set_language='
         expected = [
             {'code': 'nl',
              'translated': True,
              'selected': False,
-             'url': base + 'pres%C3%98rved&set_language=nl'},
+             'url': base + 'nl'},
             {'code': 'en',
              'translated': True,
              'selected': True,
-             'url': base + 'pres%C3%98rved&set_language=en'},
+             'url': base + 'en'},
             {'code': 'no',
              'translated': False,
              'selected': False,
-             'url': base + 'pres%C3%98rved&set_language=no'}]
+             'url': base + 'no'}]
         self.assertEqual(self.selector.languages(), expected)
 
     def testPreserveViewAndQueryWithUnprintableFormData(self):
