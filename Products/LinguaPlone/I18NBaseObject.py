@@ -496,6 +496,8 @@ class I18NBaseObject(Implicit):
     def getTranslationReferences(self, objects=False):
         """Get all translation references for this object"""
         sID = self.UID()
+        if sID is None:
+            return []
         tool = getToolByName(self, REFERENCE_CATALOG)
         brains = tool._queryFor(sid=sID, relationship=config.RELATIONSHIP)
         if brains:
@@ -510,6 +512,8 @@ class I18NBaseObject(Implicit):
     def getTranslationBackReferences(self, objects=False):
         """Get all translation back references for this object"""
         tID = self.UID()
+        if tID is None:
+            return []
         tool = getToolByName(self, REFERENCE_CATALOG)
         brains = tool._queryFor(tid=tID, relationship=config.RELATIONSHIP)
         if brains:

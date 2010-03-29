@@ -4,6 +4,11 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Fixed isCanonical inside portal_factory which could lead to strange errors.
+  Thanks to Daniel Kraft for the patch. This closes
+  http://plone.org/products/linguaplone/issues/236, 237 and 239.
+  [hannosch]
+
 - Links in the language selector where broken when using ``_vh_`` parts.
   This closes http://plone.org/products/linguaplone/issues/235.
   [ramon]
