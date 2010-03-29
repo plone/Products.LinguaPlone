@@ -4,6 +4,10 @@ Changelog
 3.1a2 - unreleased
 ------------------
 
+- Links in the language selector where broken when using ``_vh_`` parts.
+  This closes http://plone.org/products/linguaplone/issues/235.
+  [ramon]
+
 - Expanded test coverage extensively. Going from 84% to 93%.
   [hannosch]
 
