@@ -9,23 +9,23 @@
                     codeclass string:language-${code};
                     current python: selected and 'currentLanguage ' or '';"
         tal:attributes="class string:${current}${codeclass}">
-            <a href=""
-               tal:define="flag lang/flag|nothing;
-                           name lang/native|lang/name;
-                           showflag python:showFlags and flag;"
-               tal:attributes="href lang/url;
-                               title name">
-                <tal:flag condition="showflag">
-                    <img width="14"
-                         height="11"
-                         alt=""
-                         tal:attributes="src string:${portal_url}${flag};
-                                         alt name;
-                                         title name;" />
-                </tal:flag
-                ><tal:nonflag condition="not: showflag"
-                              replace="name">language name</tal:nonflag
-                ></a>&nbsp;
+        <a href=""
+           tal:define="flag lang/flag|nothing;
+                       name lang/native|lang/name;
+                       showflag python:showFlags and flag;"
+           tal:attributes="href lang/url;
+                           title name"
+            ><tal:flag condition="showflag">
+                <img width="14"
+                     height="11"
+                     alt=""
+                     tal:attributes="src string:${portal_url}${flag};
+                                     alt name;
+                                     title name;" />
+            </tal:flag
+            ><tal:nonflag condition="not: showflag"
+                          replace="name">language name</tal:nonflag
+        ></a>
     </li>
     </tal:language>
 </ul>
