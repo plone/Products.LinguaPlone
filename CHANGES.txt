@@ -4,6 +4,8 @@ Changelog
 3.1a3 - unreleased
 ------------------
 
+- Mini-optimization in language selector.
+  [hannosch]
 
 3.1a2 - 2010-03-29
 ------------------
