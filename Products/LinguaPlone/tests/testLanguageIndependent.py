@@ -174,6 +174,13 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEqual(set(german.getReferenceMulti()),
             set([target_german, target2_german]))
 
+        # Test multi-valued from tuple
+        english.setReferenceMulti((target.UID(), target2.UID()))
+        self.assertEqual(set(english.getReferenceMulti()),
+            set([target, target2]))
+        self.assertEqual(set(german.getReferenceMulti()),
+            set([target_german, target2_german]))
+
         # test reduce references
         english.setReferenceMulti([target.UID()])
         self.assertEqual(len(english.getReferenceMulti()), 1)
