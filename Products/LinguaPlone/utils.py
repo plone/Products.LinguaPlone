@@ -40,7 +40,7 @@ def translated_references(context, language, sources):
     should those exist."""
     if not sources:
         return sources
-    if not isinstance(sources, list):
+    if not isinstance(sources, list) and not isinstance(sources, tuple):
         sources = [sources]
 
     result = []
