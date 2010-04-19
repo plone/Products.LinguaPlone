@@ -4,6 +4,10 @@ Changelog
 3.1a3 - unreleased
 ------------------
 
+- Also hanlde multiValued references given by a tuple instead of a list in
+  Products.LinguaPlone.utils.translated_references
+  [thet]
+
 - Mini-optimization in language selector.
   [hannosch]
 
