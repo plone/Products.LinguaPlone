@@ -316,8 +316,13 @@ class TestSetLanguage(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEqual(self.english.getLanguage(), 'fr')
 
     def testNonCanonicalSetLanguage(self):
+        refs = self.german.getTranslationReferences()
+        self.assertEqual(refs[0].Language, 'de')
+
         self.german.setLanguage('fr')
         self.assertEqual(self.german.getLanguage(), 'fr')
+        refs = self.german.getTranslationReferences()
+        self.assertEqual(refs[0].Language, 'fr')
 
     def testCanonicalSetLanguageAddFrenchCanonical(self):
         self.english.setLanguage('fr')
