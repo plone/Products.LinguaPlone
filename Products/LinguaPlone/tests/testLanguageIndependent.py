@@ -312,6 +312,7 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         # Annotate the generated method!!!! provide original method name
         self.assertEqual(str(english.contactName5), 'cn5 %s' % teststring)
 
+
 class TestLanguageIndependentCatalog(LinguaPloneTestCase.LinguaPloneTestCase):
 
     def afterSetUp(self):
@@ -326,15 +327,21 @@ class TestLanguageIndependentCatalog(LinguaPloneTestCase.LinguaPloneTestCase):
         english.setLanguage('en')
         english.processForm(values=dict(contactName='foo'))
         res = [r.getContactName for r in
-            catalog.unrestrictedSearchResults(portal_type='SimpleType')]
+            catalog(dict(portal_type='SimpleType', Language='en'))]
         self.assertEqual(res, ['foo'])
 
-        german = makeTranslation(english, 'de')
+        makeTranslation(english, 'de')
         english.processForm(values=dict(contactName='bar'))
-        res = [r.getContactName for r in
-            catalog.unrestrictedSearchResults(portal_type='SimpleType')]
-        self.assertEqual(res, ['bar', 'bar'])
+
+        brains = catalog(dict(portal_type='SimpleType', Language='en'))
+        self.assertEqual(brains[0].getContactName, 'bar')
+        brains = catalog(dict(portal_type='SimpleType', Language='de'))
+        self.assertEqual(brains[0].getContactName, 'bar')
+
 
 def test_suite():
-    import unittest, sys
-    return unittest.findTestCases(sys.modules[__name__])
+    from unittest import TestSuite, makeSuite
+    suite = TestSuite()
+    suite.addTest(makeSuite(TestLanguageIndependentFields))
+    suite.addTest(makeSuite(TestLanguageIndependentCatalog))
+    return suite
