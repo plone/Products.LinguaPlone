@@ -82,6 +82,8 @@ class TranslateSubMenuItem(BrowserSubMenuItem):
         return self.context.absolute_url() + "/manage_translations_form"
 
     def available(self):
+        if self.disabled():
+            return False
         return ILinguaPloneProductLayer in registered_layers()
 
     def disabled(self):
