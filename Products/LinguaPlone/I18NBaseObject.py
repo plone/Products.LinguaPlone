@@ -21,6 +21,7 @@ from Products.CMFDynamicViewFTI.interface import ISelectableBrowserDefault
 from Products.LinguaPlone import config
 from Products.LinguaPlone import events
 from Products.LinguaPlone import permissions
+from Products.LinguaPlone.config import RELATIONSHIP
 from Products.LinguaPlone.interfaces import ILocateTranslation
 from Products.LinguaPlone.interfaces import ITranslatable
 from Products.LinguaPlone.interfaces import ITranslationFactory
@@ -77,8 +78,8 @@ class I18NBaseObject(Implicit):
     security.declareProtected(permissions.View, 'isTranslation')
     def isTranslation(self):
         """Tells whether this object is used in a i18n context."""
-        return bool(self.getReferenceImpl(config.RELATIONSHIP) or \
-                    self.getBackReferenceImpl(config.RELATIONSHIP) \
+        return bool(self.getReferenceImpl(RELATIONSHIP) or \
+                    self.getBackReferenceImpl(RELATIONSHIP) \
                     and self.Language() or False)
 
     security.declareProtected(permissions.AddPortalContent, 'addTranslation')
@@ -112,7 +113,7 @@ class I18NBaseObject(Implicit):
         if self.hasTranslation(translation.Language()):
             double = self.getTranslation(translation.Language())
             raise AlreadyTranslated(double.absolute_url())
-        self.addReference(translation, config.RELATIONSHIP)
+        self.addReference(translation, RELATIONSHIP)
 
     security.declareProtected(permissions.ModifyPortalContent,
                               'removeTranslation')
@@ -128,7 +129,7 @@ class I18NBaseObject(Implicit):
                               'removeTranslationReference')
     def removeTranslationReference(self, translation):
         """Removes the translation reference."""
-        translation.deleteReference(self, config.RELATIONSHIP)
+        translation.deleteReference(self, RELATIONSHIP)
 
     security.declareProtected(permissions.View, 'hasTranslation')
     def hasTranslation(self, language):
@@ -240,7 +241,7 @@ class I18NBaseObject(Implicit):
             translations = self.getTranslations(
                 _is_canonical=False, review_state=False).values()
             for obj in translations:
-                obj.deleteReferences(config.RELATIONSHIP)
+                obj.deleteReferences(RELATIONSHIP)
             for obj in translations:
                 if obj != self:
                     obj.addTranslationReference(self)
@@ -295,7 +296,7 @@ class I18NBaseObject(Implicit):
         self.getField('language').set(self, value, **kwargs)
 
         if not value:
-            self.deleteReferences(config.RELATIONSHIP)
+            self.deleteReferences(RELATIONSHIP)
 
         parent = aq_parent(aq_inner(self))
 
@@ -430,7 +431,7 @@ class I18NBaseObject(Implicit):
         if (is_new_object and not explicit_id and
             self._at_rename_after_creation):
             # Renames an object like its normalized title
-            new_id = self._renameAfterCreation()
+            self._renameAfterCreation()
 
         if shasattr(self, '_lp_default_page'):
             delattr(self, '_lp_default_page')
@@ -499,7 +500,7 @@ class I18NBaseObject(Implicit):
         if sID is None:
             return []
         tool = getToolByName(self, REFERENCE_CATALOG)
-        brains = tool._queryFor(sid=sID, relationship=config.RELATIONSHIP)
+        brains = tool._queryFor(sid=sID, relationship=RELATIONSHIP)
         if brains:
             if objects:
                 return [self._getReferenceObject(brain.targetUID)
@@ -515,7 +516,7 @@ class I18NBaseObject(Implicit):
         if tID is None:
             return []
         tool = getToolByName(self, REFERENCE_CATALOG)
-        brains = tool._queryFor(tid=tID, relationship=config.RELATIONSHIP)
+        brains = tool._queryFor(tid=tID, relationship=RELATIONSHIP)
         if brains:
             if objects:
                 return [self._getReferenceObject(brain.sourceUID)
