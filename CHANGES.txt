@@ -4,6 +4,12 @@ Changelog
 3.1a3 - unreleased
 ------------------
 
+- Added a general collection criteria translation sync functionality including
+  language independent criteria support. This is currently not activated
+  automatically and has no UI support yet. See the ``README.txt`` in the
+  criteria sub-package for more caveats.
+  [hannosch]
+
 - Added tests to prove that indexing and updating reference fields works.
   [hannosch]
 

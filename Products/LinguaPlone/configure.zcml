@@ -6,6 +6,7 @@
 
   <include package="plone.browserlayer" />
   <include package=".browser"/>
+  <include package=".criteria"/>
   <include package=".exportimport"/>
   <include file="upgrades.zcml"/>
 
