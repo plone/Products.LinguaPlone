@@ -1,4 +1,3 @@
-import logging
 import os
 
 from Products.Archetypes.Field import ReferenceField
@@ -34,9 +33,3 @@ CANONICAL_DELETE_PROTECTION = 0
 # to make sure translation linking is done within the invokeFactory and
 # before notifyWorkflowCreated.
 KWARGS_TRANSLATION_KEY = 'linguaplone_languageOf'
-
-logger = logging.getLogger("LinguaPlone")
-
-
-def log(msg, level=logging.INFO):
-    logger.log(level, msg)

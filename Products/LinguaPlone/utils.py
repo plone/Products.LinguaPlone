@@ -1,25 +1,24 @@
-from Acquisition import aq_inner
-from Acquisition import aq_parent
-from zope.interface import implements
-from zope.component import adapts
+import logging
 from types import FunctionType as function
 
-from plone.locking.interfaces import ILockable
 from plone.app.layout.navigation.defaultpage import isDefaultPage
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import _createObjectByType
+from plone.locking.interfaces import ILockable
+from zope.component import adapts
+from zope.interface import implements
 
-# Method generation for ITranslatable content with language independent fields
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from Products.Archetypes.ClassGen import GeneratorError, _modes
 from Products.Archetypes.ClassGen import Generator as ATGenerator
 from Products.Archetypes.ClassGen import ClassGenerator as ATClassGenerator
 from Products.Archetypes.exceptions import ReferenceException
 from Products.Archetypes.ArchetypeTool import registerType as registerATType
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import _createObjectByType
 
+from Products.LinguaPlone.config import I18NAWARE_REFERENCE_FIELDS
 from Products.LinguaPlone.config import KWARGS_TRANSLATION_KEY
 from Products.LinguaPlone.config import RELATIONSHIP
-from Products.LinguaPlone.config import I18NAWARE_REFERENCE_FIELDS
-from Products.LinguaPlone.config import log
 from Products.LinguaPlone.interfaces import ILanguageIndependentFields
 from Products.LinguaPlone.interfaces import ILocateTranslation
 from Products.LinguaPlone.interfaces import ITranslatable
@@ -27,6 +26,7 @@ from Products.LinguaPlone.interfaces import ITranslationFactory
 
 
 AT_GENERATE_METHOD = []
+logger = logging.getLogger("LinguaPlone")
 _modes.update({
     't': {'prefix': 'setTranslation',
           'attr': 'translation_mutator',
@@ -145,7 +145,8 @@ def generatedMutatorWrapper(name):
                 else:
                     res = getattr(t, translationMethodName)(tvalue, **kw)
             except ReferenceException:
-                log("Tried setting reference to an invalid uid %s" % value)
+                logger.log(logging.INFO,
+                    "Tried setting reference to an invalid uid %s" % value)
         return res
     # end of "def generatedMutator"
     return generatedMutator

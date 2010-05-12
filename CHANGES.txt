@@ -4,7 +4,10 @@ Changelog
 3.1a3 - unreleased
 ------------------
 
-- Remove unused variables from ``config.py``: ``DEBUG``, ``GLOBALS``,
+- Removed logger instance and log method from ``config.py``.
+  [hannosch]
+
+- Removed unused variables from ``config.py``: ``DEBUG``, ``GLOBALS``,
   ``PKG_NAME``, ``SKIN_LAYERS``, ``SKIN_NAME``, ``INSTALL_DEMO_TYPES``.
   [hannosch]
 
