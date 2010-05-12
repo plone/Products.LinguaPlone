@@ -94,6 +94,24 @@ class TestBasics(CopyCriteriaTestCase):
 
 class TestCopyCriteria(CopyCriteriaTestCase):
 
+    def testFieldSpecificSyncer(self):
+        crit = self.encoll.addCriterion(
+            'review_state', 'ATSimpleStringCriterion')
+        crit.setValue('published')
+        query = self.encoll.buildQuery()
+        self.assertEquals(query, {'review_state': 'published'})
+
+        # Check the criterion has been copied over
+        sync_collections(self.encoll)
+        query = self.nocoll.buildQuery()
+        self.assertEquals(query, {'review_state': 'published'})
+
+        # See if changes to the criterion are copied
+        crit.setValue('private')
+        sync_collections(self.encoll)
+        query = self.nocoll.buildQuery()
+        self.assertEquals(query, {'review_state': 'private'})
+
     def testBooleanCriterion(self):
         crit = self.encoll.addCriterion('boolean', 'ATBooleanCriterion')
         crit.setBool(True)

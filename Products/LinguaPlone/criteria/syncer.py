@@ -93,7 +93,7 @@ class CriterionSyncer(object):
         self.context = context
 
     def sync(self, collection, criterion):
-        raise NotImplemented
+        raise NotImplemented # pragma: no cover
 
 
 class AddOnlyCriterionSyncer(CriterionSyncer):
