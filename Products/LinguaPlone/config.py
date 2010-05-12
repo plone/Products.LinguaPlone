@@ -3,16 +3,7 @@ import os
 
 from Products.Archetypes.Field import ReferenceField
 
-GLOBALS = globals()
-PKG_NAME = "LinguaPlone"
-SKIN_NAME = "LinguaPlone"
-
-SKIN_LAYERS = (SKIN_NAME, )
-
 RELATIONSHIP = 'translationOf'
-
-INSTALL_DEMO_TYPES = 0 ##Install the demo types
-DEBUG = 0  ## See debug messages
 
 # With translations-aware catalog you only get the results for the current
 # language, unless you explicitly ask for all results by providing the

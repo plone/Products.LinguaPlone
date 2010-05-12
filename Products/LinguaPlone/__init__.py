@@ -1,6 +1,5 @@
 from Products.CMFCore.utils import ContentInit
 from Products.LinguaPlone.public import *
-from Products.LinguaPlone import config
 from Products.LinguaPlone import permissions
 
 from zope.i18nmessageid import MessageFactory
@@ -11,15 +10,12 @@ def initialize(context):
     # Apply monkey patches
     from Products.LinguaPlone import patches
 
-    if config.INSTALL_DEMO_TYPES:
-        import examples
-
     # Initialize content types
     content_types, constructors, ftis = process_types(
-        listTypes(config.PKG_NAME), config.PKG_NAME)
+        listTypes("LinguaPlone"), "LinguaPlone")
 
     ContentInit(
-        '%s Content' % config.PKG_NAME,
+        'LinguaPlone Content',
         content_types = content_types,
         permission = permissions.AddPortalContent,
         extra_constructors = constructors,

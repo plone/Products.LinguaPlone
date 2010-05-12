@@ -19,11 +19,11 @@ from Products.PluginIndexes.common.util import parseIndexRequest
 from Products.PluginIndexes.interfaces import IUniqueValueIndex
 from Products.PluginIndexes.interfaces import ISortIndex
 
-from config import GLOBALS
 from interfaces import ILanguageIndex
 from Products.LinguaPlone.interfaces import ITranslatable
 from utils import splitLanguage
 
+GLOBALS = globals()
 LOG = getLogger('LinguaPlone.LanguageIndex')
 _marker = object()
 

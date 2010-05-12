@@ -164,7 +164,7 @@ class SimpleType(BaseContent):
     def getRawReferenceDependent(self):
         return self.getField('referenceDependent').getRaw(self)
 
-registerType(SimpleType, PKG_NAME)
+registerType(SimpleType, "LinguaPlone")
 
 
 DerivedSchema = SimpleSchema.copy()
@@ -175,21 +175,21 @@ class DerivedType(SimpleType):
     """A derived multilingual archetype"""
     schema = DerivedSchema
 
-registerType(DerivedType, PKG_NAME)
+registerType(DerivedType, "LinguaPlone")
 
 
 class SimpleFolder(BaseFolder):
     """A simple folderish multilingual archetype"""
     schema = BaseSchema
 
-registerType(SimpleFolder, PKG_NAME)
+registerType(SimpleFolder, "LinguaPlone")
 
 
 class DynamicFolder(BrowserDefaultMixin, BaseFolder):
     """A simple folderish multilingual archetype"""
     schema = BaseSchema
 
-registerType(DynamicFolder, PKG_NAME)
+registerType(DynamicFolder, "LinguaPlone")
 
 
 class OrderedFolder(OrderedBaseFolder):
@@ -197,7 +197,7 @@ class OrderedFolder(OrderedBaseFolder):
     schema = BaseSchema
 
 
-registerType(OrderedFolder, PKG_NAME)
+registerType(OrderedFolder, "LinguaPlone")
 
 
 class BTreeFolder(BaseBTreeFolder):
@@ -205,7 +205,7 @@ class BTreeFolder(BaseBTreeFolder):
     schema = BaseSchema
 
 
-registerType(BTreeFolder, PKG_NAME)
+registerType(BTreeFolder, "LinguaPlone")
 
 
 # Non-LP-classes, typical use case when inheriting from LP-aware product
@@ -250,7 +250,7 @@ class NonLPSimpleType(SimpleType):
     schema = NonLPSchema
 
 
-registerType(NonLPSimpleType, PKG_NAME)
+registerType(NonLPSimpleType, "LinguaPlone")
 
 
 # Unregistered types
