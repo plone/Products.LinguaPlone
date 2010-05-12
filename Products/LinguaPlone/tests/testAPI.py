@@ -200,6 +200,12 @@ class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
         translations = self.english.getTranslations(review_state=False)
         self.assert_('fr' not in translations)
 
+    def testGetNonCanonicalTranslations(self):
+        translations = self.english.getNonCanonicalTranslations()
+        self.assertEquals(len(translations), 1)
+        self.assertEqual(translations['de'][0], self.german)
+        self.assertEqual(translations['de'][1], 'private')
+
     def testReferences(self):
         reftool = self.portal.reference_catalog
         ref = reftool.getReferences(self.german, 'translationOf')[0]
