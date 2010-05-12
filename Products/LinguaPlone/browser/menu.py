@@ -83,7 +83,7 @@ class TranslateSubMenuItem(BrowserSubMenuItem):
 
     def available(self):
         if self.disabled():
-            return False
+            return False # pragma: no cover
         return ILinguaPloneProductLayer in registered_layers()
 
     def disabled(self):
