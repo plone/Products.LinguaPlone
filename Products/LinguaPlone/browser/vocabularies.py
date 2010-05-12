@@ -79,8 +79,10 @@ class UntranslatedLanguagesVocabulary(object):
         return SimpleVocabulary(items)
 
 UntranslatedLanguagesVocabularyFactory = UntranslatedLanguagesVocabulary()
-NeutralAndUntranslatedLanguagesVocabularyFactory = UntranslatedLanguagesVocabulary(incl_neutral=True)
-NoChangeNeutralAndUntranslatedLanguagesVocabularyFactory = UntranslatedLanguagesVocabulary(incl_neutral=True, incl_nochange=True)
+NeutralAndUntranslatedLanguagesVocabularyFactory = \
+    UntranslatedLanguagesVocabulary(incl_neutral=True)
+NoChangeNeutralAndUntranslatedLanguagesVocabularyFactory = \
+    UntranslatedLanguagesVocabulary(incl_neutral=True, incl_nochange=True)
 
 
 class DeletableLanguagesVocabulary(object):
