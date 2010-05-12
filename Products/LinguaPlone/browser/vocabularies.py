@@ -92,15 +92,16 @@ class DeletableLanguagesVocabulary(object):
         context = getattr(context, 'context', context)
         ltool = getToolByName(context, 'portal_languages')
         available = ltool.getAvailableLanguages()
-        translations = context.getNonCanonicalTranslations()
+        translations = context.getTranslations(
+            include_canonical=False, review_state=False)
 
         items = []
-        for lang in translations.keys():
+        for lang, item in translations.items():
             info = available[lang]
             desc = u"%s (%s): %s" % (
                 info.get(u'native', info.get(u'name')),
                 lang,
-                translations[lang][0].Title().decode('utf-8'),
+                item.Title().decode('utf-8'),
             )
             items.append(SimpleTerm(lang, lang, desc))
 

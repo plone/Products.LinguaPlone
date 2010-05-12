@@ -4,6 +4,10 @@ Changelog
 3.1a3 - unreleased
 ------------------
 
+- Small optimizations in invalidateTranslations, deleteable language vocabulary
+  and script - avoiding review state calculation and full object lookups.
+  [hannosch]
+
 - Removed logger instance and log method from ``config.py``.
   [hannosch]
 

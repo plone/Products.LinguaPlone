@@ -456,9 +456,10 @@ class I18NBaseObject(Implicit):
         permissions.ModifyPortalContent, 'invalidateTranslations')
     def invalidateTranslations(self):
         """Outdates all translations except the canonical one."""
-        translations = self.getNonCanonicalTranslations()
-        for lang in translations.keys():
-            translations[lang][0].notifyCanonicalUpdate()
+        translations = self.getTranslations(
+            include_canonical=False, review_state=False).values()
+        for obj in translations:
+            obj.notifyCanonicalUpdate()
 
     security.declarePrivate('notifyCanonicalUpdate')
     def notifyCanonicalUpdate(self):
@@ -478,7 +479,7 @@ class I18NBaseObject(Implicit):
         # Called from manage_beforeDelete() of subclasses to
         # veto deletion of the canonical translation object.
         if config.CANONICAL_DELETE_PROTECTION:
-            if self.isCanonical() and self.getNonCanonicalTranslations():
+            if self.isCanonical() and self.getTranslationBackReferences():
                 raise BeforeDeleteException('Delete translations first.')
 
     # Wrapper around typeinfo to hook into the edit alias
