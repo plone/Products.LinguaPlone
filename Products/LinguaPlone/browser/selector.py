@@ -91,9 +91,9 @@ class TranslatableLanguageSelector(LanguageSelector):
         formvariables = {}
         for k,v in self.request.form.items():
             if k == '-C':
-                # no idea where the -C is put into the form variables, but it
-                # appears to be always there without any actual meaning
-                continue
+                # In Zope < 2.12.5 a -C was added whenever there was no
+                # query string.
+                continue # pragma: no cover
             if isinstance(v, unicode):
                 formvariables[k] = v.encode('utf-8')
             else:
