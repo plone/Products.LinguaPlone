@@ -158,6 +158,12 @@ class SimpleType(BaseContent):
         """Custom mutator."""
         self.getField('contactName5').set(self, 'cn5 ' + value, **kw)
 
+    def getRawReference(self):
+        return self.getField('reference').getRaw(self)
+
+    def getRawReferenceDependent(self):
+        return self.getField('referenceDependent').getRaw(self)
+
 registerType(SimpleType, PKG_NAME)
 
 

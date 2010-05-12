@@ -1,9 +1,6 @@
-# Language Independent Tests
-#
-
 from Products.LinguaPlone.interfaces import ITranslatable
-from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.LinguaPlone.tests import dummy
+from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
@@ -337,6 +334,39 @@ class TestLanguageIndependentCatalog(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEqual(brains[0].getContactName, 'bar')
         brains = catalog(dict(portal_type='SimpleType', Language='de'))
         self.assertEqual(brains[0].getContactName, 'bar')
+
+    def testLangIndependentReferenceIndexing(self):
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        catalog.addIndex('getRawReference', 'FieldIndex')
+        catalog.addColumn('getRawReference')
+
+        catalog.addIndex('getRawReferenceDependent', 'FieldIndex')
+        catalog.addColumn('getRawReferenceDependent')
+
+        english = makeContent(self.folder, 'SimpleType', 'doc')
+        english.setLanguage('en')
+        german = makeTranslation(english, 'de')
+
+        target = makeContent(self.folder, 'SimpleType', 'target')
+        target.setLanguage('en')
+        target_german = makeTranslation(target, 'de')
+
+        # Test language independent reference fields
+        english.processForm(values=dict(
+            reference=target.UID(), referenceDependent=target.UID()))
+
+        self.assertEqual(english.getReference().UID(), target.UID())
+        self.assertEqual(german.getReference().UID(), target_german.UID())
+
+        brains = catalog(dict(getRawReferenceDependent=target.UID()))
+        self.assertEqual(brains[0].getRawReferenceDependent, target.UID())
+        brains = catalog(dict(getRawReferenceDependent=target.UID()))
+        self.assertEqual(brains[0].getRawReferenceDependent, target.UID())
+
+        brains = catalog(dict(UID=english.UID()))
+        self.assertEqual(brains[0].getRawReference, target.UID())
+        brains = catalog(dict(UID=german.UID()))
+        self.assertEqual(brains[0].getRawReference, target_german.UID())
 
 
 def test_suite():

@@ -4,6 +4,9 @@ Changelog
 3.1a3 - unreleased
 ------------------
 
+- Added tests to prove that indexing and updating reference fields works.
+  [hannosch]
+
 - Also handle multiValued references given by a tuple instead of a list in
   ``utils.translated_references``.
   [thet]
