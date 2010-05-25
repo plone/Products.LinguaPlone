@@ -1,10 +1,10 @@
 Changelog
 =========
 
-3.1a3 - unreleased
+3.1a3 - 2010-05-25
 ------------------
 
-- Small optimizations in invalidateTranslations, deleteable language vocabulary
+- Small optimizations in invalidateTranslations, deletable language vocabulary
   and script - avoiding review state calculation and full object lookups.
   [hannosch]
 
