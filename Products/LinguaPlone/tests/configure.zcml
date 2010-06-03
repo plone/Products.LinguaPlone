@@ -7,11 +7,4 @@
   <five:deprecatedManageAddDelete class=".dummy.SimpleFolder" />
   <five:deprecatedManageAddDelete class=".dummy.SimpleType" />
 
-  <configure package="Products.LinguaPlone.examples">
-
-    <five:deprecatedManageAddDelete class=".LinguaFolder.LinguaFolder" />
-    <five:deprecatedManageAddDelete class=".LinguaItem.LinguaItem" />
-
-  </configure>
-
 </configure>

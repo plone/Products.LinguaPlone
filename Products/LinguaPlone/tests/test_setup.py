@@ -25,18 +25,9 @@ class TestInstallSetup(LinguaPloneTestCase):
     def testPortalTypes(self):
         # Check all content types are installed
         types = aq_base(self.portal.portal_types)
-        self.failUnless(hasattr(types, 'Lingua Item'))
-        self.failUnless(hasattr(types, 'Lingua Folder'))
-        # Dummies
         self.failUnless(hasattr(types, 'SimpleType'))
         self.failUnless(hasattr(types, 'DerivedType'))
         self.failUnless(hasattr(types, 'SimpleFolder'))
-
-    def testExampleTypes(self):
-        self.folder.invokeFactory('Lingua Item', id='foo')
-        self.failUnless('foo' in self.folder.objectIds())
-        self.folder.invokeFactory('Lingua Folder', id='bar')
-        self.failUnless('bar' in self.folder.objectIds())
 
 
 def test_suite():

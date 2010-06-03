@@ -4,6 +4,10 @@ Changelog
 3.1a4 - unreleased
 ------------------
 
+- Removed example types, Plone's default types are LinguaPlone aware and
+  provide a good demo of the functionality.
+  [hannosch]
+
 - Refactored tests and conform to PEP8 in more places.
   [hannosch]
 

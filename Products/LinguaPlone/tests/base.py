@@ -2,19 +2,12 @@ from Testing import ZopeTestCase
 from Testing.ZopeTestCase import Functional
 
 # Make sure the dummy types are registered
-from Products.LinguaPlone import examples
 from Products.LinguaPlone.tests import dummy
+dummy # pyflakes
 
 from Products.Five import zcml
 from Products.Five import fiveconfigure
 from Products.GenericSetup import EXTENSION, profile_registry
-
-profile_registry.registerProfile('LinguaPlone_samples',
-        'LinguaPlone example content types',
-        'Extension profile including sample content types to test LinguaPlone',
-        'profiles/sample_types',
-        'Products.LinguaPlone',
-        EXTENSION)
 
 profile_registry.registerProfile('LinguaPlone_tests',
         'LinguaPlone test content types',
@@ -45,8 +38,7 @@ def setup_product():
     fiveconfigure.debug_mode = False
 
 extension_profiles=['Products.LinguaPlone:LinguaPlone',
-                    'Products.LinguaPlone:LinguaPlone_tests',
-                    'Products.LinguaPlone:LinguaPlone_samples']
+                    'Products.LinguaPlone:LinguaPlone_tests']
 
 setup_product()
 PloneTestCase.setupPloneSite(extension_profiles=extension_profiles)

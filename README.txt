@@ -68,9 +68,8 @@ manual override`` is enabled.
 LinguaPlone - quick demo instructions
 =====================================
 
-LinguaPlone ships with a few example types that demonstrates the translation
-mechanism. It's trivial to add this to your own classes (see the README),
-but to save you the hassle, you can try this simple experiment:
+The standard Plone types are LinguaPlone aware. It's trivial to add this to
+your own types. For starters you can try this simple experiment:
 
 - Make sure you have Plone 3.3 or newer installed.
 
