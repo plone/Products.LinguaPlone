@@ -69,8 +69,8 @@ class TranslatableLanguageSelector(LanguageSelector):
         # current object and also use it for the other languages
 
         # We need to find the actual translatable content object. As an
-        # optimization we assume it is one of the last two path segments
-        match = filter(None,context.getPhysicalPath()[-2:])
+        # optimization we assume it is one of the last three path segments
+        match = filter(None, context.getPhysicalPath()[-3:])
         current_path = filter(None, self.request.get('PATH_INFO', '').split('/'))
         append_path = []
         stop = False

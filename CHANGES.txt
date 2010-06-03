@@ -4,7 +4,10 @@ Changelog
 3.1a4 - unreleased
 ------------------
 
-- Removed iterator for tabindex for plone 4 compatibility.
+- Lessen optimization in selector code, to deal with folderish objects used as
+  default pages, refs http://plone.org/products/linguaplone/issues/228.
+
+- Removed iterator for tabindex for Plone 4 compatibility.
   [hpeteragitator]
 
 3.1a3 - 2010-05-25
