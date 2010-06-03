@@ -6,7 +6,12 @@ from Products.LinguaPlone.public import AlreadyTranslated
 from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
-from Products.LinguaPlone.tests.utils import sortTuple
+
+
+def sortTuple(t):
+    l = list(t)
+    l.sort()
+    return tuple(l)
 
 
 class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):

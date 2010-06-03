@@ -5,8 +5,3 @@ def makeContent(context, portal_type, id='doc', **kw):
 def makeTranslation(content, language='en'):
     content.addTranslation(language)
     return content.getTranslation(language)
-
-def sortTuple(t):
-    l = list(t)
-    l.sort()
-    return tuple(l)
