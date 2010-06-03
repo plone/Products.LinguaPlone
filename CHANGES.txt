@@ -4,6 +4,8 @@ Changelog
 3.1a4 - unreleased
 ------------------
 
+- Removed iterator for tabindex for plone 4 compatibility.
+  [hpeteragitator]
 
 3.1a3 - 2010-05-25
 ------------------
