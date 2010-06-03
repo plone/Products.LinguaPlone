@@ -1,9 +1,21 @@
-from AccessControl import ClassSecurityInfo
-
-from Products.LinguaPlone.public import *
-from Products.LinguaPlone.config import *
-
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
+from Products.LinguaPlone.public import BaseBTreeFolder
+from Products.LinguaPlone.public import BaseContent
+from Products.LinguaPlone.public import BaseFolder
+from Products.LinguaPlone.public import BaseSchema
+from Products.LinguaPlone.public import ImageField
+from Products.LinguaPlone.public import LinesField
+from Products.LinguaPlone.public import LinesWidget
+from Products.LinguaPlone.public import OrderedBaseFolder
+from Products.LinguaPlone.public import ReferenceField
+from Products.LinguaPlone.public import registerType
+from Products.LinguaPlone.public import RichWidget
+from Products.LinguaPlone.public import Schema
+from Products.LinguaPlone.public import StringField
+from Products.LinguaPlone.public import StringWidget
+from Products.LinguaPlone.public import TextField
+
 
 SimpleSchema = BaseSchema + Schema((
 
@@ -79,7 +91,7 @@ SimpleSchema = BaseSchema + Schema((
         name='langIndependentInDerived',
         languageIndependent=False,
         widget=StringWidget(
-            description='This field is not language independent in DerivedType.',
+            description='This field is language dependent in DerivedType.',
         ),
     ),
 
@@ -138,7 +150,9 @@ class SimpleType(BaseContent):
     _at_rename_after_creation = True
 
     def setContactName(self, value, **kw):
-        """Set contact name. This tests language independent method generation """
+        """Set contact name.
+        This tests language independent method generation
+        """
         self.getField('contactName').set(self, value, **kw)
         self.testing = value
 
@@ -170,6 +184,7 @@ registerType(SimpleType, "LinguaPlone")
 DerivedSchema = SimpleSchema.copy()
 DerivedSchema['langIndependentInBase'].languageIndependent = 0
 DerivedSchema['langIndependentInDerived'].languageIndependent = 1
+
 
 class DerivedType(SimpleType):
     """A derived multilingual archetype"""
@@ -211,7 +226,8 @@ registerType(BTreeFolder, "LinguaPlone")
 # Non-LP-classes, typical use case when inheriting from LP-aware product
 # in a non-LP-aware product
 # The key is to not copy the schema directly (as it has translation_mutator)
-from Products.Archetypes.public import *
+
+from Products.Archetypes.public import registerType
 
 
 NonLPSchema = SimpleSchema.copy() + Schema((
