@@ -14,8 +14,8 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.LinguaPlone.browser.selector import TranslatableLanguageSelector
 from Products.LinguaPlone.interfaces import ITranslatable
-from Products.LinguaPlone.tests.LinguaPloneTestCase import PLONE40
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import PLONE40
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
@@ -210,7 +210,7 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
         self.assertEqual(self.selector.languages(), expected)
 
 
-class TestLanguageSelectorRendering(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestLanguageSelectorRendering(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')

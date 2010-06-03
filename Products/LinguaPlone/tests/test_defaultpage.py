@@ -1,13 +1,12 @@
-from Products.LinguaPlone.tests import LinguaPloneTestCase
-from Products.LinguaPlone.tests.LinguaPloneTestCase import PLONE40
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import PLONE40
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
 
-class TestFolderDefaultPage(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestFolderDefaultPage(LinguaPloneTestCase):
 
     def afterSetUp(self):
-        LinguaPloneTestCase.LinguaPloneTestCase.afterSetUp(self)
         self.addLanguage('de')
         self.setLanguage('en')
         self.english = makeContent(self.folder, 'SimpleType', 'doc')
@@ -38,10 +37,9 @@ class TestFolderDefaultPage(LinguaPloneTestCase.LinguaPloneTestCase):
         self.failUnlessEqual(result, None)
 
 
-class TestSimpleFolderBrowserDefault(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestSimpleFolderBrowserDefault(LinguaPloneTestCase):
 
     def afterSetUp(self):
-        LinguaPloneTestCase.LinguaPloneTestCase.afterSetUp(self)
         self.addLanguage('de')
         self.setLanguage('en')
         self.folder_en = makeContent(self.folder, 'SimpleFolder', 'folder_en')
@@ -53,10 +51,9 @@ class TestSimpleFolderBrowserDefault(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEqual(views, ['base_view'])
 
 
-class TestPortalDefaultPage(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestPortalDefaultPage(LinguaPloneTestCase):
 
     def afterSetUp(self):
-        LinguaPloneTestCase.LinguaPloneTestCase.afterSetUp(self)
         self.addLanguage('de')
         self.setLanguage('en')
         self.setRoles(['Manager'])
@@ -88,10 +85,9 @@ class TestPortalDefaultPage(LinguaPloneTestCase.LinguaPloneTestCase):
         self.failUnlessEqual(result, None)
 
 
-class TestIndexDefaultPage(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestIndexDefaultPage(LinguaPloneTestCase):
 
     def afterSetUp(self):
-        LinguaPloneTestCase.LinguaPloneTestCase.afterSetUp(self)
         self.addLanguage('de')
         self.setLanguage('en')
         self.english = makeContent(self.folder, 'SimpleType', 'index_html')

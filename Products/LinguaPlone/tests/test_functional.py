@@ -1,6 +1,5 @@
-from Products.LinguaPlone.tests.LinguaPloneTestCase import PLONE40
-from Products.LinguaPlone.tests.LinguaPloneTestCase import \
-     LinguaPloneFunctionalTestCase
+from Products.LinguaPlone.tests.base import PLONE40
+from Products.LinguaPlone.tests.base import LinguaPloneFunctionalTestCase
 
 
 FILES = [

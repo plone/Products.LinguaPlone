@@ -3,7 +3,7 @@ import transaction
 from Products.CMFCore.utils import getToolByName
 
 from Products.LinguaPlone.public import AlreadyTranslated
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
@@ -14,7 +14,7 @@ def sortTuple(t):
     return tuple(l)
 
 
-class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestAPI(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')
@@ -314,7 +314,7 @@ class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEquals(neutral_doc.defaultLanguage(), LANGUAGE_DEFAULT)
 
 
-class TestSetLanguage(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestSetLanguage(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')
@@ -397,7 +397,7 @@ class TestSetLanguage(LinguaPloneTestCase.LinguaPloneTestCase):
         self.failUnless('en' in self.german.getTranslationLanguages())
 
 
-class TestProcessFormRename(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestProcessFormRename(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')

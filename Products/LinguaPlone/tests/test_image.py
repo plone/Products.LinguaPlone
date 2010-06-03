@@ -1,6 +1,6 @@
 import os
 
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
@@ -11,7 +11,7 @@ JPG = file(filebase +'jpg').read()
 GIF = file(filebase + 'gif').read()
 
 
-class TestImage(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestImage(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.setLanguage('en')

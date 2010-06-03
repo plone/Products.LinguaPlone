@@ -1,14 +1,13 @@
 from Products.LinguaPlone.catalog import languageFilter
 from Products.LinguaPlone.config import NOFILTERKEYS
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
 
-class TestLanguageFilter(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestLanguageFilter(LinguaPloneTestCase):
 
     def afterSetUp(self):
-        LinguaPloneTestCase.LinguaPloneTestCase.afterSetUp(self)
         self.addLanguage('de')
         self.setLanguage('en')
 
@@ -55,10 +54,9 @@ class TestLanguageFilter(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEquals(query['Language'], 'de')
 
 
-class TestMultilingualCatalog(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestMultilingualCatalog(LinguaPloneTestCase):
 
     def afterSetUp(self):
-        LinguaPloneTestCase.LinguaPloneTestCase.afterSetUp(self)
         self.addLanguage('de')
         self.setLanguage('en')
         self.english = makeContent(self.folder, 'SimpleType', 'doc')

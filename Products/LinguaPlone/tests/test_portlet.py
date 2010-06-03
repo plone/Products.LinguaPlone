@@ -1,13 +1,13 @@
 from Products.CMFCore.utils import getToolByName
 
 from Products.LinguaPlone.browser.language import Renderer
-from Products.LinguaPlone.tests import LinguaPloneTestCase
-from Products.LinguaPlone.tests.LinguaPloneTestCase import PLONE40
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import PLONE40
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
 
-class TestLanguagePortlet(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestLanguagePortlet(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')

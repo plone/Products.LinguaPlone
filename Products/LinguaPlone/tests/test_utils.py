@@ -1,4 +1,4 @@
-from Products.LinguaPlone.tests.LinguaPloneTestCase import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.utils import linkTranslations
 
 

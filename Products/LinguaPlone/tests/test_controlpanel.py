@@ -5,10 +5,10 @@ from Testing.makerequest import makerequest
 
 from Products.LinguaPlone.browser import controlpanel
 from Products.LinguaPlone.interfaces import ILinguaPloneProductLayer
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 
 
-class TestLanguageControlPanel(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestLanguageControlPanel(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')

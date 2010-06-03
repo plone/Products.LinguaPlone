@@ -4,7 +4,7 @@ from DateTime import DateTime
 from Missing import MV
 from Products.CMFCore.utils import getToolByName
 
-from Products.LinguaPlone.tests.LinguaPloneTestCase import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.criteria.syncer import sync_collections
 
 CRITERIA_TYPES = (

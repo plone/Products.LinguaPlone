@@ -1,4 +1,4 @@
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
@@ -7,7 +7,7 @@ def fake_uid():
     return None
 
 
-class TestMissingUID(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestMissingUID(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')

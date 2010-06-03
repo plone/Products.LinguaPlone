@@ -1,9 +1,9 @@
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
 
-class TestLanguageLists(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestLanguageLists(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')

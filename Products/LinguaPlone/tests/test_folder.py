@@ -1,11 +1,11 @@
 import transaction
 
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
 
-class TestFolderTranslation(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestFolderTranslation(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')
@@ -56,7 +56,7 @@ class TestFolderTranslation(LinguaPloneTestCase.LinguaPloneTestCase):
         self.failUnless(en2de.getId() in self.folder_de.objectIds())
 
 
-class TestDynamicFolderProcessForm(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestDynamicFolderProcessForm(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('pt')
@@ -97,7 +97,7 @@ class TestDynamicFolderProcessForm(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEqual(self.folder_pt.getDefaultPage(), 'foo')
 
 
-class TestOrderedFolder(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestOrderedFolder(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')
@@ -115,7 +115,7 @@ class TestOrderedFolder(LinguaPloneTestCase.LinguaPloneTestCase):
         self.failIf('folder2' in self.folder.keys())
 
 
-class TestBTreeFolder(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestBTreeFolder(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')

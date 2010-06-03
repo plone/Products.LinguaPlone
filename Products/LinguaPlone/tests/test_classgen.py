@@ -1,4 +1,4 @@
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests import dummy
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.utils import generateClass
@@ -12,7 +12,7 @@ def is_renamed(method):
     return getattr(method, '_lp_renamed', False)
 
 
-class TestClassGen(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestClassGen(LinguaPloneTestCase):
 
     def test_A_SimpleType(self):
         klass = dummy.UnregSimpleType
@@ -62,7 +62,7 @@ class TestClassGen(LinguaPloneTestCase.LinguaPloneTestCase):
         self.failUnless(is_generated(klass.setTranslationContactName5))
 
 
-class TestCustomAccessors(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestCustomAccessors(LinguaPloneTestCase):
 
     # Do custom accessors work?
 

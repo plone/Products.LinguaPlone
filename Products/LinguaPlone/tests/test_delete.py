@@ -1,12 +1,12 @@
 from OFS.ObjectManager import BeforeDeleteException
 
 from Products.LinguaPlone import config
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
 
-class TestDeleteTranslations(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestDeleteTranslations(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')
@@ -27,7 +27,7 @@ class TestDeleteTranslations(LinguaPloneTestCase.LinguaPloneTestCase):
         self.folder._delObject('doc')
 
 
-class TestCanonicalProtection(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestCanonicalProtection(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')

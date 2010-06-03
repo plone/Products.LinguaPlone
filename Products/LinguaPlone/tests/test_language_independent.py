@@ -2,12 +2,12 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.LinguaPlone.interfaces import ITranslatable
 from Products.LinguaPlone.tests import dummy
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
 
-class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestLanguageIndependentFields(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')
@@ -320,7 +320,7 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEqual(str(english.contactName5), 'cn5 %s' % teststring)
 
 
-class TestLanguageIndependentCatalog(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestLanguageIndependentCatalog(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.addLanguage('de')

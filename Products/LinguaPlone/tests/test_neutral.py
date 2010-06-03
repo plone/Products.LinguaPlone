@@ -1,9 +1,9 @@
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
 
-class TestNeutral(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestNeutral(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.setLanguage('en')

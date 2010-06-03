@@ -2,10 +2,10 @@ from Acquisition import aq_base
 from Products.CMFPlone.CatalogTool import CatalogTool
 
 from Products.LinguaPlone import config
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 
 
-class TestPatchesSetup(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestPatchesSetup(LinguaPloneTestCase):
 
     def testCatalogPatch(self):
         if config.I18NAWARE_CATALOG:
@@ -14,7 +14,7 @@ class TestPatchesSetup(LinguaPloneTestCase.LinguaPloneTestCase):
             self.failIf(hasattr(CatalogTool, '__lp_old_searchResults'))
 
 
-class TestInstallSetup(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestInstallSetup(LinguaPloneTestCase):
 
     def testTools(self):
         # Check all tools are installed

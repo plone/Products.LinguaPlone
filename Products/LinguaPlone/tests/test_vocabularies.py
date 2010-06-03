@@ -5,12 +5,12 @@ from zope.component import queryUtility
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
 
-class TestSyncedVocabularies(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestSyncedVocabularies(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.setLanguage('en')
@@ -33,7 +33,7 @@ class TestSyncedVocabularies(LinguaPloneTestCase.LinguaPloneTestCase):
         self.assertEquals(set([k[0] for k in listing]), self.langs)
 
 
-class TestLanguageVocabularies(LinguaPloneTestCase.LinguaPloneTestCase):
+class TestLanguageVocabularies(LinguaPloneTestCase):
 
     def afterSetUp(self):
         self.setLanguage('en')
