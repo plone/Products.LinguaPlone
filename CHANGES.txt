@@ -4,6 +4,9 @@ Changelog
 3.1a4 - unreleased
 ------------------
 
+- Refactored tests and conform to PEP8 in more places.
+  [hannosch]
+
 - Changed the default index used for Language to be a normal FieldIndex. For
   most sites this is sufficient and avoids the major performance hit the
   LanguageIndex brings with it.
