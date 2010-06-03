@@ -31,8 +31,8 @@ class TestTranslationPortalType(LinguaPloneTestCase.LinguaPloneTestCase):
                             provided=ITranslationFactory)
 
         # Now translate again
-        fred.addTranslation('de')
-        self.assertEquals(fred.portal_type, 'News Item')
+        fred_de = fred.addTranslation('de')
+        self.assertEquals(fred_de.portal_type, 'News Item')
 
     def beforeTearDown(self):
         gsm = getGlobalSiteManager()
