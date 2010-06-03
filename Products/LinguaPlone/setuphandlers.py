@@ -11,13 +11,13 @@ def importReindexLanguageIndex(context):
     if 'Language' in catalog.indexes():
         index = catalog._catalog.getIndex('Language')
         # We do not want a FieldIndex but a LanguageIndex
-        if index.meta_type != 'LanguageIndex':
+        if index.meta_type != 'FieldIndex':
             catalog.delIndex('Language')
 
     # Check again.
     if 'Language' not in catalog.indexes():
-        catalog.addIndex('Language', 'LanguageIndex')
-        logger.info("Added LanguageIndex field Language.")
+        catalog.addIndex('Language', 'FieldIndex')
+        logger.info("Added FieldIndex for field Language.")
 
     # Reindex when there are no objects.
     index = catalog._catalog.getIndex('Language')

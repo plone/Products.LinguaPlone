@@ -4,6 +4,11 @@ Changelog
 3.1a4 - unreleased
 ------------------
 
+- Changed the default index used for Language to be a normal FieldIndex. For
+  most sites this is sufficient and avoids the major performance hit the
+  LanguageIndex brings with it.
+  [hannosch]
+
 - Refactor selector code to make it easier to write unit tests for it.
   [hannosch]
 

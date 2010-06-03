@@ -2,8 +2,8 @@ from Testing import ZopeTestCase
 from Testing.ZopeTestCase import Functional
 
 # Make sure the dummy types are registered
-from Products.LinguaPlone import examples; examples
-from Products.LinguaPlone.tests import dummy; dummy
+from Products.LinguaPlone import examples
+from Products.LinguaPlone.tests import dummy
 
 from Products.Five import zcml
 from Products.Five import fiveconfigure

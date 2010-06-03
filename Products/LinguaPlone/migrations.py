@@ -46,8 +46,8 @@ def add_uid_language_index(context):
     log = logging.getLogger("LinguaPlone")
     tool = getToolByName(context, 'uid_catalog')
     if 'Language' not in tool.indexes():
-        tool.addIndex('Language', 'LanguageIndex')
-        log.info("Added LanguageIndex field Language.")
+        tool.addIndex('Language', 'FieldIndex')
+        log.info("Added FieldIndex for field Language.")
         # Reindex when there are no objects.
         index = tool._catalog.getIndex('Language')
         if index.numObjects() == 0:
@@ -84,7 +84,6 @@ def add_synced_vocabularies(context):
 
 
 def add_properties_sheet(context):
-    log = logging.getLogger("LinguaPlone")
     context.runImportStepFromProfile(
         'profile-Products.LinguaPlone:LinguaPlone',
         'propertiestool',
