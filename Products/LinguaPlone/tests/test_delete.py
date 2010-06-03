@@ -1,13 +1,9 @@
-#
-# Delete Tests
-#
+from OFS.ObjectManager import BeforeDeleteException
 
+from Products.LinguaPlone import config
 from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
-
-from Products.LinguaPlone import config
-from OFS.ObjectManager import BeforeDeleteException
 
 
 class TestDeleteTranslations(LinguaPloneTestCase.LinguaPloneTestCase):
@@ -75,22 +71,6 @@ class TestCanonicalProtection(LinguaPloneTestCase.LinguaPloneTestCase):
         english.setLanguage('en')
         german = makeTranslation(english, 'de')
         self.folder.manage_delObjects(['doc', german.getId()])
-
-    # XXX: Fails :-(
-    def DISABLED_testBulkDeleteCanonicalReverseOrder(self):
-        # Should be able to delete if translations are deleted as well
-        english = makeContent(self.folder, 'SimpleType', 'doc')
-        english.setLanguage('en')
-        german = makeTranslation(english, 'de')
-        self.folder.manage_delObjects([german.getId(), 'doc'])
-
-    # XXX: Fails :-(
-    def DISABLED_testBulkDeleteCanonicalParentFolder(self):
-        # Should be able to delete the parent folder
-        english = makeContent(self.folder, 'SimpleType', 'doc')
-        english.setLanguage('en')
-        german = makeTranslation(english, 'de')
-        self.folder.Members.manage_delObjects(self.folder.getId())
 
 
 def test_suite():

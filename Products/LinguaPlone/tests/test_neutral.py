@@ -1,7 +1,3 @@
-#
-# Neutral Tests
-#
-
 from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation

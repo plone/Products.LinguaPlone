@@ -1,7 +1,9 @@
 from Products.LinguaPlone.tests.LinguaPloneTestCase import LinguaPloneTestCase
 from Products.LinguaPlone.utils import linkTranslations
 
+
 class TestContentLinker(LinguaPloneTestCase):
+
     def afterSetUp(self):
         self.addLanguage("en")
         self.addLanguage("nl")
@@ -24,7 +26,6 @@ class TestContentLinker(LinguaPloneTestCase):
         self.assertEqual(self.folder.frontpage.getTranslation("nl"),
                 self.folder.voorpagina)
         self.assertEqual(self.folder.frontpage.isCanonical(), True)
-    
 
     def testSubFolderLinking(self):
         todo=[[(["images", "logo"], "en"), (["plaatjes", "logo"], "nl")]]
@@ -37,15 +38,13 @@ class TestContentLinker(LinguaPloneTestCase):
                 self.folder.images.logo)
         self.assertEqual(self.folder.images.logo.isCanonical(), True)
 
-
     def testTypeMismatch(self):
         todo=[[(["frontpage"], "en"), (["images"], "nl")]]
         self.assertRaises(ValueError, linkTranslations, self.folder, todo)
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestContentLinker))
     return suite
-
-

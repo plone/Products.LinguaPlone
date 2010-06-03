@@ -1,7 +1,3 @@
-#
-# Default Page Tests
-#
-
 from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.LinguaPlone.tests.LinguaPloneTestCase import PLONE40
 from Products.LinguaPlone.tests.utils import makeContent
@@ -134,4 +130,3 @@ def test_suite():
     suite.addTest(makeSuite(TestPortalDefaultPage))
     suite.addTest(makeSuite(TestIndexDefaultPage))
     return suite
-

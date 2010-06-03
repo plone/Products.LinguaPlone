@@ -1,12 +1,9 @@
-#
-# Folder Related Tests
-#
+import transaction
 
 from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
-import transaction
 
 class TestFolderTranslation(LinguaPloneTestCase.LinguaPloneTestCase):
 
@@ -71,7 +68,7 @@ class TestDynamicFolderProcessForm(LinguaPloneTestCase.LinguaPloneTestCase):
         self.folder_en.setDefaultPage(self.english.getId())
         self.portuguese = makeTranslation(self.english, 'pt')
         transaction.savepoint(optimistic=True)
-        self.portuguese.processForm(values={'id' : 'foo', 'title' : 'Foo'})
+        self.portuguese.processForm(values={'id': 'foo', 'title': 'Foo'})
         self.folder_pt = self.folder_en.getTranslation('pt')
 
     def testCreatedNewFolder(self):

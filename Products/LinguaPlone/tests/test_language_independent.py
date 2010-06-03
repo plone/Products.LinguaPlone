@@ -1,10 +1,10 @@
+from Products.CMFCore.utils import getToolByName
+
 from Products.LinguaPlone.interfaces import ITranslatable
 from Products.LinguaPlone.tests import dummy
 from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
-
-from Products.CMFCore.utils import getToolByName
 
 
 class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
@@ -160,7 +160,7 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
 
         # Test single valued
         english.setReferenceMulti(target.UID())
-        self.assertEqual(english.getReferenceMulti()[0].UID(),target.UID())
+        self.assertEqual(english.getReferenceMulti()[0].UID(), target.UID())
         self.assertEqual(german.getReferenceMulti()[0].UID(),
             target_german.UID())
 
@@ -238,15 +238,21 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
 
     def testBaseSchemaSetup(self):
         schema = dummy.SimpleType.schema
-        self.assertEqual(schema['langIndependentInBase'].languageIndependent, 1)
-        self.assertEqual(schema['langIndependentInDerived'].languageIndependent, 0)
-        self.assertEqual(schema['langIndependentInBoth'].languageIndependent, 1)
+        self.assertEqual(
+            schema['langIndependentInBase'].languageIndependent, 1)
+        self.assertEqual(
+            schema['langIndependentInDerived'].languageIndependent, 0)
+        self.assertEqual(
+            schema['langIndependentInBoth'].languageIndependent, 1)
 
     def testDerivedSchemaSetup(self):
         schema = dummy.DerivedType.schema
-        self.assertEqual(schema['langIndependentInBase'].languageIndependent, 0)
-        self.assertEqual(schema['langIndependentInDerived'].languageIndependent, 1)
-        self.assertEqual(schema['langIndependentInBoth'].languageIndependent, 1)
+        self.assertEqual(
+            schema['langIndependentInBase'].languageIndependent, 0)
+        self.assertEqual(
+            schema['langIndependentInDerived'].languageIndependent, 1)
+        self.assertEqual(
+            schema['langIndependentInBoth'].languageIndependent, 1)
 
     def testLangIndependentInBase(self):
         english = makeContent(self.folder, 'DerivedType', 'doc')
@@ -284,7 +290,8 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         english = makeContent(self.folder, 'NonLPSimpleType', 'doc')
         english.setLanguage('en')
         teststring = 'Test string'
-        # If this fails, you can't inherit unless you also get a copy of the schema
+        # If this fails, you can't inherit unless you also get a copy
+        # of the schema
         english.setLangIndependentInBase(teststring)
         self.assertEqual(english.getLangIndependentInBase(), teststring)
         self.assertEqual(english.getRawLangIndependentInBase(), teststring)
@@ -293,16 +300,19 @@ class TestLanguageIndependentFields(LinguaPloneTestCase.LinguaPloneTestCase):
         english = makeContent(self.folder, 'NonLPSimpleType', 'doc')
         english.setLanguage('en')
         teststring = 'Test string'
-        # If this fails, you can't inherit unless you also get a copy of the schema
+        # If this fails, you can't inherit unless you also get a copy
+        # of the schema
         english.setFourthContactName(teststring)
-        self.assertEqual(english.getFourthContactName(), 'getFourthContactName')
+        self.assertEqual(english.getFourthContactName(),
+                         'getFourthContactName')
         self.assertEqual(str(english.contactName4), 'cn4 %s' % teststring)
 
     def testLangIndependentCustomMethodsInNonLP(self):
         english = makeContent(self.folder, 'NonLPSimpleType', 'doc')
         english.setLanguage('en')
         teststring = 'Test string'
-        # If this fails, you can't inherit unless you also get a copy of the schema
+        # If this fails, you can't inherit unless you also get a copy
+        # of the schema
         english.setFifthContactName(teststring)
         self.assertEqual(english.getFifthContactName(), 'getFifthContactName')
         # The original method is not detected properly... annotate?

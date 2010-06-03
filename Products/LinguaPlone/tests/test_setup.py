@@ -1,13 +1,8 @@
-#
-# Setup Tests
-#
-
-from Products.LinguaPlone.tests import LinguaPloneTestCase
-
-from Products.CMFPlone.CatalogTool import CatalogTool
-from Products.LinguaPlone import config
-
 from Acquisition import aq_base
+from Products.CMFPlone.CatalogTool import CatalogTool
+
+from Products.LinguaPlone import config
+from Products.LinguaPlone.tests import LinguaPloneTestCase
 
 
 class TestPatchesSetup(LinguaPloneTestCase.LinguaPloneTestCase):

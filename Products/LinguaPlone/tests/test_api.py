@@ -169,7 +169,7 @@ class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
 
     def testGetTranslationLanguages(self):
         languages = self.english.getTranslationLanguages()
-        self.assertEqual(sortTuple(('en','de')), sortTuple(languages))
+        self.assertEqual(sortTuple(('en', 'de')), sortTuple(languages))
 
     def testGetTranslations(self):
         translations = self.english.getTranslations()
@@ -216,8 +216,10 @@ class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
         ref = reftool.getReferences(self.german, 'translationOf')[0]
         self.assertEqual(self.german, ref.getSourceObject())
         self.assertEqual(self.english, ref.getTargetObject())
-        self.assertEqual(self.german, self.english.getBRefs('translationOf')[0])
-        self.assertEqual(self.english, self.german.getRefs('translationOf')[0])
+        self.assertEqual(self.german,
+                         self.english.getBRefs('translationOf')[0])
+        self.assertEqual(self.english,
+                         self.german.getRefs('translationOf')[0])
 
     def testGetTranslationReferences(self):
         refs = self.german.getTranslationReferences()
@@ -257,9 +259,9 @@ class TestAPI(LinguaPloneTestCase.LinguaPloneTestCase):
 
     def testProcessFormNotifyTranslations(self):
         self.failIf(self.german.isOutdated())
-        self.english.processForm(values={'title':'English'})
+        self.english.processForm(values={'title': 'English'})
         self.failUnless(self.german.isOutdated())
-        self.german.processForm(values={'title':'German'})
+        self.german.processForm(values={'title': 'German'})
         self.failIf(self.german.isOutdated())
         self.failIf(self.english.isOutdated())
 
@@ -395,7 +397,6 @@ class TestSetLanguage(LinguaPloneTestCase.LinguaPloneTestCase):
         self.failUnless('en' in self.german.getTranslationLanguages())
 
 
-
 class TestProcessFormRename(LinguaPloneTestCase.LinguaPloneTestCase):
 
     def afterSetUp(self):
@@ -409,26 +410,26 @@ class TestProcessFormRename(LinguaPloneTestCase.LinguaPloneTestCase):
         transaction.savepoint(optimistic=True)
         # Fake a auto generated ID
         self.english.setId(self.portal.generateUniqueId('SimpleType'))
-        self.english.processForm(values={'title':'I was renamed'})
+        self.english.processForm(values={'title': 'I was renamed'})
         self.assertEqual(self.english.getId(), 'i-was-renamed')
 
     def testProcessFormRenameObjectOnlyFirstTime(self):
         transaction.savepoint(optimistic=True)
         # Fake a auto generated ID
         self.english.setId(self.portal.generateUniqueId('SimpleType'))
-        self.english.processForm(values={'title':'Only First'})
-        self.english.processForm(values={'title':'Not Second'})
+        self.english.processForm(values={'title': 'Only First'})
+        self.english.processForm(values={'title': 'Not Second'})
         self.assertEqual(self.english.getId(), 'only-first')
 
     def testProcessFormRenamesTranslation(self):
         transaction.savepoint(optimistic=True)
-        self.german.processForm(values={'title' : 'Renamed Too'})
+        self.german.processForm(values={'title': 'Renamed Too'})
         self.assertEqual(self.german.getId(), 'renamed-too')
 
     def testProcessFormRenameTranslationWithId(self):
         transaction.savepoint(optimistic=True)
-        self.german.processForm(values={'id':'explicit-id'})
-        self.german.processForm(values={'title':'But not Title'})
+        self.german.processForm(values={'id': ' explicit-id'})
+        self.german.processForm(values={'title': 'But not Title'})
         self.assertEqual(self.german.getId(), 'explicit-id')
 
 
@@ -439,4 +440,3 @@ def test_suite():
     suite.addTest(makeSuite(TestSetLanguage))
     suite.addTest(makeSuite(TestProcessFormRename))
     return suite
-

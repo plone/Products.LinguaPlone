@@ -1,7 +1,3 @@
-#
-# Functional Tests
-#
-
 from Products.LinguaPlone.tests.LinguaPloneTestCase import PLONE40
 from Products.LinguaPlone.tests.LinguaPloneTestCase import \
      LinguaPloneFunctionalTestCase
@@ -19,6 +15,7 @@ if PLONE40:
     FILES.append('language_policies4.txt')
 else:
     FILES.append('language_policies.txt')
+
 
 def test_suite():
     from unittest import TestSuite

@@ -1,7 +1,3 @@
-#
-# Image Tests
-#
-
 import os
 
 from Products.LinguaPlone.tests import LinguaPloneTestCase
@@ -61,4 +57,3 @@ def test_suite():
     suite = TestSuite()
     suite.addTest(makeSuite(TestImage))
     return suite
-

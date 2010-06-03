@@ -1,15 +1,12 @@
-#
-# ClassGen Tests
-#
-
 from Products.LinguaPlone.tests import LinguaPloneTestCase
 from Products.LinguaPlone.tests import dummy
 from Products.LinguaPlone.tests.utils import makeContent
-
 from Products.LinguaPlone.utils import generateClass
+
 
 def is_generated(method):
     return getattr(method, '_lp_generated', False)
+
 
 def is_renamed(method):
     return getattr(method, '_lp_renamed', False)
@@ -72,7 +69,8 @@ class TestCustomAccessors(LinguaPloneTestCase.LinguaPloneTestCase):
     def testLanguageDependentCustomAccessor(self):
         english = makeContent(self.folder, 'SimpleType', 'doc')
         english.setLanguage('en')
-        self.assertEqual(english.getFourthContactName(), 'getFourthContactName')
+        self.assertEqual(english.getFourthContactName(),
+                         'getFourthContactName')
 
     def testLanguageIndependentCustomAccessor(self):
         english = makeContent(self.folder, 'SimpleType', 'doc')
@@ -82,7 +80,8 @@ class TestCustomAccessors(LinguaPloneTestCase.LinguaPloneTestCase):
     def testLanguageDependentCustomAccessorDerived(self):
         english = makeContent(self.folder, 'DerivedType', 'doc')
         english.setLanguage('en')
-        self.assertEqual(english.getFourthContactName(), 'getFourthContactName')
+        self.assertEqual(english.getFourthContactName(),
+                         'getFourthContactName')
 
     def testLanguageIndependentCustomAccessorDerived(self):
         english = makeContent(self.folder, 'DerivedType', 'doc')

@@ -1,9 +1,7 @@
-#
-# ITranslationPortalType tests
-#
-
 from Testing.ZopeTestCase import ZopeDocTestSuite
+
 from Products.LinguaPlone.tests import LinguaPloneTestCase
+
 
 def testTranslationPortalType():
     """

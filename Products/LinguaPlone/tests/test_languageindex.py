@@ -24,7 +24,7 @@ class Dummy:
     def UID(self):
         return self._cid
 
-    def __str__( self ):
+    def __str__(self):
         return '<Dummy: %s (cid %s)>' % (self._lang, self._cid)
 
     def __len__(self):
@@ -93,7 +93,7 @@ class TestLanguageIndex(TestCase):
 
         result, attrs = self.index._apply_index({'foo': 'bar'})
         self.assertTrue(not result)
-        self.assertEqual(attrs, ('Language',))
+        self.assertEqual(attrs, ('Language', ))
 
     def testEntryForObject(self):
         self.indexData()
@@ -232,12 +232,9 @@ class TestLanguageIndex(TestCase):
         # in the set at self.index._index['de'][None].
         self.assertEqual(self.search('de', False), [0])
 
-        # While its unlikely to encounter the pathological sequence
-        # in real life, the LanguageIndex still appears to be corruptible
-        # by not getting the sequence of operations right.
-
 
 class TestSplitLanguage(TestCase):
+
     def split(self, tag):
         from Products.LinguaPlone.utils import splitLanguage
         return splitLanguage(tag)

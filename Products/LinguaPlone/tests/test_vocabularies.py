@@ -1,7 +1,7 @@
 from plone.i18n.locales.interfaces import IContentLanguageAvailability
 from plone.i18n.locales.interfaces import IMetadataLanguageAvailability
-from zope.component import queryUtility
 from zope.app.schema.vocabulary import IVocabularyFactory
+from zope.component import queryUtility
 
 from Products.CMFCore.utils import getToolByName
 
