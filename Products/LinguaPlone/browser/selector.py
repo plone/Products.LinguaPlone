@@ -47,7 +47,7 @@ class TranslatableLanguageSelector(LanguageSelector):
                 continue
 
             item_trans = item.getTranslations(review_state=False)
-            for code,trans in item_trans.items():
+            for code, trans in item_trans.items():
                 code = str(code)
                 if code not in translations:
                     # If we don't yet have a translation for this language
@@ -71,7 +71,8 @@ class TranslatableLanguageSelector(LanguageSelector):
         # We need to find the actual translatable content object. As an
         # optimization we assume it is one of the last three path segments
         match = filter(None, context.getPhysicalPath()[-3:])
-        current_path = filter(None, self.request.get('PATH_INFO', '').split('/'))
+        path_info = self.request.get('PATH_INFO', '')
+        current_path = filter(None, path_info.split('/'))
         append_path = []
         stop = False
         while current_path and not stop:
@@ -82,14 +83,14 @@ class TranslatableLanguageSelector(LanguageSelector):
                 # actual request API to give us what we need
                 continue
             if check not in match:
-                append_path.insert(0,check)
+                append_path.insert(0, check)
             else:
                 stop = True
         if append_path:
             append_path.insert(0, '')
 
         formvariables = {}
-        for k,v in self.request.form.items():
+        for k, v in self.request.form.items():
             if k == '-C':
                 # In Zope < 2.12.5 a -C was added whenever there was no
                 # query string.
@@ -103,8 +104,8 @@ class TranslatableLanguageSelector(LanguageSelector):
             data['translated'] = code in translations
 
             try:
-                appendtourl = '/'.join(append_path) + \
-                          '?' + make_query(formvariables, dict(set_language=code))
+                appendtourl = '/'.join(append_path) + '?' + \
+                    make_query(formvariables, dict(set_language=code))
             except UnicodeError:
                 appendtourl = '/'.join(append_path) + '?set_language=' + code
 
