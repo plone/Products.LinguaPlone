@@ -75,6 +75,7 @@ class TranslatableLanguageSelector(LanguageSelector):
                 # Just ignore the VirtualHostRoot path info. This looks
                 # somewhat odd, but I couldn't figure out a way to use the
                 # actual request API to give us what we need
+                # TODO: What about VirtualHostBase???
                 continue
             if check not in match:
                 append_path.insert(0, check)
