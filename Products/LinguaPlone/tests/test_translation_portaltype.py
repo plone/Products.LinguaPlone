@@ -1,60 +1,48 @@
-from Testing.ZopeTestCase import ZopeDocTestSuite
+from zope.component import getGlobalSiteManager
+from Products.ATContentTypes.interface import IATDocument
 
+from Products.LinguaPlone.interfaces import ITranslationFactory
 from Products.LinguaPlone.tests import LinguaPloneTestCase
+from Products.LinguaPlone.utils import TranslationFactory
 
 
-def testTranslationPortalType():
-    """
-    We can create a document
+class MyTranslationFactory(TranslationFactory):
 
-      >>> _ = folder.invokeFactory('Document', id='fred')
-      >>> fred = folder.fred
+    def getTranslationPortalType(self, container, language):
+        return 'News Item'
 
-    And translate it
 
-      >>> fred_no = fred.addTranslation('no')
+class TestTranslationPortalType(LinguaPloneTestCase.LinguaPloneTestCase):
 
-    Now compare portal types
+    def testTranslationPortalType(self):
+        # We can create a document and translate it
+        self.folder.invokeFactory('Document', id='fred')
+        fred = self.folder.fred
+        fred_no = fred.addTranslation('no')
 
-      >>> fred.portal_type
-      'Document'
+        self.assertEquals(fred.portal_type, 'Document')
+        self.assertEquals(fred_no.portal_type, 'Document')
 
-      >>> fred_no.portal_type
-      'Document'
+        # We can register a more specific TranslationFactory to create
+        # translation objects with e.g. different portal_type.
+        gsm = getGlobalSiteManager()
+        gsm.registerAdapter(MyTranslationFactory,
+                            required=(IATDocument, ),
+                            provided=ITranslationFactory)
 
-    We can register a more specific TranslationFactory to create translation
-    objects with e.g. different portal_type.
+        # Now translate again
+        fred.addTranslation('de')
+        self.assertEquals(fred.portal_type, 'News Item')
 
-      >>> from Products.LinguaPlone.interfaces import ITranslationFactory
-      >>> from Products.LinguaPlone.utils import TranslationFactory
-
-      >>> class MyTranslationFactory(TranslationFactory):
-      ...     def getTranslationPortalType(self, container, language):
-      ...         return 'News Item'
-
-      >>> from zope.component import globalSiteManager as gsm
-      >>> from Products.ATContentTypes.interface import IATDocument
-
-      >>> gsm.registerAdapter(MyTranslationFactory,
-      ...                     required=(IATDocument,),
-      ...                     provided=ITranslationFactory)
-
-    Now translate again
-
-      >>> fred_de = fred.addTranslation('de')
-      >>> fred_de.portal_type
-      'News Item'
-
-    qed
-
-    [Cleanup: Get rid of the adapter]
-
-      >>> gsm.unregisterAdapter(MyTranslationFactory,
-      ...                       required=(IATDocument,),
-      ...                       provided=ITranslationFactory)
-      True
-    """
+    def beforeTearDown(self):
+        gsm = getGlobalSiteManager()
+        gsm.unregisterAdapter(MyTranslationFactory,
+            required=(IATDocument, ),
+            provided=ITranslationFactory)
 
 
 def test_suite():
-    return ZopeDocTestSuite(test_class=LinguaPloneTestCase.LinguaPloneTestCase)
+    from unittest import TestSuite, makeSuite
+    suite = TestSuite()
+    suite.addTest(makeSuite(TestTranslationPortalType))
+    return suite

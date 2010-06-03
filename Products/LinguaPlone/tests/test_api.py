@@ -428,7 +428,7 @@ class TestProcessFormRename(LinguaPloneTestCase.LinguaPloneTestCase):
 
     def testProcessFormRenameTranslationWithId(self):
         transaction.savepoint(optimistic=True)
-        self.german.processForm(values={'id': ' explicit-id'})
+        self.german.processForm(values={'id': 'explicit-id'})
         self.german.processForm(values={'title': 'But not Title'})
         self.assertEqual(self.german.getId(), 'explicit-id')
 
