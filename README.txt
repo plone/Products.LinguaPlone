@@ -166,6 +166,15 @@ For the fields that are language independent, you add
 'languageIndependent=True' in the schema definition.
 
 
+Developer information
+=====================
+
+* Home page: http://plone.org/products/linguaplone
+* Issue tracker: http://plone.org/products/linguaplone/issues
+* Code repository: https://svn.plone.org/svn/plone/Products.LinguaPlone/trunk
+* Mailing list: https://lists.sourceforge.net/lists/listinfo/plone-i18n
+
+
 License
 =======
 
