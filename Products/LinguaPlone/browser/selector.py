@@ -24,15 +24,11 @@ class TranslatableLanguageSelector(LanguageSelector):
             return selector and languages
         return False
 
-    def languages(self):
+    def _translations(self, missing):
+        # Figure out the "closest" translation in the parent chain of the
+        # context. We stop at both an INavigationRoot or an ISiteRoot to look
+        # for translations.
         context = aq_inner(self.context)
-        results = LanguageSelector.languages(self)
-        supported_langs = [v['code'] for v in results]
-        missing = set([str(c) for c in supported_langs])
-
-        # The next part is to figure out the "closest" translation in the
-        # parent chain of the context. We stop at both an INavigationRoot or
-        # a ISiteRoot to look for translations.
         translations = {}
         chain = aq_chain(context)
         for item in chain:
@@ -64,14 +60,12 @@ class TranslatableLanguageSelector(LanguageSelector):
                 for c in missing:
                     translations[c] = item
                 break
+        return translations
 
-        # We want to preserve the current template / view as used for the
-        # current object and also use it for the other languages
-
+    def _findpath(self, path, path_info):
         # We need to find the actual translatable content object. As an
         # optimization we assume it is one of the last three path segments
-        match = filter(None, context.getPhysicalPath()[-3:])
-        path_info = self.request.get('PATH_INFO', '')
+        match = filter(None, path[-3:])
         current_path = filter(None, path_info.split('/'))
         append_path = []
         stop = False
@@ -88,9 +82,11 @@ class TranslatableLanguageSelector(LanguageSelector):
                 stop = True
         if append_path:
             append_path.insert(0, '')
+        return append_path
 
+    def _formvariables(self, form):
         formvariables = {}
-        for k, v in self.request.form.items():
+        for k, v in form.items():
             if k == '-C':
                 # In Zope < 2.12.5 a -C was added whenever there was no
                 # query string.
@@ -99,6 +95,21 @@ class TranslatableLanguageSelector(LanguageSelector):
                 formvariables[k] = v.encode('utf-8')
             else:
                 formvariables[k] = v
+        return formvariables
+
+    def languages(self):
+        context = aq_inner(self.context)
+        results = LanguageSelector.languages(self)
+        supported_langs = [v['code'] for v in results]
+        missing = set([str(c) for c in supported_langs])
+        translations = self._translations(missing)
+
+        # We want to preserve the current template / view as used for the
+        # current object and also use it for the other languages
+        append_path = self._findpath(context.getPhysicalPath(),
+                                     self.request.get('PATH_INFO', ''))
+        formvariables = self._formvariables(self.request.form)
+
         for data in results:
             code = str(data['code'])
             data['translated'] = code in translations

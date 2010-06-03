@@ -4,6 +4,9 @@ Changelog
 3.1a4 - unreleased
 ------------------
 
+- Refactor selector code to make it easier to write unit tests for it.
+  [hannosch]
+
 - Added development information to README, this closes
   http://plone.org/products/linguaplone/issues/242.
   [hannosch]
