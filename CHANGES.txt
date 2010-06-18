@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1a4 - unreleased
+3.1a4 - 2010-06-18
 ------------------
 
 - Removed example types, Plone's default types are LinguaPlone aware and
