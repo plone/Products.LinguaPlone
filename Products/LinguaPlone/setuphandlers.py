@@ -16,7 +16,8 @@ def importReindexLanguageIndex(context):
 
     # Check again.
     if 'Language' not in catalog.indexes():
-        catalog.addIndex('Language', 'FieldIndex')
+        extra = {'indexed_attrs': ['Language']}
+        catalog.addIndex('Language', 'FieldIndex', extra)
         logger.info("Added FieldIndex for field Language.")
 
     # Reindex when there are no objects.
