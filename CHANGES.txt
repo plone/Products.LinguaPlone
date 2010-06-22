@@ -4,7 +4,8 @@ Changelog
 3.1a5 - unreleased
 ------------------
 
-- Use a normal FieldIndex in the uid_catalog.
+- Use a normal FieldIndex in the uid_catalog and correct custom setuphandler
+  to create a functional FieldIndex.
   [hannosch]
 
 3.1a4 - 2010-06-18
