@@ -10,7 +10,7 @@ def importReindexLanguageIndex(context):
 
     if 'Language' in catalog.indexes():
         index = catalog._catalog.getIndex('Language')
-        # We do not want a FieldIndex but a LanguageIndex
+        # We do not want a LanguageIndex but a FieldIndex
         if index.meta_type != 'FieldIndex':
             catalog.delIndex('Language')
 
