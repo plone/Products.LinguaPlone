@@ -4,6 +4,9 @@ Changelog
 3.1a6 - unreleased
 ------------------
 
+- If catalog filter attributes contain "Language", and "Language" is
+  set to all, don't add Language filters to the REQUEST object
+  [do3cc]
 
 3.1a5 - 2010-06-22
 ------------------

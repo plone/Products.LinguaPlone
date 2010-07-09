@@ -27,7 +27,7 @@ def I18nAwareCatalog():
             language, unless you explicitly ask for all results by
             providing the Language="all" keyword.
         """
-        if REQUEST is not None:
+        if REQUEST is not None and kw.get('Language', '') != 'all':
             languageFilter(REQUEST)
         else:
             languageFilter(kw)

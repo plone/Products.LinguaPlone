@@ -75,6 +75,11 @@ class TestMultilingualCatalog(LinguaPloneTestCase):
         self.failIf(self.english in [x.getObject() for x in search])
         self.failUnless(self.german in [x.getObject() for x in search])
 
+    def testSearchAllWithRequest(self):
+        search = self.catalog(REQUEST = {}, Language='all')
+        self.failUnless(self.english in [x.getObject() for x in search])
+        self.failUnless(self.german in [x.getObject() for x in search])
+
     def testSearchAll(self):
         search = self.catalog(Language='all')
         self.failUnless(self.english in [x.getObject() for x in search])
