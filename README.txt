@@ -177,4 +177,4 @@ Developer information
 License
 =======
 
-GNU General Public License, version 2.1
+GNU General Public License, version 2

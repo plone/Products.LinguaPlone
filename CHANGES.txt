@@ -4,6 +4,9 @@ Changelog
 3.1a6 - unreleased
 ------------------
 
+- Update license to GPL version 2 only.
+  [hannosch]
+
 - If catalog filter attributes contain "Language", and "Language" is
   set to all, don't add Language filters to the REQUEST object
   [do3cc]
