@@ -30,11 +30,16 @@ class TestInstallSetup(LinguaPloneTestCase):
 
     def test_catalog_patch(self):
         from Products.CMFPlone.CatalogTool import CatalogTool
-        from Products.LinguaPlone import config
+        from .. import config
+        from .. import patches
+        self.assert_('I18nAwareCatalog' in patches._enabled)
         if config.I18NAWARE_CATALOG:
             self.failUnless(hasattr(CatalogTool, '__lp_old_searchResults'))
         else:
             self.failIf(hasattr(CatalogTool, '__lp_old_searchResults'))
+        # We can safely apply the patches again
+        patches.I18nAwareCatalog()
+        self.assert_('I18nAwareCatalog' in patches._enabled)
 
     def test_tools(self):
         portal = aq_base(self.portal)
