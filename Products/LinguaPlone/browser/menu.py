@@ -4,7 +4,7 @@ from zope.interface import implements
 # BBB Zope 2.12
 try:
     from zope.browsermenu.menu import BrowserMenu
-    from zope.browsermenu.menu import BrowserSubMenuItem
+    from zope.browsermenu.menu import BrowserSubMenuItem # pragma: no cover
 except ImportError: # pragma: no cover
     from zope.app.publisher.browser.menu import BrowserMenu
     from zope.app.publisher.browser.menu import BrowserSubMenuItem
