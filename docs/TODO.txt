@@ -1,9 +1,3 @@
-Remaining bugs
-==============
-(most important first)
-
-
-
 Other changes needed
 ====================
 
@@ -42,7 +36,7 @@ Additional notes
 ================
 
   - LanguageIndependent fields doesn't work on password fields, since the
-    widget is empty by default. This is certainly a rarely occuring problem
+    widget is empty by default. This is certainly a rarely occurring problem
     (could happen with things like Membrane and CMFMember), but should probably
     be investigated.
 
