@@ -44,7 +44,7 @@ setup(name='Products.LinguaPlone',
         'Products.statusmessages',
         # 'Products.ZCTextIndex', only in Zope 2.13
         'ZODB3',
-        'Zope2 >= 2.12.0',
+        'Zope2 >= 2.12.5',
         'plone.browserlayer',
         'plone.i18n',
         'plone.indexer',

@@ -88,10 +88,6 @@ class TranslatableLanguageSelector(LanguageSelector):
     def _formvariables(self, form):
         formvariables = {}
         for k, v in form.items():
-            if k == '-C':
-                # In Zope < 2.12.5 a -C was added whenever there was no
-                # query string.
-                continue # pragma: no cover
             if isinstance(v, unicode):
                 formvariables[k] = v.encode('utf-8')
             else:

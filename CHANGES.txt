@@ -4,6 +4,9 @@ Changelog
 4.0a1 - unreleased
 ------------------
 
+- Require at least Zope 2.12.5 and remove the `-C` work around.
+  [hannosch]
+
 - Renamed migrations module to upgrades to match current nomenclature.
   [hannosch]
 
