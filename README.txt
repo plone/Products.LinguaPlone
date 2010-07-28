@@ -71,13 +71,13 @@ LinguaPlone - quick demo instructions
 The standard Plone types are LinguaPlone aware. It's trivial to add this to
 your own types. For starters you can try this simple experiment:
 
-- Make sure you have Plone 3.3 or newer installed.
+- Make sure you have Plone 4.0 or newer installed.
 
 - Install the Products.LinguaPlone egg
 
 - (Re)start Zope
 
-- 'Site Setup' &rarr; 'Addons', install LinguaPlone
+- 'Site Setup' &rarr; 'Add-ons', activate LinguaPlone
 
 For the demonstration to make sense, we need to define a list of languages:
 

@@ -29,7 +29,7 @@ setup(name='Products.LinguaPlone',
       zip_safe=False,
       install_requires=[
         'setuptools',
-        'Plone >= 3.3',
+        'Plone >= 4.0b3',
         'Products.CMFCore',
         'Products.PloneLanguageTool',
         'plone.browserlayer',
