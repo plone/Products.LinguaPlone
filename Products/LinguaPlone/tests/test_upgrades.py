@@ -1,5 +1,6 @@
 from zope.component import getSiteManager
 
+from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
@@ -16,11 +17,13 @@ class TestUpgrades(LinguaPloneTestCase):
     def test_remove_old_import_step(self):
         from ..migrations import remove_old_import_step
         registry = self.gs.getImportStepRegistry()
-        old_step = u'linguaplone_various'
-        # TODO add step back
+        step = u'linguaplone_various'
+        # add step back
+        registry.registerStep(step, handler='a.b', title='', description='')
+        self.assert_(step in registry.listSteps())
         for i in range(2):
             remove_old_import_step(self.gs)
-        self.assert_(old_step not in registry.listSteps())
+        self.assert_(step not in registry.listSteps())
 
     def test_add_language_metadata(self):
         from ..migrations import add_language_metadata
@@ -46,15 +49,31 @@ class TestUpgrades(LinguaPloneTestCase):
         from ..migrations import add_synced_vocabularies
         from plone.i18n.locales.interfaces import IContentLanguageAvailability
         from plone.i18n.locales.interfaces import IMetadataLanguageAvailability
+        from plone.app.i18n.locales.languages import ContentLanguages
+        from plone.app.i18n.locales.languages import MetadataLanguages
         from Products.LinguaPlone.vocabulary import SyncedLanguages
         site = getSiteManager(context=self.gs)
-        # TODO register different type of utilities
+        # register different type of utilities
+        util1 = site.queryUtility(IContentLanguageAvailability)
+        site.unregisterUtility(component=aq_base(util1),
+            provided=IContentLanguageAvailability)
+        site.registerUtility(component=ContentLanguages(),
+            provided=IContentLanguageAvailability)
+        util2 = site.queryUtility(IMetadataLanguageAvailability)
+        site.unregisterUtility(component=aq_base(util2),
+            provided=IMetadataLanguageAvailability)
+        site.registerUtility(component=MetadataLanguages(),
+            provided=IMetadataLanguageAvailability)
+        util1 = site.queryUtility(IContentLanguageAvailability)
+        self.assertEquals(type(aq_base(util1)), ContentLanguages)
+        util2 = site.queryUtility(IMetadataLanguageAvailability)
+        self.assertEquals(type(aq_base(util2)), MetadataLanguages)
         for i in range(2):
             add_synced_vocabularies(self.gs)
         util1 = site.queryUtility(IContentLanguageAvailability)
-        self.assertEquals(type(util1), SyncedLanguages)
+        self.assertEquals(type(aq_base(util1)), SyncedLanguages)
         util2 = site.queryUtility(IMetadataLanguageAvailability)
-        self.assertEquals(type(util2), SyncedLanguages)
+        self.assertEquals(type(aq_base(util2)), SyncedLanguages)
 
     def test_add_properties_sheet(self):
         from ..migrations import add_properties_sheet

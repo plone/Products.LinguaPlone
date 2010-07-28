@@ -19,7 +19,7 @@ def remove_old_import_step(context):
     if old_step in registry.listSteps():
         try:
             registry.unregisterStep(old_step)
-        except AttributeError:
+        except AttributeError: # pragma: no cover
             # BBB for GS 1.3
             del registry._registered[old_step]
 
