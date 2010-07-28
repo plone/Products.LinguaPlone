@@ -71,6 +71,9 @@ class MockLanguageTool(object):
 
     use_cookie_negotiation = True
 
+    def showSelector(self):
+        return True
+
     def showFlags(self):
         return True
 
@@ -98,6 +101,16 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
         self.request = DummyRequest()
         self.selector = TranslatableLanguageSelector(self.context,
                             self.request, None, None)
+
+    def testAvailable(self):
+        self.selector.update()
+        self.selector.tool = MockLanguageTool()
+        self.assertEquals(self.selector.available(), True)
+
+    def testAvailableNoTool(self):
+        self.selector.update()
+        self.selector.tool = None
+        self.assertEquals(self.selector.available(), False)
 
     def testLanguages(self):
         self.selector.update()
@@ -220,21 +233,6 @@ class TestLanguageSelectorRendering(LinguaPloneTestCase):
         self.english.setLanguage('en')
         self.german = makeTranslation(self.english, 'de')
         self.german.setLanguage('de')
-
-    def testAvailable(self):
-        request = self.app.REQUEST
-        selector = TranslatableLanguageSelector(
-            self.english, request, None, None)
-        selector.update()
-        self.assertEquals(selector.available(), True)
-
-    def testAvailableNoTool(self):
-        request = self.app.REQUEST
-        selector = TranslatableLanguageSelector(
-            self.english, request, None, None)
-        selector.update()
-        selector.tool = None
-        self.assertEquals(selector.available(), False)
 
     def testRenderSelector(self):
         request = self.app.REQUEST
