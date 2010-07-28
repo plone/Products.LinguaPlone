@@ -133,7 +133,6 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
         self.context.physicalpath = ['', 'fake', 'path']
         vbase = '/VirtualHostBase/http/127.0.0.1/'
         self.request.PATH_INFO = vbase + 'fake/path/VirtualHostRoot/to/object'
-        self.request.form['-C'] = u'evil'
         self.request.form['uni'] = u'pres\xd8rved'
         self.request.form['int'] = '1'
         self.selector.update()
