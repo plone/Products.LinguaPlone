@@ -1,8 +1,8 @@
 from plone.i18n.locales.interfaces import ILanguageAvailability
-from zope.app.schema.vocabulary import IVocabularyFactory
 from zope.component import getGlobalSiteManager
 from zope.i18nmessageid import Message, MessageFactory
 from zope.interface import implements
+from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
 from Products.CMFCore.utils import getToolByName
