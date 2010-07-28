@@ -281,7 +281,7 @@ class TestAPI(LinguaPloneTestCase):
         neutral_folder = makeContent(self.folder, 'SimpleFolder', 'neutral')
         neutral_folder.setLanguage('')
         neutral_doc = makeContent(neutral_folder, 'SimpleType', 'doc-neutral')
-        # TODO: We might want to changes this. Adding content to a neutral
+        # TODO: We might want to change this. Adding content to a neutral
         # folder should maybe default to being neutral, even if the site is
         # not neutral by default
         self.assertEquals(neutral_doc.defaultLanguage(), 'en')
