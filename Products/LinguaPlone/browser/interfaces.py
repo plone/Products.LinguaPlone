@@ -1,5 +1,10 @@
-from zope.app.publisher.interfaces.browser import IBrowserMenu
-from zope.app.publisher.interfaces.browser import IBrowserSubMenuItem
+# BBB Zope 2.12
+try:
+    from zope.browsermenu.interfaces import IBrowserMenu
+    from zope.browsermenu.interfaces import IBrowserSubMenuItem
+except ImportError: # pragma: no cover
+    from zope.app.publisher.interfaces.browser import IBrowserMenu
+    from zope.app.publisher.interfaces.browser import IBrowserSubMenuItem
 
 
 class ITranslateSubMenuItem(IBrowserSubMenuItem):

@@ -4,6 +4,9 @@ Changelog
 4.0a1 - unreleased
 ------------------
 
+- Removed all dependencies on zope.app packages.
+  [hannosch]
+
 - Specify all package dependencies.
   [hannosch]
 

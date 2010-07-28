@@ -1,7 +1,13 @@
 from plone.browserlayer.utils import registered_layers
-from zope.app.publisher.browser.menu import BrowserMenu
-from zope.app.publisher.browser.menu import BrowserSubMenuItem
 from zope.interface import implements
+
+# BBB Zope 2.12
+try:
+    from zope.browsermenu.menu import BrowserMenu
+    from zope.browsermenu.menu import BrowserSubMenuItem
+except ImportError: # pragma: no cover
+    from zope.app.publisher.browser.menu import BrowserMenu
+    from zope.app.publisher.browser.menu import BrowserSubMenuItem
 
 from Products.CMFCore.utils import getToolByName
 
