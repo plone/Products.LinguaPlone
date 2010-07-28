@@ -1,4 +1,3 @@
-from Products.LinguaPlone.tests.base import PLONE40
 from Products.LinguaPlone.tests.base import LinguaPloneFunctionalTestCase
 
 
@@ -7,12 +6,8 @@ FILES = [
     'dynamic_view.txt',
     'translate_edit.txt',
     'language_setup.txt',
+    'language_policies.txt',
 ]
-
-if PLONE40:
-    FILES.append('language_policies4.txt')
-else:
-    FILES.append('language_policies.txt')
 
 
 def test_suite():

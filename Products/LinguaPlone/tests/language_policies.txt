@@ -104,12 +104,7 @@ Finally, add some stuff inside portal root:
 First time access: no cookie
 ----------------------------
 
-When you go to the page, and have a browser language that
-is set (no overriding cookie yet), it should pick up the
-translation if it exists.
-
-XXX We are not going to show a different page than the
-one you ask for - the magic only happens with browserdefault
+When you go to the page, the language of the content item should be respected:
 
   a) Single page
   >>> print http(r"""
@@ -131,19 +126,19 @@ one you ask for - the magic only happens with browserdefault
   ... """ % (folder_path, default_user, default_password))
   HTTP/1.1 200 OK
   ...
-  ...<html...xml:lang="de"...lang="de">...
-  ...__GERMAN_CONTENT__...
+  ...<html...lang="en">...
+  ...__ENGLISH_CONTENT__...
 
   c) Default page in portal
   >>> print http(r"""
-  ... GET %s HTTP/1.1
+  ... GET %s/root HTTP/1.1
   ... Accept-Language: de,en;q=0.7,en-us;q=0.3
   ... Authorization: Basic %s:%s
   ... """ % (portal_path, default_user, default_password))
   HTTP/1.1 200 OK
   ...
-  ...<html...xml:lang="de"...lang="de">...
-  ...__GERMAN_CONTENT__...
+  ...<html...lang="en">...
+  ...__ENGLISH_CONTENT__...
 
 If the languages accepted by the browser doesn't exist, the
 page in the URL should be shown and a cookie with its language
@@ -173,7 +168,7 @@ should be set.
 
   c) Default page in portal
   >>> print http(r"""
-  ... GET %s HTTP/1.1
+  ... GET %s/root HTTP/1.1
   ... Accept-Language: fr,no;q=0.7,en-us;q=0.3
   ... Authorization: Basic %s:%s
   ... """ % (portal_path, default_user, default_password))
@@ -191,10 +186,9 @@ the correct translation. There's no need to set another cookie. The
 rule is that if a language is explicitly set (cookie), we respect
 that until the user decides to change it.
 
-XXX If the user somehow goes to an English page, we have to show it
+If the user somehow goes to an English page, we have to show it
 in English. The user should never go there by browsing, because
 there is no mixing of languages.
-XXX Maybe we should get an English cookie? Not sure...
 
   a) Single page
   >>> print http(r"""
@@ -215,12 +209,12 @@ XXX Maybe we should get an English cookie? Not sure...
   ... Authorization: Basic %s:%s
   ... """ % (folder_path, default_user, default_password))
   HTTP/1.1 200 OK
-  Content-Language: de
-  ...__GERMAN_CONTENT__...
+  Content-Language: en
+  ...__ENGLISH_CONTENT__...
 
   c) Default page in portal
   >>> print http(r"""
-  ... GET %s HTTP/1.1
+  ... GET %s/root-de HTTP/1.1
   ... Accept-Language: en,de;q=0.7,en-us;q=0.3
   ... Cookie: I18N_LANGUAGE=de
   ... Authorization: Basic %s:%s
@@ -246,7 +240,7 @@ show the canonical version.
 
   b) Default page in portal
   >>> print http(r"""
-  ... GET %s HTTP/1.1
+  ... GET %s/root HTTP/1.1
   ... Accept-Language: en,de;q=0.7,en-us;q=0.3
   ... Cookie: I18N_LANGUAGE=fr
   ... Authorization: Basic %s:%s
@@ -269,6 +263,6 @@ requested.
   ... """ % (de_path, default_user, default_password))
   HTTP/1.1 200 OK
   ...
-  ...<html...xml:lang="de"...lang="de">...
+  ...<html...lang="de">...
   ...__GERMAN_CONTENT__...
 
