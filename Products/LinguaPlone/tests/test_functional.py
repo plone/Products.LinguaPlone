@@ -6,7 +6,6 @@ FILES = [
     'create_translation.txt',
     'dynamic_view.txt',
     'translate_edit.txt',
-    'migration.txt',
     'language_setup.txt',
 ]
 
