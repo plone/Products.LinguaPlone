@@ -1,4 +1,5 @@
 from Products.LinguaPlone.catalog import languageFilter
+from Products.LinguaPlone.config import I18NAWARE_CATALOG
 from Products.LinguaPlone.config import NOFILTERKEYS
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
@@ -10,6 +11,23 @@ class TestLanguageFilter(LinguaPloneTestCase):
     def afterSetUp(self):
         self.addLanguage('de')
         self.setLanguage('en')
+
+    def testNoI18NAwareCatalog(self):
+        original = bool(I18NAWARE_CATALOG)
+        try:
+            languageFilter.func_globals['I18NAWARE_CATALOG'] = False
+            query = {'Language': 'all'}
+            languageFilter(query)
+            self.failUnless('Language' in query)
+        finally:
+            languageFilter.func_globals['I18NAWARE_CATALOG'] = original
+
+    def testNoTool(self):
+        self.loginAsPortalOwner()
+        del self.portal['portal_languages']
+        query = {'Language': 'all'}
+        languageFilter(query)
+        self.failUnless('Language' in query)
 
     def testEnglish(self):
         query = {'review_state': 'published'}
