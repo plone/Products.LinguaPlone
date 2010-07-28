@@ -221,6 +221,21 @@ class TestLanguageSelectorRendering(LinguaPloneTestCase):
         self.german = makeTranslation(self.english, 'de')
         self.german.setLanguage('de')
 
+    def testAvailable(self):
+        request = self.app.REQUEST
+        selector = TranslatableLanguageSelector(
+            self.english, request, None, None)
+        selector.update()
+        self.assertEquals(selector.available(), True)
+
+    def testAvailableNoTool(self):
+        request = self.app.REQUEST
+        selector = TranslatableLanguageSelector(
+            self.english, request, None, None)
+        selector.update()
+        selector.tool = None
+        self.assertEquals(selector.available(), False)
+
     def testRenderSelector(self):
         request = self.app.REQUEST
         selector = TranslatableLanguageSelector(
