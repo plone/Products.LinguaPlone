@@ -17,11 +17,7 @@ def remove_old_import_step(context):
     registry = context.getImportStepRegistry()
     old_step = u'linguaplone_various'
     if old_step in registry.listSteps():
-        try:
-            registry.unregisterStep(old_step)
-        except AttributeError: # pragma: no cover
-            # BBB for GS 1.3
-            del registry._registered[old_step]
+        registry.unregisterStep(old_step)
 
         # Unfortunately we manually have to signal the context
         # (portal_setup) that it has changed otherwise this change is
