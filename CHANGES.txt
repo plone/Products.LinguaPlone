@@ -4,6 +4,9 @@ Changelog
 4.0a1 - unreleased
 ------------------
 
+- Renamed migrations module to upgrades to match current nomenclature.
+  [hannosch]
+
 - Removed Archetypes uid and reference catalog GenericSetup handlers. These
   are part of Archetypes now.
   [hannosch]

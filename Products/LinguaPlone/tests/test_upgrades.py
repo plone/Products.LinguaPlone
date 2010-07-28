@@ -15,7 +15,7 @@ class TestUpgrades(LinguaPloneTestCase):
         self.gs = getToolByName(self.portal, 'portal_setup')
 
     def test_remove_old_import_step(self):
-        from ..migrations import remove_old_import_step
+        from ..upgrades import remove_old_import_step
         registry = self.gs.getImportStepRegistry()
         step = u'linguaplone_various'
         # add step back
@@ -26,7 +26,7 @@ class TestUpgrades(LinguaPloneTestCase):
         self.assert_(step not in registry.listSteps())
 
     def test_add_language_metadata(self):
-        from ..migrations import add_language_metadata
+        from ..upgrades import add_language_metadata
         tool = getToolByName(self.portal, 'reference_catalog')
         tool.delColumn('Language')
         self.assert_('Language' not in tool.schema())
@@ -35,7 +35,7 @@ class TestUpgrades(LinguaPloneTestCase):
         self.assert_('Language' in tool.schema())
 
     def test_add_uid_language_index(self):
-        from ..migrations import add_uid_language_index
+        from ..upgrades import add_uid_language_index
         tool = getToolByName(self.portal, 'uid_catalog')
         tool.delIndex('Language')
         self.assert_('Language' not in tool.indexes())
@@ -46,7 +46,7 @@ class TestUpgrades(LinguaPloneTestCase):
         self.assert_(index.numObjects() > 0)
 
     def test_add_synced_vocabularies(self):
-        from ..migrations import add_synced_vocabularies
+        from ..upgrades import add_synced_vocabularies
         from plone.i18n.locales.interfaces import IContentLanguageAvailability
         from plone.i18n.locales.interfaces import IMetadataLanguageAvailability
         from plone.app.i18n.locales.languages import ContentLanguages
@@ -76,7 +76,7 @@ class TestUpgrades(LinguaPloneTestCase):
         self.assertEquals(type(aq_base(util2)), SyncedLanguages)
 
     def test_add_properties_sheet(self):
-        from ..migrations import add_properties_sheet
+        from ..upgrades import add_properties_sheet
         tool = getToolByName(self.portal, 'portal_properties')
         del tool['linguaplone_properties']
         self.assert_('linguaplone_properties' not in tool)
