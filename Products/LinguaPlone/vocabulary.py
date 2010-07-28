@@ -1,9 +1,8 @@
 from zope.interface import implements
-from zope.app.component.hooks import getSite
+from zope.site.hooks import getSite
 
 from plone.i18n.locales.interfaces import IContentLanguageAvailability
 from plone.i18n.locales.interfaces import IMetadataLanguageAvailability
-
 from plone.i18n.locales.languages import LanguageAvailability
 
 

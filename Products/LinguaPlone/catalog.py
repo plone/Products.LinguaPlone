@@ -1,5 +1,6 @@
-from zope.app.component.hooks import getSite
+from zope.site.hooks import getSite
 from Products.CMFCore.utils import getToolByName
+
 from Products.LinguaPlone.config import I18NAWARE_CATALOG
 from Products.LinguaPlone.config import NOFILTERKEYS
 
