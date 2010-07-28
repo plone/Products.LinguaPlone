@@ -4,6 +4,10 @@ Changelog
 4.0a1 - unreleased
 ------------------
 
+- Removed Archetypes uid and reference catalog GenericSetup handlers. These
+  are part of Archetypes now.
+  [hannosch]
+
 - Removed Plone 3.3 specific tests.
   [hannosch]
 
