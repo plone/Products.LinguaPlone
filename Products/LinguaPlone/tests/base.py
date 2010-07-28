@@ -19,12 +19,6 @@ profile_registry.registerProfile('LinguaPlone_tests',
 from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase import PloneTestCase
 
-PLONE40 = False
-try:
-    from Products.PloneTestCase.version import PLONE40
-except ImportError:
-    pass
-
 
 ZopeTestCase.installProduct('LinguaPlone')
 
@@ -59,4 +53,4 @@ class LinguaPloneFunctionalTestCase(Functional, LinguaPloneTestCase):
     pass
 
 
-__all__ = (LinguaPloneTestCase, LinguaPloneFunctionalTestCase, PLONE40, )
+__all__ = (LinguaPloneTestCase, LinguaPloneFunctionalTestCase, )

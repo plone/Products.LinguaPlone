@@ -2,7 +2,6 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.LinguaPlone.browser.language import Renderer
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
-from Products.LinguaPlone.tests.base import PLONE40
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
@@ -65,6 +64,5 @@ class TestLanguagePortlet(LinguaPloneTestCase):
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    if PLONE40:
-        suite.addTest(makeSuite(TestLanguagePortlet))
+    suite.addTest(makeSuite(TestLanguagePortlet))
     return suite

@@ -4,6 +4,12 @@ Changelog
 4.0a1 - unreleased
 ------------------
 
+- Removed Plone 3.3 specific tests.
+  [hannosch]
+
+- Added tests for all upgrade steps.
+  [hannosch]
+
 - Removed all dependencies on zope.app packages.
   [hannosch]
 

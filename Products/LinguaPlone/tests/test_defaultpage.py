@@ -1,5 +1,4 @@
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
-from Products.LinguaPlone.tests.base import PLONE40
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
@@ -26,10 +25,7 @@ class TestFolderDefaultPage(LinguaPloneTestCase):
         self.setLanguage('de')
         self.folder.setDefaultPage(self.english.getId())
         result = self.folder.getDefaultPage()
-        if PLONE40:
-            self.failUnlessEqual(result, self.english.getId())
-        else:
-            self.failUnlessEqual(result, self.german.getId())
+        self.failUnlessEqual(result, self.english.getId())
 
     def testInvalidAsDefault(self):
         self.folder.setDefaultPage('pt')
@@ -74,10 +70,7 @@ class TestPortalDefaultPage(LinguaPloneTestCase):
         self.setLanguage('de')
         self.portal.setDefaultPage(self.english.getId())
         result = self.portal.getDefaultPage()
-        if PLONE40:
-            self.failUnlessEqual(result, self.english.getId())
-        else:
-            self.failUnlessEqual(result, self.german.getId())
+        self.failUnlessEqual(result, self.english.getId())
 
     def testInvalidAsDefault(self):
         self.folder.setDefaultPage('pt')
@@ -107,10 +100,7 @@ class TestIndexDefaultPage(LinguaPloneTestCase):
         self.setLanguage('de')
         self.folder.setDefaultPage(self.english.getId())
         result = self.folder.getDefaultPage()
-        if PLONE40:
-            self.failUnlessEqual(result, self.english.getId())
-        else:
-            self.failUnlessEqual(result, self.german.getId())
+        self.failUnlessEqual(result, self.english.getId())
 
     def testInvalidAsDefault(self):
         self.folder.setDefaultPage('pt')
