@@ -4,6 +4,9 @@ Changelog
 4.0a1 - unreleased
 ------------------
 
+- Specify all package dependencies.
+  [hannosch]
+
 - Added dependency on Plone 4. Please use a release from the 3.x series if
   you are using Plone 3.
   [hannosch]
