@@ -133,6 +133,37 @@ class TestLanguageSelectorFindPath(cleanup.CleanUp, TestCase):
         self.assertEquals(result, ['', 'object'])
 
 
+class TestLanguageSelectorFormVariables(cleanup.CleanUp, TestCase):
+
+    def setUp(self):
+        self.selector = TranslatableLanguageSelector(None,
+                            None, None, None)
+        self.fv = self.selector._formvariables
+
+    def test_formvariables(self):
+        form = dict(one=1, two='2')
+        self.assertEquals(self.fv(form), form)
+
+    def test_formvariables_sequences(self):
+        form = dict(one=('a', ), two=['b', 2])
+        self.assertEquals(self.fv(form), form)
+
+    def test_formvariables_unicode(self):
+        uni = unicode('Før', 'utf-8')
+        form = dict(one=uni, two=u'foo')
+        self.assertEquals(self.fv(form),
+                          dict(one=uni.encode('utf-8'), two=u'foo'))
+
+    def test_formvariables_utf8(self):
+        utf8 = unicode('Før', 'utf-8').encode('utf-8')
+        form = dict(one=utf8, two=u'foo')
+        self.assertEquals(self.fv(form), form)
+
+    def test_formvariables_object(self):
+        form = dict(one='1', two=EvilObject())
+        self.assertEquals(self.fv(form), form)
+
+
 class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
 
     def setUp(self):
@@ -201,29 +232,6 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
     def test_languages_preserve_view_and_query(self):
         self.context.physicalpath = ['', 'fake', 'path']
         self.request.PATH_INFO = '/fake/path/to/object'
-        self.selector.update()
-        self.selector.tool = MockLanguageTool()
-        base = 'object_url/to/object?set_language='
-        expected = [
-            {'code': 'nl',
-             'translated': True,
-             'selected': False,
-             'url': base + 'nl'},
-            {'code': 'en',
-             'translated': True,
-             'selected': True,
-             'url': base + 'en'},
-            {'code': 'no',
-             'translated': False,
-             'selected': False,
-             'url': base + 'no'}]
-        self.assertEqual(self.selector.languages(), expected)
-
-    def test_languages_unprintable_formdata(self):
-        self.context.physicalpath = ['', 'fake', 'path']
-        self.request.PATH_INFO = '/fake/path/to/object'
-        self.request.form['uni'] = u'pres\xd8rved'
-        self.request.form['obj'] = EvilObject()
         self.selector.update()
         self.selector.tool = MockLanguageTool()
         base = 'object_url/to/object?set_language='
@@ -323,6 +331,7 @@ def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestLanguageSelectorFindPath))
+    suite.addTest(makeSuite(TestLanguageSelectorFormVariables))
     suite.addTest(makeSuite(TestLanguageSelectorBasics))
     suite.addTest(makeSuite(TestLanguageSelectorRendering))
     return suite
