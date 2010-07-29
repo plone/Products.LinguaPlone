@@ -147,7 +147,7 @@ class TestI18NOnlyBaseBTreeFolder(LinguaPloneTestCase):
         del self.folder['folder']
         self.assert_(de.isCanonical())
         self.assertEquals(de.getCanonical(), de)
-        self.assertEquals(de.getTranslations(), [])
+        self.assertEquals(de.getTranslations().keys(), ['de'])
 
 
 def test_suite():

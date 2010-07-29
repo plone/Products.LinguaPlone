@@ -4,7 +4,8 @@ Changelog
 4.0a1 - unreleased
 ------------------
 
-- Added test for deleting canonical folders. This references
+- Added test for deleting canonical folders. Added minimum version requirement
+  on Products.ATContentTypes 2.0.2 for the fix to
   http://plone.org/products/linguaplone/issues/241.
   [hannosch]
 
