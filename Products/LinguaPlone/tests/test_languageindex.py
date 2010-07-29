@@ -4,6 +4,7 @@ from plone.indexer.interfaces import IIndexableObjectWrapper
 from zope.interface import implements
 from Products.CMFCore.utils import getToolByName
 
+from Products.LinguaPlone.LanguageIndex import IndexEntry
 from Products.LinguaPlone.interfaces import ITranslatable
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
@@ -78,11 +79,7 @@ testdata = (
 class TestIndexEntry(TestCase):
 
     def setUp(self):
-        self.entry = self._getTargetClass()(1, 'no', 'nn', 0)
-
-    def _getTargetClass(self):
-        from Products.LinguaPlone.LanguageIndex import IndexEntry
-        return IndexEntry
+        self.entry = IndexEntry(1, 'no', 'nn', 0)
 
     def test_str(self):
         self.assertEquals(str(self.entry), 'no-nn')
@@ -91,11 +88,11 @@ class TestIndexEntry(TestCase):
         self.assert_('id 1 language no-nn, cid 0' in repr(self.entry))
 
     def test_hash(self):
-        entry2 = self._getTargetClass()(2, 'de', 'de', 0)
+        entry2 = IndexEntry(2, 'de', 'de', 0)
         self.assertEquals(hash(self.entry), hash(entry2))
 
     def test_cmp(self):
-        entry2 = self._getTargetClass()(2, 'de', 'de', 0)
+        entry2 = IndexEntry(2, 'de', 'de', 0)
         self.assertEquals(self.entry, entry2)
 
 
@@ -161,7 +158,6 @@ class TestLanguageIndex(TestCase):
 
     def testUnindex(self):
         self.indexData()
-
         self.assertEqual(len(self.index), 11)
 
         self.index.unindex_object(0)
@@ -176,13 +172,34 @@ class TestLanguageIndex(TestCase):
 
     def testReindex(self):
         self.indexData()
-        self.index.index_object(0, testdata[0])
-
         self.assertEqual(len(self.index), 11)
 
         self.index.index_object(0, Dummy('abc', 'de'))
         self.assertEqual(self.search('de', False), [0])
         self.assertEqual(self.search('fr', False), [5, 8])
+
+    def test_remove(self):
+        self.indexData()
+        entry = self.index._unindex[0]
+        self.assert_(entry in self.index._index['fr'][None])
+        self.index._remove(entry)
+        self.assert_(entry not in self.index._index['fr'][None])
+
+    def test_remove_invalid(self):
+        self.indexData()
+        entry = IndexEntry(999, 'fr', None, 0)
+        self.assert_(entry not in self.index._index['fr'][None])
+        self.index._remove(entry)
+        self.assert_(entry not in self.index._index['fr'][None])
+
+    def test_remove_broken_internals(self):
+        self.indexData()
+        entry = self.index._unindex[0]
+        self.assert_(entry in self.index._index['fr'][None])
+        self.index._index[entry.main][entry.sub].remove(entry)
+        self.assert_(entry not in self.index._index['fr'][None])
+        self.index._remove(entry)
+        self.assert_(entry not in self.index._index['fr'][None])
 
     def testQueryWithFallback(self):
         self.assertEqual(self.search('en', fallback=False), [1, 6])
