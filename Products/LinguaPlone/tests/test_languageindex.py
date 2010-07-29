@@ -187,10 +187,10 @@ class TestLanguageIndex(TestCase):
 
     def test_remove_invalid(self):
         self.indexData()
-        entry = IndexEntry(999, 'fr', None, 0)
-        self.assert_(entry not in self.index._index['fr'][None])
+        entry = IndexEntry(999, 'no', None, 0)
+        self.assert_('no' not in self.index._index)
         self.index._remove(entry)
-        self.assert_(entry not in self.index._index['fr'][None])
+        self.assert_('no' not in self.index._index)
 
     def test_remove_broken_internals(self):
         self.indexData()
