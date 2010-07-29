@@ -133,6 +133,23 @@ class TestBTreeFolder(LinguaPloneTestCase):
         self.failIf('folder2' in self.folder.keys())
 
 
+class TestI18NOnlyBaseBTreeFolder(LinguaPloneTestCase):
+
+    def afterSetUp(self):
+        self.addLanguage('de')
+        self.setLanguage('en')
+        self.folder_en = makeContent(self.folder, 'Folder', 'folder')
+        self.folder_en.setLanguage('en')
+        self.folder_en.addTranslation('de')
+
+    def testDeleteCanonical(self):
+        de = self.folder_en.getTranslation('de')
+        del self.folder['folder']
+        self.assert_(de.isCanonical())
+        self.assertEquals(de.getCanonical(), de)
+        self.assertEquals(de.getTranslations(), [])
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
@@ -140,4 +157,5 @@ def test_suite():
     suite.addTest(makeSuite(TestDynamicFolderProcessForm))
     suite.addTest(makeSuite(TestOrderedFolder))
     suite.addTest(makeSuite(TestBTreeFolder))
+    suite.addTest(makeSuite(TestI18NOnlyBaseBTreeFolder))
     return suite

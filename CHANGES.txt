@@ -4,6 +4,10 @@ Changelog
 4.0a1 - unreleased
 ------------------
 
+- Added test for deleting canonical folders. This references
+  http://plone.org/products/linguaplone/issues/241.
+  [hannosch]
+
 - Fixed language selector logic to correctly deal with all kinds of VHM rules.
   This closes http://plone.org/products/linguaplone/issues/240.
   [hannosch]
