@@ -81,7 +81,7 @@
 
   <browser:viewlet
     name="plone.app.i18n.locales.languageselector"
-    manager="plone.app.layout.viewlets.interfaces.IPortalTop"
+    manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
     class=".selector.TranslatableLanguageSelector"
     permission="zope2.View"
     layer="..interfaces.ILinguaPloneProductLayer"

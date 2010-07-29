@@ -4,6 +4,11 @@ Changelog
 4.0a1 - unreleased
 ------------------
 
+- Change the language selector viewlet to be shown in the IPortalHeader manager
+  to be consistent with the new default location in Plone 4. This closes
+  http://plone.org/products/linguaplone/issues/248.
+  [hannosch]
+
 - Require at least Zope 2.12.5 and remove the `-C` work around.
   [hannosch]
 
