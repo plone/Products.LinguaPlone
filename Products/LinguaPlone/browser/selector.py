@@ -72,11 +72,8 @@ class TranslatableLanguageSelector(LanguageSelector):
         while current_path and not stop:
             check = current_path.pop()
             if check == 'VirtualHostRoot' or check.startswith('_vh_'):
-                # Just ignore the VirtualHostRoot path info. This looks
-                # somewhat odd, but I couldn't figure out a way to use the
-                # actual request API to give us what we need
-                # TODO: What about VirtualHostBase???
-                continue
+                # Once we hit a VHM marker, we should stop
+                break
             if check not in match:
                 append_path.insert(0, check)
             else:

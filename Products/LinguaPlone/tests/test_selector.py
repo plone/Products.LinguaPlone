@@ -126,6 +126,12 @@ class TestLanguageSelectorFindPath(cleanup.CleanUp, TestCase):
             '_vh_secondlevel/object')
         self.assertEquals(result, ['', 'object'])
 
+    def test_findpath_vhr_and_traverser(self):
+        result = self.fp(['', 'fake', 'path'],
+            '/VirtualHostBase/http/127.0.0.1/site/fake/path/++skin++theme/' +
+            'VirtualHostRoot/object')
+        self.assertEquals(result, ['', 'object'])
+
 
 class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
 

@@ -4,6 +4,10 @@ Changelog
 4.0a1 - unreleased
 ------------------
 
+- Fixed language selector logic to correctly deal with all kinds of VHM rules.
+  This closes http://plone.org/products/linguaplone/issues/240.
+  [hannosch]
+
 - Change the language selector viewlet to be shown in the IPortalHeader manager
   to be consistent with the new default location in Plone 4. This closes
   http://plone.org/products/linguaplone/issues/248.
