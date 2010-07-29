@@ -88,6 +88,45 @@ class MockLanguageTool(object):
         return ['nl', 'en', 'no']
 
 
+class TestLanguageSelectorFindPath(cleanup.CleanUp, TestCase):
+
+    def setUp(self):
+        self.selector = TranslatableLanguageSelector(None,
+                            None, None, None)
+        self.fp = self.selector._findpath
+
+    def test_findpath(self):
+        result = self.fp(['', 'fake', 'path'], '/fake/path/object')
+        self.assertEquals(result, ['', 'object'])
+
+    def test_findpath_match(self):
+        result = self.fp(['', 'fake', 'path'], '/fake/path')
+        self.assertEquals(result, [])
+
+    def test_findpath_match_slash(self):
+        result = self.fp(['', 'fake', 'path'], '/fake/path/')
+        self.assertEquals(result, [])
+
+    def test_findpath_template(self):
+        result = self.fp(['', 'fake', 'path'], '/fake/path/object/atct_edit')
+        self.assertEquals(result, ['', 'object', 'atct_edit'])
+
+    def test_findpath_view(self):
+        result = self.fp(['', 'fake', 'path'], '/fake/path/object/@@sharing')
+        self.assertEquals(result, ['', 'object', '@@sharing'])
+
+    def test_findpath_vhr(self):
+        result = self.fp(['', 'fake', 'path'],
+            '/VirtualHostBase/http/127.0.0.1/fake/path/VirtualHostRoot/object')
+        self.assertEquals(result, ['', 'object'])
+
+    def test_findpath_vh_marker(self):
+        result = self.fp(['', 'fake', 'path'],
+            '/VirtualHostBase/http/127.0.0.1/fake/path//VirtualHostRoot/' +
+            '_vh_secondlevel/object')
+        self.assertEquals(result, ['', 'object'])
+
+
 class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
 
     def setUp(self):
@@ -101,17 +140,17 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
         self.selector = TranslatableLanguageSelector(self.context,
                             self.request, None, None)
 
-    def testAvailable(self):
+    def test_available(self):
         self.selector.update()
         self.selector.tool = MockLanguageTool()
         self.assertEquals(self.selector.available(), True)
 
-    def testAvailableNoTool(self):
+    def test_available_no_tool(self):
         self.selector.update()
         self.selector.tool = None
         self.assertEquals(self.selector.available(), False)
 
-    def testLanguages(self):
+    def test_languages(self):
         self.selector.update()
         self.selector.tool = MockLanguageTool()
         self.assertEqual(self.selector.languages(),
@@ -129,7 +168,7 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
                'url': 'object_url?set_language=no'},
              ])
 
-    def testVirtualHostRoot(self):
+    def test_languages_vhr(self):
         self.context.physicalpath = ['', 'fake', 'path']
         vbase = '/VirtualHostBase/http/127.0.0.1/'
         self.request.PATH_INFO = vbase + 'fake/path/VirtualHostRoot/to/object'
@@ -153,30 +192,7 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
              'url': base + 'pres%C3%98rved&set_language=no'}]
         self.assertEqual(self.selector.languages(), expected)
 
-    def testVirtualHostRootWithVH(self):
-        self.context.physicalpath = ['', 'fake', 'path']
-        vbase = '/VirtualHostBase/http/127.0.0.1/'
-        vroot = '/VirtualHostRoot/_vh_secondlevel/'
-        self.request.PATH_INFO = vbase + 'fake/path' + vroot + 'to/object'
-        self.selector.update()
-        self.selector.tool = MockLanguageTool()
-        base = 'object_url/to/object?set_language='
-        expected = [
-            {'code': 'nl',
-             'translated': True,
-             'selected': False,
-             'url': base + 'nl'},
-            {'code': 'en',
-             'translated': True,
-             'selected': True,
-             'url': base + 'en'},
-            {'code': 'no',
-             'translated': False,
-             'selected': False,
-             'url': base + 'no'}]
-        self.assertEqual(self.selector.languages(), expected)
-
-    def testPreserveViewAndQuery(self):
+    def test_languages_preserve_view_and_query(self):
         self.context.physicalpath = ['', 'fake', 'path']
         self.request.PATH_INFO = '/fake/path/to/object'
         self.selector.update()
@@ -197,7 +213,7 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
              'url': base + 'no'}]
         self.assertEqual(self.selector.languages(), expected)
 
-    def testPreserveViewAndQueryWithUnprintableFormData(self):
+    def test_languages_unprintable_formdata(self):
         self.context.physicalpath = ['', 'fake', 'path']
         self.request.PATH_INFO = '/fake/path/to/object'
         self.request.form['uni'] = u'pres\xd8rved'
@@ -300,6 +316,7 @@ class TestLanguageSelectorRendering(LinguaPloneTestCase):
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
+    suite.addTest(makeSuite(TestLanguageSelectorFindPath))
     suite.addTest(makeSuite(TestLanguageSelectorBasics))
     suite.addTest(makeSuite(TestLanguageSelectorRendering))
     return suite
