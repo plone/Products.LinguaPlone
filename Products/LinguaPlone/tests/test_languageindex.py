@@ -6,6 +6,13 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.LinguaPlone.interfaces import ITranslatable
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
+from Products.LinguaPlone.tests.utils import makeContent
+from Products.LinguaPlone.tests.utils import makeTranslation
+
+
+class Extra(object):
+
+    fallback = False
 
 
 class Dummy(object):
@@ -301,10 +308,47 @@ class TestSplitLanguage(TestCase):
 
 class TestIntegration(LinguaPloneTestCase):
 
+    def afterSetUp(self):
+        self.addLanguage('de')
+        self.addLanguage('no')
+        self.setLanguage('en')
+        self.english = makeContent(self.folder, 'SimpleType', 'doc')
+        self.english.setLanguage('en')
+        self.german = makeTranslation(self.english, 'de')
+        self.german.setLanguage('de')
+        self.catalog = getToolByName(self.portal, 'portal_catalog')
+
+    def _install_language_index(self):
+        self.catalog.delIndex('Language')
+        self.catalog.addIndex('Language', 'LanguageIndex', Extra)
+        self.catalog.reindexIndex('Language', None)
+
     def test_constructor(self):
         from ..LanguageIndex import manage_addLanguageIndex
-        catalog = getToolByName(self.portal, 'portal_catalog')
-        manage_addLanguageIndex(catalog, 'testLang')
+        manage_addLanguageIndex(self.catalog, 'testLang')
+
+    def test_index(self):
+        self._install_language_index()
+        self.english.reindexObject(idxs=['Language'])
+        index = self.catalog._catalog.getIndex('Language')
+        self.assertEquals(set(index.uniqueValues()), set(('de', 'en')))
+
+    def test_index_broken_references(self):
+        self._install_language_index()
+        query = dict(Language='de')
+        self.assertEquals(len(self.catalog(query)), 1)
+        self.loginAsPortalOwner()
+        self.folder._delOb('doc')
+        self.german.reindexObject(idxs=['Language'])
+        self.assertEquals(len(self.catalog(query)), 1)
+
+    def test_index_non_translatable(self):
+        self._install_language_index()
+        self.portal.setLanguage('no')
+        index = self.catalog._catalog.getIndex('Language')
+        self.assertEquals(set(index.uniqueValues()), set(('de', 'en')))
+        index.index_object(9999, self.portal)
+        self.assertEquals(set(index.uniqueValues()), set(('de', 'en', 'no')))
 
 
 def test_suite():
