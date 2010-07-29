@@ -2,11 +2,14 @@ from unittest import TestCase
 
 from plone.indexer.interfaces import IIndexableObjectWrapper
 from zope.interface import implements
+from Products.CMFCore.utils import getToolByName
 
 from Products.LinguaPlone.interfaces import ITranslatable
+from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 
 
-class Dummy:
+class Dummy(object):
+
     implements(ITranslatable)
 
     def __init__(self, cid, lang):
@@ -37,6 +40,7 @@ class Dummy:
 
 
 class DummyIndexableObjectWrapper:
+
     implements(IIndexableObjectWrapper)
 
     def __init__(self, wrapped):
@@ -64,7 +68,32 @@ testdata = (
 )
 
 
+class TestIndexEntry(TestCase):
+
+    def setUp(self):
+        self.entry = self._getTargetClass()(1, 'no', 'nn', 0)
+
+    def _getTargetClass(self):
+        from Products.LinguaPlone.LanguageIndex import IndexEntry
+        return IndexEntry
+
+    def test_str(self):
+        self.assertEquals(str(self.entry), 'no-nn')
+
+    def test_repr(self):
+        self.assert_('id 1 language no-nn, cid 0' in repr(self.entry))
+
+    def test_hash(self):
+        entry2 = self._getTargetClass()(2, 'de', 'de', 0)
+        self.assertEquals(hash(self.entry), hash(entry2))
+
+    def test_cmp(self):
+        entry2 = self._getTargetClass()(2, 'de', 'de', 0)
+        self.assertEquals(self.entry, entry2)
+
+
 class TestLanguageIndex(TestCase):
+
     def setUp(self):
         from Products.LinguaPlone.LanguageIndex import LanguageIndex
         self.index = LanguageIndex('foo')
@@ -103,6 +132,10 @@ class TestLanguageIndex(TestCase):
             self.assertEqual(str(entry), dummy.Language())
             self.assertEqual(entry.cid, dummy.UID())
 
+    def testGetIndexSourceNames(self):
+        sources = self.index.getIndexSourceNames()
+        self.assertEquals(sources, None)
+
     def testSimpleSearch(self):
         self.assertEqual(self.search('fr'),
                          [0, 5, 8]) # All the 'fr' translations
@@ -131,6 +164,9 @@ class TestLanguageIndex(TestCase):
         self.assertEqual(len(self.index), 8)
         self.assertEqual(self.search('fr', False), [])
 
+        self.index.unindex_object(999)
+        self.assertEqual(len(self.index), 8)
+
     def testReindex(self):
         self.indexData()
         self.index.index_object(0, testdata[0])
@@ -153,6 +189,10 @@ class TestLanguageIndex(TestCase):
 
     def testUniqueValues(self):
         self.indexData()
+        self.assert_(self.index.hasUniqueValuesFor(self.index.id))
+        result = list(self.index.uniqueValues(name='notme'))
+        self.assertEqual(result, [])
+
         result = list(self.index.uniqueValues())
         result.sort()
         self.assertEqual(result, ['en', 'en-ca', 'en-gb', 'en-us', 'fr'])
@@ -259,9 +299,19 @@ class TestSplitLanguage(TestCase):
         self.assertEqual(self.split(1234), (None, None))
 
 
+class TestIntegration(LinguaPloneTestCase):
+
+    def test_constructor(self):
+        from ..LanguageIndex import manage_addLanguageIndex
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        manage_addLanguageIndex(catalog, 'testLang')
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
+    suite.addTest(makeSuite(TestIndexEntry))
     suite.addTest(makeSuite(TestLanguageIndex))
     suite.addTest(makeSuite(TestSplitLanguage))
+    suite.addTest(makeSuite(TestIntegration))
     return suite
