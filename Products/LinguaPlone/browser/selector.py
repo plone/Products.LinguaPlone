@@ -16,6 +16,7 @@ class TranslatableLanguageSelector(LanguageSelector):
     """
 
     render = ZopeTwoPageTemplateFile('selector.pt')
+    set_language = True
 
     def available(self):
         if self.tool is not None:
@@ -109,10 +110,16 @@ class TranslatableLanguageSelector(LanguageSelector):
             data['translated'] = code in translations
 
             try:
-                appendtourl = '/'.join(append_path) + '?' + \
-                    make_query(formvariables, dict(set_language=code))
+                appendtourl = '/'.join(append_path) + '?'
+                if self.set_language:
+                    appendtourl += make_query(formvariables,
+                                              dict(set_language=code))
+                else:
+                    appendtourl += make_query(formvariables)
             except UnicodeError:
-                appendtourl = '/'.join(append_path) + '?set_language=' + code
+                appendtourl = '/'.join(append_path)
+                if self.set_language:
+                    appendtourl += '?set_language=%s' % code
 
             if data['translated']:
                 trans = translations[code]

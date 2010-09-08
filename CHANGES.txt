@@ -4,6 +4,9 @@ Changelog
 4.0a2 - unreleased
 ------------------
 
+- Make the ``set_language`` query string addition configurable via a class
+  variable on the TranslatableLanguageSelector.
+  [hannosch]
 
 4.0a1 - 2010-07-28
 ------------------
