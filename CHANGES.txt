@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.0a2 - unreleased
+4.0a2 - 2010-09-08
 ------------------
 
 - Make the ``set_language`` query string addition configurable via a class
