@@ -110,12 +110,12 @@ class TranslatableLanguageSelector(LanguageSelector):
             data['translated'] = code in translations
 
             try:
-                appendtourl = '/'.join(append_path) + '?'
+                appendtourl = '/'.join(append_path)
                 if self.set_language:
-                    appendtourl += make_query(formvariables,
-                                              dict(set_language=code))
-                else:
-                    appendtourl += make_query(formvariables)
+                    appendtourl += '?' + make_query(formvariables,
+                                                    dict(set_language=code))
+                elif formvariables:
+                    appendtourl += '?' + make_query(formvariables)
             except UnicodeError:
                 appendtourl = '/'.join(append_path)
                 if self.set_language:

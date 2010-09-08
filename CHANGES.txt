@@ -4,6 +4,9 @@ Changelog
 4.0a3 - unreleased
 ------------------
 
+- In the TranslatableLanguageSelector only append a question mark, if there's
+  a query string to append.
+  [hannosch]
 
 4.0a2 - 2010-09-08
 ------------------
