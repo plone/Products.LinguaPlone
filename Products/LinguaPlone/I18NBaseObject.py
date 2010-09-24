@@ -17,6 +17,7 @@ from Products.Archetypes.utils import shasattr
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.DynamicType import DynamicType
 from Products.CMFDynamicViewFTI.interface import ISelectableBrowserDefault
+from Products.ZCatalog.Lazy import LazyMap
 
 from Products.LinguaPlone import config
 from Products.LinguaPlone import events
@@ -497,11 +498,40 @@ class I18NBaseObject(Implicit):
     security.declareProtected(permissions.View, 'getTranslationReferences')
     def getTranslationReferences(self, objects=False):
         """Get all translation references for this object"""
-        sID = self.UID()
-        if sID is None:
+        sid = self.UID()
+        if sid is None:
             return []
+
         tool = getToolByName(self, REFERENCE_CATALOG)
-        brains = tool._queryFor(sid=sID, relationship=RELATIONSHIP)
+        _catalog = tool._catalog
+        indexes = _catalog.indexes
+
+        # First get the one or multiple record ids for the source uid index
+        rids = indexes['sourceUID']._index.get(sid, None)
+        if rids is None:
+            return []
+        elif isinstance(rids, int):
+            rids = [rids]
+        else:
+            rids = list(rids)
+
+        # As a second step make sure we only get references of the right type
+        # The unindex holds data of the type: [(-311870037, 'translationOf')]
+        # The index holds data like: [('translationOf', -311870037)]
+        # In a LinguaPlone site the index will have all content items indexed
+        # so querying it is bound to be extremely slow
+        rel_unindex_get = indexes['relationship']._unindex.get
+        result_rids = set()
+        for r in rids:
+            rels = rel_unindex_get(r, None)
+            if isinstance(rels, str) and rels == RELATIONSHIP:
+                result_rids.add(r)
+            elif RELATIONSHIP in rels:
+                result_rids.add(r)
+
+        # Create brains
+        brains = LazyMap(_catalog.__getitem__,
+                         list(result_rids), len(result_rids))
         if brains:
             if objects:
                 return [self._getReferenceObject(brain.targetUID)
@@ -516,8 +546,7 @@ class I18NBaseObject(Implicit):
         tID = self.UID()
         if tID is None:
             return []
-        tool = getToolByName(self, REFERENCE_CATALOG)
-        brains = tool._queryFor(tid=tID, relationship=RELATIONSHIP)
+        brains = self._queryFor(tid=tID, relationship=RELATIONSHIP)
         if brains:
             if objects:
                 return [self._getReferenceObject(brain.sourceUID)
@@ -525,6 +554,25 @@ class I18NBaseObject(Implicit):
             else:
                 return brains
         return []
+
+    def _queryFor(self, sid=None, tid=None, relationship=None,
+                  targetId=None, merge=1):
+        """query reference catalog for object matching the info we are
+        given, returns brains
+
+        Note: targetId is the actual id of the target object, not its UID
+        """
+        query = {}
+        if sid:
+            query['sourceUID'] = sid
+        if tid:
+            query['targetUID'] = tid
+        if relationship:
+            query['relationship'] = relationship
+        if targetId:
+            query['targetId'] = targetId
+        tool = getToolByName(self, REFERENCE_CATALOG)
+        return tool.searchResults(query, merge=merge)
 
     def _getReferenceObject(self, uid):
         tool = getToolByName(self, UID_CATALOG, None)

@@ -4,6 +4,10 @@ Changelog
 4.0a3 - unreleased
 ------------------
 
+- Rewrote ``getTranslationReferences`` internals to avoid the catalog search
+  API and make use of knowledge of its internals.
+  [hannosch]
+
 - In the TranslatableLanguageSelector only append a question mark, if there's
   a query string to append.
   [hannosch]
