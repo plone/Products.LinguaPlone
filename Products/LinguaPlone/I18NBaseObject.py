@@ -498,16 +498,38 @@ class I18NBaseObject(Implicit):
     security.declareProtected(permissions.View, 'getTranslationReferences')
     def getTranslationReferences(self, objects=False):
         """Get all translation references for this object"""
-        sid = self.UID()
-        if sid is None:
+        brains = self._queryBrains('sourceUID')
+        if brains:
+            if objects:
+                return [self._getReferenceObject(brain.targetUID)
+                        for brain in brains]
+            else:
+                return brains
+        return []
+
+    security.declareProtected(permissions.View, 'getTranslationBackReferences')
+    def getTranslationBackReferences(self, objects=False):
+        """Get all translation back references for this object"""
+        brains = self._queryBrains('targetUID')
+        if brains:
+            if objects:
+                return [self._getReferenceObject(brain.sourceUID)
+                        for brain in brains]
+            else:
+                return brains
+        return []
+
+    def _queryBrains(self, indexname):
+        value = self.UID()
+        if value is None:
             return []
 
         tool = getToolByName(self, REFERENCE_CATALOG)
         _catalog = tool._catalog
         indexes = _catalog.indexes
 
-        # First get the one or multiple record ids for the source uid index
-        rids = indexes['sourceUID']._index.get(sid, None)
+        # First get one or multiple record ids for the source/target uid index
+        rids = indexes[indexname]._index.get(value, None)
         if rids is None:
             return []
         elif isinstance(rids, int):
@@ -532,47 +554,7 @@ class I18NBaseObject(Implicit):
         # Create brains
         brains = LazyMap(_catalog.__getitem__,
                          list(result_rids), len(result_rids))
-        if brains:
-            if objects:
-                return [self._getReferenceObject(brain.targetUID)
-                        for brain in brains]
-            else:
-                return brains
-        return []
-
-    security.declareProtected(permissions.View, 'getTranslationBackReferences')
-    def getTranslationBackReferences(self, objects=False):
-        """Get all translation back references for this object"""
-        tID = self.UID()
-        if tID is None:
-            return []
-        brains = self._queryFor(tid=tID, relationship=RELATIONSHIP)
-        if brains:
-            if objects:
-                return [self._getReferenceObject(brain.sourceUID)
-                        for brain in brains]
-            else:
-                return brains
-        return []
-
-    def _queryFor(self, sid=None, tid=None, relationship=None,
-                  targetId=None, merge=1):
-        """query reference catalog for object matching the info we are
-        given, returns brains
-
-        Note: targetId is the actual id of the target object, not its UID
-        """
-        query = {}
-        if sid:
-            query['sourceUID'] = sid
-        if tid:
-            query['targetUID'] = tid
-        if relationship:
-            query['relationship'] = relationship
-        if targetId:
-            query['targetId'] = targetId
-        tool = getToolByName(self, REFERENCE_CATALOG)
-        return tool.searchResults(query, merge=merge)
+        return brains
 
     def _getReferenceObject(self, uid):
         tool = getToolByName(self, UID_CATALOG, None)
