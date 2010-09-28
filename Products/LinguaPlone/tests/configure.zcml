@@ -1,0 +1,10 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five">
+
+  <five:deprecatedManageAddDelete class=".dummy.BTreeFolder" />
+  <five:deprecatedManageAddDelete class=".dummy.DynamicFolder" />
+  <five:deprecatedManageAddDelete class=".dummy.OrderedFolder" />
+  <five:deprecatedManageAddDelete class=".dummy.SimpleFolder" />
+  <five:deprecatedManageAddDelete class=".dummy.SimpleType" />
+
+</configure>

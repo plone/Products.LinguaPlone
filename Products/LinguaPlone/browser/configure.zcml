@@ -1,0 +1,90 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone">
+
+  <include package="plone.app.contentmenu" />
+  <include package="plone.app.portlets" />
+
+  <adapter factory=".controlpanel.MultiLanguageControlPanelAdapter" />
+
+  <plone:portletRenderer
+    portlet="plone.app.portlets.portlets.language.ILanguagePortlet"
+    class=".language.Renderer"
+    layer="..interfaces.ILinguaPloneProductLayer"
+    />
+
+  <browser:page
+    name="language-controlpanel"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".controlpanel.LanguageControlPanel"
+    permission="cmf.ManagePortal"
+    layer="..interfaces.ILinguaPloneProductLayer"
+    />
+
+  <browser:page
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    name="language-setup-folders"
+    class=".setup.SetupView"
+    permission="cmf.ManagePortal" />
+
+  <browser:view
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".switcher.LanguageSwitcher"
+    name="language-switcher"
+    permission="zope.Public"
+    menu="plone_displayviews"
+    title="Root language switcher"
+    />
+
+  <browser:page 
+    for="..interfaces.ITranslatable"
+    name="translate"
+    class=".translate.CreateTranslation"
+    permission="cmf.AddPortalContent" />
+
+  <utility
+    component=".vocabularies.AllContentLanguageVocabularyFactory"
+    name="LinguaPlone.vocabularies.AllContentLanguageVocabulary"
+    />
+
+  <utility
+    component=".vocabularies.UntranslatedLanguagesVocabularyFactory"
+    name="LinguaPlone.vocabularies.UntranslatedLanguages"
+    />
+
+  <utility
+    component=".vocabularies.NeutralAndUntranslatedLanguagesVocabularyFactory"
+    name="LinguaPlone.vocabularies.NeutralAndUntranslatedLanguages"
+    />
+
+  <utility
+    component=".vocabularies.NoChangeNeutralAndUntranslatedLanguagesVocabularyFactory"
+    name="LinguaPlone.vocabularies.NoChangeNeutralAndUntranslatedLanguages"
+    />
+
+  <utility
+    component=".vocabularies.DeletableLanguagesVocabularyFactory"
+    name="LinguaPlone.vocabularies.DeletableLanguages"
+    />
+
+  <browser:menu
+    id="plone_contentmenu_translate"
+    title="Translate menu - contains translation-related actions"
+    class=".menu.TranslateMenu"
+    />
+
+  <adapter for="..interfaces.ITranslatable *"
+    name="plone.contentmenu.translate"
+    factory=".menu.TranslateSubMenuItem"
+    provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
+
+  <browser:viewlet
+    name="plone.app.i18n.locales.languageselector"
+    manager="plone.app.layout.viewlets.interfaces.IPortalTop"
+    class=".selector.TranslatableLanguageSelector"
+    permission="zope2.View"
+    layer="..interfaces.ILinguaPloneProductLayer"
+    />
+
+</configure>

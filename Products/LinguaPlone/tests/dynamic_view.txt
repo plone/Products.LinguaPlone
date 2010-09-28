@@ -1,0 +1,53 @@
+Dynamic Views
+=============
+
+Environment
+-----------
+
+First, we are going to setup an environment:
+
+  Use standard username and password from PloneTestCase
+  >>> from Products.PloneTestCase.PloneTestCase import default_user
+  >>> from Products.PloneTestCase.PloneTestCase import default_password
+
+  Use the member's home folder as playground for the tests
+  >>> folder = self.folder
+  >>> folder_path = '/'.join(folder.getPhysicalPath())
+
+
+Dynamic Actions
+---------------
+
+Make sure that the dynamic actions still works as expected.
+
+  Let's try to use the 'sharing' dynamic action. It should
+  send us to the folder local roles form screen:
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Authorization: Basic %s:%s
+  ... Cookie: I18N_LANGUAGE=en
+  ... """ % (folder_path + '/@@sharing', default_user, default_password))
+  HTTP/1.1 200 OK
+  Content-Language: en
+  ...Can add...
+  ...Can edit...
+
+Dynamic Layouts
+---------------
+
+Also make sure that the dynamic layouts still works as expected.
+
+  Add a content item and define a different layout (summary) for the
+  folder and try to access it:
+  >>> folder.setLayout('folder_summary_view')
+  >>> _ = folder.invokeFactory('SimpleType', 'doc')
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Cookie: I18N_LANGUAGE=en
+  ... Authorization: Basic %s:%s
+  ... """ % (folder_path, default_user, default_password))
+  HTTP/1.1 200 OK
+  Content-Language: en
+  ...tileItem...
+  ...tileHeadline...
+  ...tileFooter...

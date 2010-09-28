@@ -1,0 +1,51 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plone">
+
+  <include package="plone.browserlayer" />
+  <include package=".browser"/>
+  <include package=".criteria"/>
+  <include package=".exportimport"/>
+  <include file="upgrades.zcml"/>
+
+  <adapter factory=".utils.LocateTranslation" />
+  <adapter factory=".utils.TranslationFactory" />
+  <adapter factory=".utils.LanguageIndependentFields" />
+
+  <adapter 
+     for="Products.Archetypes.interfaces.IBaseObject"
+     provides="plone.app.iterate.interfaces.ICheckinCheckoutReference"
+     factory="plone.app.iterate.relation.NoCopyReferenceAdapter"
+     name="translationOf"
+     />
+
+  <cmf:registerDirectory name="LinguaPlone"/>
+
+  <genericsetup:registerProfile
+      name="LinguaPlone"
+      title="LinguaPlone"
+      directory="profiles/default"
+      description="Multi-lingual support for Plone"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+      name="linguaplone_reindex"
+      title="LinguaPlone Reindex Language Index"
+      description=""
+      handler=".setuphandlers.importReindexLanguageIndex">
+    <depends name="content"/>
+    <depends name="toolset"/>
+  </genericsetup:importStep>
+
+  <genericsetup:exportStep
+      name="languagetool"
+      title="Plone Language Tool"
+      description="Export language settings."
+      handler="Products.PloneLanguageTool.exportimport.exportLanguageTool"
+      />
+
+</configure>
