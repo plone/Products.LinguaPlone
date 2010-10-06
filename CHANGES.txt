@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.0a4 - unreleased
+4.0a4 - 2010-10-06
 ------------------
 
 - Avoid module global imports in our top-level ``__init__``. If you have
