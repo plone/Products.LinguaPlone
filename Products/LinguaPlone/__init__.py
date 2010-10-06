@@ -1,7 +1,3 @@
-from Products.CMFCore.utils import ContentInit
-from Products.LinguaPlone.public import *
-from Products.LinguaPlone import permissions
-
 from zope.i18nmessageid import MessageFactory
 LinguaPloneMessageFactory = MessageFactory('linguaplone')
 
@@ -9,11 +5,16 @@ LinguaPloneMessageFactory = MessageFactory('linguaplone')
 def initialize(context):
     # Apply monkey patches
     from Products.LinguaPlone import patches
+    patches # pyflakes
 
     # Initialize content types
+    from Products.LinguaPlone.public import listTypes
+    from Products.LinguaPlone.public import process_types
     content_types, constructors, ftis = process_types(
         listTypes("LinguaPlone"), "LinguaPlone")
 
+    from Products.CMFCore.utils import ContentInit
+    from Products.LinguaPlone import permissions
     ContentInit(
         'LinguaPlone Content',
         content_types = content_types,

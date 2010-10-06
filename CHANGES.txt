@@ -4,6 +4,12 @@ Changelog
 4.0a4 - unreleased
 ------------------
 
+- Avoid module global imports in our top-level ``__init__``. If you have
+  accidentally imported any of the contents of the ``public`` module directly
+  from ``Products.LinguaPlone``, you will need to adjust those to import from
+  the ``public`` module instead. This closes
+  http://plone.org/products/linguaplone/issues/253.
+  [hannosch, ggozad, shh42]
 
 4.0a3 - 2010-09-24
 ------------------
