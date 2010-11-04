@@ -6,6 +6,7 @@ from plone.locking.interfaces import ILockable
 from zope.component import adapts
 from zope.interface import implements
 
+from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from Products.Archetypes.ClassGen import GeneratorError, _modes
@@ -128,7 +129,7 @@ def generatedMutatorWrapper(name):
 
         # get all translations including self
         translations = []
-        if hasattr(self, 'getTranslations'):
+        if hasattr(aq_base(self), 'getTranslations'):
             translations = self.getTranslations(review_state=False).values()
 
         # reverse to return the result of the canonical mutator

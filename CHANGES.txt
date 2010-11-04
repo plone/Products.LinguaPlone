@@ -4,6 +4,10 @@ Changelog
 4.0b2 - unreleased
 ------------------
 
+- Protect against accidentally acquiring the `getTranslations` method from a
+  parent object in `utils.generatedMutator`. Thanks to Matous Hora for the
+  patch. This closes http://plone.org/products/linguaplone/issues/257.
+  [hannosch]
 
 4.0b1 - 2010-11-04
 ------------------
