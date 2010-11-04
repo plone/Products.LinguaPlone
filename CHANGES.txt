@@ -4,6 +4,8 @@ Changelog
 4.0a5 - unreleased
 ------------------
 
+- Gracefully deal with multiple brains per `UID` in `translated_references`.
+  [hannosch]
 
 4.0a4 - 2010-10-06
 ------------------
