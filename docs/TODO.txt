@@ -1,0 +1,73 @@
+Remaining bugs
+==============
+(most important first)
+
+
+
+Other changes needed
+====================
+
+  LinguaPlone changes:
+
+ - No Cancel button on split screen translation form
+   --> deo: this will be achieved only when the addTranslation method becomes
+            portal_factory-aware.
+
+ - Pending translations managed using worklists, workflow script to mail
+   maintainers with diff of changes in canonical version.
+
+ - AUTO_NOTIFY_CANONICAL_UPDATE - it's accessible only in the config.py, a way
+   to set the value through the web is better so we can manage the plone
+   instance behavior.
+
+ - When translating a folder and copying over already translated subobjects,
+   chop off the -languagecode appendix of the id of the translated objects.
+
+
+  Plone changes
+
+  - Members folder should really be a special content type, since it's not
+    contentish. If you translate it at the moment, you get all sorts of strange
+    side effects. :)
+
+Documentation
+=============
+
+  - Write "Content Language Fallback Considered Harmful" document to avoid
+    getting silly patches and add-on products that try to do things you
+    shouldn't do. Also for consultants to give to their customers.
+
+
+Additional notes
+================
+
+  - LanguageIndependent fields doesn't work on password fields, since the
+    widget is empty by default. This is certainly a rarely occuring problem
+    (could happen with things like Membrane and CMFMember), but should probably
+    be investigated.
+
+  - The ideal approach is to delete all translations when you do a delete
+    operation in the canonical, but it's not implemented. For now, you can
+    remove individual translations with the Manage Translations menu item
+    on the objects themselves.
+
+  Some cases:
+
+  If you move content between folders, you'd expect that translations are
+  moved between corresponding translated folders. What if you're moving to a
+  folder that isn't translated yet. Everything could be moved into the
+  untranslated folder, but then you'd need id resolution.
+
+  Can you only move the original content (canonical translation), or can you
+  move translations? Technically it's not a problem to have different
+  hierarchies in the different languages as it's all done by references, but
+  it might not desirable.
+
+  When you paste, you might get id conflicts. These are typically resolved by
+  'copy of id', but it's not obvious what happened to the ids of the copied
+  translations until you check the screen later. And there is no easy way of
+  easily changing all ids. Maybe we should change all translation ids that
+  are the same as the id of the canonical translation when renaming the
+  canonical translation.
+
+  There are probably more gotchas that would have to be worked out.

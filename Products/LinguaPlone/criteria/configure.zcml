@@ -1,0 +1,81 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <adapter factory=".syncer.CollectionSyncer" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATBooleanCriterion"
+      factory=".syncer.SchemaBasedCriterionSyncer" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATCurrentAuthorCriterion"
+      factory=".syncer.NoValueCriterionSyncer" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATDateCriteria"
+      factory=".syncer.SchemaBasedCriterionSyncer" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATDateRangeCriterion"
+      factory=".syncer.SchemaBasedCriterionSyncer" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATListCriterion"
+      factory=".syncer.SchemaBasedCriterionSyncer" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATPathCriterion"
+      factory=".syncer.PathCriterionSyncer" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATPortalTypeCriterion"
+      factory=".syncer.SchemaBasedCriterionSyncer" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATReferenceCriterion"
+      factory=".syncer.ReferenceCriterionSyncer" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATRelativePathCriterion"
+      factory=".syncer.RelativePathCriterionSyncer" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATSelectionCriterion"
+      factory=".syncer.SchemaBasedCriterionSyncer" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATSimpleIntCriterion"
+      factory=".syncer.SchemaBasedCriterionSyncer" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATSimpleStringCriterion"
+      factory=".syncer.AddOnlyCriterionSyncer" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATSortCriterion"
+      factory=".syncer.SchemaBasedCriterionSyncer" />
+
+  <!-- If someone configures Language explicitly instead of relying on the
+       automatic filtering, we don't know what to do.-->
+  <adapter
+      for="Products.ATContentTypes.criteria.ATSelectionCriterion"
+      factory=".syncer.AddOnlyCriterionSyncer"
+      name="Language" />
+
+  <!-- These are three string criteria from standard Plone which use
+       language independent values like usernames or workflow ids. -->
+  <adapter
+      for="Products.ATContentTypes.criteria.ATSimpleStringCriterion"
+      factory=".syncer.SchemaBasedCriterionSyncer"
+      name="Creator" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATSimpleStringCriterion"
+      factory=".syncer.SchemaBasedCriterionSyncer"
+      name="getEventType" />
+
+  <adapter
+      for="Products.ATContentTypes.criteria.ATSimpleStringCriterion"
+      factory=".syncer.SchemaBasedCriterionSyncer"
+      name="review_state" />
+
+</configure>

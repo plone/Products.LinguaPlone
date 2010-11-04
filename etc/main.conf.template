@@ -1,0 +1,39 @@
+# Note that main.conf is generated from main.conf.template.
+
+pid ${buildout:directory}/var/main.pid;
+lock_file ${buildout:directory}/var/main.lock;
+
+worker_processes 1;
+daemon off;
+
+events {
+    worker_connections 1024;
+}
+
+error_log ${buildout:directory}/var/log/main-error.log warn;
+
+http {
+    include    ${buildout:directory}/etc/nginx/mime.types;
+
+    upstream cache {
+        server 127.0.0.1:8080;
+    }
+
+    server {
+        listen *:8000;
+        server_name 127.0.0.1;
+        access_log ${buildout:directory}/var/log/main-plone-access.log;
+
+        root ${buildout:directory}/etc/static;
+
+        location / {
+            rewrite ^/(.*)$ /VirtualHostBase/http/127.0.0.1:8000/Plone/VirtualHostRoot/$1 break;
+
+            proxy_set_header Host 127.0.0.1:8000;
+
+            proxy_pass http://cache;
+            proxy_connect_timeout 75;
+            proxy_read_timeout 185;
+        }
+    }
+}

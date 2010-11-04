@@ -1,0 +1,114 @@
+Setup of language folders
+=========================
+
+We provide a view that creates one folder for each available language in a
+LinguaPlone site.
+
+The view is protected with the ``Manage portal`` permission.
+
+    >>> view = self.portal.restrictedTraverse('@@language-setup-folders')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed...
+
+With the right permission, a user can access the view.
+
+    >>> self.loginAsPortalOwner()
+    >>> view = self.portal.restrictedTraverse('@@language-setup-folders')
+
+If only one language is supported, the view also raises an exception.
+
+    >>> view()
+    'Only one supported language configured.'
+
+After setting up more than one language, calling the view actually sets up the
+language root folders.
+
+    >>> languages = ['en', 'nl', 'fr']
+    >>> defaultLanguage = 'en'
+    >>> self.portal.portal_languages.manage_setLanguageSettings(
+    ...   defaultLanguage, languages)
+    >>> defaultid = self.portal.getDefaultPage()
+    >>> self.portal[defaultid].setLanguage('')
+
+    >>> print view()
+    Setup of language root folders on Plone site 'plone'
+    Added 'en' folder: en
+    INavigationRoot setup on folder 'en'
+    Added 'nl' folder: nl
+    INavigationRoot setup on folder 'nl'
+    Added 'fr' folder: fr
+    INavigationRoot setup on folder 'fr'
+    Translations linked.
+    Portal default page removed.
+    Moved default page 'front-page' to folder 'en'.
+    Root language switcher set up.
+
+The portal holds a folder per supported language, each of them is marked as
+INavigationRoot.
+
+    >>> from plone.app.layout.navigation.interfaces import INavigationRoot
+    >>> rootfolders = [folder for folder in self.portal.values() if
+    ...     INavigationRoot.providedBy(folder)]
+    >>> folders = {}
+    >>> for folder in rootfolders:
+    ...      folders[folder.getLanguage()] = folder
+    >>> len(folders) == len(languages)
+    True
+
+The folders are linked as translations.
+    
+    >>> defaultLanguageFolder = folders[defaultLanguage]
+    >>> defaultLanguageFolder.isCanonical()
+    True
+    >>> defaultLanguageFolder.Title()
+    'English'
+    >>> defaultLanguageFolder.getTranslation('nl') == folders['nl']
+    True
+    >>> folders['nl'].Title()
+    'Nederlands'
+    >>> defaultLanguageFolder.getTranslation('fr') == folders['fr']
+    True
+    >>> folders['fr'].Title()
+    'Fran\xc3\xa7ais'
+
+The portal has no default page anymore.
+
+    >>> self.portal.getDefaultPage() is None
+    True
+
+The original default page is the default page of the corresponding folder.
+
+    >>> defaultLanguageFolder.getDefaultPage()
+    'front-page'
+
+If the view is called a second time, it does nothing.
+
+    >>> view = self.portal.restrictedTraverse('@@language-setup-folders')
+    >>> print view()
+    Nothing done.
+
+Test the language switcher view:
+
+    >>> from Testing.makerequest import makerequest
+    >>> app = makerequest(self.app)
+    >>> view = self.portal.restrictedTraverse('@@language-switcher')
+    >>> print view()
+    None
+
+We should be redirected to the English folder:
+
+    >>> response = app.REQUEST.response
+    >>> response.getStatus()
+    301
+    >>> response.getHeader('location')
+    'http://nohost/plone/en'
+
+    >>> 'I18N_LANGUAGE' in response.cookies
+    True
+    >>> response.cookies['I18N_LANGUAGE']['value']
+    'en'
+
+Clear the request.
+
+    >>> app = makerequest(self.app)

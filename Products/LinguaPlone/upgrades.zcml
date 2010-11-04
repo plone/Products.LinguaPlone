@@ -1,0 +1,46 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plone">
+
+    <genericsetup:upgradeStep
+        title="Remove LinguaPlone import step"
+        description="Remove linguaplone_various import step from import registry."
+        source="2.0"
+        destination="2.1"
+        handler="Products.LinguaPlone.migrations.remove_old_import_step"
+        profile="Products.LinguaPlone:LinguaPlone" />
+
+    <genericsetup:upgradeStep
+        title="LinguaPlone specific reference enhancements"
+        description="Add Language as metadata to the reference catalog."
+        source="2.4"
+        destination="3"
+        handler="Products.LinguaPlone.migrations.add_language_metadata"
+        profile="Products.LinguaPlone:LinguaPlone" />
+
+    <genericsetup:upgradeStep
+        title="LinguaPlone specific uid enhancements"
+        description="Add Language as an index to the uid catalog."
+        source="2.4"
+        destination="3"
+        handler="Products.LinguaPlone.migrations.add_uid_language_index"
+        profile="Products.LinguaPlone:LinguaPlone" />
+
+    <genericsetup:upgradeStep
+        title="LinguaPlone synced language vocabulary"
+        description="Base language vocabularies on the supported site languages"
+        source="3"
+        destination="4"
+        handler="Products.LinguaPlone.migrations.add_synced_vocabularies"
+        profile="Products.LinguaPlone:LinguaPlone" />
+
+    <genericsetup:upgradeStep
+        title="LinguaPlone translate form properties"
+        description="Add properties sheet for LP specific configuration"
+        source="4"
+        destination="5"
+        handler="Products.LinguaPlone.migrations.add_properties_sheet"
+        profile="Products.LinguaPlone:LinguaPlone" />
+
+</configure>

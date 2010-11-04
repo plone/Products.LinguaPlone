@@ -1,0 +1,45 @@
+Credits
+=======
+
+LinguaPlone was donated to the Plone Foundation by Jarn AS in March 2006.
+
+Design and development --
+  Jarn_ (Alexander Limi, Dorneles Tremea, Geir Baekholt, Helge Tesdal, Stefan H. Holek, Wichert Akkerman)
+
+Original design idea:
+  `Object realms`_ (Benjamin Saller, Kapil Thangavelu)
+
+Funding and deployment, initial version:
+  Oxfam International
+
+.. _Jarn: http://www.jarn.com
+.. _Object realms: http://www.objectrealms.net/
+
+Additional funding/sponsorship:
+  Hitotsubashi University in Tokyo, Centre for New European studies
+  (Jonathan Lewis)
+
+Funding Plone 2.0.x compatibility:
+  Zope Japan Corporation
+  (Takeshi Yamamoto)
+
+Also many thanks to
+
+Simon Eisenmann:
+   For doing the hard job of the first implementations (I18NLayer)
+   we had to learn from before doing this.
+
+Learning Lab Denmark:
+   For contributing and sponsoring the experience needed to build a
+   multilingual solution.
+
+Nate Aune:
+   For always pushing for the better solution and making us realise
+   LinguaPlone had to be built.
+
+Jodok Batlogg:
+   For extensive testing, deploying and feedback.
+
+Sasha Vincic:
+   For testing and expanding and making cool new stuff happen with
+   LinguaPlone, XLIFF import/export in particular.

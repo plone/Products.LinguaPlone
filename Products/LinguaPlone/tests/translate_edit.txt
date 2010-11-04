@@ -1,0 +1,79 @@
+Translation and Editing
+=======================
+
+Environment
+-----------
+
+First, we are going to setup an environment.
+
+  Use standard username and password from PloneTestCase
+  >>> from Products.PloneTestCase.ptc import default_user
+  >>> from Products.PloneTestCase.ptc import default_password
+  >>> from Products.PloneTestCase.ptc import portal_owner
+
+  Add German as an additional language:
+  >>> language_tool = self.portal.portal_languages
+  >>> language_tool.addSupportedLanguage('de')
+  >>> language_tool.getSupportedLanguages()
+  ['en', 'de']
+
+  >>> portal_path = '/'.join(self.portal.getPhysicalPath())
+
+  Create an english content item:
+  >>> _ = folder.invokeFactory('SimpleType', 'doc')
+  >>> english = folder.doc
+  >>> english.setLanguage('en')
+  >>> english.setBody('__ENGLISH_CONTENT__')
+  >>> en_path = '/'.join(english.getPhysicalPath())
+  >>> english.Language()
+  'en'
+
+  And add a german translation:
+  >>> _ = english.addTranslation('de')
+  >>> german = english.getTranslation('de')
+  >>> german.setBody('__GERMAN_CONTENT__')
+  >>> de_path = '/'.join(german.getPhysicalPath())
+  >>> german.Language()
+  'de'
+
+
+Edit
+----
+
+The normal 'edit' action is used when dealing with the canonical translation.
+
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Authorization: Basic %s:%s
+  ... Cookie: I18N_LANGUAGE=en
+  ... """ % (en_path + '/edit', default_user, default_password))
+  HTTP/1.1 200 OK
+  Content-Language: en
+  ...action=.../doc/base_edit...
+
+This also applies to untranslatable content like the site root:
+
+  >>> response = http(r"""
+  ... GET %s HTTP/1.1
+  ... Authorization: Basic %s:%s
+  ... Cookie: I18N_LANGUAGE=en
+  ... """ % (portal_path + '/edit', portal_owner, default_password))
+
+  >>> 'translate_item' not in str(response)
+  True
+
+
+Translate
+---------
+
+The custom 'translate_item' template is used when dealing with a
+non-canonical translation.
+
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Authorization: Basic %s:%s
+  ... Cookie: I18N_LANGUAGE=de
+  ... """ % (de_path + '/edit', default_user, default_password))
+  HTTP/1.1 200 OK
+  Content-Language: de
+  ...action=.../doc-de/translate_item...
