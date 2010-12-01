@@ -1,0 +1,268 @@
+Language Policies
+=================
+
+Environment
+-----------
+
+First, we are going to setup an environment:
+
+  Use standard username and password from PloneTestCase
+  >>> from Products.PloneTestCase.PloneTestCase import default_user
+  >>> from Products.PloneTestCase.PloneTestCase import default_password
+
+  Use the member's home folder as playground for the tests
+  >>> folder = self.folder
+  >>> folder_path = '/'.join(folder.getPhysicalPath())
+
+  We need the portal, too
+  >>> portal = self.portal
+  >>> portal_path = '/'.join(portal.getPhysicalPath())
+
+  Plone's default error message template is too verbose and far too long
+  >>> portal.default_error_message = None
+
+Then, we set german and french as additional available languages:
+
+  English is initially the only available language
+  >>> language_tool = portal.portal_languages
+  >>> language_tool.getSupportedLanguages()
+  ['en']
+
+  So, we add another two
+  >>> language_tool.addSupportedLanguage('de')
+  >>> language_tool.addSupportedLanguage('fr')
+  >>> language_tool.getSupportedLanguages()
+  ['en', 'de', 'fr']
+
+  English is the current language
+  >>> language_tool.getPreferredLanguage()
+  'en'
+
+
+API Basics
+----------
+
+Now, time to create our english content object:
+
+  >>> _ = folder.invokeFactory('SimpleType', 'doc')
+  >>> english = folder.doc
+  >>> english.setLanguage('en')
+  >>> english.setBody('__ENGLISH_CONTENT__')
+  >>> en_path = '/'.join(english.getPhysicalPath())
+
+  Content is created with the current language
+  >>> english.Language()
+  'en'
+
+And add a german translation:
+
+  >>> _ = english.addTranslation('de')
+  >>> german = english.getTranslation('de')
+  >>> german.setBody('__GERMAN_CONTENT__')
+  >>> de_path = '/'.join(german.getPhysicalPath())
+  >>> german.Language()
+  'de'
+
+  Note that we don't have a french translation
+  >>> english.hasTranslation('fr')
+  False
+  >>> english.getTranslationLanguages()
+  ['en', 'de']
+
+  Both english and german objects are considered 'translations'
+  >>> english.isTranslation()
+  True
+  >>> german.isTranslation()
+  True
+
+  But only english is canonical
+  >>> english.isCanonical()
+  True
+  >>> german.isCanonical()
+  False
+
+Finally, add some stuff inside portal root:
+
+  Raise privileges
+  >>> self.setRoles(['Manager'])
+
+  Add content & translation
+  >>> _ = portal.invokeFactory('SimpleType', 'root')
+  >>> root = portal.root
+  >>> root.setLanguage('en')
+  >>> root.setBody('__ENGLISH_CONTENT__')
+  >>> _ = root.addTranslation('de')
+  >>> root.getTranslation('de').setBody('__GERMAN_CONTENT__')
+
+  We also make the newly content the actual portal default page
+  >>> portal.setDefaultPage(root.getId())
+
+  Back to normal
+  >>> self.setRoles(['Member'])
+
+
+First time access: no cookie
+----------------------------
+
+When you go to the page, the language of the content item should be respected:
+
+  a) Single page
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Accept-Language: de,en;q=0.7,en-us;q=0.3
+  ... Authorization: Basic %s:%s
+  ... """ % (en_path, default_user, default_password))
+  HTTP/1.1 200 OK
+  ...
+  ...<html...lang="en">...
+  ...__ENGLISH_CONTENT__...
+
+  b) Default page in folder
+  >>> folder.setDefaultPage(english.getId())
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Accept-Language: de,en;q=0.7,en-us;q=0.3
+  ... Authorization: Basic %s:%s
+  ... """ % (folder_path, default_user, default_password))
+  HTTP/1.1 200 OK
+  ...
+  ...<html...lang="en">...
+  ...__ENGLISH_CONTENT__...
+
+  c) Default page in portal
+  >>> print http(r"""
+  ... GET %s/root HTTP/1.1
+  ... Accept-Language: de,en;q=0.7,en-us;q=0.3
+  ... Authorization: Basic %s:%s
+  ... """ % (portal_path, default_user, default_password))
+  HTTP/1.1 200 OK
+  ...
+  ...<html...lang="en">...
+  ...__ENGLISH_CONTENT__...
+
+If the languages accepted by the browser doesn't exist, the
+page in the URL should be shown and a cookie with its language
+should be set.
+
+  a) Single page
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Accept-Language: fr,no;q=0.7,en-us;q=0.3
+  ... Authorization: Basic %s:%s
+  ... """ % (en_path, default_user, default_password))
+  HTTP/1.1 200 OK
+  ...
+  ...<html...lang="en">...
+  ...__ENGLISH_CONTENT__...
+
+  b) Default page in folder
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Accept-Language: fr,no;q=0.7,en-us;q=0.3
+  ... Authorization: Basic %s:%s
+  ... """ % (folder_path, default_user, default_password))
+  HTTP/1.1 200 OK
+  ...
+  ...<html...lang="en">...
+  ...__ENGLISH_CONTENT__...
+
+  c) Default page in portal
+  >>> print http(r"""
+  ... GET %s/root HTTP/1.1
+  ... Accept-Language: fr,no;q=0.7,en-us;q=0.3
+  ... Authorization: Basic %s:%s
+  ... """ % (portal_path, default_user, default_password))
+  HTTP/1.1 200 OK
+  ...
+  ...<html...lang="en">...
+  ...__ENGLISH_CONTENT__...
+
+
+After first access: cookie
+--------------------------
+
+If you have a cookie with language override set, it should pick up
+the correct translation. There's no need to set another cookie. The
+rule is that if a language is explicitly set (cookie), we respect
+that until the user decides to change it.
+
+If the user somehow goes to an English page, we have to show it
+in English. The user should never go there by browsing, because
+there is no mixing of languages.
+
+  a) Single page
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Accept-Language: en,de;q=0.7,en-us;q=0.3
+  ... Cookie: I18N_LANGUAGE=de
+  ... Authorization: Basic %s:%s
+  ... """ % (en_path, default_user, default_password))
+  HTTP/1.1 200 OK
+  Content-Language: en
+  ...__ENGLISH_CONTENT__...
+
+  b) Default page in folder
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Accept-Language: en,de;q=0.7,en-us;q=0.3
+  ... Cookie: I18N_LANGUAGE=de
+  ... Authorization: Basic %s:%s
+  ... """ % (folder_path, default_user, default_password))
+  HTTP/1.1 200 OK
+  Content-Language: en
+  ...__ENGLISH_CONTENT__...
+
+  c) Default page in portal
+  >>> print http(r"""
+  ... GET %s/root-de HTTP/1.1
+  ... Accept-Language: en,de;q=0.7,en-us;q=0.3
+  ... Cookie: I18N_LANGUAGE=de
+  ... Authorization: Basic %s:%s
+  ... """ % (portal_path, default_user, default_password))
+  HTTP/1.1 200 OK
+  Content-Language: de
+  ...__GERMAN_CONTENT__...
+
+If the translation doesn't exist, folders with translated default pages should 
+show the canonical version.
+
+  a) Default page in folder
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Accept-Language: en,de;q=0.7,en-us;q=0.3
+  ... Cookie: I18N_LANGUAGE=fr
+  ... Authorization: Basic %s:%s
+  ... """ % (folder_path, default_user, default_password))
+  HTTP/1.1 200 OK
+  ...
+  ...<html...lang="en">...
+  ...__ENGLISH_CONTENT__...
+
+  b) Default page in portal
+  >>> print http(r"""
+  ... GET %s/root HTTP/1.1
+  ... Accept-Language: en,de;q=0.7,en-us;q=0.3
+  ... Cookie: I18N_LANGUAGE=fr
+  ... Authorization: Basic %s:%s
+  ... """ % (portal_path, default_user, default_password))
+  HTTP/1.1 200 OK
+  ...
+  ...<html...lang="en">...
+  ...__ENGLISH_CONTENT__...
+  
+Note that accessing a specific translation URL (not a folder with a default 
+page) should always return that translation regardless of the language 
+requested.
+  
+  a) Single page
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Accept-Language: en,de;q=0.7,en-us;q=0.3
+  ... Cookie: I18N_LANGUAGE=fr
+  ... Authorization: Basic %s:%s
+  ... """ % (de_path, default_user, default_password))
+  HTTP/1.1 200 OK
+  ...
+  ...<html...lang="de">...
+  ...__GERMAN_CONTENT__...
+

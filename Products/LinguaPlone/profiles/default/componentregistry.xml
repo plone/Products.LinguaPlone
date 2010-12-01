@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<componentregistry>
+ <adapters/>
+ <utilities>
+  <utility
+     interface="plone.i18n.locales.interfaces.IContentLanguageAvailability"
+     factory="Products.LinguaPlone.vocabulary.SyncedLanguages"/>
+  <utility
+     interface="plone.i18n.locales.interfaces.IMetadataLanguageAvailability"
+     factory="Products.LinguaPlone.vocabulary.SyncedLanguages"/>
+ </utilities>
+</componentregistry>

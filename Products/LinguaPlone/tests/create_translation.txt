@@ -1,0 +1,136 @@
+Create translation
+==================
+
+Environment
+-----------
+
+First, we are going to setup an environment:
+
+  Use standard username and password from PloneTestCase
+  >>> from Products.PloneTestCase.PloneTestCase import default_user
+  >>> from Products.PloneTestCase.PloneTestCase import default_password
+
+Add French and Norwegian as additional available languages:
+
+  >>> language_tool = self.portal.portal_languages
+  >>> language_tool.addSupportedLanguage('fr')
+  >>> language_tool.addSupportedLanguage('no')
+  >>> language_tool.getSupportedLanguages()
+  ['en', 'fr', 'no']
+
+Create an english content object:
+
+  >>> _ = self.folder.invokeFactory('SimpleType', 'doc')
+  >>> english = self.folder.doc
+  >>> english.setLanguage('en')
+  >>> en_path = '/'.join(english.getPhysicalPath())
+
+
+Basic translation
+-----------------
+
+Them, make sure that the createTranslation redirect us to the new
+content, as expected.
+
+Define a createTranslation shortcut:
+
+  >>> fr_create = '/@@translate?newlanguage=fr'
+
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Authorization: Basic %s:%s
+  ... """ % (en_path + fr_create, default_user, default_password))
+  HTTP/1.1 302 Moved Temporarily
+  ...
+  Location: .../Members/test_user_1_/doc-fr/base_edit...
+  Set-Cookie: I18N_LANGUAGE="fr"; Path=/
+  <BLANKLINE>
+  .../Members/test_user_1_/doc-fr/base_edit...
+
+
+Translation of neutral content
+------------------------------
+
+Create an neutral content object:
+
+  >>> _ = self.folder.invokeFactory('SimpleType', 'neutral')
+  >>> neutral = self.folder.neutral
+  >>> neutral.setLanguage('')
+  >>> neutral_path = '/'.join(neutral.getPhysicalPath())
+
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Authorization: Basic %s:%s
+  ... """ % (neutral_path + fr_create, default_user, default_password))
+  HTTP/1.1 302 Moved Temporarily
+  ...
+  Location: .../Members/test_user_1_/neutral-fr/base_edit...
+  Set-Cookie: I18N_LANGUAGE="fr"; Path=/
+  <BLANKLINE>
+  .../Members/test_user_1_/neutral-fr/base_edit...
+
+
+Translation re-attempt
+----------------------
+
+Create a new content object:
+
+  >>> _ = self.folder.invokeFactory('SimpleType', 'new')
+  >>> new = self.folder.new
+  >>> new.setLanguage('en')
+
+Create a translation to French:
+
+  >>> newfr = new.addTranslation('fr')
+  >>> newfr_path = '/'.join(newfr.getPhysicalPath())
+
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Authorization: Basic %s:%s
+  ... """ % (newfr_path + fr_create, default_user, default_password))
+  HTTP/1.1 302 Moved Temporarily
+  ...
+  Location: .../Members/test_user_1_/new-fr/base_edit...
+  Set-Cookie: I18N_LANGUAGE="fr"; Path=/
+  <BLANKLINE>
+  .../Members/test_user_1_/new-fr/base_edit...
+
+
+Type with explicit translate action
+-----------------------------------
+
+  >>> from Products.CMFCore.utils import getToolByName
+  >>> types_tool = getToolByName(self.portal, 'portal_types')
+  >>> fti = types_tool['SimpleType']
+  >>> fti.addAction(
+  ...     'translate', 'Translate', 'string:${object_url}/view',
+  ...     None, 'View', 'object')
+
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Authorization: Basic %s:%s
+  ... """ % (en_path + fr_create, default_user, default_password))
+  HTTP/1.1 302 Moved Temporarily
+  ...
+  Location: .../Members/test_user_1_/doc-fr/view...
+  Set-Cookie: I18N_LANGUAGE="fr"; Path=/
+  <BLANKLINE>
+  .../Members/test_user_1_/doc-fr/view...
+
+
+Type without translate and edit action
+--------------------------------------
+
+  >>> num_actions = len(fti._actions)
+  >>> fti.deleteActions(range(1, num_actions))
+
+  >>> print http(r"""
+  ... GET %s HTTP/1.1
+  ... Authorization: Basic %s:%s
+  ... """ % (en_path + fr_create, default_user, default_password))
+  HTTP/1.1 302 Moved Temporarily
+  ...
+  Location: .../Members/test_user_1_/doc-fr...
+  Set-Cookie: I18N_LANGUAGE="fr"; Path=/
+  <BLANKLINE>
+  .../Members/test_user_1_/doc-fr...

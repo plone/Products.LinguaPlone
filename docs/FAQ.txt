@@ -1,0 +1,117 @@
+Frequently Asked Questions
+==========================
+
+Can LinguaPlone be used to translate content?
+   Yes, that's exactly the reason why it was developed.
+
+Can LinguaPlone be used to translate the Plone interface too?
+   Not really, the translation of Plone interface is handled by a different
+   product, PloneTranslations.
+
+Does LinguaPlone supports folder translations?
+   Yes, both folderish and non-folderish content types can be translated.
+
+How LinguaPlone keep track of translations?
+   It uses Archetypes references to link the items. Every translation
+   has a reference pointing to the 'canonical' item.
+
+What's a 'canonical' item?
+   It's the original content from where all translations are created. All
+   translations have a reference pointing to it.
+
+Can I have items that are language independent?
+   Yes, every item without a language explicitly set will be considered
+   language independent (neutral), and show up in all searches and navigation.
+
+Can I have fields that are language independent?
+   Yes. Look at the example types for the 'languageIndependent' schema
+   definitions. Ideal for stuff like dates and names, where all translations
+   should have the same text. The values that are language independent can only
+   be edited in the canonical item, not in the translations.
+
+What's the language of newly created content?
+   All content are initially created in the language you are currently in.
+   If you want it to be language independent (neutral), you have to explicitly
+   set this in the translation settings menu.
+
+What happens when I translate content?
+   You're presented with a screen where you can select both the language for
+   the original content and the language for the translation. This screen
+   also shows you the content from the canonical item so you can see the
+   original text for each field.
+
+What happens when I translate a folder?
+   A new folder is created with the selected language. Also, every content
+   with the same language currently in the original folder will be moved
+   to the new folder, automatically.
+
+What happens when I translate the default view of a folder?
+   The default view is the content selected to be displayed when
+   directly accessing a folder. In this case, when translating it, LinguaPlone
+   first creates a translation for the folder, then the content.
+
+Why do catalog searches now only return content in the current language?
+   For all language-aware items (essentially, every item with the Language
+   variable set), LinguaPlone filters out the content not relevant to the
+   current language. This is done to have a consistent, one-language-at-a-time
+   site. Mixing languages in a site is a very bad idea, and is very
+   unpredictable.
+
+So I can't search in any of the other languages?
+   Of course you can, but you have to explicitly ask for it by specifying
+   'Language=all' when doing a search.
+
+When I search for an item in the ZMI Find tab, the filter applies there too?
+   Yes. We patched the ZMI form, so you have a pulldown with the languages
+   available as well an 'All Languages' option.
+
+Can I change the language of content after initial creation?
+   Yes, but you can only change the language to one of the untranslated
+   ones. You can't have two translations with the same language for the
+   same content. When changing the content language, if the parent folder
+   is already translated, LinguaPlone moves the content to the folder with
+   the same language.
+
+How can I change the content language?
+   Both the 'Categorization' tab and the 'Manage Translations' menu item allows
+   you to change the language of an item. The difference is that the latter also
+   performs some restrictions to only display sane values, while the former
+   display all languages. We recommend using the 'Manage Translations' entry in
+   the Translate pulldown.
+
+Can I make an already translated content be language independent again?
+   Yes. You just need to change the language to 'neutral'. This only works on
+   'Categorization' tab of an item.
+
+What is the 'neutral' language?
+   It's exactly what it means: neutral. In other words, it's a way to represent
+   the content in all languages. The content becomes language independent and
+   can be displayed for any language when both navigating and searching.
+
+Why the flags are grayed out for some content?
+   It happens when the content isn't available in that particular language.
+   When all flags are grayed out, it means that the content is language
+   neutral.
+
+What happens when I click in a grayed out flag?
+   You're presented with a placeholder page, saying that the content isn't
+   available in that language, followed by the list of all the current
+   translations. Additionally, you're allowed to add a translation, if you
+   have the required permissions.
+
+How LinguaPlone decides what language to use when someone access my site?
+   When you access a LinguaPlone site for the first time, LinguaPlone uses the
+   header 'HTTP_ACCEPT_LANGUAGE' sent by the browser to decide the language
+   that should be used, then set a cookie with it. From this point, you only
+   will get content on that language, except if you click in a flag. In this
+   case, the cookie value is updated to the new language. After the cookie
+   is set, even if you directly access a content in a different language,
+   LinguaPlone will lookup the content in your current language (from cookie)
+   and present it instead of the requested content. If the content doesn't have
+   a translation in your language, the placeholder page with the available
+   languages is displayed.
+
+How can I link an already existing content as a translation for another one?
+   The 'Manage Translations' menu item has a form that allows you to select
+   any content from the same type from the current one as a new translation,
+   in any of the untranslated languages.

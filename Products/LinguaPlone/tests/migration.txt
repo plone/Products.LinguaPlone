@@ -1,0 +1,80 @@
+Migration
+=========
+
+Import steps
+------------
+
+LinguaPlone used to have a 'linguaplone_various' import step.  That
+has been removed, but older installations of LinguaPlone can still
+have it in the GenericSetup import steps registry.  And that causes
+problems when applying any GenericSetup profile.  This is the old
+step::
+
+    >>> old_step = u'linguaplone_various'
+
+To solve that, we have made a GenericSetup upgrade step.  This is
+ordinarily reachable from portal_setup/manage_upgrades in the ZMI.  We
+will just use the upgrade handler directly here.  We import it first::
+
+  >>> from Products.LinguaPlone.migrations import remove_old_import_step
+
+We do some minimal sanity checking. Our new LinguaPlone import step should
+not be available in the persistent registry::
+
+  >>> from Products.CMFCore.utils import getToolByName
+  >>> setup = getToolByName(self.portal, 'portal_setup')
+  >>> registry = setup.getImportStepRegistry()
+  >>> number_of_original_steps = len(registry.listSteps())
+  >>> u'linguaplone_reindex' in registry.listSteps()
+  False
+
+Nothing is wrong with the current state of the portal, so calling the
+upgrade handler should not have any adverse effects.  It is always
+called with the setup tool as context::
+
+  >>> remove_old_import_step(setup)
+  >>> number_of_original_steps == len(registry.listSteps())
+  True
+
+Now we need to deliberately mess up the import registry by registering
+our old (now wrong) import step again.
+
+  >>> def bogus_handler(context):
+  ...     pass
+  >>> registry.registerStep(id=old_step, version='1.0', handler=bogus_handler)
+  >>> old_step in registry.listSteps()
+  True
+  >>> len(registry.listSteps()) == number_of_original_steps + 1
+  True
+
+For some reason GenericSetup already thinks this bogus_handler is
+invalid.  We do not need to look into why this is the case as this
+suits us fine really.  See that this is wrong indeed::
+
+  >>> output = setup.runAllImportStepsFromProfile('profile-Products.LinguaPlone:LinguaPlone')
+  >>> output['messages'][old_step]
+  u'ERROR: Step linguaplone_various has an invalid import handler'
+
+Let it be noted that applying our profile may still continue without
+really being bothered by the wrong import handler, but getting rid of
+the error message would be good.
+
+So we now have a wrong import step in the registry, just like will be
+the case for users upgrading from an older LinguaPlone.  We should now
+be able to fix this with our upgrade step::
+
+  >>> remove_old_import_step(setup)
+  >>> number_of_original_steps == len(registry.listSteps())
+  True
+  >>> old_step in registry.listSteps()
+  False
+
+Applying our profile should now finish without errors.  We will not
+test that here though, as this could result in a BadRequest error
+because applying a profile two times within one second will lead to
+the setup tool creating a duplicate logfile with the exact same id.
+So something like::
+
+  BadRequest: The id "import-all-profile-Products.LinguaPlone_LinguaPlone-20080520170311.log" is invalid - it is already in use.
+
+But the old step is gone, so everything is fine.
