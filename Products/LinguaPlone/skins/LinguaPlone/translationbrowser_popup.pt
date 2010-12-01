@@ -41,7 +41,7 @@
         <h2 tal:content="here/title_or_id" />
         <p class="formHelp"
              style="font-size:105%"
-             tal:content="structure here/Description"/>
+             tal:content="here/Description"/>
 
         <!-- Search form -->
         <form action="search"
@@ -179,8 +179,6 @@
                                                   i18n:translate="" i18n:domain="plone" tal:content="state"
                                             />
                                         </div>
-
-                                        <div class="additionalInfo" tal:content="structure item/additionalReferenceInfo | nothing" />
                                     </td>
 
                                     <td width="25%"

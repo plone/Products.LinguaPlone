@@ -1,8 +1,13 @@
 Changelog
 =========
 
-4.0b2 - unreleased
-------------------
+4.0 - 2010-11-25
+----------------
+
+- Fixed possible XSS security issue in the `translationbrowser_popup` caused
+  by displaying unfiltered content from the `Description` string field as HTML.
+  Issue reported by Andrew Nicholson.
+  [hannosch]
 
 - Protect against accidentally acquiring the `getTranslations` method from a
   parent object in `utils.generatedMutator`. Thanks to Matous Hora for the
