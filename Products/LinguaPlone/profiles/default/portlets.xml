@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<portlets>
+ <portlet 
+   addview="portlets.Language"
+   title="Language"
+   description="Language selection portlet"
+   for="plone.app.portlets.interfaces.IColumn"
+   />
+</portlets>
