@@ -4,6 +4,8 @@ Changelog
 4.0.1 - unreleased
 ------------------
 
+- Depend on ``Products.CMFPlone`` instead of ``Plone``.
+  [elro]
 
 4.0 - 2010-11-25
 ----------------
