@@ -4,6 +4,9 @@ Changelog
 4.0.1 - unreleased
 ------------------
 
+- Changed defaultLanguage behavior in I18NBaseObject to always report the
+  parent's folder language even if it is neutral.
+  [ggozad]
 
 4.0 - 2010-11-25
 ----------------

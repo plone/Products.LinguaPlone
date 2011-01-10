@@ -318,9 +318,7 @@ class I18NBaseObject(Implicit):
             # We have factory tool
             parent = aq_parent(aq_parent(parent))
         if ITranslatable.providedBy(parent):
-            language = parent.Language()
-            if language:
-                return parent.Language()
+            return parent.Language()
 
         language_tool = getToolByName(self, 'portal_languages', None)
         if language_tool:
