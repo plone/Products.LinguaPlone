@@ -108,6 +108,25 @@ class TestIndexDefaultPage(LinguaPloneTestCase):
         self.failUnlessEqual(result, 'index_html')
 
 
+class DefaultPageTranslationTests(LinguaPloneTestCase):
+
+    def afterSetUp(self):
+        self.addLanguage('de')
+        self.setLanguage('en')
+        self.setRoles(['Manager'])
+
+    def testTranslatingDefaultPageCreatesTranslatedParentFolder(self):
+        english_folder = self.folder
+        english_doc = makeContent(english_folder, 'SimpleType', 'doc')
+        english_folder.setDefaultPage(english_doc.getId())
+        makeTranslation(english_doc, 'de').processForm(
+            values=dict(title='dok'))
+        german_folder = english_folder.getTranslation('de')
+        german_doc = english_doc.getTranslation('de')
+        self.assertNotEqual(english_folder, german_folder)
+        self.assertTrue(german_doc in german_folder.objectValues())
+
+
 def test_suite():
     from unittest import defaultTestLoader
     return defaultTestLoader.loadTestsFromName(__name__)
