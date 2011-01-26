@@ -86,8 +86,3 @@ class TestUpgrades(LinguaPloneTestCase):
         props = tool.linguaplone_properties
         key = 'hide_right_column_on_translate_form'
         self.assertEquals(props.getProperty(key), True)
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

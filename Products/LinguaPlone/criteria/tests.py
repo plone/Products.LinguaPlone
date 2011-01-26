@@ -1,5 +1,3 @@
-from unittest import TestSuite, makeSuite
-
 from DateTime import DateTime
 from Missing import MV
 from Products.CMFCore.utils import getToolByName
@@ -594,12 +592,3 @@ class TestCopyRelativePathCriteriaWithIds(LinguaPloneTestCase):
         self.assertEquals(query['path']['query'], path)
         svcoll_criteria = encoll.getTranslation('sv').listCriteria()
         self.assertEquals(svcoll_criteria[0].getRelativePath(), '../../en22')
-
-
-def test_suite():
-    return TestSuite((
-        makeSuite(TestBasics),
-        makeSuite(TestCopyCriteria),
-        makeSuite(TestCopyRelativePathCriteria),
-        makeSuite(TestCopyRelativePathCriteriaWithIds),
-    ))

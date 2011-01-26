@@ -148,8 +148,3 @@ class TestI18NOnlyBaseBTreeFolder(LinguaPloneTestCase):
         self.assert_(de.isCanonical())
         self.assertEquals(de.getCanonical(), de)
         self.assertEquals(de.getTranslations().keys(), ['de'])
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

@@ -39,8 +39,3 @@ class TestTranslationPortalType(LinguaPloneTestCase):
         gsm.unregisterAdapter(MyTranslationFactory,
             required=(IATDocument, ),
             provided=ITranslationFactory)
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

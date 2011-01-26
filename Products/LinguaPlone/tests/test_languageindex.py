@@ -366,8 +366,3 @@ class TestIntegration(LinguaPloneTestCase):
         self.assertEquals(set(index.uniqueValues()), set(('de', 'en')))
         index.index_object(9999, self.portal)
         self.assertEquals(set(index.uniqueValues()), set(('de', 'en', 'no')))
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

@@ -90,8 +90,3 @@ class TestLanguageVocabularies(LinguaPloneTestCase):
         tokens = util(self.english).by_token
         self.assertEquals(len(tokens), 1)
         self.assert_('de' in tokens)
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

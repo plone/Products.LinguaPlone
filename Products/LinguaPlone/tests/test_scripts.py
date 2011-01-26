@@ -67,8 +67,3 @@ class TestLanguageLists(LinguaPloneTestCase):
         langs = self.english.getDeletableLanguages()
         langs = [l['id'] for l in langs]
         self.assertEqual(set(langs), set(['de', 'fr']))
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

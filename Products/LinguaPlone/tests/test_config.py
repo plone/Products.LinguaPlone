@@ -35,8 +35,3 @@ class TestConfig(TestCase):
         from ..config import I18NAWARE_REFERENCE_FIELDS
         from Products.Archetypes.Field import ReferenceField
         self.assert_(ReferenceField in I18NAWARE_REFERENCE_FIELDS)
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

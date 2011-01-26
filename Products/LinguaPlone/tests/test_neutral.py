@@ -35,8 +35,3 @@ class TestNeutral(LinguaPloneTestCase):
         self.failUnless('de' in self.english.getTranslationLanguages())
         self.german.setLanguage('')
         self.failUnlessEqual(self.english.getTranslationLanguages(), ['en'])
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

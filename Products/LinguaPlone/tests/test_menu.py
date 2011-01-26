@@ -27,8 +27,3 @@ class TranslateMenuTests(LinguaPloneTestCase):
         items = menu.getMenuItems(doc, None)
         self.assertEqual([i['title'] for i in items],
             [u'label_manage_translations'])
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

@@ -138,8 +138,3 @@ class TestMultilingualCatalog(LinguaPloneTestCase):
         search = self.catalog(Language=['en', 'de'], Title='Foo')
         self.failUnless(self.english in [x.getObject() for x in search])
         self.failUnless(self.german in [x.getObject() for x in search])
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

@@ -325,8 +325,3 @@ class TestLanguageSelectorRendering(LinguaPloneTestCase):
         selector.update()
         output = selector.render()
         self.assertEquals(output.strip(), u'')
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

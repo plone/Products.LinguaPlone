@@ -43,8 +43,3 @@ class TestLanguageControlPanel(LinguaPloneTestCase):
         adapter.available_languages = new
         ltool = getToolByName(self.portal, 'portal_languages')
         self.assertEquals(set(ltool.getSupportedLanguages()), set(new))
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

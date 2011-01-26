@@ -156,8 +156,3 @@ class DefaultPageTranslationTests(LinguaPloneTestCase):
         self.assertTrue(german_doc.getId() in neutral_folder)
         self.assertTrue(isDefaultPage(neutral_folder, english_doc))
         self.assertFalse(isDefaultPage(neutral_folder, german_doc))
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

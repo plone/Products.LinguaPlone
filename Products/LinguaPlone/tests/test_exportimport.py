@@ -37,8 +37,3 @@ class LanguageIndexAdapterTests(NodeAdapterTestCase, unittest.TestCase):
         from Products.LinguaPlone.LanguageIndex import LanguageIndex
         self._obj = LanguageIndex('foo_language')
         self._XML = _LANGUAGE_XML
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

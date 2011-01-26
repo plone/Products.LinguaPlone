@@ -430,8 +430,3 @@ class TestProcessFormRename(LinguaPloneTestCase):
         self.german.processForm(values={'id': 'explicit-id'})
         self.german.processForm(values={'title': 'But not Title'})
         self.assertEqual(self.german.getId(), 'explicit-id')
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

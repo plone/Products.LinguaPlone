@@ -59,8 +59,3 @@ class TestLanguagePortlet(LinguaPloneTestCase):
         output = renderer.render()
         renderer.update()
         self.assertEquals(output.strip(), u'')
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

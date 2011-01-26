@@ -87,8 +87,3 @@ class TestCustomAccessors(LinguaPloneTestCase):
         english = makeContent(self.folder, 'DerivedType', 'doc')
         english.setLanguage('en')
         self.assertEqual(english.getFifthContactName(), 'getFifthContactName')
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

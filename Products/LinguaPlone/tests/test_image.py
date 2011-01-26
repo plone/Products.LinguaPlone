@@ -50,8 +50,3 @@ class TestImage(LinguaPloneTestCase):
         img_de = self.german.getImageDependent()
         self.failUnlessEqual(img_en.content_type, 'image/jpeg')
         self.failUnlessEqual(img_de.content_type, 'image/png')
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

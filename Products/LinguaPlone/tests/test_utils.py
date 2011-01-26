@@ -41,8 +41,3 @@ class TestContentLinker(LinguaPloneTestCase):
     def testTypeMismatch(self):
         todo=[[(["frontpage"], "en"), (["images"], "nl")]]
         self.assertRaises(ValueError, linkTranslations, self.folder, todo)
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

@@ -377,8 +377,3 @@ class TestLanguageIndependentCatalog(LinguaPloneTestCase):
         self.assertEqual(brains[0].getRawReference, target.UID())
         brains = catalog(dict(UID=german.UID()))
         self.assertEqual(brains[0].getRawReference, target_german.UID())
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

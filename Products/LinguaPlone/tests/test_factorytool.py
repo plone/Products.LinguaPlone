@@ -39,8 +39,3 @@ class TestMissingUID(LinguaPloneTestCase):
         self.german.UID = fake_uid
         self.assertEquals(len(self.english.getTranslationBackReferences()), 0)
         self.assertEquals(len(self.german.getTranslationReferences()), 0)
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)

@@ -76,8 +76,3 @@ class TestInstallSetup(LinguaPloneTestCase):
         index = catalog._catalog.getIndex('Language')
         self.assertEquals(index.meta_type, 'FieldIndex')
         self.assert_(index.numObjects() > 0)
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)
