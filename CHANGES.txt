@@ -4,6 +4,9 @@ Changelog
 4.0.2 - unreleased
 ------------------
 
+- Don't create an extra folder when translating the default page of a
+  language-neutral folder.
+  [witsch]
 
 4.0.1 - 2011-01-10
 ------------------

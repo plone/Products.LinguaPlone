@@ -137,6 +137,18 @@ class DefaultPageTranslationTests(LinguaPloneTestCase):
         german_doc = english_doc.getTranslation('de')
         self.assertTrue(german_doc in german_folder.objectValues())
 
+    def testTranslatingDefaultPageInNeutralFolderDoesntCreateFolder(self):
+        neutral_folder = self.folder
+        neutral_folder.setLanguage('')
+        english_doc = makeContent(neutral_folder, 'SimpleType', 'doc')
+        english_doc.setLanguage('en')
+        neutral_folder.setDefaultPage(english_doc.getId())
+        makeTranslation(english_doc, 'de').processForm(
+            values=dict(title='dok'))
+        self.assertEqual(neutral_folder.getTranslation('de'), None)
+        german_doc = english_doc.getTranslation('de')
+        self.assertTrue(german_doc in neutral_folder.objectValues())
+
 
 def test_suite():
     from unittest import defaultTestLoader

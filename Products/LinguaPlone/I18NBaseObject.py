@@ -437,7 +437,7 @@ class I18NBaseObject(Implicit):
             language = self.Language()
             parent = aq_parent(aq_inner(self))
             if ITranslatable.providedBy(parent):
-                if not parent.hasTranslation(language):
+                if not parent.hasTranslation(language) and not parent.Language() == '':
                     parent.addTranslation(language)
                     translation_parent = parent.getTranslation(language)
                     translation_parent.processForm(
