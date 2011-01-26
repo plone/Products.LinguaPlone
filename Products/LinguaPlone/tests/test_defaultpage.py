@@ -1,7 +1,8 @@
+from plone.app.layout.navigation.defaultpage import isDefaultPage
+
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
-from plone.app.layout.navigation.defaultpage import isDefaultPage
 
 
 class TestFolderDefaultPage(LinguaPloneTestCase):
