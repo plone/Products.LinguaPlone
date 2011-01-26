@@ -21,6 +21,9 @@ class TranslateMenu(BrowserMenu):
     implements(ITranslateMenu)
 
     def getUntranslatedLanguages(self, context):
+        if not context.Language():
+            # neutral content must get a language assigned first
+            return []
         lt=getToolByName(context, "portal_languages")
         languages=lt.listSupportedLanguages()
         translated=context.getTranslationLanguages()
