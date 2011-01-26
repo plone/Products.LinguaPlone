@@ -1,11 +1,12 @@
 Changelog
 =========
 
-4.0.2 - unreleased
+4.0.2 - 2011-01-26
 ------------------
 
 - Force the user to select a language before attempting to translate
-  neutral content items.
+  neutral content items. One content item can be either neutral or have
+  translations, but not a mix of the two.
   [witsch]
 
 - Don't create an extra folder when translating the default page of a
