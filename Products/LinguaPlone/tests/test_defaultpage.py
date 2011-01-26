@@ -1,6 +1,7 @@
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
+from plone.app.layout.navigation.defaultpage import isDefaultPage
 
 
 class TestFolderDefaultPage(LinguaPloneTestCase):
@@ -125,6 +126,8 @@ class DefaultPageTranslationTests(LinguaPloneTestCase):
         german_doc = english_doc.getTranslation('de')
         self.assertNotEqual(english_folder, german_folder)
         self.assertTrue(german_doc in german_folder.objectValues())
+        self.assertTrue(isDefaultPage(english_folder, english_doc))
+        self.assertTrue(isDefaultPage(german_folder, german_doc))
 
     def testTranslatingDefaultPagePutsItIntoTranslatedParentFolder(self):
         english_folder = self.folder
@@ -136,6 +139,8 @@ class DefaultPageTranslationTests(LinguaPloneTestCase):
         german_folder = english_folder.getTranslation('de')
         german_doc = english_doc.getTranslation('de')
         self.assertTrue(german_doc in german_folder.objectValues())
+        self.assertTrue(isDefaultPage(english_folder, english_doc))
+        self.assertTrue(isDefaultPage(german_folder, german_doc))
 
     def testTranslatingDefaultPageInNeutralFolderDoesntCreateFolder(self):
         neutral_folder = self.folder
@@ -148,6 +153,8 @@ class DefaultPageTranslationTests(LinguaPloneTestCase):
         self.assertEqual(neutral_folder.getTranslation('de'), None)
         german_doc = english_doc.getTranslation('de')
         self.assertTrue(german_doc in neutral_folder.objectValues())
+        self.assertTrue(isDefaultPage(neutral_folder, english_doc))
+        self.assertFalse(isDefaultPage(neutral_folder, german_doc))
 
 
 def test_suite():

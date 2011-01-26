@@ -436,8 +436,8 @@ class I18NBaseObject(Implicit):
             delattr(self, '_lp_default_page')
             language = self.Language()
             parent = aq_parent(aq_inner(self))
-            if ITranslatable.providedBy(parent):
-                if not parent.hasTranslation(language) and not parent.Language() == '':
+            if ITranslatable.providedBy(parent) and not parent.Language() == '':
+                if not parent.hasTranslation(language):
                     parent.addTranslation(language)
                     translation_parent = parent.getTranslation(language)
                     translation_parent.processForm(
