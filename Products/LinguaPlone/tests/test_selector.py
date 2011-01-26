@@ -328,10 +328,5 @@ class TestLanguageSelectorRendering(LinguaPloneTestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestLanguageSelectorFindPath))
-    suite.addTest(makeSuite(TestLanguageSelectorFormVariables))
-    suite.addTest(makeSuite(TestLanguageSelectorBasics))
-    suite.addTest(makeSuite(TestLanguageSelectorRendering))
-    return suite
+    from unittest import defaultTestLoader
+    return defaultTestLoader.loadTestsFromName(__name__)

@@ -151,11 +151,5 @@ class TestI18NOnlyBaseBTreeFolder(LinguaPloneTestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestFolderTranslation))
-    suite.addTest(makeSuite(TestDynamicFolderProcessForm))
-    suite.addTest(makeSuite(TestOrderedFolder))
-    suite.addTest(makeSuite(TestBTreeFolder))
-    suite.addTest(makeSuite(TestI18NOnlyBaseBTreeFolder))
-    return suite
+    from unittest import defaultTestLoader
+    return defaultTestLoader.loadTestsFromName(__name__)

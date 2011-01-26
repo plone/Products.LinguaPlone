@@ -433,9 +433,5 @@ class TestProcessFormRename(LinguaPloneTestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestAPI))
-    suite.addTest(makeSuite(TestSetLanguage))
-    suite.addTest(makeSuite(TestProcessFormRename))
-    return suite
+    from unittest import defaultTestLoader
+    return defaultTestLoader.loadTestsFromName(__name__)

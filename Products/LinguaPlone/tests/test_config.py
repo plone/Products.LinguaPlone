@@ -38,7 +38,5 @@ class TestConfig(TestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestConfig))
-    return suite
+    from unittest import defaultTestLoader
+    return defaultTestLoader.loadTestsFromName(__name__)

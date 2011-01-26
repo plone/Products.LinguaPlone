@@ -40,7 +40,5 @@ class LanguageIndexAdapterTests(NodeAdapterTestCase, unittest.TestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(LanguageIndexAdapterTests))
-    return suite
+    from unittest import defaultTestLoader
+    return defaultTestLoader.loadTestsFromName(__name__)

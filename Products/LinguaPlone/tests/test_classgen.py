@@ -90,8 +90,5 @@ class TestCustomAccessors(LinguaPloneTestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestClassGen))
-    suite.addTest(makeSuite(TestCustomAccessors))
-    return suite
+    from unittest import defaultTestLoader
+    return defaultTestLoader.loadTestsFromName(__name__)

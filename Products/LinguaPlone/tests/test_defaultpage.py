@@ -109,10 +109,5 @@ class TestIndexDefaultPage(LinguaPloneTestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestFolderDefaultPage))
-    suite.addTest(makeSuite(TestSimpleFolderBrowserDefault))
-    suite.addTest(makeSuite(TestPortalDefaultPage))
-    suite.addTest(makeSuite(TestIndexDefaultPage))
-    return suite
+    from unittest import defaultTestLoader
+    return defaultTestLoader.loadTestsFromName(__name__)
