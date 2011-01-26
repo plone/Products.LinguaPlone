@@ -509,7 +509,7 @@ class TranslationFactory(object):
         # If this is a folder, move translated subobjects aswell.
         if context.isPrincipiaFolderish:
             moveids = []
-            for obj in context.objectValues():
+            for obj in context.values():
                 translator = ITranslatable(obj, None)
                 if translator is not None \
                    and translator.getLanguage() == language:

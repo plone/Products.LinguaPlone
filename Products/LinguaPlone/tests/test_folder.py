@@ -25,8 +25,8 @@ class TestFolderTranslation(LinguaPloneTestCase):
         english = makeContent(self.folder_en, 'SimpleType', 'doc')
         english.setLanguage('en')
         german = makeTranslation(english, 'de')
-        self.failUnless(english in self.folder_en.objectValues())
-        self.failUnless(german in self.folder_de.objectValues())
+        self.failUnless(english.getId() in self.folder_en)
+        self.failUnless(german.getId() in self.folder_de)
 
     def testFolderTranslationMoveTranslatedContent(self):
         english1 = makeContent(self.folder_en, 'SimpleType', 'doc1')

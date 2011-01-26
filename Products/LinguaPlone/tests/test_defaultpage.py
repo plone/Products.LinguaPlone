@@ -125,7 +125,7 @@ class DefaultPageTranslationTests(LinguaPloneTestCase):
         german_folder = english_folder.getTranslation('de')
         german_doc = english_doc.getTranslation('de')
         self.assertNotEqual(english_folder, german_folder)
-        self.assertTrue(german_doc in german_folder.objectValues())
+        self.assertTrue(german_doc.getId() in german_folder)
         self.assertTrue(isDefaultPage(english_folder, english_doc))
         self.assertTrue(isDefaultPage(german_folder, german_doc))
 
@@ -138,7 +138,7 @@ class DefaultPageTranslationTests(LinguaPloneTestCase):
             values=dict(title='dok'))
         german_folder = english_folder.getTranslation('de')
         german_doc = english_doc.getTranslation('de')
-        self.assertTrue(german_doc in german_folder.objectValues())
+        self.assertTrue(german_doc.getId() in german_folder)
         self.assertTrue(isDefaultPage(english_folder, english_doc))
         self.assertTrue(isDefaultPage(german_folder, german_doc))
 
@@ -152,7 +152,7 @@ class DefaultPageTranslationTests(LinguaPloneTestCase):
             values=dict(title='dok'))
         self.assertEqual(neutral_folder.getTranslation('de'), None)
         german_doc = english_doc.getTranslation('de')
-        self.assertTrue(german_doc in neutral_folder.objectValues())
+        self.assertTrue(german_doc.getId() in neutral_folder)
         self.assertTrue(isDefaultPage(neutral_folder, english_doc))
         self.assertFalse(isDefaultPage(neutral_folder, german_doc))
 
