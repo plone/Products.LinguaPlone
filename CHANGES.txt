@@ -5,7 +5,7 @@ Changelog
 ------------------
 
 - Force the user to select a language before attempting to translate
-  some content item.
+  neutral content items.
   [witsch]
 
 - Don't create an extra folder when translating the default page of a

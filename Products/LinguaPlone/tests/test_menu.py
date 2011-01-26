@@ -1,6 +1,6 @@
+from Products.LinguaPlone.browser.menu import TranslateMenu
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
-from Products.LinguaPlone.browser.menu import TranslateMenu
 
 
 class TranslateMenuTests(LinguaPloneTestCase):
