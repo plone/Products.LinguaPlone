@@ -23,15 +23,6 @@ class Dummy(Explicit):
 
     implements(ITranslatable)
 
-    def objectIds(self):
-        return ()
-
-    def getPortalObject(self):
-        return self
-
-    def absolute_url(self):
-        return 'absolute url'
-
     def getTranslations(self, review_state=False):
         return {'en': self, 'nl': self}
 
@@ -71,9 +62,6 @@ class MockLanguageTool(object):
     use_cookie_negotiation = True
 
     def showSelector(self):
-        return True
-
-    def showFlags(self):
         return True
 
     def getAvailableLanguageInformation(self):

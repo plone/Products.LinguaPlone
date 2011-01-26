@@ -35,17 +35,6 @@ class Dummy(object):
     def UID(self):
         return self._cid
 
-    def __str__(self):
-        return '<Dummy: %s (cid %s)>' % (self._lang, self._cid)
-
-    def __len__(self):
-        # Simulate an empty folder; older IndexableObjectWrapper test code
-        # failed for empty folders. See
-        # http://www.nabble.com/Bug-in-LinguaPlone-tf3903725.html
-        return 0
-
-    __repr__ = __str__
-
 
 class DummyIndexableObjectWrapper:
 
