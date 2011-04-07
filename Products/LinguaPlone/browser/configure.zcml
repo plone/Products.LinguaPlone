@@ -5,6 +5,7 @@
 
   <include package="plone.app.contentmenu" />
   <include package="plone.app.portlets" />
+  <include package="Products.CMFCore" file="permissions.zcml" />
 
   <adapter factory=".controlpanel.MultiLanguageControlPanelAdapter" />
 

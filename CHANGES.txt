@@ -4,6 +4,8 @@ Changelog
 4.0.3 - unreleased
 ------------------
 
+- Explicitly load the CMF permissions before using them in a `configure.zcml`.
+  [hannosch]
 
 4.0.2 - 2011-01-26
 ------------------
