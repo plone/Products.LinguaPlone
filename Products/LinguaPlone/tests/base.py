@@ -9,16 +9,8 @@ from Products.Five import zcml
 from Products.Five import fiveconfigure
 from Products.GenericSetup import EXTENSION, profile_registry
 
-profile_registry.registerProfile('LinguaPlone_tests',
-        'LinguaPlone test content types',
-        'Extension profile including dummy types to test LinguaPlone',
-        'profiles/test_types',
-        'Products.LinguaPlone',
-        EXTENSION)
-
 from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase import PloneTestCase
-
 
 ZopeTestCase.installProduct('LinguaPlone')
 
@@ -30,6 +22,13 @@ def setup_product():
     import Products.LinguaPlone.tests
     zcml.load_config('configure.zcml', Products.LinguaPlone.tests)
     fiveconfigure.debug_mode = False
+
+    profile_registry.registerProfile('LinguaPlone_tests',
+            'LinguaPlone test content types',
+            'Extension profile including dummy types to test LinguaPlone',
+            'profiles/test_types',
+            'Products.LinguaPlone',
+            EXTENSION)
 
 extension_profiles=['Products.LinguaPlone:LinguaPlone',
                     'Products.LinguaPlone:LinguaPlone_tests']
