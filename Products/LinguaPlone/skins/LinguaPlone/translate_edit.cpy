@@ -27,7 +27,7 @@ if next or previous:
     try:
         index = schematas.index(fieldset)
     except ValueError:
-        raise 'Non-existing fieldset: %s' % fieldset
+        raise ValueError('Non-existing fieldset: %s' % fieldset)
     else:
         index += 1
         if index < len(schematas):
@@ -37,7 +37,7 @@ if next or previous:
                              fieldset=next_schemata)
 
     if next_schemata == None:
-        raise 'Unable to find next field set after %s' % fieldset
+        raise ValueError('Unable to find next field set after %s' % fieldset)
 
 lp_translating_from = REQUEST.get('lp_translating_from')
 canonical = new_context.getCanonical()
