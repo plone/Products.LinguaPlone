@@ -3,6 +3,8 @@ Changelog
 
 4.0.3 - unreleased
 ------------------
+- changed string exceptions to ValueErrors in translate_edit.cpy
+  [robert]
 
 - Fix the tests to work with GenericSetup 1.6.3+.
   [hannosch]
