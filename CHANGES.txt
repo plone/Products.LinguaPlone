@@ -1,9 +1,10 @@
 Changelog
 =========
 
-4.0.3 - unreleased
+4.0.3 - 2011-05-27
 ------------------
-- changed string exceptions to ValueErrors in translate_edit.cpy
+
+- Changed string exceptions to ValueErrors in `translate_edit.cpy`.
   [robert]
 
 - Fix the tests to work with GenericSetup 1.6.3+.
