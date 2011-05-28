@@ -107,22 +107,29 @@ class TranslatableLanguageSelector(LanguageSelector):
 
         for data in results:
             code = str(data['code'])
-            data['translated'] = code in translations
+            # content is not translated
+            # if translations[code] is not an actual translation of the content
+            # (but is a parent, for example)
+            trans = translations.get(code, None)
+            data['translated'] = trans is not None \
+                                    and ITranslatable.providedBy(context) \
+                                    and context.getTranslation(code) == trans
+            if data['translated']:
+                appendtourl = '/'.join(append_path)
+            else:
+                appendtourl = ''
 
             try:
-                appendtourl = '/'.join(append_path)
                 if self.set_language:
                     appendtourl += '?' + make_query(formvariables,
                                                     dict(set_language=code))
                 elif formvariables:
                     appendtourl += '?' + make_query(formvariables)
             except UnicodeError:
-                appendtourl = '/'.join(append_path)
                 if self.set_language:
                     appendtourl += '?set_language=%s' % code
 
-            if data['translated']:
-                trans = translations[code]
+            if trans is not None:
                 state = getMultiAdapter((trans, self.request),
                         name='plone_context_state')
                 data['url'] = state.canonical_object_url() + appendtourl
