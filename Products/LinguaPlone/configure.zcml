@@ -5,6 +5,7 @@
     i18n_domain="plone">
 
   <include package="plone.browserlayer" />
+  <include package="plone.app.iterate" />
   <include package=".browser"/>
   <include package=".criteria"/>
   <include package=".exportimport"/>
@@ -14,7 +15,7 @@
   <adapter factory=".utils.TranslationFactory" />
   <adapter factory=".utils.LanguageIndependentFields" />
 
-  <adapter 
+  <adapter
      for="Products.Archetypes.interfaces.IBaseObject"
      provides="plone.app.iterate.interfaces.ICheckinCheckoutReference"
      factory="plone.app.iterate.relation.NoCopyReferenceAdapter"

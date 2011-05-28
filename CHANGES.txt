@@ -4,6 +4,8 @@ Changelog
 4.0.4 - unreleased
 ------------------
 
+- declare plone.app.iterate dependency.
+  [thomasdesvenain]
 
 4.0.3 - 2011-05-27
 ------------------
