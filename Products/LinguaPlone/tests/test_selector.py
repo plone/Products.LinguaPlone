@@ -32,6 +32,26 @@ class Dummy(Explicit):
     def getPhysicalPath(self):
         return getattr(self, 'physicalpath', [])
 
+    def getLanguage(self):
+        return 'en'
+
+
+class DummyNeutral(Explicit):
+
+    implements(ITranslatable)
+
+    def getTranslation(self, language='language'):
+        return self.getTranslations().get(language, None)
+
+    def getTranslations(self, review_state=False):
+        return {}
+
+    def getPhysicalPath(self):
+        return getattr(self, 'physicalpath', [])
+
+    def getLanguage(self):
+        return ''
+
 
 class DummyRequest(object):
 
@@ -217,7 +237,7 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
             {'code': 'no',
              'translated': False,
              'selected': False,
-             'url': 'object_url?set_language=no'}]
+             'url': 'object_url?int=1&uni=pres%C3%98rved&set_language=no'}]
         self.assertEqual(self.selector.languages(), expected)
 
     def test_languages_preserve_view_and_query(self):
@@ -238,7 +258,42 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
             {'code': 'no',
              'translated': False,
              'selected': False,
-             'url': 'object_url?int=1&uni=pres%C3%98rved&set_language=no'}]
+             'url': 'object_url?set_language=no'}]
+        self.assertEqual(self.selector.languages(), expected)
+
+
+class TestLanguageSelectorBasicsOnNeutral(cleanup.CleanUp, TestCase):
+
+    def setUp(self):
+        provideAdapter(DummyState, adapts=(DummyNeutral, DummyRequest),
+                       provides=Interface, name="plone_context_state")
+        self.context = DummyNeutral()
+        self.context.portal_url = DummyNeutral()
+        self.container = DummyNeutral()
+        self.context = self.context.__of__(self.container)
+        self.request = DummyRequest()
+        self.selector = TranslatableLanguageSelector(self.context,
+                            self.request, None, None)
+
+    def test_languages_preserve_view_and_query(self):
+        self.context.physicalpath = ['', 'fake', 'path']
+        self.request.PATH_INFO = '/fake/path/to/object'
+        self.selector.update()
+        self.selector.tool = MockLanguageTool()
+        base = 'object_url/to/object?set_language='
+        expected = [
+            {'code': 'nl',
+             'translated': False,
+             'selected': False,
+             'url': base + 'nl'},
+            {'code': 'en',
+             'translated': False,
+             'selected': True,
+             'url': base + 'en'},
+            {'code': 'no',
+             'translated': False,
+             'selected': False,
+             'url': base + 'no'}]
         self.assertEqual(self.selector.languages(), expected)
 
 
