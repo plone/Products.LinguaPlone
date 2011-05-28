@@ -85,7 +85,7 @@
       <metal:block use-macro="macro" />
     </tal:block>
   </metal:css>
-    
+
   <body>
 
     <metal:fill fill-slot="main">
@@ -103,7 +103,7 @@
                             tal:content="python: view.getTranslatedSchemaLabel(fieldset)"
                             tal:attributes="id string:fieldsetlegend-${fieldset}" />
                     <table style="width: 100%; border: 1px solid #fefefe">
-                        <tr tal:condition="python:fieldset=='default'">
+                        <tr tal:condition="python:fieldsets.index(fieldset)==0">
                             <td colspan="2">
                                 <p class="documentDescription"
                                    i18n:translate="description_translating_from_to"
@@ -184,7 +184,7 @@
                                     <tal:block condition="python:read_only">
                                       <metal:fieldMacro use-macro="python:here.widget(fieldname)" />
                                     </tal:block>
-                                    
+
                                 </td>
                             </tal:block>
                         </tr>

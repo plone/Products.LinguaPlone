@@ -4,6 +4,9 @@ Changelog
 4.0.4 - unreleased
 ------------------
 
+- translate_item form works when content has no 'default' fieldset.
+  [thomasdesvenain]
+
 - Declare plone.app.iterate dependency.
   [thomasdesvenain]
 
