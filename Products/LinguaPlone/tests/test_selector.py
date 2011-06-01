@@ -313,3 +313,66 @@ class TestLanguageSelectorRendering(LinguaPloneTestCase):
         selector.update()
         output = selector.render()
         self.assertEquals(output.strip(), u'')
+
+
+class TestLanguageSelectorWithMixedTree(LinguaPloneTestCase):
+
+    def afterSetUp(self):
+        self.addLanguage('de')
+        self.addLanguage('no')
+        self.setLanguage('en')
+        self.setRoles(['Manager'])
+        en = makeContent(self.portal, 'Folder', 'en')
+        en.setLanguage('en')
+        suben = makeContent(en, 'Folder', 'sub-en')
+        suben.setLanguage('en')
+        self.endoc = makeContent(suben, 'SimpleType', 'endoc')
+        self.endoc.setLanguage('en')
+        de = makeTranslation(en, 'de')
+        de.setLanguage('de')
+        self.dedoc = makeContent(suben, 'SimpleType', 'dedoc')
+        self.dedoc.setLanguage('de')
+        neutral = makeContent(en, 'Folder', 'neutral')
+        neutral.setLanguage('')
+        self.doc = makeContent(neutral, 'SimpleType', 'doc')
+        self.doc.setLanguage('')
+
+    def test_selector_on_english_document(self):
+        request = self.app.REQUEST
+        selector = TranslatableLanguageSelector(
+            self.endoc, request, None, None)
+        selector.update()
+        languages = dict([(l['code'], l) for l in selector.languages()])
+        self.assertEqual(languages[u'en']['url'],
+            'http://nohost/plone/en/sub-en/endoc?set_language=en')
+        self.assertEqual(languages[u'de']['url'],
+            'http://nohost/plone/en-de?set_language=de')
+        self.assertEqual(languages[u'no']['url'],
+            'http://nohost/plone?set_language=no')
+
+    def test_selector_on_sharing_view(self):
+        request = self.app.REQUEST
+        request['PATH_INFO'] = self.endoc.absolute_url() + '/@@sharing'
+        selector = TranslatableLanguageSelector(
+            self.endoc, request, None, None)
+        selector.update()
+        languages = dict([(l['code'], l) for l in selector.languages()])
+        self.assertEqual(languages[u'en']['url'],
+            'http://nohost/plone/en/sub-en/endoc/@@sharing?set_language=en')
+        self.assertEqual(languages[u'de']['url'],
+            'http://nohost/plone/en-de/@@sharing?set_language=de')
+        self.assertEqual(languages[u'no']['url'],
+            'http://nohost/plone/@@sharing?set_language=no')
+
+    def test_selector_on_neutral_document(self):
+        request = self.app.REQUEST
+        selector = TranslatableLanguageSelector(
+            self.doc, request, None, None)
+        selector.update()
+        languages = dict([(l['code'], l) for l in selector.languages()])
+        self.assertEqual(languages[u'en']['url'],
+            'http://nohost/plone/en?set_language=en')
+        self.assertEqual(languages[u'de']['url'],
+            'http://nohost/plone/en-de?set_language=de')
+        self.assertEqual(languages[u'no']['url'],
+            'http://nohost/plone?set_language=no')

@@ -28,7 +28,8 @@ class TranslatableLanguageSelector(LanguageSelector):
     def _translations(self, missing):
         # Figure out the "closest" translation in the parent chain of the
         # context. We stop at both an INavigationRoot or an ISiteRoot to look
-        # for translations.
+        # for translations. We do want to find something that is definitely
+        # in the language the user asked for.
         context = aq_inner(self.context)
         translations = {}
         chain = aq_chain(context)
