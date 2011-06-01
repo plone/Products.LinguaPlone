@@ -23,34 +23,11 @@ class Dummy(Explicit):
 
     implements(ITranslatable)
 
-    def getTranslation(self, language='language'):
-        return self.getTranslations().get(language, None)
-
     def getTranslations(self, review_state=False):
         return {'en': self, 'nl': self}
 
     def getPhysicalPath(self):
         return getattr(self, 'physicalpath', [])
-
-    def getLanguage(self):
-        return 'en'
-
-
-class DummyNeutral(Explicit):
-
-    implements(ITranslatable)
-
-    def getTranslation(self, language='language'):
-        return self.getTranslations().get(language, None)
-
-    def getTranslations(self, review_state=False):
-        return {}
-
-    def getPhysicalPath(self):
-        return getattr(self, 'physicalpath', [])
-
-    def getLanguage(self):
-        return ''
 
 
 class DummyRequest(object):
@@ -237,7 +214,7 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
             {'code': 'no',
              'translated': False,
              'selected': False,
-             'url': 'object_url?int=1&uni=pres%C3%98rved&set_language=no'}]
+             'url': base + 'pres%C3%98rved&set_language=no'}]
         self.assertEqual(self.selector.languages(), expected)
 
     def test_languages_preserve_view_and_query(self):
@@ -253,41 +230,6 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
              'url': base + 'nl'},
             {'code': 'en',
              'translated': True,
-             'selected': True,
-             'url': base + 'en'},
-            {'code': 'no',
-             'translated': False,
-             'selected': False,
-             'url': 'object_url?set_language=no'}]
-        self.assertEqual(self.selector.languages(), expected)
-
-
-class TestLanguageSelectorBasicsOnNeutral(cleanup.CleanUp, TestCase):
-
-    def setUp(self):
-        provideAdapter(DummyState, adapts=(DummyNeutral, DummyRequest),
-                       provides=Interface, name="plone_context_state")
-        self.context = DummyNeutral()
-        self.context.portal_url = DummyNeutral()
-        self.container = DummyNeutral()
-        self.context = self.context.__of__(self.container)
-        self.request = DummyRequest()
-        self.selector = TranslatableLanguageSelector(self.context,
-                            self.request, None, None)
-
-    def test_languages_preserve_view_and_query(self):
-        self.context.physicalpath = ['', 'fake', 'path']
-        self.request.PATH_INFO = '/fake/path/to/object'
-        self.selector.update()
-        self.selector.tool = MockLanguageTool()
-        base = 'object_url/to/object?set_language='
-        expected = [
-            {'code': 'nl',
-             'translated': False,
-             'selected': False,
-             'url': base + 'nl'},
-            {'code': 'en',
-             'translated': False,
              'selected': True,
              'url': base + 'en'},
             {'code': 'no',
@@ -308,7 +250,7 @@ class TestLanguageSelectorRendering(LinguaPloneTestCase):
         self.german = makeTranslation(self.english, 'de')
         self.german.setLanguage('de')
 
-    def testRenderSelectorOnContent(self):
+    def testRenderSelector(self):
         request = self.app.REQUEST
         selector = TranslatableLanguageSelector(
             self.english, request, None, None)
@@ -319,24 +261,6 @@ class TestLanguageSelectorRendering(LinguaPloneTestCase):
         en_link = '<a href="%s?set_language=en"' % en_path
         self.assert_(en_link in output)
         de_path = self.german.absolute_url()
-        de_link = '<a href="%s?set_language=de"' % de_path
-        self.assert_(de_link in output)
-        no_path = self.portal.absolute_url()
-        no_link = '<a href="%s?set_language=no"' % no_path
-        self.assert_(no_link in output)
-
-    def testRenderSelectorWithView(self):
-        request = self.app.REQUEST
-        request['PATH_INFO'] = '@@myview'
-        selector = TranslatableLanguageSelector(
-            self.english, request, None, None)
-        selector.update()
-        output = selector.render()
-        self.assert_('<ul id="portal-languageselector"' in output)
-        en_path = self.english.absolute_url() + '/@@myview'
-        en_link = '<a href="%s?set_language=en"' % en_path
-        self.assert_(en_link in output)
-        de_path = self.german.absolute_url() + '/@@myview'
         de_link = '<a href="%s?set_language=de"' % de_path
         self.assert_(de_link in output)
         no_path = self.portal.absolute_url()

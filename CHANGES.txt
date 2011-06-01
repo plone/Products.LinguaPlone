@@ -4,14 +4,6 @@ Changelog
 4.0.4 - unreleased
 ------------------
 
-- On content without language (neutral content),
-  each language selector links to content itself, preserving parameters.
-  [thomasdesvenain]
-
-- Fixed language selector for not translated contents.
-  Especially : avoid site error when url links to a specific template/view.
-  [thomasdesvenain]
-
 - translate_item form works when content has no 'default' fieldset.
   [thomasdesvenain]
 
