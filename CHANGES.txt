@@ -4,6 +4,12 @@ Changelog
 4.0.4 - unreleased
 ------------------
 
+- Changed policy for preserving the view/template in the language selector. We
+  only do this if the target item is a direct translation of the current
+  context. Otherwise we might link to views which are not available on the
+  target content type.
+  [thomasdesvenain, hannosch]
+
 - translate_item form works when content has no 'default' fieldset.
   [thomasdesvenain]
 

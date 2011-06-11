@@ -33,11 +33,12 @@ class TranslatableLanguageSelector(LanguageSelector):
         context = aq_inner(self.context)
         translations = {}
         chain = aq_chain(context)
+        first_pass = True
         for item in chain:
             if ISiteRoot.providedBy(item):
                 # We have a site root, which works as a fallback
                 for c in missing:
-                    translations[c] = item
+                    translations[c] = (item, first_pass)
                 break
 
             translatable = ITranslatable(item, None)
@@ -50,7 +51,7 @@ class TranslatableLanguageSelector(LanguageSelector):
                 if code not in translations:
                     # If we don't yet have a translation for this language
                     # add it and mark it as found
-                    translations[code] = trans
+                    translations[code] = (trans, first_pass)
                     missing = missing - set((code, ))
 
             if len(missing) <= 0:
@@ -60,8 +61,13 @@ class TranslatableLanguageSelector(LanguageSelector):
                 # Don't break out of the navigation root jail, we assume
                 # the INavigationRoot is usually translated into all languages
                 for c in missing:
-                    translations[c] = item
+                    translations[c] = (item, False)
                 break
+            first_pass = False
+        # return a dict of language code to tuple. the first tuple element is
+        # the translated object, the second argument indicates wether the
+        # translation is a direct translation of the context or something from
+        # higher up the translation chain
         return translations
 
     def _findpath(self, path, path_info):
@@ -108,7 +114,8 @@ class TranslatableLanguageSelector(LanguageSelector):
 
         for data in results:
             code = str(data['code'])
-            data['translated'] = code in translations
+            data['translated'] = code in translations.keys()
+            set_language = '?set_language=%s' % code
 
             try:
                 appendtourl = '/'.join(append_path)
@@ -120,13 +127,16 @@ class TranslatableLanguageSelector(LanguageSelector):
             except UnicodeError:
                 appendtourl = '/'.join(append_path)
                 if self.set_language:
-                    appendtourl += '?set_language=%s' % code
+                    appendtourl += set_language
 
             if data['translated']:
-                trans = translations[code]
+                trans, direct = translations[code]
                 state = getMultiAdapter((trans, self.request),
                         name='plone_context_state')
-                data['url'] = state.canonical_object_url() + appendtourl
+                if direct:
+                    data['url'] = state.canonical_object_url() + appendtourl
+                else:
+                    data['url'] = state.canonical_object_url() + set_language
             else:
                 state = getMultiAdapter((context, self.request),
                         name='plone_context_state')
