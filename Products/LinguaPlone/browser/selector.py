@@ -5,7 +5,6 @@ from zope.component import getMultiAdapter
 from Acquisition import aq_chain
 from Acquisition import aq_inner
 from Products.CMFCore.interfaces import ISiteRoot
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from ZTUtils import make_query
 
 from Products.LinguaPlone.interfaces import ITranslatable
@@ -15,7 +14,6 @@ class TranslatableLanguageSelector(LanguageSelector):
     """Language selector for translatable content.
     """
 
-    render = ZopeTwoPageTemplateFile('selector.pt')
     set_language = True
 
     def available(self):

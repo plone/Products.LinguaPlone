@@ -16,6 +16,10 @@ Changelog
 - Declare plone.app.iterate dependency.
   [thomasdesvenain]
 
+- Use template parameter in language selector's viewlet zcml declaration. Make
+  it easier to customize in add-ons.
+  [toutpt]
+
 4.0.3 - 2011-05-27
 ------------------
 
