@@ -86,6 +86,7 @@
     class=".selector.TranslatableLanguageSelector"
     permission="zope2.View"
     layer="..interfaces.ILinguaPloneProductLayer"
+    template="selector.pt"
     />
 
 </configure>
