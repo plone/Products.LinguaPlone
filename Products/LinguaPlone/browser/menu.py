@@ -40,7 +40,7 @@ class TranslateMenu(BrowserMenu):
         lt = getToolByName(context, "portal_languages")
         showflags = lt.showFlags()
         langs = self.getUntranslatedLanguages(context)
-
+        
         for (lang_id, lang_name) in langs:
             icon=showflags and lt.getFlagForLanguageCode(lang_id) or None
             item={
@@ -55,6 +55,8 @@ class TranslateMenu(BrowserMenu):
                           "separator": None,
                           "class": ""},
                 "submenu": None,
+                "width": 14,
+                "height": 11,
                 }
 
             menu.append(item)

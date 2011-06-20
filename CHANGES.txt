@@ -4,6 +4,11 @@ Changelog
 4.0.4 - unreleased
 ------------------
 
+- Force translate menu flag icons dimensions to 14x11 px,
+  so that it's consistent with language selector menu.
+  Works with plone.app.contentmenu 2.0.4+.
+  [thomasdesvenain]
+
 - Changed policy for preserving the view/template in the language selector. We
   only do this if the target item is a direct translation of the current
   context. Otherwise we might link to views which are not available on the
