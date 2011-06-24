@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-
+from os.path import dirname
 from unittest import TestCase
 
 from plone.app.layout.navigation.interfaces import INavigationRoot
@@ -11,12 +11,14 @@ from zope.testing import cleanup
 
 from Acquisition import Explicit
 from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.LinguaPlone.browser.selector import TranslatableLanguageSelector
 from Products.LinguaPlone.interfaces import ITranslatable
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
+from Products.LinguaPlone import browser
 
 
 class Dummy(Explicit):
@@ -249,6 +251,11 @@ class TestLanguageSelectorRendering(LinguaPloneTestCase):
         self.english.setLanguage('en')
         self.german = makeTranslation(self.english, 'de')
         self.german.setLanguage('de')
+        self.attachRender(TranslatableLanguageSelector)
+
+    def attachRender(self, _class):
+        prefix = dirname(browser.__file__)
+        _class.render = ViewPageTemplateFile('selector.pt',_prefix=prefix)
 
     def testRenderSelector(self):
         request = self.app.REQUEST
