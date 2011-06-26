@@ -50,6 +50,41 @@ Some benefits of LinguaPlone
 Installation
 ============
 
+Install LinguaPlone into your Plone environment by adding it to the buildout or
+adding it as a dependency of your policy package and rerun buildout.
+
+Next add a new Plone site and select the `LinguaPlone` add-on. Make sure to
+specify the primary language of your site. Continue to the language control
+panel and specify all other languages you want to support.
+
+Prepare the content structure by calling `@@language-setup-folders` on your
+Plone site root, for example::
+
+  http://localhost:8080/Plone/@@language-setup-folders
+
+You might want to clean up the default content or move it around by visiting::
+
+  http://localhost:8080/Plone/folder_contents
+
+and deleting the Events, News and Users folders.
+
+After following all these steps you have a good starting point to build a
+multilingual site. Whether or not you have the same site structure in each
+of the language folders is up to you and your requirements. By using the top
+level language folders every URL corresponds to exactly one language which is
+good for search bots and makes caching a lot easier. It also means that you
+don't have folders with mixed languages in them, which improves the usability
+for editors a lot, since they don't have to worry about switching languages in
+the same folder just to see if there's more content in them.
+
+The Plone site root is the only exception here and setup with a language
+switcher default view that does the language negotiation and redirects users
+to the right URL.
+
+
+Upgrade
+=======
+
 If you are upgrading LinguaPlone there may be an upgrade step that you need to
 do. Please check the 'Add-ons' control panel for this.
 
