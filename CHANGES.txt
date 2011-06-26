@@ -4,6 +4,11 @@ Changelog
 4.0.4 - unreleased
 ------------------
 
+- Use template parameter in language selector's viewlet zcml declaration. This
+  makes it easier to customize in add-ons. The change requires plone.app.i18n
+  2.0.1 or greater.
+  [toutpt]
+
 - Force translate menu flag icons dimensions to 14x11 px,
   so that it's consistent with language selector menu.
   Works with plone.app.contentmenu 2.0.4+.
@@ -20,10 +25,6 @@ Changelog
 
 - Declare plone.app.iterate dependency.
   [thomasdesvenain]
-
-- Use template parameter in language selector's viewlet zcml declaration. Make
-  it easier to customize in add-ons.
-  [toutpt]
 
 4.0.3 - 2011-05-27
 ------------------
