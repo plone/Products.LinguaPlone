@@ -88,6 +88,18 @@ If you are upgrading LinguaPlone there may be an upgrade step that you need to
 do. Please check the 'Add-ons' control panel for this.
 
 
+Uninstallation
+==============
+
+If you no longer want to use LinguaPlone, you can remove it from your site.
+
+First you need to deactivate LinguaPlone in the add-ons control panel. After
+you did this you can remove LinguaPlone from your Plone environment on the file
+system. If you forget to do the deactivation step, add LinguaPlone back
+temporarily and deactivate it properly. Otherwise you'll likely not be able to
+use their site with errors relating to the `SyncedLanguages` utility.
+
+
 Frequently asked questions
 ==========================
 
