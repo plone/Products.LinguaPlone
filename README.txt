@@ -99,6 +99,18 @@ This happens if the cookie language negotiation scheme is not enabled. Look
 at the ``portal_languages`` tool in the ZMI and check if ``Use cookie for
 manual override`` is enabled.
 
+If the language selection links point to URL's containing `switchLanguage` the
+wrong language selector from core Plone is active. Go to the control panel and
+check if you can select multiple languages on the language control panel. If
+you cannot, LinguaPlone isn't properly installed.
+
+If you can select multiple languages only the language selector viewlet is
+wrong. Make sure you haven't customized the viewlet and put it into a different
+viewlet manager. The viewlet is only registered for the
+`plone.app.layout.viewlets.interfaces.IPortalHeader` manager. You need to
+register the languageselector viewlet from `LinguaPlone/browser/configure.zcml`
+for your new viewlet manager as well.
+
 
 LinguaPlone - quick demo instructions
 =====================================
