@@ -7,10 +7,11 @@ existing applications and Plone itself.
 
 It utilizes the Archetypes reference engine to do the translation, and all
 content is left intact both on install and uninstall - thus, it will not
-disrupt your content structure in any way. It also works with WebDAV and FTP.
+disrupt your content structure in any way.
 
-LinguaPlone doesn't require a particular hierarchy of content, and will work
-with any layout of your content space.
+LinguaPlone doesn't require a particular hierarchy of content, and will in
+theory work with any layout of your content space, though the default layout
+advertised in the install instructions will make the site easier to use.
 
 Some benefits of LinguaPlone
 ----------------------------
