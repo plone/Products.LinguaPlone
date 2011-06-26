@@ -145,11 +145,11 @@
                     </div>
 
                     <div class="field"
-                         tal:define="startup_directory python:'/'.join(here.getPhysicalPath());
+                         tal:define="startup_directory context/absolute_url;
                                      value request/link_content | nothing;
                                      fieldName string:link_content;
                                      fieldRealName fieldName;
-                                     at_url python:'/'.join(here.getPhysicalPath());
+                                     at_url python:'/'.join(context.getPhysicalPath());
                                      at_type here/portal_type;">
 
                         <label for="link_content_browse"

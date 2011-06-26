@@ -4,6 +4,10 @@ Changelog
 4.0.4 - unreleased
 ------------------
 
+- Link to translation browser popup was broken in some VirtualHost setups.
+  This closes http://plone.org/products/linguaplone/issues/277.
+  [tgraf, hannosch]
+
 - Use template parameter in language selector's viewlet zcml declaration. This
   makes it easier to customize in add-ons. The change requires plone.app.i18n
   2.0.1 or greater.
