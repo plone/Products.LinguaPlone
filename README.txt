@@ -19,8 +19,6 @@ Some benefits of LinguaPlone
 
 - Each translation is a discrete object, and can be workflowed individually.
 
-- This also means that it works with WebDAV and FTP.
-
 - Translations are kept track of using AT references.
 
 - You can multilingual-enable your types without affecting their operation
@@ -112,57 +110,12 @@ register the languageselector viewlet from `LinguaPlone/browser/configure.zcml`
 for your new viewlet manager as well.
 
 
-LinguaPlone - quick demo instructions
-=====================================
-
-The standard Plone types are LinguaPlone aware. It's trivial to add this to
-your own types. For starters you can try this simple experiment:
-
-- Make sure you have Plone 4.0 or newer installed.
-
-- Install the Products.LinguaPlone egg
-
-- (Re)start Zope
-
-- 'Site Setup' &rarr; 'Add-ons', activate LinguaPlone
-
-For the demonstration to make sense, we need to define a list of languages:
-
-- Go to the Site Setup
-
-- Click 'Language Settings'
-
-- Select 3-4 languages from the selection list. Note that the languages are
-  listed in their native name, so the sorting might be a bit unexpected
-  (Spanish is Espanol, for example)
-
-- Press 'Save'
-
-Now we have a few languages to play with, and can go back to the Plone
-interface. Notice how you now have a few language names in the top right corner.
-
-We now want to add a simple type:
-
-- Add a 'Page'.
-
-- After filling out the type with some content and clicking 'Save', you will
-  see that this content type has a pulldown menu, 'Translate into'.
-
-- Select a language you want to translate this document into.
-
-- Save this translation.
-
-- Try to switch languages using the language names.
-
-That's a very simple use case for the multilingual types.
-
-
 Developer Usage
 ===============
 
 You can test it by multilingual-enabling your existing AT content types (see
 instructions below), or by testing the simple included types. Don't forget to
-select what languages should be available in 'portal_languages' in the ZMI. :)
+select what languages should be available in the language control panel.
 
 
 Implementation details
