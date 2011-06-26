@@ -4,6 +4,9 @@ Changelog
 4.0.4 - unreleased
 ------------------
 
+- Removed broken icons and fix invalid XHTML in translation browser popup.
+  [hannosch]
+
 - Link to translation browser popup was broken in some VirtualHost setups.
   This closes http://plone.org/products/linguaplone/issues/277.
   [tgraf, hannosch]

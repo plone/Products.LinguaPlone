@@ -100,9 +100,8 @@
                                      parents request/PARENTS;
                                      nil python: parents.reverse();">
 
-                <img tal:attributes="src string:${here/portal_url}/logoIcon.gif"/>
                 <a i18n:translate="tabs_home"
-                   tal:attributes="href string:${portal/absolute_url}/${template/getId}?at_type=${at_type}&at_url=${at_url}">
+                   tal:attributes="href string:${portal/absolute_url}/${template/getId}?at_type=${at_type}&amp;at_url=${at_url}">
                     Home
                 </a>
 
@@ -113,7 +112,7 @@
 
                 <tal:crums tal:repeat="crumb crumbs">
 
-                    <a tal:attributes="href string:${crumb/absolute_url}/${template/getId}?at_type=${at_type}&at_url=${at_url}">
+                    <a tal:attributes="href string:${crumb/absolute_url}/${template/getId}?at_type=${at_type}&amp;at_url=${at_url}">
                         <span tal:content="string: ${crumb/Title}">
                             Breadcrumb Title
                         </span>
@@ -154,9 +153,8 @@
                                 <tr tal:define="oddrow repeat/item/odd"
                                     tal:attributes="class python:test(oddrow, 'even', 'odd')">
                                     <td width="50%">
-                                        <img src="#" tal:attributes="src string:${here/portal_url}/${item/getIcon};alt item/Title" />
                                         <a tal:condition="python: item.isPrincipiaFolderish"
-                                           tal:attributes="href python:item.absolute_url() + '/' + template.getId() + '?at_type='+at_type+'&at_url='+at_url">
+                                           tal:attributes="href python:item.absolute_url() + '/' + template.getId() + '?at_type='+at_type+'&amp;at_url='+at_url">
                                             <strong tal:condition="referenceable"
                                                     tal:content="item/title_or_id">Title</strong>
                                             <span style=""
