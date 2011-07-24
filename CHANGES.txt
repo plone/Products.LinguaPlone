@@ -4,6 +4,13 @@ Changelog
 4.0.4 - unreleased
 ------------------
 
+- Selector should not propose link to inaccessible content (content for which
+  the user does not have View permission). If a translation exist but is
+  inaccessible, follow the acquisition chain until a translated item is
+  accessible. In case we get to an inaccessible INavigationRoot, do not show
+  the language at all.
+  [gotcha]
+
 - Removed broken icons and fix invalid XHTML in translation browser popup.
   [hannosch]
 

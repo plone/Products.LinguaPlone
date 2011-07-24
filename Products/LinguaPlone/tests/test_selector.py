@@ -25,6 +25,10 @@ class Dummy(Explicit):
 
     implements(ITranslatable)
 
+    # This avoids issues with tests that run without a
+    # full-fledged securityManager
+    _View_Permission = ('Anonymous', )
+
     def getTranslations(self, review_state=False):
         return {'en': self, 'nl': self}
 
@@ -190,9 +194,9 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
               'selected': True,
               'url': 'object_url?set_language=en'},
              {'code': 'no',
-               'translated': False,
-               'selected': False,
-               'url': 'object_url?set_language=no'},
+              'translated': False,
+              'selected': False,
+              'url': 'object_url?set_language=no'},
              ])
 
     def test_languages_vhr(self):
@@ -255,7 +259,28 @@ class TestLanguageSelectorRendering(LinguaPloneTestCase):
 
     def attachRender(self, _class):
         prefix = dirname(browser.__file__)
-        _class.render = ViewPageTemplateFile('selector.pt',_prefix=prefix)
+        _class.render = ViewPageTemplateFile('selector.pt', _prefix=prefix)
+
+    def testRenderSelectorForAnonymous(self):
+        self.setRoles('Reviewer')
+        pw = self.portal.portal_workflow
+        pw.doActionFor(self.english, 'publish')
+        self.logout()
+        request = self.app.REQUEST
+        selector = TranslatableLanguageSelector(
+            self.english, request, None, None)
+        selector.update()
+        output = selector.render()
+        self.assert_('<ul id="portal-languageselector"' in output)
+        en_path = self.english.absolute_url()
+        en_link = '<a href="%s?set_language=en"' % en_path
+        self.assert_(en_link in output)
+        de_path = self.portal.absolute_url()
+        de_link = '<a href="%s?set_language=de"' % de_path
+        self.assert_(de_link in output)
+        no_path = self.portal.absolute_url()
+        no_link = '<a href="%s?set_language=no"' % no_path
+        self.assert_(no_link in output)
 
     def testRenderSelector(self):
         request = self.app.REQUEST
@@ -299,6 +324,40 @@ class TestLanguageSelectorRendering(LinguaPloneTestCase):
         self.assert_(de_link in output)
         en_link = '<a href="%s?set_language=en"' % folder_path
         self.assert_(en_link in output)
+
+    def testRenderSelectorWithNavigationRootForAnonymous(self):
+        self.loginAsPortalOwner()
+        en_root = makeContent(self.portal, 'Folder', 'en')
+        en_root.setLanguage('en')
+        directlyProvides(en_root, INavigationRoot)
+        de_root = makeTranslation(en_root, 'de')
+        de_root.setLanguage('de')
+        directlyProvides(de_root, INavigationRoot)
+        no_root = makeTranslation(en_root, 'no')
+        no_root.setLanguage('no')
+        directlyProvides(no_root, INavigationRoot)
+
+        self.setRoles('Reviewer')
+        pw = self.portal.portal_workflow
+        pw.doActionFor(en_root, 'publish')
+        pw.doActionFor(de_root, 'publish')
+        self.logout()
+
+        request = self.app.REQUEST
+        selector = TranslatableLanguageSelector(
+            en_root, request, None, None)
+        selector.update()
+        output = selector.render()
+
+        en_path = en_root.absolute_url()
+        en_link = '<a href="%s?set_language=en"' % en_path
+        self.assert_(en_link in output)
+
+        de_path = de_root.absolute_url()
+        de_link = '<a href="%s?set_language=de"' % de_path
+        self.assert_(de_link in output)
+
+        self.assert_('set_language=no' not in output)
 
     def testRenderSelectorWithFlags(self):
         request = self.app.REQUEST
