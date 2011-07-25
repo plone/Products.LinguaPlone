@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.0.4 - unreleased
+4.0.4 - 2011-07-25
 ------------------
 
 - Selector should not propose link to inaccessible content (content for which
@@ -23,9 +23,9 @@ Changelog
   2.0.1 or greater.
   [toutpt]
 
-- Force translate menu flag icons dimensions to 14x11 px,
-  so that it's consistent with language selector menu.
-  Works with plone.app.contentmenu 2.0.4+.
+- Force translate menu flag icons dimensions to 14x11 px, so that it's
+  consistent with language selector menu. Works with
+  plone.app.contentmenu 2.0.4+.
   [thomasdesvenain]
 
 - Changed policy for preserving the view/template in the language selector. We
