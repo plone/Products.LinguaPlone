@@ -144,6 +144,7 @@ SimpleSchema = BaseSchema + Schema((
     TextField(
         name='neutralText',
         languageIndependent=True,
+        default_output_type='text/html',
         widget=RichWidget(
             description='Enter some text',
         ),
