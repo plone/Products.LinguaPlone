@@ -49,6 +49,59 @@ class TestLanguageIndependentFields(LinguaPloneTestCase):
         german.setTitle('German title')
         self.failIfEqual(english.Title(), german.Title())
 
+    def test_textfield(self):
+        english = makeContent(self.folder, 'SimpleType', 'doc')
+        english.setLanguage('en')
+        english.setNeutralText('<p>Hello</p>')
+        self.assertEqual(english.neutralText.getContentType(), 'text/html')
+        german = makeTranslation(english, 'de')
+        text = german.getNeutralText()
+        self.assertEqual(text, '<p>Hello</p>')
+        self.assertEqual(german.neutralText.getContentType(), 'text/html')
+
+    def test_textfield_empty_update(self):
+        english = makeContent(self.folder, 'SimpleType', 'doc')
+        english.setLanguage('en')
+        english.setNeutralText('')
+        self.assertEqual(english.neutralText.getContentType(), 'text/plain')
+        german = makeTranslation(english, 'de')
+        self.assertEqual(german.getNeutralText(), '')
+        self.assertEqual(german.neutralText.getContentType(), 'text/plain')
+        # update field
+        english.setNeutralText('<p>Hello</p>')
+        self.assertEqual(english.neutralText.getContentType(), 'text/html')
+        self.assertEqual(german.getNeutralText(), '<p>Hello</p>')
+        self.assertEqual(german.neutralText.getContentType(), 'text/html')
+
+    def test_textfield_on_document(self):
+        from Products.LinguaPlone.utils import LanguageIndependentFields
+        english = makeContent(self.folder, 'Document', 'doc')
+        english.setLanguage('en')
+        english.setText('')
+        key = 'Archetypes.storage.AnnotationStorage-text'
+        baseunit = english.__annotations__[key]
+        self.assertEqual(baseunit.getContentType(), 'text/plain')
+        # use the LanguageIndependentFields adapter to copy the text field
+        def getFields(self, schema=None):
+            if schema is None:
+                schema = self.context.Schema()
+            return schema.filterFields(__name__='text')
+        orig = LanguageIndependentFields.getFields
+        try:
+            LanguageIndependentFields.getFields = getFields
+            german = makeTranslation(english, 'de')
+            self.assertEqual(german.getText(), '')
+            de_baseunit = german.__annotations__[key]
+            self.assertEqual(de_baseunit.getContentType(), 'text/plain')
+            # update field
+            english.setText('<p>Hello</p>')
+            LanguageIndependentFields(english).copyFields(german)
+            self.assertEqual(baseunit.getContentType(), 'text/html')
+            self.assertEqual(german.getText(), '<p>Hello</p>')
+            self.assertEqual(de_baseunit.getContentType(), 'text/html')
+        finally:
+            LanguageIndependentFields.getFields = orig
+
     def testLinesField(self):
         english = makeContent(self.folder, 'SimpleType', 'doc')
         english.setLanguage('en')

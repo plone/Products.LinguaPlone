@@ -141,6 +141,14 @@ SimpleSchema = BaseSchema + Schema((
         widget=LinesWidget(label="Lines"),
     ),
 
+    TextField(
+        name='neutralText',
+        languageIndependent=True,
+        widget=RichWidget(
+            description='Enter some text',
+        ),
+    ),
+
 ))
 
 
