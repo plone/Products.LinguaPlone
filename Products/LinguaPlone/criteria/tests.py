@@ -224,7 +224,8 @@ class TestCopyCriteria(CopyCriteriaTestCase):
         query = self.nocoll.buildQuery()
         nodoc2 = endoc2.getTranslation('no')
         nopath2 = '/'.join(nodoc2.getPhysicalPath())
-        self.assertEquals(query['path']['query'], [nopath, nopath2])
+        self.assertEquals(sorted(query['path']['query']),
+            sorted([nopath, nopath2]))
         self.assertEquals(query['path']['depth'], 1)
 
     def testPortalTypeCriterion(self):
