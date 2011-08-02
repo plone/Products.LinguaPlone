@@ -19,7 +19,7 @@
     name="language-controlpanel"
     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
     class=".controlpanel.LanguageControlPanel"
-    permission="cmf.ManagePortal"
+    permission="plone.app.controlpanel.Language"
     layer="..interfaces.ILinguaPloneProductLayer"
     />
 

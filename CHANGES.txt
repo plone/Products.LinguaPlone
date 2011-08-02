@@ -4,6 +4,9 @@ Changelog
 4.0.5 - unreleased
 ------------------
 
+- Fix permission to language-controlpanel to plone.app.controlpanel.Language.
+  fix insufficient privileges on Plone 4.1 with Site Administrator role
+  [toutpt]
 
 4.0.4 - 2011-07-25
 ------------------
