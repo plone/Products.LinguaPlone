@@ -14,6 +14,7 @@
   <adapter factory=".utils.LocateTranslation" />
   <adapter factory=".utils.TranslationFactory" />
   <adapter factory=".utils.LanguageIndependentFields" />
+  <subscriber handler=".caching.purgeTranslationsOnModified" />
 
   <adapter
      for="Products.Archetypes.interfaces.IBaseObject"

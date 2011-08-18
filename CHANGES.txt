@@ -4,6 +4,9 @@ Changelog
 4.0.5 - unreleased
 ------------------
 
+- Notify p.a.caching to purge translations when the canonical object is purged.
+  [ggozad, stefan]
+
 - Changed permission for the controlpanel to `plone.app.controlpanel.Language`.
   This allows users with the `Site Administrator` role to access it.
   [toutpt]
