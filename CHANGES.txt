@@ -1,8 +1,11 @@
 Changelog
 =========
 
-4.0.5 - unreleased
-------------------
+4.1 - unreleased
+----------------
+
+- Update to require Plone 4.1.
+  [hannosch]
 
 - Notify p.a.caching to purge translations when the canonical object is purged.
   [ggozad, stefan]

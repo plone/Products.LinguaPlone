@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os.path
 
-version = '4.0.5'
+version = '4.1'
 
 setup(name='Products.LinguaPlone',
       version=version,
@@ -29,7 +29,7 @@ setup(name='Products.LinguaPlone',
       zip_safe=False,
       install_requires=[
         'setuptools',
-        # 'AccessControl', only in Zope 2.13
+        'AccessControl',
         'Acquisition',
         'DateTime',
         'Missing',
@@ -37,12 +37,12 @@ setup(name='Products.LinguaPlone',
         'Products.ATContentTypes >= 2.0.2',
         'Products.CMFCore',
         'Products.CMFDynamicViewFTI',
-        # 'Products.CMFPlone', only in Plone 4.1, Plone in 4.0
+        'Products.CMFPlone',
         'Products.GenericSetup',
         'Products.PloneLanguageTool',
         'Products.PloneTestCase',
         'Products.statusmessages',
-        # 'Products.ZCTextIndex', only in Zope 2.13
+        'Products.ZCTextIndex',
         'ZODB3',
         'Zope2 >= 2.12.5',
         'plone.browserlayer',
@@ -52,7 +52,7 @@ setup(name='Products.LinguaPlone',
         'plone.memoize',
         'plone.theme',
         'plone.app.caching',
-        'plone.app.controlpanel >= 2.1b1',
+        'plone.app.controlpanel >= 2.1',
         'plone.app.i18n >= 2.0.1',
         'plone.app.iterate',
         'plone.app.layout',
