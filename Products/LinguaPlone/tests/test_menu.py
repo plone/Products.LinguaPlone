@@ -27,3 +27,12 @@ class TranslateMenuTests(LinguaPloneTestCase):
         items = menu.getMenuItems(doc, None)
         self.assertEqual([i['title'] for i in items],
             [u'label_manage_translations'])
+
+    def testMenuEmptyForUnauthorizedUsers(self):
+        # test menu is empty for unauthorized users:
+        self.loginAsPortalOwner()
+        doc = makeContent(self.portal, 'SimpleType', 'doc')
+        self.login('test_user_1_')
+        self.setRoles('Reader')
+        menu = TranslateMenu('translations')
+        self.assertEqual(menu.getMenuItems(doc, None), [])

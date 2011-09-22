@@ -1,5 +1,7 @@
 from plone.browserlayer.utils import registered_layers
 from zope.interface import implements
+from Products.CMFCore.permissions import AddPortalContent, ModifyPortalContent,\
+    DeleteObjects
 
 # BBB Zope 2.12
 try:
@@ -38,41 +40,53 @@ class TranslateMenu(BrowserMenu):
         menu = []
         url = context.absolute_url()
         lt = getToolByName(context, "portal_languages")
-        showflags = lt.showFlags()
+        mt = getToolByName(context, "portal_membership")
+
+        can_translate = mt.checkPermission(AddPortalContent, context)
+        can_set_language = mt.checkPermission(ModifyPortalContent, context)
+        can_delete = mt.checkPermission(DeleteObjects, context)
+
+        if not (can_translate or can_set_language or can_delete):
+            return []
+
         langs = self.getUntranslatedLanguages(context)
-        
-        for (lang_id, lang_name) in langs:
-            icon=showflags and lt.getFlagForLanguageCode(lang_id) or None
-            item={
-                "title": lang_name,
-                "description": _(u"title_translate_into",
-                                 default=u"Translate into ${lang_name}",
-                                 mapping={"lang_name": lang_name}),
-                "action": url+"/@@translate?newlanguage=%s" % lang_id,
+        if can_translate:
+            showflags = lt.showFlags()
+            langs = self.getUntranslatedLanguages(context)
+
+            for (lang_id, lang_name) in langs:
+                icon=showflags and lt.getFlagForLanguageCode(lang_id) or None
+                item={
+                    "title": lang_name,
+                    "description": _(u"title_translate_into",
+                                     default=u"Translate into ${lang_name}",
+                                     mapping={"lang_name": lang_name}),
+                    "action": url+"/@@translate?newlanguage=%s" % lang_id,
+                    "selected": False,
+                    "icon": icon,
+                    "extra": {"id": "translate_into_%s" % lang_id,
+                              "separator": None,
+                              "class": ""},
+                    "submenu": None,
+                    "width": 14,
+                    "height": 11,
+                    }
+
+                menu.append(item)
+
+        if can_set_language or can_delete:
+            menu.append({
+                "title": _(u"label_manage_translations",
+                           default=u"Manage translations..."),
+                "description": u"",
+                "action": url+"/manage_translations_form",
                 "selected": False,
-                "icon": icon,
-                "extra": {"id": "translate_into_%s" % lang_id,
-                          "separator": None,
+                "icon": None,
+                "extra": {"id": "_manage_translations",
+                          "separator": langs and "actionSeparator" or None,
                           "class": ""},
                 "submenu": None,
-                "width": 14,
-                "height": 11,
-                }
-
-            menu.append(item)
-
-        menu.append({
-            "title": _(u"label_manage_translations",
-                       default=u"Manage translations..."),
-            "description": u"",
-            "action": url+"/manage_translations_form",
-            "selected": False,
-            "icon": None,
-            "extra": {"id": "_manage_translations",
-                      "separator": langs and "actionSeparator" or None,
-                      "class": ""},
-            "submenu": None,
-            })
+                })
 
         return menu
 
@@ -95,7 +109,14 @@ class TranslateSubMenuItem(BrowserSubMenuItem):
     def available(self):
         if self.disabled():
             return False # pragma: no cover
-        return ILinguaPloneProductLayer in registered_layers()
+        elif not ILinguaPloneProductLayer in registered_layers():
+            return False
+        else:
+            mt = getToolByName(self.context, "portal_membership")
+            can_translate = mt.checkPermission(AddPortalContent, self.context)
+            can_set_language = mt.checkPermission(ModifyPortalContent, self.context)
+            can_delete = mt.checkPermission(DeleteObjects, self.context)
+            return can_translate or can_set_language
 
     def disabled(self):
         return False

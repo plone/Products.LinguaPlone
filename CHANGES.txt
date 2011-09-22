@@ -4,6 +4,13 @@ Changelog
 4.1 - unreleased
 ----------------
 
+- Check Add portal content permission to display translate menu items.
+  Check Delete objects or Modify portal content
+  to display "Manage translations" menu itme.
+  Check user has one of those permissions to display menu.
+  Refs http://dev.plone.org/plone/ticket/12223.
+  [thomasdesvenain]
+
 - Update to require Plone 4.1.
   [hannosch]
 
