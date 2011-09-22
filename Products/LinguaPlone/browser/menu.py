@@ -42,9 +42,10 @@ class TranslateMenu(BrowserMenu):
         lt = getToolByName(context, "portal_languages")
         mt = getToolByName(context, "portal_membership")
 
-        can_translate = mt.checkPermission(AddPortalContent, context)
+        can_translate = mt.checkPermission(AddPortalContent,
+                                           context.getParentNode())
         can_set_language = mt.checkPermission(ModifyPortalContent, context)
-        can_delete = mt.checkPermission(DeleteObjects, context)
+        can_delete = mt.checkPermission(DeleteObjects, context.getParentNode())
 
         if not (can_translate or can_set_language or can_delete):
             return []
@@ -112,10 +113,13 @@ class TranslateSubMenuItem(BrowserSubMenuItem):
         elif not ILinguaPloneProductLayer in registered_layers():
             return False
         else:
-            mt = getToolByName(self.context, "portal_membership")
-            can_translate = mt.checkPermission(AddPortalContent, self.context)
-            can_set_language = mt.checkPermission(ModifyPortalContent, self.context)
-            can_delete = mt.checkPermission(DeleteObjects, self.context)
+            context = self.context
+            mt = getToolByName(context, "portal_membership")
+            can_translate = mt.checkPermission(AddPortalContent,
+                                               context.getParentNode())
+            can_set_language = mt.checkPermission(ModifyPortalContent, context)
+            can_delete = mt.checkPermission(DeleteObjects,
+                                            context.getParentNode())
             return can_translate or can_set_language
 
     def disabled(self):
