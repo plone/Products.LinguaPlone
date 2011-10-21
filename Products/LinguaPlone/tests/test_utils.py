@@ -1,5 +1,8 @@
+import unittest
+
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.utils import linkTranslations
+from Products.LinguaPlone.utils import isInitialTranslationId
 
 
 class TestContentLinker(LinguaPloneTestCase):
@@ -41,3 +44,19 @@ class TestContentLinker(LinguaPloneTestCase):
     def testTypeMismatch(self):
         todo=[[(["frontpage"], "en"), (["images"], "nl")]]
         self.assertRaises(ValueError, linkTranslations, self.folder, todo)
+
+
+class InitialTranslationId(unittest.TestCase):
+
+    def testInitialId(self):
+        self.assertTrue(
+            isInitialTranslationId('doc-fr', 'doc', 'fr'))
+
+    def testCustomizedId(self):
+        self.assertFalse(
+            isInitialTranslationId('a-propos-de-la-langue',
+                'about-language', 'fr'))
+
+    def testStartWithCanonicalId(self):
+        self.assertFalse(
+            isInitialTranslationId('doc-en-francais', 'doc', 'fr'))
