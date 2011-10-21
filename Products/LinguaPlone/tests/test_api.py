@@ -421,8 +421,7 @@ class TestProcessFormRename(LinguaPloneTestCase):
         self.loginAsPortalOwner()
         self.addLanguage('fr')
         french = makeTranslation(self.english, 'fr')
-        import transaction
-        transaction.savepoint()
+        transaction.savepoint(optimistic=True)
         from zope.publisher.browser import TestRequest
         request = TestRequest(form={
                        'id': 'une-biere',
