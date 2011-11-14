@@ -404,7 +404,7 @@ def splitLanguage(tag):
     return tuple(tags[:2]) # returns (main, sub), (main, None) or (None, None)
 
 def isInitialTranslationId(id, canonical_id, language):
-    return id == '%s-%s' % (canonical_id, language)
+    return id == '%s-%s' % (canonical_id, language) or id == canonical_id
 
 def linkTranslations(context, todo):
     """Make content objects in translations of eachother.

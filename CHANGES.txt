@@ -4,7 +4,9 @@ Changelog
 4.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- New translations still had no proper id.
+  fix http://plone.org/products/linguaplone/issues/246
+  [gotcha]
 
 
 4.1 (2011-11-14)
