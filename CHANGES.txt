@@ -4,6 +4,10 @@ Changelog
 4.1 - unreleased
 ----------------
 
+- New translations did not get a proper id.
+  fix http://plone.org/products/linguaplone/issues/246
+  [jfroche]
+
 - Check 'Add portal content' permission on parent to display translate menu items.
   Check 'Delete objects' on parent or 'Modify portal content' on content
   to display "Manage translations" menu itme.
