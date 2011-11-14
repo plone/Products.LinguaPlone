@@ -405,6 +405,30 @@ class TestProcessFormRename(LinguaPloneTestCase):
         self.english.setLanguage('en')
         self.german = makeTranslation(self.english, 'de')
 
+    def testProcessFormIdFromTitleWithRequest(self):
+        self.loginAsPortalOwner()
+        self.addLanguage('fr')
+        french = makeTranslation(self.english, 'fr')
+        from zope.publisher.browser import TestRequest
+        request = TestRequest(form={
+                       'id': french.getId(),
+                       'title': 'Biere'})
+        french.processForm(REQUEST=request)
+        self.assertNotEqual(french.getId(), 'doc-fr')
+        self.assertEqual(french.getId(), 'biere')
+
+    def testProcessFormIdSetFromRequest(self):
+        self.loginAsPortalOwner()
+        self.addLanguage('fr')
+        french = makeTranslation(self.english, 'fr')
+        transaction.savepoint(optimistic=True)
+        from zope.publisher.browser import TestRequest
+        request = TestRequest(form={
+                       'id': 'une-biere',
+                       'title': 'Biere'})
+        french.processForm(REQUEST=request)
+        self.assertEqual(french.getId(), 'une-biere')
+
     def testProcessFormRenameObject(self):
         transaction.savepoint(optimistic=True)
         # Fake a auto generated ID
