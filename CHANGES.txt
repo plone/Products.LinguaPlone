@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.1 - unreleased
+4.1 (2011-11-14)
 ----------------
 
 - New translations did not get a proper id.
