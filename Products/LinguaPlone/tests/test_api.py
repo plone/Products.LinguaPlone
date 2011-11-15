@@ -417,6 +417,23 @@ class TestProcessFormRename(LinguaPloneTestCase):
         self.assertNotEqual(french.getId(), 'doc-fr')
         self.assertEqual(french.getId(), 'biere')
 
+    def testProcessFormIdFromTitleWithRequestSeparateFolder(self):
+        self.en_folder = makeContent(self.folder, 'Folder', 'inner_folder')
+        self.inner_english = makeContent(self.en_folder, 'SimpleType', 'doc')
+        self.loginAsPortalOwner()
+        self.addLanguage('fr')
+        fr_folder = makeTranslation(self.en_folder, 'fr')
+        french = makeTranslation(self.inner_english, 'fr')
+        self.assertTrue(french.absolute_url().startswith(
+            fr_folder.absolute_url()))
+        from zope.publisher.browser import TestRequest
+        request = TestRequest(form={
+                       'id': french.getId(),
+                       'title': 'Biere'})
+        french.processForm(REQUEST=request)
+        self.assertNotEqual(french.getId(), 'doc-fr')
+        self.assertEqual(french.getId(), 'biere')
+
     def testProcessFormIdSetFromRequest(self):
         self.loginAsPortalOwner()
         self.addLanguage('fr')

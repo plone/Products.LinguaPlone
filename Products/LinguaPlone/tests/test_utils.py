@@ -50,6 +50,10 @@ class InitialTranslationId(unittest.TestCase):
 
     def testInitialId(self):
         self.assertTrue(
+            isInitialTranslationId('doc', 'doc', 'fr'))
+
+    def testInitialIdInSameFolder(self):
+        self.assertTrue(
             isInitialTranslationId('doc-fr', 'doc', 'fr'))
 
     def testCustomizedId(self):
