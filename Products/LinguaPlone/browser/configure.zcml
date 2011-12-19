@@ -47,7 +47,7 @@
     title="Root language switcher"
     />
 
-  <browser:page 
+  <browser:page
     for="..interfaces.ITranslatable"
     name="translate"
     class=".translate.CreateTranslation"
@@ -97,5 +97,17 @@
     layer="..interfaces.ILinguaPloneProductLayer"
     template="selector.pt"
     />
+
+  <browser:page
+    for="*"
+    name="default_page"
+    class=".defaultpage.DefaultPage"
+    permission="zope.Public"
+    layer="Products.LinguaPlone.interfaces.ILinguaPloneProductLayer"
+    allowed_interface="plone.app.layout.navigation.interfaces.IDefaultPage"
+    />
+
+<!--   <adapter factory=".defaultpage.is_default_page"
+           name="is_default_page" /> -->
 
 </configure>

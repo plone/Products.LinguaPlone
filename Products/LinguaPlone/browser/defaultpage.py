@@ -1,0 +1,36 @@
+from Products.CMFCore.utils import getToolByName
+from plone.indexer import indexer
+from plone.app.layout.navigation.defaultpage import DefaultPage as BaseDefaultPage
+
+from Products.LinguaPlone.interfaces import ITranslatable
+from Products.CMFPlone.utils import _getDefaultPageView
+
+
+class DefaultPage(BaseDefaultPage):
+
+    def getDefaultPage(self):
+        """Get the translation of the folder default page in current language
+        """
+        default_page = super(DefaultPage, self).getDefaultPage()
+        if not default_page:
+            return default_page
+
+        page = self.context[default_page]
+        languageTool = getToolByName(self.context, 'portal_languages')
+        current = languageTool.getPreferredLanguage()
+        if page.hasTranslation(current):
+            return page.getTranslation(current).getId()
+        else:
+            return current
+
+    def isDefaultPage(self, obj):
+        default_page = super(DefaultPage, self).getDefaultPage()
+        if obj.getId() == default_page:
+            return True
+
+        if ITranslatable.providedBy(obj):
+            for translation in obj.getTranslations(review_state=False).values():
+                if translation.getId() == default_page:
+                    return True
+
+        return False
