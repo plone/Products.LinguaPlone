@@ -4,7 +4,8 @@ Changelog
 4.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Avoid problems when setLanguage is given a null value that is not ''.
+  [thomasdesvenain]
 
 
 4.1.1 (2011-11-15)

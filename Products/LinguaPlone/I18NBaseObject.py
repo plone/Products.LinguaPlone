@@ -282,6 +282,7 @@ class I18NBaseObject(Implicit):
         # language) and restores the original value again.  So really
         # there is no reason for doing anything other than setting the
         # value.
+        value = value or ''
         req = getattr(self, 'REQUEST', None)
         if shasattr(req, 'get'):
             if req.get('SCHEMA_UPDATE', None) is not None:
