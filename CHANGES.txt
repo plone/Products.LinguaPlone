@@ -5,7 +5,7 @@ Changelog
 ------------------
 
 - Display the translation of the folder default page in the current language
-  when the folder is not translated.
+  when the folder is neutral.
   [thomasdesvenain]
 
 

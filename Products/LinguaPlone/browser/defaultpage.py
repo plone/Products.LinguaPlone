@@ -10,9 +10,13 @@ class DefaultPage(BaseDefaultPage):
 
     def getDefaultPage(self):
         """Get the translation of the folder default page in current language
+        if folder is neutral
         """
         default_page = super(DefaultPage, self).getDefaultPage()
         if not default_page:
+            return default_page
+
+        if self.context.Language():
             return default_page
 
         page = self.context[default_page]
