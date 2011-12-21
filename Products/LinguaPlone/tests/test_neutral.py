@@ -26,6 +26,10 @@ class TestNeutral(LinguaPloneTestCase):
         self.english.setLanguage('')
         self.failUnlessEqual(self.english.getLanguage(), '')
 
+        self.english.setLanguage('en')
+        self.english.setLanguage(None)
+        self.failUnlessEqual(self.english.getLanguage(), '')
+
     def testNeutralIsNotATranslation(self):
         self.failUnlessEqual(self.english.isTranslation(), False)
 

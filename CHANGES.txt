@@ -6,6 +6,9 @@ Changelog
 
 - Display the translation of the folder default page in the current language
   when the folder is neutral.
+
+- Avoid problems when setLanguage is given a null value that is not ''.
+
   [thomasdesvenain]
 
 
