@@ -3,6 +3,8 @@ from Testing.ZopeTestCase import Functional
 
 # Make sure the dummy types are registered
 from Products.LinguaPlone.tests import dummy
+from Products.LinguaPlone.interfaces import ILinguaPloneProductLayer
+from zope.interface.declarations import alsoProvides
 dummy # pyflakes
 
 from Products.Five import zcml
@@ -38,6 +40,10 @@ PloneTestCase.setupPloneSite(extension_profiles=extension_profiles)
 
 
 class LinguaPloneTestCase(PloneTestCase.PloneTestCase):
+
+    def _setup(self):
+        super(LinguaPloneTestCase, self)._setup()
+        alsoProvides(self.portal.REQUEST, ILinguaPloneProductLayer)
 
     def addLanguage(self, language):
         self.portal.portal_languages.addSupportedLanguage(language)
