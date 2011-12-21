@@ -21,7 +21,7 @@ class DefaultPage(BaseDefaultPage):
         if page.hasTranslation(current):
             return page.getTranslation(current).getId()
         else:
-            return current
+            return default_page
 
     def isDefaultPage(self, obj):
         default_page = super(DefaultPage, self).getDefaultPage()
