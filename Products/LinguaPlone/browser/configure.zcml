@@ -107,6 +107,30 @@
     allowed_interface="plone.app.layout.navigation.interfaces.IDefaultPage"
     />
 
+  <browser:page
+    for="..interfaces.ITranslatable"
+    name="getUntranslatedLanguages"
+    class=".translate.TranslationHelpers"
+    permission="zope.Public"
+    attribute="getUntranslatedLanguages"
+    />
+
+  <browser:page
+    for="..interfaces.ITranslatable"
+    name="getTranslatedLanguages"
+    class=".translate.TranslationHelpers"
+    permission="zope.Public"
+    attribute="getTranslatedLanguages"
+    />
+
+  <browser:page
+    for="..interfaces.ITranslatable"
+    name="getDeletableLanguages"
+    class=".translate.TranslationHelpers"
+    permission="zope.Public"
+    attribute="getDeletableLanguages"
+    />
+
 <!--   <adapter factory=".defaultpage.is_default_page"
            name="is_default_page" /> -->
 

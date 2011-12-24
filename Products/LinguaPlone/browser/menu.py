@@ -26,13 +26,8 @@ class TranslateMenu(BrowserMenu):
         if not context.Language():
             # neutral content must get a language assigned first
             return []
-        lt=getToolByName(context, "portal_languages")
-        languages=lt.listSupportedLanguages()
-        translated=context.getTranslationLanguages()
-        languages=[lang for lang in languages if lang[0] not in translated]
-        languages.sort(key=lambda x: x[1])
-        return languages
 
+        return context.unrestrictedTraverse('@@getUntranslatedLanguages')()
 
     def getMenuItems(self, context, request):
         """Return menu item entries in a TAL-friendly form."""
