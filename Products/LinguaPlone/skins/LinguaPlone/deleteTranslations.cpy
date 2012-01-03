@@ -15,7 +15,7 @@ status = 'success_translate'
 message = "Please select one or more items to delete."
 
 if context.getLanguage() in languages:
-    # We are deleting the current object. Redirect to the 
+    # We are deleting the current object. Redirect to the
     # canonical translation instead.
     o = context.getCanonical()
     if o is None:

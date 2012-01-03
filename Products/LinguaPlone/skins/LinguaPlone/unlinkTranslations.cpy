@@ -7,7 +7,7 @@ from Products.CMFPlone.utils import safe_unicode
 REQUEST = context.REQUEST
 
 if context.getLanguage() in languages:
-    # We are unlinking the current object. Redirect to the 
+    # We are unlinking the current object. Redirect to the
     # canonical translation instead.
     o = context.getCanonical()
     if o is None:

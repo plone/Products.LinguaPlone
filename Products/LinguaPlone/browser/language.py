@@ -38,7 +38,7 @@ class Renderer(base.Renderer):
             updater=plain_context
         else:
             def translatable_context(info):
-                trans=self.context.getTranslation(info["code"]) 
+                trans=self.context.getTranslation(info["code"])
                 if trans is None:
                     info["has_translation"]=False
                 else:

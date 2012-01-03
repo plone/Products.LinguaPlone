@@ -43,7 +43,7 @@ lp_translating_from = REQUEST.get('lp_translating_from')
 canonical = new_context.getCanonical()
 canonical_language = new_context.getCanonical().getLanguage()
 # language should be set on canonical only if it changes:
-# this avoids to access the canonical each time a translation is 
+# this avoids to access the canonical each time a translation is
 # modified, which can cause authorization problems with certain workflows
 if canonical_language<> lp_translating_from:
     canonical.setLanguage(lp_translating_from)
