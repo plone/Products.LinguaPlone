@@ -4,6 +4,14 @@ Changelog
 4.1.2 (unreleased)
 ------------------
 
+- Translation helper scripts (getTransaltedLanguages, getUntranslatedLanguages,
+  getDeletableLanguages) are now view methods.
+  [thomasdesvenain]
+
+- Display the translation of the folder default page in the current language
+  when the folder is neutral.
+  [thomasdesvenain]
+
 - Avoid problems when setLanguage is given a null value that is not ''.
   [thomasdesvenain]
 

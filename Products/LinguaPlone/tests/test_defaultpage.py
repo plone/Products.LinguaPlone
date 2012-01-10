@@ -1,15 +1,19 @@
+from zope.interface import directlyProvides
 from plone.app.layout.navigation.defaultpage import isDefaultPage
 
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
+from Products.LinguaPlone.interfaces import ILinguaPloneProductLayer
 
 
-class TestFolderDefaultPage(LinguaPloneTestCase):
+class TestNeutralFolderDefaultPage(LinguaPloneTestCase):
 
     def afterSetUp(self):
+        directlyProvides(self.portal.REQUEST, ILinguaPloneProductLayer)
         self.addLanguage('de')
         self.setLanguage('en')
+        self.folder.setLanguage('')
         self.english = makeContent(self.folder, 'SimpleType', 'doc')
         self.english.setLanguage('en')
         self.german = makeTranslation(self.english, 'de')
@@ -27,7 +31,7 @@ class TestFolderDefaultPage(LinguaPloneTestCase):
         self.setLanguage('de')
         self.folder.setDefaultPage(self.english.getId())
         result = self.folder.getDefaultPage()
-        self.failUnlessEqual(result, self.english.getId())
+        self.failUnlessEqual(result, self.german.getId())
 
     def testInvalidAsDefault(self):
         self.folder.setDefaultPage('pt')
@@ -35,9 +39,41 @@ class TestFolderDefaultPage(LinguaPloneTestCase):
         self.failUnlessEqual(result, None)
 
 
+class TestTranslatedFolderDefaultPage(LinguaPloneTestCase):
+    """When folder is translated,
+    we don't get default page translation as folder default page
+    """
+
+    def afterSetUp(self):
+        directlyProvides(self.portal.REQUEST, ILinguaPloneProductLayer)
+        self.addLanguage('de')
+        self.setLanguage('en')
+        self.english = makeContent(self.folder, 'SimpleType', 'doc')
+        self.germanfolder = makeTranslation(self.folder, 'de')
+        self.english.setLanguage('en')
+        self.german = makeTranslation(self.english, 'de')
+
+    def testGermanAsDefault(self):
+        self.setLanguage('de')
+        self.folder.setDefaultPage(self.english.getId())
+        result = self.folder.getDefaultPage()
+        self.failUnlessEqual(result, self.english.getId())
+        # no default page set on german folder
+        result = self.germanfolder.getDefaultPage()
+        self.failUnlessEqual(result, None)
+        # default page set on german folder
+        self.germanfolder.setDefaultPage(self.german.getId())
+        result = self.germanfolder.getDefaultPage()
+        self.failUnlessEqual(result, self.german.getId())
+        self.setLanguage('en')
+        result = self.germanfolder.getDefaultPage()
+        self.failUnlessEqual(result, self.german.getId())
+
+
 class TestSimpleFolderBrowserDefault(LinguaPloneTestCase):
 
     def afterSetUp(self):
+        directlyProvides(self.portal.REQUEST, ILinguaPloneProductLayer)
         self.addLanguage('de')
         self.setLanguage('en')
         self.folder_en = makeContent(self.folder, 'SimpleFolder', 'folder_en')
@@ -52,6 +88,7 @@ class TestSimpleFolderBrowserDefault(LinguaPloneTestCase):
 class TestPortalDefaultPage(LinguaPloneTestCase):
 
     def afterSetUp(self):
+        directlyProvides(self.portal.REQUEST, ILinguaPloneProductLayer)
         self.addLanguage('de')
         self.setLanguage('en')
         self.setRoles(['Manager'])
@@ -83,6 +120,7 @@ class TestPortalDefaultPage(LinguaPloneTestCase):
 class TestIndexDefaultPage(LinguaPloneTestCase):
 
     def afterSetUp(self):
+        directlyProvides(self.portal.REQUEST, ILinguaPloneProductLayer)
         self.addLanguage('de')
         self.setLanguage('en')
         self.english = makeContent(self.folder, 'SimpleType', 'index_html')
@@ -113,6 +151,7 @@ class TestIndexDefaultPage(LinguaPloneTestCase):
 class DefaultPageTranslationTests(LinguaPloneTestCase):
 
     def afterSetUp(self):
+        directlyProvides(self.portal.REQUEST, ILinguaPloneProductLayer)
         self.addLanguage('de')
         self.setLanguage('en')
         self.setRoles(['Manager'])

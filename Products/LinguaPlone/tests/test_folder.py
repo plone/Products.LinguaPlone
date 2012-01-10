@@ -1,8 +1,10 @@
 import transaction
+from zope.interface import directlyProvides
 
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
+from Products.LinguaPlone.interfaces import ILinguaPloneProductLayer
 
 
 class TestFolderTranslation(LinguaPloneTestCase):
@@ -59,6 +61,7 @@ class TestFolderTranslation(LinguaPloneTestCase):
 class TestDynamicFolderProcessForm(LinguaPloneTestCase):
 
     def afterSetUp(self):
+        directlyProvides(self.portal.REQUEST, ILinguaPloneProductLayer)
         self.addLanguage('pt')
         self.setLanguage('en')
         self.folder_en = makeContent(self.folder, 'DynamicFolder', 'folder')

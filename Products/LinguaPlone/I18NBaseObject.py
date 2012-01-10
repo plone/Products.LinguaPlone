@@ -573,5 +573,31 @@ class I18NBaseObject(Implicit):
                 return obj
         return None
 
+    def setDefaultPage(self, objectId):
+        """Reindex the default page status
+           of old and new default page translations too
+        """
+        new_page = old_page = None
+        if objectId is not None:
+            new_page = getattr(self, objectId, None)
+
+        if self.hasProperty('default_page'):
+            pages = self.getProperty('default_page','')
+            if isinstance(pages, (list, tuple)):
+                for page in pages:
+                    old_page = getattr(self, page, None)
+                    if page is not None: break
+            elif isinstance(pages, str):
+                old_page = getattr(self, pages, None)
+
+        super(I18NBaseObject, self).setDefaultPage(objectId)
+
+        if new_page != old_page:
+            if new_page is not None:
+                for tr in new_page.getTranslations(review_state=False).values():
+                    tr.reindexObject(['is_default_page'])
+            if old_page is not None:
+                for tr in old_page.getTranslations(review_state=False).values():
+                    tr.reindexObject(['is_default_page'])
 
 InitializeClass(I18NBaseObject)

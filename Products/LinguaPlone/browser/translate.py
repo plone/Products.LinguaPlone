@@ -3,6 +3,7 @@ from Products.Five import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.LinguaPlone import LinguaPloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 
 
 class CreateTranslation(BrowserView):
@@ -57,3 +58,47 @@ class CreateTranslation(BrowserView):
 
         return self.request.response.redirect(self.nextUrl(trans))
 
+
+class TranslationHelpers(BrowserView):
+
+    def getUntranslatedLanguages(self):
+        lt = getToolByName(self.context, "portal_languages")
+        languages = lt.listSupportedLanguages()
+        translated = self.context.getTranslationLanguages()
+        languages = [lang for lang in languages if lang[0] not in translated]
+        languages.sort(key=lambda x: x[1])
+        return languages
+
+    def getDeletableLanguages(self):
+        context = self.context
+        lang_names = context.portal_languages.getAvailableLanguages()
+        translations = context.getTranslations(
+            include_canonical=False, review_state=False)
+
+        # Return dictionary of information about existing translations
+        # tuples of lang id, lang name and content title
+        languages = []
+        for lang, item in translations.items():
+            languages.append(dict(id=lang, name=lang_names[lang]['name'],
+                title = safe_unicode(item.Title()),
+                path = item.absolute_url_path()))
+
+        def lcmp(x, y):
+            return cmp(x['name'], y['name'])
+
+        languages.sort(lcmp)
+        return languages
+
+    def getTranslatedLanguages(self):
+        context = self.context
+        allLanguages = context.portal_languages.listSupportedLanguages()
+        translated = context.getTranslationLanguages()
+
+        # Only return available translations if they are in the allowed langs from languageTool
+        languages = [lang for lang in allLanguages if lang[0] in translated]
+
+        def lcmp(x, y):
+            return cmp(x[1], y[1])
+
+        languages.sort(lcmp)
+        return languages
