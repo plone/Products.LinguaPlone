@@ -16,4 +16,3 @@ message = context.translate(msgid='message_content_changed_language_to',
 transaction_note(message)
 context.plone_utils.addPortalMessage(message)
 return state.set()
-
