@@ -131,7 +131,4 @@
     attribute="getDeletableLanguages"
     />
 
-<!--   <adapter factory=".defaultpage.is_default_page"
-           name="is_default_page" /> -->
-
 </configure>

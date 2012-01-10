@@ -1,9 +1,7 @@
 from Products.CMFCore.utils import getToolByName
-from plone.indexer import indexer
 from plone.app.layout.navigation.defaultpage import DefaultPage as BaseDefaultPage
 
 from Products.LinguaPlone.interfaces import ITranslatable
-from Products.CMFPlone.utils import _getDefaultPageView
 
 
 class DefaultPage(BaseDefaultPage):
