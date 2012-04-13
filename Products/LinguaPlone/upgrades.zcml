@@ -43,4 +43,13 @@
         handler="Products.LinguaPlone.upgrades.add_properties_sheet"
         profile="Products.LinguaPlone:LinguaPlone" />
 
+    <genericsetup:upgradeDepends
+        title="LinguaPlone properties update"
+        description="Add option to disable left portlets in translate view"
+        source="5"
+        destination="6"
+        profile="Products.LinguaPlone:LinguaPlone"
+        import_steps="propertiestool"
+        purge="False"
+        run_deps="False" />
 </configure>

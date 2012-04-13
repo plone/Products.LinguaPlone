@@ -31,8 +31,9 @@
                    other python:here.getCanonical();
                    ptool context/portal_properties;
                    lprops ptool/linguaplone_properties|nothing;
+                   hide_column_one lprops/hide_left_column_on_translate_form|python:False;
                    hide_column_two lprops/hide_right_column_on_translate_form|python:False;">
-
+ 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xml:lang="en"
       lang="en"
@@ -42,7 +43,9 @@
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="plone">
 
-  <metal:head fill-slot="top_slot">
+  <metal:head fill-slot="top_slot" tal:define="
+    hide_column_one python:request.set('disable_plone.leftcolumn',hide_column_one);
+    hide_column_two python:request.set('disable_plone.rightcolumn',hide_column_two);">
     <tal:block define="macro edit_macros/topslot | nothing"
                     condition="macro">
       <metal:block use-macro="macro" />
@@ -50,9 +53,6 @@
   </metal:head>
 
   <metal:javascript_head fill-slot="javascript_head_slot">
-    <tal:block tal:condition="hide_column_two">
-      <tal:hide tal:define="global sr python:False;" />
-    </tal:block>
     <tal:block define="macro here/archetypes_custom_js/macros/javascript_head | nothing"
                condition="macro">
       <metal:block use-macro="macro" />

@@ -4,7 +4,10 @@ Changelog
 4.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added option to disable left portlets in translation view.
+  [pingviini]
+- Fixed translation view to actually hide portlets when configured to do so.
+  [pingviini]
 
 
 4.1.2 (2012-02-07)
