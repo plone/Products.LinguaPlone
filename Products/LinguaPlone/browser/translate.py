@@ -1,9 +1,10 @@
-from zope.component import getMultiAdapter
+from zope.component import getMultiAdapter, getGlobalSiteManager
 from Products.Five import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.LinguaPlone import LinguaPloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
+from plone.i18n.locales.interfaces import ILanguageAvailability
 
 
 class CreateTranslation(BrowserView):
@@ -71,7 +72,13 @@ class TranslationHelpers(BrowserView):
 
     def getDeletableLanguages(self):
         context = self.context
-        lang_names = context.portal_languages.getAvailableLanguages()
+        lt = getToolByName(context, 'portal_languages')
+        gsm = getGlobalSiteManager()
+        util = gsm.queryUtility(ILanguageAvailability)
+        if lt.use_combined_language_codes:
+            lang_names = dict(util.getLanguageListing(combined=True))
+        else:
+            lang_names = dict(util.getLanguageListing())
         translations = context.getTranslations(
             include_canonical=False, review_state=False)
 
@@ -79,7 +86,7 @@ class TranslationHelpers(BrowserView):
         # tuples of lang id, lang name and content title
         languages = []
         for lang, item in translations.items():
-            languages.append(dict(id=lang, name=lang_names[lang]['name'],
+            languages.append(dict(id=lang, name=lang_names.get(lang, lang),
                 title = safe_unicode(item.Title()),
                 path = item.absolute_url_path()))
 
