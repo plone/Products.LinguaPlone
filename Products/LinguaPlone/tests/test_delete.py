@@ -73,10 +73,29 @@ class TestCanonicalProtection(LinguaPloneTestCase):
         self.folder.manage_delObjects(['doc', german.getId()])
 
 
+class TestDeleteUsedTranslation(LinguaPloneTestCase):
+
+    def afterSetUp(self):
+        self.addLanguage('de')
+        self.setLanguage('en')
+
+    def testDeleteAlreadyTranslatedLanguage(self):
+        # Must delete translations first
+        english = makeContent(self.folder, 'SimpleType', 'doc')
+        english.setLanguage('en')
+        makeTranslation(english, 'de')
+        self.portal.portal_languages.removeSupportedLanguages(('de',))
+        try:
+            english.getDeletableLanguages()
+        except KeyError:
+            self.fail("getDeletableLanguages raised KeyError unexpectedly!")
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestDeleteTranslations))
     if config.CANONICAL_DELETE_PROTECTION:
         suite.addTest(makeSuite(TestCanonicalProtection))
+    suite.addTest(makeSuite(TestDeleteUsedTranslation))
     return suite
