@@ -4,8 +4,13 @@ Changelog
 4.1.3 (unreleased)
 ------------------
 
+- Fixed getting deletable languages if a language has been disabled and content
+  has been translated in this language.
+  [kroman0]
+
 - Added option to disable left portlets in translation view.
   [pingviini]
+
 - Fixed translation view to actually hide portlets when configured to do so.
   [pingviini]
 
