@@ -14,4 +14,4 @@
 # By default used to handle stuff that is text/html for
 # use with the richwidget
 
-return ('text/html',)
+return ('text/html', 'text/x-rst')
