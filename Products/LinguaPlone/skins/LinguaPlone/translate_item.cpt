@@ -166,8 +166,7 @@
                                     <div>
                                         <div tal:condition="renderablefield"
                                              style="height:35em; overflow:scroll"
-                                             content="structure python:otherfield.getAccessor(other)()">
-                                            <metal:fieldMacro use-macro="python:other.widget(otherfield.getName(), mode='view')"/>
+                                             tal:content="structure python:otherfield.getAccessor(other)()">
                                             <!-- if a renderable field, use the accessor and have scrollbars-->
                                         </div>
 
