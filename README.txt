@@ -169,13 +169,30 @@ At the top, **instead** of ``from Products.Archetypes.atapi import *``, you
 add::
 
   try:
-      from Products.LinguaPlone.public import *
+      from Products.LinguaPlone import atapi
   except ImportError:
       # No multilingual support
-      from Products.Archetypes.atapi import *
+      from Products.Archetypes import atapi
 
 For the fields that are language independent, you add
-'languageIndependent=True' in the schema definition.
+``languageIndependent=True`` in the Archetypes schema definition.
+
+Example::
+
+    atapi.StringField(
+        'myField',
+        widget=atapi.StringWidget(
+        ....
+        ),
+        languageIndependent=True
+    ),
+
+Language independent fields are correctly shared between linked translations only if 
+your content type uses LinguaPlone imports as described above.
+
+For more LinguaPlone related programming examples see 
+`Translating content <http://collective-docs.readthedocs.org/en/latest/i18n/translating_content.html>`_
+in Plone Developer Documentation.
 
 
 Developer information
