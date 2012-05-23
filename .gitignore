@@ -3,3 +3,9 @@ develop-eggs/
 include/
 lib/
 parts/
+eggs/
+var/
+*.pyc
+*.swp
+*.egg-info/
+.installed.cfg
