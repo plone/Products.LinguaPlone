@@ -14,6 +14,10 @@ Changelog
 - Fixed translation view to actually hide portlets when configured to do so.
   [pingviini]
 
+- Display the translation of the folder default page in the current language
+  if available.
+  [pjstevns]
+
 
 4.1.2 (2012-02-07)
 ------------------

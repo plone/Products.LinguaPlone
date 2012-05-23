@@ -97,6 +97,8 @@ class TestDynamicFolderProcessForm(LinguaPloneTestCase):
         self.failUnless('foo' in self.folder_pt.objectIds())
 
     def testSetPageDefault(self):
+        self.assertEqual(self.folder_pt.getDefaultPage(), 'doc')
+        self.setLanguage('pt')
         self.assertEqual(self.folder_pt.getDefaultPage(), 'foo')
 
 

@@ -109,7 +109,7 @@ class TestPortalDefaultPage(LinguaPloneTestCase):
         self.setLanguage('de')
         self.portal.setDefaultPage(self.english.getId())
         result = self.portal.getDefaultPage()
-        self.failUnlessEqual(result, self.english.getId())
+        self.failUnlessEqual(result, self.german.getId())
 
     def testInvalidAsDefault(self):
         self.folder.setDefaultPage('pt')
@@ -140,7 +140,7 @@ class TestIndexDefaultPage(LinguaPloneTestCase):
         self.setLanguage('de')
         self.folder.setDefaultPage(self.english.getId())
         result = self.folder.getDefaultPage()
-        self.failUnlessEqual(result, self.english.getId())
+        self.failUnlessEqual(result, self.german.getId())
 
     def testInvalidAsDefault(self):
         self.folder.setDefaultPage('pt')
