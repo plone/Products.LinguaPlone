@@ -18,6 +18,9 @@ Changelog
   if available.
   [pjstevns]
 
+- Check if the forward transition exists before taking it
+  [giacomos]
+
 
 4.1.2 (2012-02-07)
 ------------------

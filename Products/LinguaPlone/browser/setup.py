@@ -61,7 +61,9 @@ class SetupView(BrowserView):
             folder.setTitle(name)
             state = wftool.getInfoFor(folder, 'review_state', None)
             # This assumes a direct 'publish' transition from the initial state
-            if state != 'published':
+            # Re: Sorry but in the real world assumptions aren't reliable enough
+            forward_star = [tr['id'] for tr in wftool.getTransitionsFor(folder)]
+            if state != 'published' and 'publish' in forward_star:
                 wftool.doActionFor(folder, 'publish')
             folder.reindexObject()
             result.append("Added '%s' folder: %s" % (code, folderId))
