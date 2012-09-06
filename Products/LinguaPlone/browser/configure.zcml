@@ -131,4 +131,13 @@
     attribute="getDeletableLanguages"
     />
 
+  <browser:viewlet
+      for="Products.LinguaPlone.interfaces.ITranslatable"
+      name="cs.linguaplone.links"
+      manager="plone.app.layout.viewlets.interfaces.IHtmlHeadLinks"
+      class=".viewlet.MultilingualContentViewlet"
+      template="contentlinkviewlet.pt"
+      permission="zope2.View"
+      />
+
 </configure>
