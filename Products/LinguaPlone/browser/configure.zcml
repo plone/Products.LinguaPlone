@@ -133,9 +133,9 @@
 
   <browser:viewlet
       for="Products.LinguaPlone.interfaces.ITranslatable"
-      name="cs.linguaplone.links"
+      name="Products.LinguaPlone.multilingualcontentviewlet"
       manager="plone.app.layout.viewlets.interfaces.IHtmlHeadLinks"
-      class=".viewlet.MultilingualContentViewlet"
+      class=".contentlinkviewlet.MultilingualContentViewlet"
       template="contentlinkviewlet.pt"
       permission="zope2.View"
       />
