@@ -1,0 +1,5 @@
+<tal:link repeat="content view/translations">
+  <link rel="alternate"
+        tal:attributes="hreflang content/Language;
+                        href content/absolute_url" />
+</tal:link>
