@@ -48,7 +48,6 @@ class TranslateMenu(BrowserMenu):
         langs = self.getUntranslatedLanguages(context)
         if can_translate:
             showflags = lt.showFlags()
-            langs = self.getUntranslatedLanguages(context)
 
             for (lang_id, lang_name) in langs:
                 icon=showflags and lt.getFlagForLanguageCode(lang_id) or None
