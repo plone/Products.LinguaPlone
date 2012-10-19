@@ -4,6 +4,10 @@ Changelog
 4.1.3 (unreleased)
 ------------------
 
+- Deal with broken translations, esp. when the content's language doesn't
+  match the parent's language.
+  [pjstevns]
+
 - Fixed getting deletable languages if a language has been disabled and content
   has been translated in this language.
   [kroman0]

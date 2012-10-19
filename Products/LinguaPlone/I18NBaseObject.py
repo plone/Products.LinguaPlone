@@ -7,6 +7,7 @@ from Acquisition import aq_inner
 from Acquisition import aq_parent
 from App.class_init import InitializeClass
 from OFS.ObjectManager import BeforeDeleteException
+from OFS.CopySupport import CopyError
 from Products.Archetypes.atapi import BaseObject
 from Products.Archetypes.config import LANGUAGE_DEFAULT
 from Products.Archetypes.config import REFERENCE_CATALOG
@@ -27,6 +28,9 @@ from Products.LinguaPlone.utils import isInitialTranslationId
 from Products.LinguaPlone.interfaces import ILocateTranslation
 from Products.LinguaPlone.interfaces import ITranslatable
 from Products.LinguaPlone.interfaces import ITranslationFactory
+
+import logging
+log = logging.getLogger(__name__)
 
 _marker = object()
 
@@ -218,9 +222,14 @@ class I18NBaseObject(Implicit):
                     result[lang] = obj
             return result
         else:
-            return self.getCanonical().getTranslations(
-                include_canonical=include_canonical, review_state=review_state,
-                _is_canonical=True)
+            _canonical = self.getCanonical()
+            if _canonical is None:
+                return {}
+            else:
+                return _canonical.getTranslations(
+                    include_canonical=include_canonical,
+                    review_state=review_state,
+                    _is_canonical=True)
 
     security.declareProtected(permissions.View, 'getNonCanonicalTranslations')
     def getNonCanonicalTranslations(self):
@@ -307,8 +316,11 @@ class I18NBaseObject(Implicit):
         new_parent = locator.findLocationForTranslation(value)
 
         if new_parent != parent:
-            info = parent.manage_cutObjects([self.getId()])
-            new_parent.manage_pasteObjects(info)
+            try:
+                info = parent.manage_cutObjects([self.getId()])
+                new_parent.manage_pasteObjects(info)
+            except CopyError:
+                log.warning("Inconsistent translation for: %s" % repr(self))
         self.reindexObject()
         self._catalogRefs(self)
 
