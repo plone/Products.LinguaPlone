@@ -4,6 +4,9 @@ Changelog
 4.1.3 (unreleased)
 ------------------
 
+- Update bootstrap.py for zc.buildout 1.5.0.
+  [pjstevns]
+
 - Deal with broken translations, esp. when the content's language doesn't
   match the parent's language.
   [pjstevns]
