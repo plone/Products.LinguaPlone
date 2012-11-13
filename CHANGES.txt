@@ -4,6 +4,10 @@ Changelog
 4.1.3 (unreleased)
 ------------------
 
+- Add a viewlet to mark the translated content as suggested by Google at
+  http://googlewebmastercentral.blogspot.com.es/2011/12/new-markup-for-multilingual-content.html
+  [erral]
+
 - Update bootstrap.py for zc.buildout 1.5.0.
   [pjstevns]
 
