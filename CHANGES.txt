@@ -8,6 +8,13 @@ Changelog
   http://googlewebmastercentral.blogspot.com.es/2011/12/new-markup-for-multilingual-content.html
   [erral]
 
+- Update bootstrap.py for zc.buildout 1.5.0.
+  [pjstevns]
+
+- Deal with broken translations, esp. when the content's language doesn't
+  match the parent's language.
+  [pjstevns]
+
 - Fixed getting deletable languages if a language has been disabled and content
   has been translated in this language.
   [kroman0]
