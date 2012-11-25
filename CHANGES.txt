@@ -32,6 +32,9 @@ Changelog
 - Check if the forward transition exists before taking it
   [giacomos]
 
+- Fixed preview of "renderable" fields that are not simply text/html (like
+  text/x-rst).
+  [keul]
 
 4.1.2 (2012-02-07)
 ------------------
