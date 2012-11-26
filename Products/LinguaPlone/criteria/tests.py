@@ -33,6 +33,7 @@ class CopyCriteriaTestCase(LinguaPloneTestCase):
         # TODO We currently need to have criteria being addable to collections
         ttool = getToolByName(self.portal, 'portal_types')
         ttool['Topic'].allowed_content_types = tuple(CRITERIA_TYPES)
+        ttool['Topic'].global_allow = True
 
         self.folder.invokeFactory('Folder', 'test-english')
         self.en = en = self.folder.get('test-english')
@@ -469,6 +470,7 @@ class TestCopyRelativePathCriteriaWithIds(LinguaPloneTestCase):
         # TODO We currently need to have criteria being addable to collections
         ttool = getToolByName(self.portal, 'portal_types')
         ttool['Topic'].allowed_content_types = tuple(CRITERIA_TYPES)
+        ttool['Topic'].global_allow = True
 
         self.en1 = self._create(self.folder, 'Folder', 'en1', 'no1', 'sv1')
         self.en2 = self._create(self.folder, 'Folder', 'en2', 'no2', None)
