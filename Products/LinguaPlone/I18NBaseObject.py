@@ -1,5 +1,6 @@
 from zope.event import notify
 from zope.interface import implements
+from zope.site.hooks import getSite
 
 from AccessControl import ClassSecurityInfo
 from Acquisition import Implicit
@@ -544,7 +545,8 @@ class I18NBaseObject(Implicit):
         if value is None:
             return []
 
-        tool = getToolByName(self, REFERENCE_CATALOG)
+        site = getSite()
+        tool = getToolByName(site, REFERENCE_CATALOG)
         _catalog = tool._catalog
         indexes = _catalog.indexes
 
