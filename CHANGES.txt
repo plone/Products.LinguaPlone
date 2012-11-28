@@ -4,6 +4,10 @@ Changelog
 4.1.3 (unreleased)
 ------------------
 
+- Fix regression from the plone site root change. When accessing the zope
+  root using the ZMI getSite returns empty, so fall back to traversing.
+  [pjstevns]
+
 - Add a better way in getting plone site root. A change in Archetypes setting
   the creation date by a subscriber breaks the old way, because traversing
   wasn't avaliable in such an early state.

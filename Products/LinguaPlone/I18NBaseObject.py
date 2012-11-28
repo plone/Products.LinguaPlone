@@ -546,7 +546,11 @@ class I18NBaseObject(Implicit):
             return []
 
         site = getSite()
-        tool = getToolByName(site, REFERENCE_CATALOG)
+        if site:
+            tool = getToolByName(site, REFERENCE_CATALOG)
+        else:
+            tool = getToolByName(self, REFERENCE_CATALOG)
+
         _catalog = tool._catalog
         indexes = _catalog.indexes
 
