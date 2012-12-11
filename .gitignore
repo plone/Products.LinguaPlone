@@ -5,6 +5,7 @@ lib/
 parts/
 eggs/
 var/
+dist/
 *.pyc
 *.swp
 *.egg-info/
