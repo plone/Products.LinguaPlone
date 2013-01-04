@@ -45,6 +45,11 @@ Changelog
   text/x-rst).
   [keul]
 
+- Adjust behavior to current BaseObject by using check_auto_id=True in
+  processFormto not force rename_after_creation. This fix
+  plone.api.content.create use when you have linguaPlone and you dont set id
+  [toutpt]
+
 4.1.2 (2012-02-07)
 ------------------
 

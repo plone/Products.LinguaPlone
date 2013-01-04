@@ -453,7 +453,7 @@ class I18NBaseObject(Implicit):
         if (is_new_object and not explicit_id and
             self._at_rename_after_creation):
             # Renames an object like its normalized title
-            self._renameAfterCreation()
+            self._renameAfterCreation(check_auto_id=True)
 
         if shasattr(self, '_lp_default_page'):
             delattr(self, '_lp_default_page')
