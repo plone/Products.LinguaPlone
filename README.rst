@@ -1,4 +1,5 @@
 .. image:: https://api.travis-ci.org/jfroche/Products.LinguaPlone.png
+   :target: http://travis-ci.org/jfroche/Products.LinguaPlone
 
 Introduction
 ============
