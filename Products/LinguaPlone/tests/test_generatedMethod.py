@@ -27,14 +27,12 @@ class TestGeneratedMethods(LinguaPloneTestCase):
         This method in Archetypes has a default value for a parameter and it
         handles it autogenerating the modification date.
         This test shows that if you call setModificationDate without a parameter
-        fails badly and raises an exception
+        it will call the field default value
         """
         from DateTime import DateTime
         now = DateTime()
 
         self.english.setModificationDate(now)
         self.assertEqual(self.english.modified(), now)
-
-        def testSetterWithoutParams():
-            self.english.setModificationDate()
-        self.assertRaises(TypeError, testSetterWithoutParams)
+        self.english.setModificationDate()
+        self.failUnless(self.english.modified() > now)

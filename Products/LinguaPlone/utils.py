@@ -101,10 +101,11 @@ def generatedEditAccessorWrapper(name):
         return schema[name].getRaw(self, **kw)
     return generatedEditAccessor
 
+marker = object()
 
 def generatedMutatorWrapper(name):
 
-    def generatedMutator(self, value, **kw):
+    def generatedMutator(self, value=marker, **kw):
         """LinguaPlone Default Mutator."""
         if 'schema' in kw:
             schema = kw['schema']
@@ -114,6 +115,8 @@ def generatedMutatorWrapper(name):
 
         translationMethodName = None
         field = schema[name]
+        if value == marker:
+            value = field.getDefault(self)
         mutatorName = getattr(field, 'mutator', None)
         if mutatorName is not None:
             mutator = getattr(self, mutatorName, None)
