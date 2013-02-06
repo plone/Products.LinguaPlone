@@ -3,6 +3,7 @@ from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 
+
 class TestGeneratedMethods(LinguaPloneTestCase):
 
     def afterSetUp(self):
@@ -19,7 +20,6 @@ class TestGeneratedMethods(LinguaPloneTestCase):
         self.folder_en = makeContent(self.folder, 'SimpleFolder', 'folder')
         self.folder_en.setLanguage('en')
 
-
     def test_setModificationDate(self):
         """
         LinguaPlone autogenerates a method for setModificationDate overriding
@@ -31,13 +31,11 @@ class TestGeneratedMethods(LinguaPloneTestCase):
         """
         from DateTime import DateTime
         now = DateTime()
-        
+
         self.english.setModificationDate(now)
         self.assertEqual(self.english.modified(), now)
 
         now = DateTime()
         self.english.setModificationDate()
         later = DateTime()
-        self.failUnless(now < self.english.modified() and self.english.modified() < later) 
-
- 
+        self.failUnless(now < self.english.modified() and self.english.modified() < later)
