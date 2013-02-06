@@ -1,3 +1,5 @@
+.. image:: https://api.travis-ci.org/jfroche/Products.LinguaPlone.png
+
 Introduction
 ============
 
