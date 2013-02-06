@@ -35,7 +35,6 @@ class TestGeneratedMethods(LinguaPloneTestCase):
         self.english.setModificationDate(now)
         self.assertEqual(self.english.modified(), now)
 
-        now = DateTime()
-        self.english.setModificationDate()
-        later = DateTime()
-        self.failUnless(now < self.english.modified() and self.english.modified() < later)
+        def testSetterWithoutParams():
+            self.english.setModificationDate()
+        self.assertRaises(TypeError, testSetterWithoutParams)
