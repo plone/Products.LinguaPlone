@@ -1,5 +1,5 @@
-.. image:: https://api.travis-ci.org/jfroche/Products.LinguaPlone.png
-   :target: http://travis-ci.org/jfroche/Products.LinguaPlone
+.. image:: https://api.travis-ci.org/plone/Products.LinguaPlone.png
+   :target: http://travis-ci.org/plone/Products.LinguaPlone
 
 Introduction
 ============
