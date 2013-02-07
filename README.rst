@@ -1,3 +1,6 @@
+.. image:: https://api.travis-ci.org/plone/Products.LinguaPlone.png
+   :target: http://travis-ci.org/plone/Products.LinguaPlone
+
 Introduction
 ============
 
