@@ -4,6 +4,9 @@ Changelog
 4.1.4 (unreleased)
 ------------------
 
+- getTypeInfo : defer computation of isCanonical
+  [gotcha]
+
 - Fix tests
   [jfroche]
 
