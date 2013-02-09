@@ -46,8 +46,9 @@ class TypeInfoWrapper:
     used to intercept the edit alias and display translation form"""
     security = ClassSecurityInfo()
 
-    def __init__(self, typeinfo):
+    def __init__(self, typeinfo, contentitem):
         self.__typeinfo = typeinfo
+        self.__contentitem = contentitem
 
     def __nonzero__(self):
         return bool(self.__typeinfo)
@@ -59,7 +60,8 @@ class TypeInfoWrapper:
                 check_visibility, check_condition)
         if action_chain=='object/edit':
             urlparts=res['url'].split('/')
-            if urlparts[-1] in [('atct_edit', 'base_edit')]:
+            if (urlparts[-1] in [('atct_edit', 'base_edit')]
+                    and not self.__contentitem.isCanonical()):
                 urlparts[-1]='translate_item'
                 res['url']='/'.join(urlparts)
         return res
@@ -68,7 +70,8 @@ class TypeInfoWrapper:
     def queryMethodID(self, alias, default=None, context=None):
         if alias == 'edit':
             res = self.__typeinfo.queryMethodID(alias, default, context)
-            if res in ('atct_edit', 'base_edit'):
+            if (res in ('atct_edit', 'base_edit')
+                    and not self.__contentitem.isCanonical()):
                 return 'translate_item'
         return self.__typeinfo.queryMethodID(alias, default, context)
 
@@ -512,8 +515,8 @@ class I18NBaseObject(Implicit):
         possibly wrapped to intercept the edit alias.
         """
         ti = DynamicType.getTypeInfo(self)
-        if ti is not None and not self.isCanonical():
-            return TypeInfoWrapper(ti)
+        if ti is not None:
+            return TypeInfoWrapper(ti, self)
         return ti
 
     security.declareProtected(permissions.View, 'getTranslationReferences')
@@ -546,10 +549,7 @@ class I18NBaseObject(Implicit):
             return []
 
         site = getSite()
-        if site:
-            tool = getToolByName(site, REFERENCE_CATALOG)
-        else:
-            tool = getToolByName(self, REFERENCE_CATALOG)
+        tool = getToolByName(site, REFERENCE_CATALOG)
 
         _catalog = tool._catalog
         indexes = _catalog.indexes
