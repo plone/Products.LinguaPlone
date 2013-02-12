@@ -73,6 +73,8 @@ for k, v in second_pass.items():
 # any items were found, then you can pass show_all=1.
 
 if show_query:
+    if 'Language' not in query:
+        query['Language'] = 'all'
     try:
         results=catalog(query)
     except ParseError:
