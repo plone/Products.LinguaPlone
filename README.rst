@@ -78,6 +78,11 @@ Example how to access mixed-language folder listing::
 
    http://localhost:8080/Plone/folder_contents?set_language=fi  
 
+Use ``manage_translation_form`` direct URL to build top level folder langauge
+links. E.g.::
+
+   http://localhost:8080/Plone//en/manage_translations_form
+
 After following all these steps you have a good starting point to build a
 multilingual site. Whether or not you have the same site structure in each
 of the language folders is up to you and your requirements. By using the top
