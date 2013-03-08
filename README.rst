@@ -68,7 +68,15 @@ You might want to clean up the default content or move it around by visiting::
 
   http://localhost:8080/Plone/folder_contents
 
-and deleting the Events, News and Users folders.
+and deleting the Events, News and Users folders. 
+
+If you are migrating an existing site to use LinguaPlone, you might need
+to use special URL trick to reveal the old language content for cut-pasting 
+after performing ``@@language-setup-folders``.
+
+Example how to access mixed-language folder listing::
+
+   http://localhost:8080/Plone/folder_contents?set_language=fi  
 
 After following all these steps you have a good starting point to build a
 multilingual site. Whether or not you have the same site structure in each
