@@ -4,6 +4,9 @@ Changelog
 4.1.4 (unreleased)
 ------------------
 
+- Add uninstall profile.
+  [thet]
+
 - getTypeInfo : defer computation of isCanonical
   [gotcha]
 

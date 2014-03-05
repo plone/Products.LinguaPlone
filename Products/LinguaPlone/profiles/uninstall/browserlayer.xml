@@ -1,0 +1,7 @@
+<layers>
+ <layer
+     remove="True"
+     name="LinguaPlone"
+     interface="Products.LinguaPlone.interfaces.ILinguaPloneProductLayer"
+     />
+</layers>

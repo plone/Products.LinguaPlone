@@ -34,6 +34,15 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="LinguaPlone Uninstall"
+      directory="profiles/uninstall"
+      description=""
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:importStep
       name="linguaplone_reindex"
       title="LinguaPlone Reindex Language Index"
