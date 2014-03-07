@@ -59,4 +59,11 @@
       handler="Products.PloneLanguageTool.exportimport.exportLanguageTool"
       />
 
+  <genericsetup:importStep
+    name="LinguaPlone-uninstall"
+    title="LinguaPlone uninstall from QuickInstallerTool"
+    description=""
+    handler=".setuphandlers.uninstall">
+  </genericsetup:importStep>
+
 </configure>

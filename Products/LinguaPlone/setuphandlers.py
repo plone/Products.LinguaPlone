@@ -24,3 +24,16 @@ def importReindexLanguageIndex(context):
     index = catalog._catalog.getIndex('Language')
     if index.numObjects() == 0:
         catalog.reindexIndex('Language', None)
+
+
+def uninstall(context):
+    if context.readDataFile("linguaplone-uninstall.txt") is None:
+        return
+    site = context.getSite()
+    logger = context.getLogger('LinguaPlone')
+    qi = getToolByName(site, 'portal_quickinstaller')
+    qi.uninstallProducts(products=['LinguaPlone'])
+    o = qi._getOb('LinguaPlone', None)
+    if o:
+        assert(not o.isInstalled())
+    logger.info('Uninstalled LinguaPlone from portal_quickinstaller.')
