@@ -4,6 +4,9 @@ Changelog
 4.1.4 (unreleased)
 ------------------
 
+- Fix handling of deleted or renamed "default page" items.
+  [witsch]
+
 - Add uninstall profile.
   [thet]
 
