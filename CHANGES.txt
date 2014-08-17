@@ -7,6 +7,10 @@ Changelog
 - Add uninstall profile.
   [thet]
 
+- Fixed permission for manage_translations_form, anonymous can't access the page 
+  anymore.
+  [prospchr]
+
 - getTypeInfo : defer computation of isCanonical
   [gotcha]
 

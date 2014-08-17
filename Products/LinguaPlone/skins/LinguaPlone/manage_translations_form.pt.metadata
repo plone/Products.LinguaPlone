@@ -1,0 +1,6 @@
+[default]
+title=Manage translations
+
+[security]
+View=0:Authenticated
+
