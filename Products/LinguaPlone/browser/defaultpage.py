@@ -14,7 +14,7 @@ class DefaultPage(BaseDefaultPage):
         if not default_page:
             return default_page
 
-        page = self.context[default_page]
+        page = self.context.restrictedTraverse([default_page])
         languageTool = getToolByName(self.context, 'portal_languages')
         current = languageTool.getPreferredLanguage()
         if page.hasTranslation(current):

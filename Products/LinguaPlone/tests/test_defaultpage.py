@@ -195,3 +195,22 @@ class DefaultPageTranslationTests(LinguaPloneTestCase):
         self.assertTrue(german_doc.getId() in neutral_folder)
         self.assertTrue(isDefaultPage(neutral_folder, english_doc))
         self.assertFalse(isDefaultPage(neutral_folder, german_doc))
+
+
+class TestAcquiredDefaultPage(LinguaPloneTestCase):
+
+    def afterSetUp(self):
+        directlyProvides(self.portal.REQUEST, ILinguaPloneProductLayer)
+        self.addLanguage('de')
+        self.setLanguage('en')
+        self.english = makeContent(self.folder, 'SimpleType', 'news')
+        self.english.setLanguage('en')
+        self.german = makeTranslation(self.english, 'de')
+
+    def testDeletedDefaultPage(self):
+        # after deleting a default page with a name that can be acquired
+        # (e.g. `news` or `index_html`) that page should be returned...
+        self.folder.setDefaultPage(self.english.getId())
+        del self.folder[self.english.getId()]
+        result = self.folder.getDefaultPage()
+        self.failUnlessEqual(result, self.english.getId())
