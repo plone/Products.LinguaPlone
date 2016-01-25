@@ -3,11 +3,11 @@
  <adapters/>
  <utilities>
   <utility
-     remove="True"
+     remove="true"
      interface="plone.i18n.locales.interfaces.IContentLanguageAvailability"
      factory="Products.LinguaPlone.vocabulary.SyncedLanguages"/>
   <utility
-     remove="True"
+     remove="true"
      interface="plone.i18n.locales.interfaces.IMetadataLanguageAvailability"
      factory="Products.LinguaPlone.vocabulary.SyncedLanguages"/>
  </utilities>

@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 <object name="portal_skins">
- <object name="LinguaPlone" meta_type="Filesystem Directory View"
-     directory="Products.LinguaPlone:skins/LinguaPlone"
-     remove="True"/>
- <skin-path name="*">
-  <layer name="LinguaPlone" remove="True" />
- </skin-path>
+  <object remove="true" name="LinguaPlone" meta_type="Filesystem Directory View" directory="Products.LinguaPlone:skins/LinguaPlone"/>
+  <skin-path name="*">
+    <layer remove="true" name="LinguaPlone"/>
+  </skin-path>
 </object>
