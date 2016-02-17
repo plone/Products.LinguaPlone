@@ -4,6 +4,10 @@ Changelog
 4.1.4 (unreleased)
 ------------------
 
+- Language selector: add form variables
+  only when method is GET
+  [gotcha]
+
 - Fix handling of deleted or renamed "default page" items.
   [witsch]
 

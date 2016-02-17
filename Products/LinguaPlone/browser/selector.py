@@ -98,15 +98,6 @@ class TranslatableLanguageSelector(LanguageSelector):
             append_path.insert(0, '')
         return append_path
 
-    def _formvariables(self, form):
-        formvariables = {}
-        for k, v in form.items():
-            if isinstance(v, unicode):
-                formvariables[k] = v.encode('utf-8')
-            else:
-                formvariables[k] = v
-        return formvariables
-
     def languages(self):
         context = aq_inner(self.context)
         results = LanguageSelector.languages(self)
@@ -117,7 +108,7 @@ class TranslatableLanguageSelector(LanguageSelector):
         # current object and also use it for the other languages
         append_path = self._findpath(context.getPhysicalPath(),
                                      self.request.get('PATH_INFO', ''))
-        formvariables = self._formvariables(self.request.form)
+        formvariables = get_formvariables(self.request)
         _checkPermission = getSecurityManager().checkPermission
 
         non_viewable = set()
@@ -175,3 +166,14 @@ class TranslatableLanguageSelector(LanguageSelector):
         # filter out non-viewable items
         results = [r for r in results if r['code'] not in non_viewable]
         return results
+
+
+def get_formvariables(request):
+    formvariables = {}
+    if request["REQUEST_METHOD"] == "GET":
+        for k, v in request.form.items():
+            if isinstance(v, unicode):
+                formvariables[k] = v.encode('utf-8')
+            else:
+                formvariables[k] = v
+    return formvariables
