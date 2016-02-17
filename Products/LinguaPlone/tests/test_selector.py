@@ -14,11 +14,13 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.LinguaPlone.browser.selector import TranslatableLanguageSelector
+from Products.LinguaPlone.browser.selector import get_formvariables
 from Products.LinguaPlone.interfaces import ITranslatable
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
 from Products.LinguaPlone.tests.utils import makeContent
 from Products.LinguaPlone.tests.utils import makeTranslation
 from Products.LinguaPlone import browser
+from zope.publisher.browser import TestRequest
 
 
 class Dummy(Explicit):
@@ -129,33 +131,38 @@ class TestLanguageSelectorFindPath(cleanup.CleanUp, TestCase):
 
 class TestLanguageSelectorFormVariables(cleanup.CleanUp, TestCase):
 
-    def setUp(self):
-        self.selector = TranslatableLanguageSelector(None,
-                            None, None, None)
-        self.fv = self.selector._formvariables
-
     def test_formvariables(self):
         form = dict(one=1, two='2')
-        self.assertEquals(self.fv(form), form)
+        request = TestRequest(form=form, REQUEST_METHOD="GET")
+        self.assertEquals(get_formvariables(request), form)
+
+    def test_POST_no_formvariables(self):
+        form = dict(one=1, two='2')
+        request = TestRequest(form=form, REQUEST_METHOD="POST")
+        self.assertEquals(get_formvariables(request), {})
 
     def test_formvariables_sequences(self):
         form = dict(one=('a', ), two=['b', 2])
-        self.assertEquals(self.fv(form), form)
+        request = TestRequest(form=form, REQUEST_METHOD="GET")
+        self.assertEquals(get_formvariables(request), form)
 
     def test_formvariables_unicode(self):
         uni = unicode('Før', 'utf-8')
         form = dict(one=uni, two=u'foo')
-        self.assertEquals(self.fv(form),
+        request = TestRequest(form=form, REQUEST_METHOD="GET")
+        self.assertEquals(get_formvariables(request),
                           dict(one=uni.encode('utf-8'), two=u'foo'))
 
     def test_formvariables_utf8(self):
         utf8 = unicode('Før', 'utf-8').encode('utf-8')
         form = dict(one=utf8, two=u'foo')
-        self.assertEquals(self.fv(form), form)
+        request = TestRequest(form=form, REQUEST_METHOD="GET")
+        self.assertEquals(get_formvariables(request), form)
 
     def test_formvariables_object(self):
         form = dict(one='1', two=EvilObject())
-        self.assertEquals(self.fv(form), form)
+        request = TestRequest(form=form, REQUEST_METHOD="GET")
+        self.assertEquals(get_formvariables(request), form)
 
 
 class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
