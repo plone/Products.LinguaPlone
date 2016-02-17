@@ -58,8 +58,9 @@ class TranslatableLanguageSelector(LanguageSelector):
                         continue
                     # If we don't yet have a translation for this language
                     # add it and mark it as found
-                    translations[code] = (trans, first_pass,
-                            has_view_permission)
+                    translations[code] = (
+                        trans, first_pass, has_view_permission
+                    )
                     missing = missing - set((code, ))
 
             if len(missing) <= 0:
@@ -136,8 +137,9 @@ class TranslatableLanguageSelector(LanguageSelector):
                     non_viewable.add((data['code']))
                     continue
 
-                state = getMultiAdapter((trans, self.request),
-                        name='plone_context_state')
+                state = getMultiAdapter(
+                    (trans, self.request), name='plone_context_state'
+                )
                 if direct:
                     data['url'] = state.canonical_object_url() + appendtourl
                 else:
@@ -156,8 +158,9 @@ class TranslatableLanguageSelector(LanguageSelector):
                     non_viewable.add((data['code']))
                     continue
 
-                state = getMultiAdapter((context, self.request),
-                        name='plone_context_state')
+                state = getMultiAdapter(
+                    (context, self.request), name='plone_context_state'
+                )
                 try:
                     data['url'] = state.canonical_object_url() + appendtourl
                 except AttributeError:
