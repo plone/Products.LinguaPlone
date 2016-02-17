@@ -212,6 +212,7 @@ class TestLanguageSelectorBasics(cleanup.CleanUp, TestCase):
         self.request.PATH_INFO = vbase + 'fake/path/VirtualHostRoot/to/object'
         self.request.form['uni'] = u'pres\xd8rved'
         self.request.form['int'] = '1'
+        self.request.REQUEST_METHOD = "GET"
         self.selector.update()
         self.selector.tool = MockLanguageTool()
         base = 'object_url/to/object?int=1&uni='

@@ -173,7 +173,7 @@ class TranslatableLanguageSelector(LanguageSelector):
 
 def get_formvariables(request):
     formvariables = {}
-    if request["REQUEST_METHOD"] == "GET":
+    if request.get("REQUEST_METHOD", "").upper() == "GET":
         for k, v in request.form.items():
             if isinstance(v, unicode):
                 formvariables[k] = v.encode('utf-8')
