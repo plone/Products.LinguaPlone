@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from plone.indexer.interfaces import IIndexableObjectWrapper
-from zope.interface import implements
+from zope.interface import implementer
 from Products.CMFCore.utils import getToolByName
 
 from Products.LinguaPlone.LanguageIndex import IndexEntry
@@ -16,9 +16,8 @@ class Extra(object):
     fallback = False
 
 
+@implementer(ITranslatable)
 class Dummy(object):
-
-    implements(ITranslatable)
 
     def __init__(self, cid, lang):
         self._cid = cid
@@ -36,9 +35,8 @@ class Dummy(object):
         return self._cid
 
 
+@implementer(IIndexableObjectWrapper)
 class DummyIndexableObjectWrapper:
-
-    implements(IIndexableObjectWrapper)
 
     def __init__(self, wrapped):
         self._IndexableObjectWrapper__ob = wrapped

@@ -4,7 +4,8 @@ Changelog
 4.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Use zope.interface decorator.
+  [gforcada]
 
 
 4.1.4 (2016-02-17)
@@ -20,7 +21,7 @@ Changelog
 - Add uninstall profile.
   [thet]
 
-- Fixed permission for manage_translations_form, anonymous can't access the page 
+- Fixed permission for manage_translations_form, anonymous can't access the page
   anymore.
   [prospchr]
 

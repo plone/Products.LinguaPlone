@@ -1,5 +1,5 @@
 from plone.browserlayer.utils import registered_layers
-from zope.interface import implements
+from zope.interface import implementer
 from Products.CMFCore.permissions import AddPortalContent, ModifyPortalContent,\
     DeleteObjects
 
@@ -19,8 +19,8 @@ from Products.LinguaPlone.browser.interfaces import ITranslateSubMenuItem
 from Products.LinguaPlone.interfaces import ILinguaPloneProductLayer
 
 
+@implementer(ITranslateMenu)
 class TranslateMenu(BrowserMenu):
-    implements(ITranslateMenu)
 
     def getUntranslatedLanguages(self, context):
         if not context.Language():
@@ -87,8 +87,8 @@ class TranslateMenu(BrowserMenu):
         return menu
 
 
+@implementer(ITranslateSubMenuItem)
 class TranslateSubMenuItem(BrowserSubMenuItem):
-    implements(ITranslateSubMenuItem)
 
     title = _(u"label_translate_menu", default=u"Translate into...")
     description = _(u"title_translate_menu",

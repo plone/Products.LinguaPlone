@@ -1,7 +1,7 @@
 from logging import getLogger
 
 from plone.indexer.interfaces import IIndexableObjectWrapper
-from zope.interface import implements
+from zope.interface import implementer
 
 from AccessControl import ClassSecurityInfo
 from AccessControl import Permissions
@@ -59,8 +59,8 @@ class IndexEntry:
         return cmp(self.cid, other.cid)
 
 
+@implementer(ILanguageIndex, IUniqueValueIndex, ISortIndex)
 class LanguageIndex(SimpleItem, PropertyManager):
-    implements(ILanguageIndex, IUniqueValueIndex, ISortIndex)
 
     _properties = (
         dict(id='fallback', type='boolean', mode='w'),

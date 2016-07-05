@@ -1,5 +1,5 @@
 from zope.event import notify
-from zope.interface import implements
+from zope.interface import implementer
 from zope.site.hooks import getSite
 
 from AccessControl import ClassSecurityInfo
@@ -79,9 +79,9 @@ class TypeInfoWrapper:
         return getattr(self.__typeinfo, value)
 
 
+@implementer(ITranslatable)
 class I18NBaseObject(Implicit):
     """Base class for translatable objects."""
-    implements(ITranslatable)
 
     security = ClassSecurityInfo()
 

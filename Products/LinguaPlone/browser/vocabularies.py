@@ -1,7 +1,7 @@
 from plone.i18n.locales.interfaces import ILanguageAvailability
 from zope.component import getGlobalSiteManager
 from zope.i18nmessageid import Message, MessageFactory
-from zope.interface import implements
+from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
@@ -14,10 +14,10 @@ def sort_key(language):
     return language[1]
 
 
+@implementer(IVocabularyFactory)
 class AllContentLanguageVocabulary(object):
     """Vocabulary factory for all content languages in the portal.
     """
-    implements(IVocabularyFactory)
 
     def __call__(self, context):
         context = getattr(context, 'context', context)
@@ -37,10 +37,10 @@ class AllContentLanguageVocabulary(object):
 AllContentLanguageVocabularyFactory = AllContentLanguageVocabulary()
 
 
+@implementer(IVocabularyFactory)
 class UntranslatedLanguagesVocabulary(object):
     """Vocabulary factory returning untranslated languages for the context.
     """
-    implements(IVocabularyFactory)
 
     def __init__(self, incl_neutral=False, incl_nochange=False):
         self.incl_neutral = incl_neutral
@@ -85,10 +85,10 @@ NoChangeNeutralAndUntranslatedLanguagesVocabularyFactory = \
     UntranslatedLanguagesVocabulary(incl_neutral=True, incl_nochange=True)
 
 
+@implementer(IVocabularyFactory)
 class DeletableLanguagesVocabulary(object):
     """Vocabulary factory returning deletable languages for the context.
     """
-    implements(IVocabularyFactory)
 
     def __call__(self, context):
         context = getattr(context, 'context', context)

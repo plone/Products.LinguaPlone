@@ -4,7 +4,7 @@ from types import FunctionType as function
 from plone.app.layout.navigation.defaultpage import isDefaultPage
 from plone.locking.interfaces import ILockable
 from zope.component import adapts
-from zope.interface import implements
+from zope.interface import implementer
 
 from Acquisition import aq_base
 from Acquisition import aq_inner
@@ -447,6 +447,7 @@ def linkTranslations(context, todo):
             canonical.setCanonical()
 
 
+@implementer(ILocateTranslation)
 class LocateTranslation(object):
     """Default ILocateTranslation adapter.
 
@@ -455,7 +456,6 @@ class LocateTranslation(object):
     location. In all other cases the new translation will be put in
     the same location as the current object.
     """
-    implements(ILocateTranslation)
     adapts(ITranslatable)
 
     def __init__(self, context):
@@ -470,11 +470,10 @@ class LocateTranslation(object):
         return trans_parent.getTranslation(language) or parent
 
 
+@implementer(ITranslationFactory)
 class TranslationFactory(object):
     """Default translation factory.
     """
-
-    implements(ITranslationFactory)
     adapts(ITranslatable)
 
     def __init__(self, context):
@@ -529,11 +528,10 @@ class TranslationFactory(object):
         return translation
 
 
+@implementer(ILanguageIndependentFields)
 class LanguageIndependentFields(object):
     """Default language independent fields manager.
     """
-
-    implements(ILanguageIndependentFields)
     adapts(ITranslatable)
 
     def __init__(self, context):
