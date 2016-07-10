@@ -5,7 +5,7 @@ from unittest import TestCase
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from zope.component import provideAdapter
 from zope.interface import directlyProvides
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface import Interface
 from zope.testing import cleanup
 
@@ -23,9 +23,8 @@ from Products.LinguaPlone import browser
 from zope.publisher.browser import TestRequest
 
 
+@implementer(ITranslatable)
 class Dummy(Explicit):
-
-    implements(ITranslatable)
 
     # This avoids issues with tests that run without a
     # full-fledged securityManager

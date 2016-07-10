@@ -1,4 +1,4 @@
-from zope.interface import implements
+from zope.interface import implementer
 from zope.site.hooks import getSite
 
 from plone.i18n.locales.interfaces import IContentLanguageAvailability
@@ -6,9 +6,8 @@ from plone.i18n.locales.interfaces import IMetadataLanguageAvailability
 from plone.i18n.locales.languages import LanguageAvailability
 
 
+@implementer(IContentLanguageAvailability, IMetadataLanguageAvailability)
 class SyncedLanguages(LanguageAvailability):
-
-    implements(IContentLanguageAvailability, IMetadataLanguageAvailability)
 
     def getAvailableLanguages(self, combined=False):
         """Return a sequence of language tags for available languages.

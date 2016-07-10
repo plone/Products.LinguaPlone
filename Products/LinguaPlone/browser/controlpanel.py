@@ -1,5 +1,5 @@
 from zope.interface import Interface
-from zope.interface import implementsOnly
+from zope.interface import implementer_only
 from zope.schema import Choice
 from zope.schema import Tuple
 from zope.formlib.form import FormFields
@@ -31,8 +31,8 @@ class IMultiLanguageSelectionSchema(Interface):
             vocabulary="LinguaPlone.vocabularies.AllContentLanguageVocabulary"))
 
 
+@implementer_only(IMultiLanguageSelectionSchema)
 class MultiLanguageControlPanelAdapter(LanguageControlPanelAdapter):
-    implementsOnly(IMultiLanguageSelectionSchema)
 
     def __init__(self, context):
         super(MultiLanguageControlPanelAdapter, self).__init__(context)

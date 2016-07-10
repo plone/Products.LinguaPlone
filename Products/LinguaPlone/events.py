@@ -1,4 +1,4 @@
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface import Attribute
 from zope.component.interfaces import IObjectEvent
 
@@ -18,18 +18,18 @@ class IObjectTranslatedEvent(IObjectEvent):
     language = Attribute("Target language.")
 
 
+@implementer(IObjectWillBeTranslatedEvent)
 class ObjectWillBeTranslatedEvent(object):
     """Sent before an object is translated."""
-    implements(IObjectWillBeTranslatedEvent)
 
     def __init__(self, context, language):
         self.object = context
         self.language = language
 
 
+@implementer(IObjectTranslatedEvent)
 class ObjectTranslatedEvent(object):
     """Sent after an object was translated."""
-    implements(IObjectTranslatedEvent)
 
     def __init__(self, context, target, language):
         self.object = context

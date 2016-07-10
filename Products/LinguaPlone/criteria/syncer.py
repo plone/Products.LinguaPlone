@@ -1,6 +1,6 @@
 from zope.component import adapts
 from zope.component import queryAdapter
-from zope.interface import implements
+from zope.interface import implementer
 
 from Acquisition import aq_parent
 from Products.ATContentTypes.interface import IATTopicCriterion
@@ -29,10 +29,10 @@ def sync_collections(context):
                 syncer.sync()
 
 
+@implementer(ICollectionSyncer)
 class CollectionSyncer(object):
 
     adapts(IATTopic)
-    implements(ICollectionSyncer)
 
     def __init__(self, context):
         self.context = context
@@ -84,10 +84,10 @@ class CollectionSyncer(object):
                 syncer.sync(translation, target)
 
 
+@implementer(ICriterionSyncer)
 class CriterionSyncer(object):
 
     adapts(IATTopicCriterion)
-    implements(ICriterionSyncer)
 
     def __init__(self, context):
         self.context = context
