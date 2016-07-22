@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fixed CSRF protection bug on @@language-setup-folders view.
+  [syzn]
 
 
 4.1.6 (2016-11-09)

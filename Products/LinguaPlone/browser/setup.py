@@ -4,6 +4,13 @@ from zope.interface import alsoProvides
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 
+CSRF_PROTECTION_ENABLED = False
+try:
+    from plone.protect.interfaces import IDisableCSRFProtection
+    CSRF_PROTECTION_ENABLED = True
+except ImportError:
+    pass
+
 
 class SetupView(BrowserView):
 
@@ -12,6 +19,8 @@ class SetupView(BrowserView):
         self.previousDefaultPageId = None
 
     def __call__(self, forceOneLanguage=False):
+        if CSRF_PROTECTION_ENABLED:
+            alsoProvides(self.request, IDisableCSRFProtection)
         result = []
         self.folders = {}
         pl = getToolByName(self.context, "portal_languages")
