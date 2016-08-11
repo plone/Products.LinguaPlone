@@ -12,7 +12,7 @@ setup(
         ".. contents::\n\n" +
         open("README.rst").read() + "\n" +
         open(os.path.join("docs", "FAQ.txt")).read() + "\n" +
-        open("CHANGES.txt").read()),
+        open("CHANGES.rst").read()),
     classifiers=[
         "Environment :: Web Environment",
         "Framework :: Plone",
