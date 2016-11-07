@@ -4,17 +4,10 @@ Changelog
 4.1.6 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
-- *add item here*
+- Show also current language link in header hreflang links.
+  [erral]
 
 
 4.1.5 (2016-08-11)

@@ -9,9 +9,8 @@ class MultilingualContentViewlet(ViewletBase):
         # We have to check the view permission on the translated object, because
         # getTranslations returns all objects, no matter the workflow state
         context = aq_inner(self.context)
-        current = context.Language()
         _checkPermission = getSecurityManager().checkPermission
         self.translations = []
         for lang, content in context.getTranslations(review_state=False).items():
-            if lang != current and _checkPermission('View', content):
+            if _checkPermission('View', content):
                 self.translations.append(content)
