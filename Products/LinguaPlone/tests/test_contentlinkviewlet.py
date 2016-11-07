@@ -26,4 +26,4 @@ class TestContentLinkViewlet(LinguaPloneTestCase):
     def testViewletGeneratedLinks(self):
         viewlet = MultilingualContentViewlet(self.english, self.app.REQUEST, None, None)
         viewlet.update()
-        self.assertEqual(len(viewlet.translations), 1)
+        self.assertEqual(len(viewlet.translations), 2)
