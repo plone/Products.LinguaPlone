@@ -1,0 +1,66 @@
+Default page
+============
+
+This is mostly to test an issue with a public folder and a private
+default page.  This is not visible for anonymous, which is fine.
+But it *should* be visible for Manager, which is what went wrong for a
+while.  See this issue:
+https://github.com/plone/Products.CMFPlone/issues/1822
+
+First, we create a folder and a default page:
+
+    >>> from Products.CMFCore.utils import getToolByName
+    >>> from Products.LinguaPlone.tests.utils import makeContent
+    >>> self.setRoles(['Manager'])
+    >>> folder = makeContent(self.portal, 'Folder', 'folder')
+    >>> doc = makeContent(folder, 'SimpleType', 'doc', title='My default page')
+    >>> folder.setDefaultPage(doc.getId())
+    >>> workflow_tool = getToolByName(self.portal, 'portal_workflow')
+    >>> workflow_tool.getInfoFor(folder, 'review_state')
+    'private'
+    >>> workflow_tool.getInfoFor(doc, 'review_state')
+    'private'
+    >>> workflow_tool.doActionFor(folder, 'publish')
+    >>> workflow_tool.getInfoFor(folder, 'review_state')
+    'published'
+    >>> workflow_tool.getInfoFor(doc, 'review_state')
+    'private'
+
+Commit the changes, so this state is what we see in the browser.
+
+    >>> import transaction
+    >>> transaction.commit()
+
+Open a test browser.  We want to see a nice traceback in case of
+problems, so we do not want it to handle errors.
+
+    >>> from Testing.testbrowser import Browser
+    >>> browser = Browser()
+    >>> browser.handleErrors = False
+
+An anonymous user cannot see the public folder, because its default
+page is private:
+
+    >>> browser.open(folder.absolute_url())
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access ... in this context
+
+The exact message could contain 'doc' or 'Schema', but we don't care.
+
+Calling the base view works though:
+
+    >>> browser.open(folder.absolute_url() + '/base_view')
+    >>> 'There are currently no items in this folder.' in browser.contents
+    True
+    >>> 'My default page' in browser.contents
+    False
+
+Now we try the default page as manager.
+
+    >>> from Products.PloneTestCase.PloneTestCase import portal_owner
+    >>> from Products.PloneTestCase.PloneTestCase import default_password
+    >>> browser.addHeader('Authorization','Basic %s:%s' % (portal_owner, default_password))
+    >>> browser.open(folder.absolute_url())
+    >>> 'My default page' in browser.contents
+    True

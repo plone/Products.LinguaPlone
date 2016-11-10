@@ -3,6 +3,7 @@ from Products.LinguaPlone.tests.base import LinguaPloneFunctionalTestCase
 
 FILES = [
     'create_translation.txt',
+    'default_page.txt',
     'dynamic_view.txt',
     'translate_edit.txt',
     'language_setup.txt',

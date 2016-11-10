@@ -14,6 +14,10 @@ New features:
 
 Bug fixes:
 
+- Fixed bug where even Manager could not view a folder with private default page.
+  Fixes https://github.com/plone/Products.CMFPlone/issues/1822
+  [maurits]
+
 - Fixed CSRF protection bug on @@language-setup-folders view.
   [syzn]
 

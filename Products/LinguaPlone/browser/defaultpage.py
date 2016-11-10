@@ -14,7 +14,12 @@ class DefaultPage(BaseDefaultPage):
         if not default_page:
             return default_page
 
-        page = self.context.restrictedTraverse([default_page])
+        # Note: we use unrestrictedTraverse here, because security has not been
+        # setup at the moment we are called, so everyone is anonymous.  We were
+        # using restrictedTraverse for a while, but that meant even a Manager
+        # could not see a public folder when its default page was private.
+        # See issue https://github.com/plone/Products.CMFPlone/issues/1822
+        page = self.context.unrestrictedTraverse([default_page])
         languageTool = getToolByName(self.context, 'portal_languages')
         current = languageTool.getPreferredLanguage()
         if page.hasTranslation(current):
