@@ -4,14 +4,6 @@ Changelog
 4.1.7 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fixed bug where even Manager could not view a folder with private default page.
