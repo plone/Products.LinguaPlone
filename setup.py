@@ -70,4 +70,9 @@ setup(
       'zope.schema',
       'zope.site',
     ],
+    extras_require={
+        'test': [
+            'plone.app.testing',
+        ],
+    },
 )
