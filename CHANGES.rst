@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Add tests for sitemap
+  [djowett]
 
 
 4.1.7 (2016-11-10)
