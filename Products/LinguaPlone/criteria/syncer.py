@@ -3,8 +3,8 @@ from zope.component import queryAdapter
 from zope.interface import implementer
 
 from Acquisition import aq_parent
-from Products.ATContentTypes.interface import IATTopicCriterion
-from Products.ATContentTypes.interface import IATTopic
+from Products.ATContentTypes.interfaces import IATTopicCriterion
+from Products.ATContentTypes.interfaces import IATTopic
 from Products.CMFCore.utils import getToolByName
 
 from Products.LinguaPlone.criteria.interfaces import ICollectionSyncer
