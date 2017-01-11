@@ -101,7 +101,7 @@
                                      nil python: parents.reverse();">
 
                 <a i18n:translate="tabs_home"
-                   tal:attributes="href string:${portal/absolute_url}/${template/getId}?at_type=${at_type}&amp;at_url=${at_url}">
+                   tal:attributes="href string:${here/@@plone/navigationRootUrl}/${template/getId}?at_type=${at_type}&amp;at_url=${at_url}">
                     Home
                 </a>
 

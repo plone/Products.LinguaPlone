@@ -14,6 +14,10 @@ New features:
 
 Bug fixes:
 
+- Fix Home link in the translationbrowser_popup template to point to
+  navigation root, not the site root.
+  [vincentfretin]
+
 - Add tests for sitemap
   [djowett]
 
