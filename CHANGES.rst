@@ -4,14 +4,6 @@ Changelog
 4.1.8 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix Home link in the translationbrowser_popup template to point to
