@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Don't fail while uninstalling, if LinguaPlone is already uninstalled.
+  [thet]
 
 
 4.1.8 (2017-01-12)
