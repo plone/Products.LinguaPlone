@@ -32,7 +32,11 @@ def uninstall(context):
     site = context.getSite()
     logger = context.getLogger('LinguaPlone')
     qi = getToolByName(site, 'portal_quickinstaller')
-    qi.uninstallProducts(products=['LinguaPlone'])
+    try:
+        qi.uninstallProducts(products=['LinguaPlone'])
+    except AttributeError:
+        # Already uninstalled. Don't fail.
+        pass
     o = qi._getOb('LinguaPlone', None)
     if o:
         assert(not o.isInstalled())
