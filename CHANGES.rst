@@ -14,6 +14,9 @@ New features:
 
 Bug fixes:
 
+- Fix import location for Products.ATContentTypes.interfaces.
+  [thet]
+
 - Don't fail while uninstalling, if LinguaPlone is already uninstalled.
   [thet]
 

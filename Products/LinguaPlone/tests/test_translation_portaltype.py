@@ -1,5 +1,5 @@
 from zope.component import getGlobalSiteManager
-from Products.ATContentTypes.interface import IATDocument
+from Products.ATContentTypes.interfaces import IATDocument
 
 from Products.LinguaPlone.interfaces import ITranslationFactory
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
