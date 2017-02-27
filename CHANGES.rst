@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Show the native language name on the "Translate into..." menu
+  [erral]
 
 Bug fixes:
 
