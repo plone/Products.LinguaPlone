@@ -14,10 +14,10 @@ class TranslateMenuTests(LinguaPloneTestCase):
         self.assertEqual(doc.getLanguage(), 'en')
         menu = TranslateMenu('translations')
         self.assertEqual([i['title'] for i in menu.getMenuItems(doc, None)],
-            [u'German', u'label_manage_translations'])
+            [u'Deutsch', u'label_manage_translations'])
         self.addLanguage('no')
         self.assertEqual([i['title'] for i in menu.getMenuItems(doc, None)],
-            [u'German', u'Norwegian', u'label_manage_translations'])
+            [u'Deutsch', u'Norsk', u'label_manage_translations'])
 
     def testNeutralContentCannotBeTranslatedDirectly(self):
         self.folder.setLanguage('')

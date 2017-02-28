@@ -1,5 +1,6 @@
 from plone.browserlayer.utils import registered_layers
 from zope.interface import implementer
+from zope.component import queryUtility
 from Products.CMFCore.permissions import AddPortalContent, ModifyPortalContent,\
     DeleteObjects
 
@@ -17,7 +18,7 @@ from Products.LinguaPlone import LinguaPloneMessageFactory as _
 from Products.LinguaPlone.browser.interfaces import ITranslateMenu
 from Products.LinguaPlone.browser.interfaces import ITranslateSubMenuItem
 from Products.LinguaPlone.interfaces import ILinguaPloneProductLayer
-
+from plone.i18n.locales.interfaces import IContentLanguageAvailability
 
 @implementer(ITranslateMenu)
 class TranslateMenu(BrowserMenu):
@@ -45,12 +46,19 @@ class TranslateMenu(BrowserMenu):
         if not (can_translate or can_set_language or can_delete):
             return []
 
+        lang_util = queryUtility(IContentLanguageAvailability)        
+        if lang_util is not None:
+            all_languages_dict = lang_util.getLanguages()
+
         langs = self.getUntranslatedLanguages(context)
         if can_translate:
             showflags = lt.showFlags()
-            langs = self.getUntranslatedLanguages(context)
 
             for (lang_id, lang_name) in langs:
+                if lang_util is not None:                    
+                    lang_info = all_languages_dict.get(lang_id, {})
+                    lang_name = lang_info.get('native', '') or lang_info.get('name')
+
                 icon=showflags and lt.getFlagForLanguageCode(lang_id) or None
                 item={
                     "title": lang_name,
