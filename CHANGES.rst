@@ -4,10 +4,6 @@ Changelog
 4.2 (unreleased)
 ----------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Show the native language name on the "Translate into..." menu
