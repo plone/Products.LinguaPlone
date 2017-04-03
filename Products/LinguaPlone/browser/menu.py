@@ -1,7 +1,7 @@
 from plone.browserlayer.utils import registered_layers
 from zope.interface import implementer
 from zope.component import queryUtility
-from Products.CMFCore.permissions import AddPortalContent, ModifyPortalContent,\
+from Products.CMFCore.permissions import AddPortalContent, ModifyPortalContent, \
     DeleteObjects
 
 # BBB Zope 2.12
@@ -46,26 +46,26 @@ class TranslateMenu(BrowserMenu):
         if not (can_translate or can_set_language or can_delete):
             return []
 
-        lang_util = queryUtility(IContentLanguageAvailability)        
+        lang_util = queryUtility(IContentLanguageAvailability)
         if lang_util is not None:
-            all_languages_dict = lang_util.getLanguages()
+            all_languages_dict = lang_util.getLanguages(combined=lt.use_combined_language_codes)
 
         langs = self.getUntranslatedLanguages(context)
         if can_translate:
             showflags = lt.showFlags()
 
             for (lang_id, lang_name) in langs:
-                if lang_util is not None:                    
+                if lang_util is not None:
                     lang_info = all_languages_dict.get(lang_id, {})
                     lang_name = lang_info.get('native', '') or lang_info.get('name')
 
-                icon=showflags and lt.getFlagForLanguageCode(lang_id) or None
-                item={
+                icon = showflags and lt.getFlagForLanguageCode(lang_id) or None
+                item = {
                     "title": lang_name,
                     "description": _(u"title_translate_into",
                                      default=u"Translate into ${lang_name}",
                                      mapping={"lang_name": lang_name}),
-                    "action": url+"/@@translate?newlanguage=%s" % lang_id,
+                    "action": url + "/@@translate?newlanguage=%s" % lang_id,
                     "selected": False,
                     "icon": icon,
                     "extra": {"id": "translate_into_%s" % lang_id,
@@ -83,7 +83,7 @@ class TranslateMenu(BrowserMenu):
                 "title": _(u"label_manage_translations",
                            default=u"Manage translations..."),
                 "description": u"",
-                "action": url+"/manage_translations_form",
+                "action": url + "/manage_translations_form",
                 "selected": False,
                 "icon": None,
                 "extra": {"id": "_manage_translations",

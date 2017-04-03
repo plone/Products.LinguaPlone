@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix translation menu for combined language codes [fRiSi]
 
 
 4.2 (2017-03-09)
