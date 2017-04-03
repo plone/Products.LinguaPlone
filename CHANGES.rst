@@ -4,14 +4,6 @@ Changelog
 4.2.1 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix translation menu for combined language codes [fRiSi]
