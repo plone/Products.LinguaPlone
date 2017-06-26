@@ -29,15 +29,5 @@ def importReindexLanguageIndex(context):
 def uninstall(context):
     if context.readDataFile("linguaplone-uninstall.txt") is None:
         return
-    site = context.getSite()
     logger = context.getLogger('LinguaPlone')
-    qi = getToolByName(site, 'portal_quickinstaller')
-    try:
-        qi.uninstallProducts(products=['LinguaPlone'])
-    except AttributeError:
-        # Already uninstalled. Don't fail.
-        pass
-    o = qi._getOb('LinguaPlone', None)
-    if o:
-        assert(not o.isInstalled())
-    logger.info('Uninstalled LinguaPlone from portal_quickinstaller.')
+    logger.info('Uninstalled LinguaPlone.')

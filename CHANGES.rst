@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Do not uninstall by hand when running the uninstall-step since uninstalling already uninstalls.
+  [pbauer]
 
 
 4.2.1 (2017-04-03)
