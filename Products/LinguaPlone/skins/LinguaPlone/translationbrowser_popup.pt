@@ -95,7 +95,7 @@
                      tal:condition= "python:search_text==''"
                      tal:define=    "portal here/portal_url/getPortalObject;
                                      putils nocall:portal/plone_utils;
-                                     crumbs python:putils.createBreadCrumbs(here);
+                                     crumbs context/translationbrowser_popup_full_breadcrumbs;
                                      isRTL context/@@plone_portal_state/is_rtl;
                                      parents request/PARENTS;
                                      nil python: parents.reverse();">

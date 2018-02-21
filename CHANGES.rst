@@ -10,7 +10,11 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- The breadcrumb shown on the translation linker pop-up shows the full site
+  [erral]
+
+- Translation linker pop-up is opened on the portal root
+  [erral]
 
 Bug fixes:
 
