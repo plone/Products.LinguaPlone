@@ -4,10 +4,6 @@ Changelog
 4.3.0 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - The breadcrumb shown on the translation linker pop-up shows the full site
@@ -15,10 +11,6 @@ New features:
 
 - Translation linker pop-up is opened on the portal root
   [erral]
-
-Bug fixes:
-
-- *add item here*
 
 
 4.2.1 (2017-04-03)
