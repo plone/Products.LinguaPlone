@@ -1,6 +1,7 @@
 import transaction
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import generate_unique_id
 
 from Products.LinguaPlone.public import AlreadyTranslated
 from Products.LinguaPlone.tests.base import LinguaPloneTestCase
@@ -449,14 +450,14 @@ class TestProcessFormRename(LinguaPloneTestCase):
     def testProcessFormRenameObject(self):
         transaction.savepoint(optimistic=True)
         # Fake a auto generated ID
-        self.english.setId(self.portal.generateUniqueId('SimpleType'))
+        self.english.setId(generate_unique_id('SimpleType'))
         self.english.processForm(values={'title': 'I was renamed'})
         self.assertEqual(self.english.getId(), 'i-was-renamed')
 
     def testProcessFormRenameObjectOnlyFirstTime(self):
         transaction.savepoint(optimistic=True)
         # Fake a auto generated ID
-        self.english.setId(self.portal.generateUniqueId('SimpleType'))
+        self.english.setId(generate_unique_id('SimpleType'))
         self.english.processForm(values={'title': 'Only First'})
         self.english.processForm(values={'title': 'Not Second'})
         self.assertEqual(self.english.getId(), 'only-first')

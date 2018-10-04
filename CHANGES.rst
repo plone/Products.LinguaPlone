@@ -10,7 +10,9 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Tests: Switched from generateUniqueId skin script to utils method.
+  https://github.com/plone/Products.CMFPlone/issues/1801
+  [reinhardt]
 
 Bug fixes:
 
